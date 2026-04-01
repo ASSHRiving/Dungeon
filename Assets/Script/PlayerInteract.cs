@@ -6,7 +6,7 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // 左鍵
+        if (Input.GetKeyDown(KeyCode.E)) //按e
         {
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
