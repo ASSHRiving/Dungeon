@@ -7,12 +7,10 @@ public class PlayerMove : MonoBehaviour
     public float jumpHeight = 1f;
 
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
     public LayerMask groundMask;
-
     Vector3 velocity;
     bool isGrounded;
-
+    bool isMoving;
     CharacterController controller;
     Animator animator;
 
@@ -39,6 +37,8 @@ public class PlayerMove : MonoBehaviour
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
+        isMoving = (x != 0 || z != 0);
+        animator.SetBool("IsMoving", isMoving);
 
         animator.SetFloat("MoveX", x);
         animator.SetFloat("MoveY", z);
@@ -58,7 +58,10 @@ public class PlayerMove : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
     }
-    void OnDrawGizmosSelected()
+    
+}
+/*
+void OnDrawGizmosSelected()
     {
         if (groundCheck == null) return;
 
@@ -69,4 +72,4 @@ public class PlayerMove : MonoBehaviour
             new Vector3(1f, 0.2f, 1f) // 這裡要跟你的 CheckBox 一樣
         );
     }
-}
+*/
