@@ -4,13 +4,28 @@ public class PlayerShoot : MonoBehaviour
 {
     float shootDistance = 100f;
     public Transform shootOrigin;
+    public Transform gun;
     public LayerMask shootMask;
     public GameObject bulletPrefab;
+    Animator animator;
+    private float shooting = 3f;
+    private float gunRotate = 0.5f;
+    private float shootTimer = 0f;
+    private float gunRotateTimer = 0f;
+    private Quaternion defaultRotation;
+    void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+        defaultRotation = gun.localRotation;
+    }
     void Update()
     {
         //左鍵開火
         if(Input.GetMouseButtonDown(0))
         {
+            shootTimer = shooting; //開火後持續持槍
+            animator.SetBool("Shooting", true);
+            gunRotateTimer = gunRotate;
             //從畫面中心取得目標點
             Ray cameraRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit camHit;
@@ -28,11 +43,13 @@ public class PlayerShoot : MonoBehaviour
 
             //從角色發射 Ray（比較合理）
             Vector3 dir = (targetPoint - shootOrigin.position).normalized;
+            gun.rotation = Quaternion.LookRotation(dir);
             GameObject bullet = Instantiate(bulletPrefab, shootOrigin.position, Quaternion.LookRotation(dir));
+            
+            Collider bulletCol = bullet.GetComponent<Collider>();
+            Collider playerCol = GetComponent<Collider>();
+            Physics.IgnoreCollision(bulletCol, playerCol);
             bullet.GetComponent<Bullet>().Init(dir);
-            Collider bulletCollider = bullet.GetComponent<bulletCollider>();
-            Collider playerCollider = GetComponent<bulletCollider>();
-            Physics.ignoreCollision(bulletCollider, playerCollider);
 
             Ray playerRay = new Ray(shootOrigin.position, dir);
             RaycastHit hit;
@@ -42,10 +59,20 @@ public class PlayerShoot : MonoBehaviour
                 Debug.Log("Hit: " + hit.collider.name);
                 
             }
+        }
+        else
+        {
+            shootTimer -= Time.deltaTime;
+            gunRotateTimer -= Time.deltaTime;
 
-            //Debug
-            Debug.DrawRay(cameraRay.origin, cameraRay.direction * shootDistance, Color.red);
-            Debug.DrawRay(shootOrigin.position, dir * shootDistance, Color.green);
+             if (gunRotateTimer <= 0)
+            {
+                gun.localRotation = defaultRotation;
+            }
+            if (shootTimer <= 0)
+            {
+                animator.SetBool("Shooting", false);
+            }
         }
     }
 }

@@ -42,11 +42,6 @@ public class PlayerInteract : MonoBehaviour
                     interactable.Interact();
                 }
             }
-
-            // Debug
-            Debug.DrawRay(cameraRay.origin, cameraRay.direction * 100f, Color.red);
-            Debug.DrawRay(interactOrigin.position, dir * interactDistance, Color.green);
-            Debug.Log("Dir: " + dir);
         }
     }
 }
