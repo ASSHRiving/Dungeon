@@ -28,13 +28,12 @@ public class Bullet : MonoBehaviour
     {
         Debug.Log("Hit: " + other.name);
 
-        /*
         IDamageable dmg = other.GetComponent<IDamageable>();
         if (dmg != null)
         {
             dmg.TakeDamage(damage);
-        */
-
+        
+        }
         Destroy(gameObject);
     }
 }
