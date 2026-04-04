@@ -5,13 +5,7 @@ public class PlayerShoot : MonoBehaviour
     float shootDistance = 100f;
     public Transform shootOrigin;
     public LayerMask shootMask;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    public GameObject bulletPrefab;
     void Update()
     {
         //左鍵開火
@@ -34,6 +28,11 @@ public class PlayerShoot : MonoBehaviour
 
             //從角色發射 Ray（比較合理）
             Vector3 dir = (targetPoint - shootOrigin.position).normalized;
+            GameObject bullet = Instantiate(bulletPrefab, shootOrigin.position, Quaternion.LookRotation(dir));
+            bullet.GetComponent<Bullet>().Init(dir);
+            Collider bulletCollider = bullet.GetComponent<bulletCollider>();
+            Collider playerCollider = GetComponent<bulletCollider>();
+            Physics.ignoreCollision(bulletCollider, playerCollider);
 
             Ray playerRay = new Ray(shootOrigin.position, dir);
             RaycastHit hit;
@@ -41,7 +40,7 @@ public class PlayerShoot : MonoBehaviour
             if (Physics.Raycast(playerRay, out hit, shootDistance))
             {
                 Debug.Log("Hit: " + hit.collider.name);
-                //在這裡可以添加對敵人造成傷害的邏輯
+                
             }
 
             //Debug
