@@ -3,7 +3,7 @@ using UnityEngine;
 public class Chest : MonoBehaviour, IInteractable
 {
     private bool isOpen = false;
-    Animator animator;
+    private Animator animator;
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
