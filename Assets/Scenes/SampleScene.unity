@@ -170,15 +170,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword
-  weaponName: 
+  weaponName: Sword
   damage: 10
-  attackRate: 0.5
+  attackRate: 1
   shootMask:
     serializedVersion: 2
     m_Bits: 0
-  combatStateDuration: 3
+  combatStateDuration: 10
   totalComboSteps: 3
-  comboResetTime: 1
+  comboResetTime: 2
 --- !u!1 &56034322
 GameObject:
   m_ObjectHideFlags: 0
