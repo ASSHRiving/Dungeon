@@ -6,7 +6,6 @@ public abstract class Weapon : MonoBehaviour
     public string weaponName;
     public float damage = 10f;
     public float attackRate = 0.5f;
-    public LayerMask shootMask;
     protected float stateTimer;
     public float combatStateDuration = 3f;
     protected float nextAttackTime;
