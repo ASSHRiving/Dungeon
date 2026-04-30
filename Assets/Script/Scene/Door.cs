@@ -4,15 +4,15 @@ public class Door : MonoBehaviour, IInteractable
 {
     private bool isOpen = false;
     private Animator animator;
-
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     public void Interact()
     {
         isOpen = !isOpen;
         animator.SetBool("isOpen", isOpen);
+        Debug.Log("Door " + (isOpen ? "opened" : "closed"));
     }
 }
