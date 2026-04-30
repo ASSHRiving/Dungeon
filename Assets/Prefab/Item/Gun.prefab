@@ -46,7 +46,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3571678580006816341
 Transform:
   m_ObjectHideFlags: 0
@@ -155,10 +155,10 @@ MonoBehaviour:
   weaponName: Gun01
   damage: 10
   attackRate: 0.7
-  shootMask:
-    serializedVersion: 2
-    m_Bits: 65
   combatStateDuration: 3
   shootOrigin: {fileID: 752097994950279037}
   bulletPrefab: {fileID: 2926488838147667133, guid: 05cea62bcc0a41942820262bf68d1068, type: 3}
+  shootMask:
+    serializedVersion: 2
+    m_Bits: 65
   shootDistance: 100
