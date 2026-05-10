@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Room01 : Room
+public class Room02: Room
 {
     
 }

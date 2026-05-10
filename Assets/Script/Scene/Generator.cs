@@ -1,0 +1,90 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+public class Generator : MonoBehaviour
+{
+    public GameObject startRoomPrefab;
+    public List<GameObject> roomPrefabs;
+    public GameObject tunnelPrefab;
+    private int count = 10;
+    static private float unit = 4.838f;
+    private float gridWorldSize = 10f * unit;
+    private Dictionary<Vector2Int, Room> gridMap = new Dictionary<Vector2Int, Room>();
+
+    void Start()
+    {
+        Generate();
+    }
+    void Generate()
+    {
+        Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity).GetComponent<Room>();
+        Vector2Int currentPos = Vector2Int.zero;
+        gridMap.Add(currentPos, currentRoom);
+
+        for(int i = 0; i < count; i++)
+        {
+            Vector2Int nextDir = GetNextPosition(currentPos);
+            Room.Direction direction = Vector2ToDirection(nextDir);
+            Vector2Int nextPos = currentPos + nextDir;
+            if (gridMap.ContainsKey(nextPos)) {
+                i--;
+                continue;
+            }
+            GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
+            currentRoom = SpawnRoom(prefab, nextPos, direction, currentRoom);
+            currentPos = nextPos;
+        }
+    }
+    Room SpawnRoom(GameObject prefab, Vector2Int pos, Room.Direction dir, Room currentRoom)
+    {
+        Transform ExitPos = currentRoom.GetExitAnchor(dir);
+        GameObject goTunnel = Instantiate(tunnelPrefab, Vector3.zero, ExitPos.rotation);
+        Tunnel tunnel = goTunnel.GetComponent<Tunnel>();
+        Transform tunnelEntry = tunnel.getEntry();
+        Transform tunnelExit = tunnel.getExit();
+        if (tunnel != null)
+        {
+            goTunnel.transform.position = ExitPos.position - (tunnelEntry.position - goTunnel.transform.position);
+        }
+
+        Vector3 spawnPos = new Vector3(pos.x * gridWorldSize, 0, pos.y * gridWorldSize);
+        GameObject goB = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+        Room newRoom = goB.GetComponent<Room>();
+        Room.Direction entryDir = GetOpposite(dir);
+        Transform entryB = newRoom.GetExitAnchor(entryDir);
+        if(entryB != null)
+        {
+            goB.transform.position = tunnelExit.position - (entryB.position - goB.transform.position);
+        }
+
+        gridMap.Add(pos, newRoom);
+        return newRoom;
+    }
+    Vector2Int GetNextPosition(Vector2Int currentPos)
+    {
+        List<Vector2Int> directions = new List<Vector2Int>
+        {
+            Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
+        };
+        return directions[Random.Range(0, directions.Count)];
+    }
+    Room.Direction Vector2ToDirection(Vector2Int dir)
+    {
+        if(dir == Vector2Int.up)return Room.Direction.North;
+        if(dir == Vector2Int.down)return Room.Direction.South;
+        if(dir == Vector2Int.right)return Room.Direction.East;
+        if(dir == Vector2Int.left)return Room.Direction.West;
+        return Room.Direction.North;
+    }
+    Room.Direction GetOpposite(Room.Direction dir)
+    {
+        switch (dir)
+        {
+            case Room.Direction.North: return Room.Direction.South;
+            case Room.Direction.South: return Room.Direction.North;
+            case Room.Direction.East:  return Room.Direction.West;
+            case Room.Direction.West:  return Room.Direction.East;
+            default: return Room.Direction.North;
+        }
+    }
+}
