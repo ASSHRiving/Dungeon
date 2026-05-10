@@ -22,9 +22,11 @@ public abstract class Room : MonoBehaviour
         Debug.LogWarning($"{gameObject.name} 找不到 {dir} 方向的出口！");
         return null;
     }
-
-    [Header("基礎設定")]
-    public int sizeX;
-    public int sizeZ;
+    [SerializeField] private Transform Bounds;
+    public Transform GetBounds()
+    {
+        if(Bounds != null) return Bounds;
+        return null;
+    }
     
 }

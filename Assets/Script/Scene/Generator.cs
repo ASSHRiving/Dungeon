@@ -6,10 +6,10 @@ public class Generator : MonoBehaviour
     public GameObject startRoomPrefab;
     public List<GameObject> roomPrefabs;
     public GameObject tunnelPrefab;
-    private int count = 10;
-    static private float unit = 4.838f;
-    private float gridWorldSize = 10f * unit;
+    private int count = 20;
     private Dictionary<Vector2Int, Room> gridMap = new Dictionary<Vector2Int, Room>();
+
+    public LayerMask roomBoundsLayer;
 
     void Start()
     {
@@ -18,6 +18,7 @@ public class Generator : MonoBehaviour
     void Generate()
     {
         Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity).GetComponent<Room>();
+        Room prevRoom = null;
         Vector2Int currentPos = Vector2Int.zero;
         gridMap.Add(currentPos, currentRoom);
 
@@ -31,7 +32,14 @@ public class Generator : MonoBehaviour
                 continue;
             }
             GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
-            currentRoom = SpawnRoom(prefab, nextPos, direction, currentRoom);
+            Room nextRoom = SpawnRoom(prefab, nextPos, direction, currentRoom);
+            if(nextRoom == null)
+            {
+                i--;
+                continue;
+            }
+            prevRoom = currentRoom;
+            currentRoom = nextRoom;
             currentPos = nextPos;
         }
     }
@@ -47,7 +55,6 @@ public class Generator : MonoBehaviour
             goTunnel.transform.position = ExitPos.position - (tunnelEntry.position - goTunnel.transform.position);
         }
 
-        Vector3 spawnPos = new Vector3(pos.x * gridWorldSize, 0, pos.y * gridWorldSize);
         GameObject goB = Instantiate(prefab, Vector3.zero, Quaternion.identity);
         Room newRoom = goB.GetComponent<Room>();
         Room.Direction entryDir = GetOpposite(dir);
@@ -56,7 +63,28 @@ public class Generator : MonoBehaviour
         {
             goB.transform.position = tunnelExit.position - (entryB.position - goB.transform.position);
         }
-
+        Physics.SyncTransforms();
+        Transform bounds = newRoom.GetBounds();
+        if(bounds != null)
+        {
+            BoxCollider box = bounds.GetComponent<BoxCollider>();
+            Collider[] colliders = Physics.OverlapBox(
+                box.bounds.center, 
+                box.bounds.extents * 0.95f, 
+                bounds.rotation, 
+                roomBoundsLayer
+            );
+            foreach(var hit in colliders)
+            {
+                if(hit.transform != bounds)
+                {
+                    Debug.Log("生成失敗，與現有房間重疊，重新生成...");
+                    Destroy(goB);
+                    Destroy(goTunnel);
+                    return null;
+                }
+            }
+        }
         gridMap.Add(pos, newRoom);
         return newRoom;
     }
