@@ -6,7 +6,7 @@ public class Generator : MonoBehaviour
     public GameObject startRoomPrefab;
     public List<GameObject> roomPrefabs;
     public GameObject tunnelPrefab;
-    private int count = 20;
+    private int count = 5;
     private Dictionary<Vector2Int, Room> gridMap = new Dictionary<Vector2Int, Room>();
 
     public LayerMask roomBoundsLayer;
@@ -21,13 +21,20 @@ public class Generator : MonoBehaviour
         Room prevRoom = null;
         Vector2Int currentPos = Vector2Int.zero;
         gridMap.Add(currentPos, currentRoom);
+        int trys = 0;
 
         for(int i = 0; i < count; i++)
         {
+            if(trys > 5)
+            {
+                Debug.Log("嘗試次數過多，停止生成...");
+                break;
+            }
             Vector2Int nextDir = GetNextPosition(currentPos);
             Room.Direction direction = Vector2ToDirection(nextDir);
             Vector2Int nextPos = currentPos + nextDir;
             if (gridMap.ContainsKey(nextPos)) {
+                trys++;
                 i--;
                 continue;
             }
@@ -36,8 +43,10 @@ public class Generator : MonoBehaviour
             if(nextRoom == null)
             {
                 i--;
+                trys++;
                 continue;
             }
+            trys = 0;
             prevRoom = currentRoom;
             currentRoom = nextRoom;
             currentPos = nextPos;
