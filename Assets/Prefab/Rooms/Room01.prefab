@@ -804,15 +804,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d85e28986b7003459a8ef54c0530d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room01
-  exitAnchors:
+  exitSets:
   - direction: 0
-    transform: {fileID: 1598209623384133792}
-  - direction: 2
-    transform: {fileID: 4272171042100001575}
-  - direction: 3
-    transform: {fileID: 483347583867017087}
+    anchor: {fileID: 1598209623384133792}
+    door: {fileID: 5888723925685206675}
+    wall: {fileID: 1031221439371081357}
   - direction: 1
-    transform: {fileID: 5298600540095166750}
+    anchor: {fileID: 5298600540095166750}
+    door: {fileID: 585400702577653381}
+    wall: {fileID: 8454668135743831586}
+  - direction: 2
+    anchor: {fileID: 4272171042100001575}
+    door: {fileID: 8997282721465619732}
+    wall: {fileID: 2534283788742188298}
+  - direction: 3
+    anchor: {fileID: 483347583867017087}
+    door: {fileID: 4692814633521428812}
+    wall: {fileID: 2222362937764950354}
   Bounds: {fileID: 4676474701344136251}
 --- !u!1 &857177731194408878
 GameObject:
@@ -937,7 +945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5298600540095166750}
   m_Layer: 0
-  m_Name: ancher
+  m_Name: anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4828,7 +4836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 483347583867017087}
   m_Layer: 0
-  m_Name: ancher
+  m_Name: anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5730,7 +5738,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1598209623384133792}
   m_Layer: 0
-  m_Name: ancher
+  m_Name: anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8410,7 +8418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4272171042100001575}
   m_Layer: 0
-  m_Name: ancher
+  m_Name: anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -94,6 +94,8 @@ public class Generator : MonoBehaviour
                 }
             }
         }
+        currentRoom.OpenExit(dir);
+        newRoom.OpenExit(entryDir);
         gridMap.Add(pos, newRoom);
         return newRoom;
     }
