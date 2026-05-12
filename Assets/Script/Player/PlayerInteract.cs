@@ -31,7 +31,7 @@ public class PlayerInteract : MonoBehaviour
             Ray playerRay = new Ray(interactOrigin.position, dir);
             RaycastHit hit;
 
-            if (Physics.Raycast(playerRay, out hit, interactDistance))
+            if (Physics.Raycast(playerRay, out hit, interactDistance, interactMask))
             {
                 Debug.Log("Hit: " + hit.collider.name);
 
