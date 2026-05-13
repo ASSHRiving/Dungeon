@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -6,31 +7,28 @@ public class PlayerCombat : MonoBehaviour
     public Weapon nextWeapon;
     private Animator animator;
     private int weaponType = 0;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnAttack(InputAction.CallbackContext context)
     {
-        if (Input.GetMouseButton(0))
+        if(context.started && currentWeapon != null)
         {
             currentWeapon.Attack(animator);
         }
-        else
+    }
+    public void OnSwitchWeapon(InputAction.CallbackContext context)
+    {
+        if(context.started)
         {
-            if (currentWeapon.StopCombat)
-            {
-                animator.SetBool("InCombat", false);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            changeWeapon(nextWeapon);
+           changeWeapon(nextWeapon);
         }
     }
+
     void changeWeapon(Weapon newWeapon)
     {
         if(currentWeapon != null)
@@ -43,6 +41,7 @@ public class PlayerCombat : MonoBehaviour
         {
             currentWeapon.gameObject.SetActive(true);
         }
-        animator.SetInteger("WeaponType", weaponType == 1? 0 : 1); 
+        weaponType = weaponType == 1? 0 : 1;
+        animator.SetInteger("WeaponType", weaponType); 
     }
 }

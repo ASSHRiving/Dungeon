@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -6,9 +7,9 @@ public class PlayerInteract : MonoBehaviour
     public Transform interactOrigin; // 建議設在角色胸口或頭
     public LayerMask interactMask;
 
-    void Update()
+    public void OnInteract(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (context.started)
         {
             // ① 從畫面中心取得目標點
             Ray cameraRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
