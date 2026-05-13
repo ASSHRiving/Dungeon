@@ -26,7 +26,7 @@ public abstract class ShootWeapon : Weapon
         GameObject bullet = Instantiate(bulletPrefab, shootOrigin.position, Quaternion.LookRotation(dir));
         bullet.GetComponent<Bullet>().Init(dir);
 
-        if (Physics.Raycast(shootOrigin.position, dir, out RaycastHit hit, shootDistance))
+        if (Physics.Raycast(shootOrigin.position, dir, out RaycastHit hit, shootDistance, shootMask))
         {
             Debug.Log("Hit: " + hit.collider.name);
         }

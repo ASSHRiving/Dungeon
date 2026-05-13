@@ -3,7 +3,9 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     public Weapon currentWeapon;
+    public Weapon nextWeapon;
     private Animator animator;
+    private int weaponType = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,5 +26,23 @@ public class PlayerCombat : MonoBehaviour
                 animator.SetBool("InCombat", false);
             }
         }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            changeWeapon(nextWeapon);
+        }
+    }
+    void changeWeapon(Weapon newWeapon)
+    {
+        if(currentWeapon != null)
+        {
+            currentWeapon.gameObject.SetActive(false);
+        }
+        nextWeapon = currentWeapon;
+        currentWeapon = newWeapon;
+        if (currentWeapon != null)
+        {
+            currentWeapon.gameObject.SetActive(true);
+        }
+        animator.SetInteger("WeaponType", weaponType == 1? 0 : 1); 
     }
 }
