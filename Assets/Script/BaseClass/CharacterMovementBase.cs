@@ -6,14 +6,6 @@ public class CharacterMovementBase : MonoBehaviour
     protected CharacterController control;
     //protected CharacterInputSystem _inputSystem;
 
-    //AnimationID
-    protected int animationMoveID = Animator.StringToHash("AnimationMove");
-    protected int movementID = Animator.StringToHash("Movement");
-    protected int horizontalID = Animator.StringToHash("Horizontal");
-    protected int verticalID = Animator.StringToHash("Vertical");
-    protected int runID = Animator.StringToHash("Run");
-    protected int rollId = Animator.StringToHash("Roll");
-
     [SerializeField,Header("移動速度")] protected float characterGravity;
     [SerializeField] protected float characterCurrentMoveSpeed;
     protected float characterFallTime = 0.15f;
@@ -27,6 +19,15 @@ public class CharacterMovementBase : MonoBehaviour
     [SerializeField] protected float slopRayExtent;
     [SerializeField, Header("障礙物檢測")] protected LayerMask whatIsObs;
     protected bool isOnGround;
+
+    //AnimationID
+    protected int animationMoveID = Animator.StringToHash("AnimationMove");
+    protected int movementID = Animator.StringToHash("Movement");
+    protected int horizontalID = Animator.StringToHash("Horizontal");
+    protected int verticalID = Animator.StringToHash("Vertical");
+    protected int runID = Animator.StringToHash("Run");
+    protected int rollId = Animator.StringToHash("Roll");
+
 
     //移動向量
     protected Vector3 movementDirection;
