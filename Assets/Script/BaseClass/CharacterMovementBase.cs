@@ -4,7 +4,7 @@ public class CharacterMovementBase : MonoBehaviour
 {
     protected Animator _animator;
     protected CharacterController control;
-    //protected CharacterInputSystem _inputSystem;
+    protected CharacterInputSystem _inputSystem;
 
     [SerializeField,Header("移動速度")] protected float characterGravity;
     [SerializeField] protected float characterCurrentMoveSpeed;
@@ -18,11 +18,11 @@ public class CharacterMovementBase : MonoBehaviour
     [SerializeField] protected float groundDetectionRang = 0.2f;
     [SerializeField] protected float slopRayExtent;
     [SerializeField, Header("障礙物檢測")] protected LayerMask whatIsObs;
-    protected bool isOnGround;
+    [SerializeField] protected bool isOnGround;
 
     //AnimationID
     protected int animationMoveID = Animator.StringToHash("AnimationMove");
-    protected int movementID = Animator.StringToHash("Movement");
+    protected int speedID = Animator.StringToHash("Speed");
     protected int horizontalID = Animator.StringToHash("Horizontal");
     protected int verticalID = Animator.StringToHash("Vertical");
     protected int runID = Animator.StringToHash("Run");
@@ -33,16 +33,17 @@ public class CharacterMovementBase : MonoBehaviour
     protected Vector3 movementDirection;
     protected Vector3 verticalDirection;
 
-    void Awake()
+    protected virtual void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         control = GetComponent<CharacterController>();
+        _inputSystem = GetComponent<CharacterInputSystem>();
     }
-    void Start()
+    protected virtual void Start()
     {
         characterFallOutDeltaTime = characterFallTime;
     }
-    void Update()
+    protected virtual void Update()
     {
         CheckOnGround();
         CharacterGravity();

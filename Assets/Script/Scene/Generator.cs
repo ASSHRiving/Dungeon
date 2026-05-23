@@ -13,6 +13,7 @@ public class Generator : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         Generate();
     }
     void Generate()
