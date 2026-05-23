@@ -126,4 +126,21 @@ public class CharacterMovementBase : MonoBehaviour
                 * verticalDirection);
         }
     }
+
+    private void OnDrawGizmosSelected()
+        {
+            
+            if (isOnGround) 
+                Gizmos.color = Color.green;
+            else 
+                Gizmos.color = Color.red;
+
+            Vector3 position = Vector3.zero;
+            
+            position.Set(transform.position.x, transform.position.y - groundDetectionOffset,
+                transform.position.z);
+
+            Gizmos.DrawWireSphere(position, groundDetectionRang);
+            
+        }
 }
