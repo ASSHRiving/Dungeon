@@ -5,7 +5,7 @@ public class Sword : Melee
     {
         // 這裡對應你 Animator 裡的參數
         anim.SetInteger("Combo", combo); 
-        anim.SetTrigger("Attack");
+        anim.SetTrigger("LAtk");
         anim.SetBool("InCombat", true);
         
         Debug.Log($"揮動武士刀！第 {combo} 段攻擊");

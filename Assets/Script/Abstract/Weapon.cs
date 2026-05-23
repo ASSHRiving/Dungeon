@@ -10,6 +10,8 @@ public abstract class Weapon : MonoBehaviour
     public float combatStateDuration = 3f;
     protected float nextAttackTime;
 
+    
+
     public abstract void Attack(Animator anim);
     protected virtual void Update()
     {
@@ -17,10 +19,11 @@ public abstract class Weapon : MonoBehaviour
             stateTimer -= Time.deltaTime;
     }
 
-    public void ResetCombatTimer()
+    protected void ResetCombatTimer()
     {
         stateTimer = combatStateDuration;
     }
+
     public bool StopCombat => stateTimer <= 0f;
     
 }

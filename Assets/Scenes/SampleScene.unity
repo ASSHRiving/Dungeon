@@ -259,6 +259,37 @@ Transform:
   - {fileID: 1549211981}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &181883265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 181883266}
+  m_Layer: 7
+  m_Name: EnemyDetectionCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &181883266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181883265}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630307301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1054,6 +1085,32 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf46510179194d94c98bd8071b7d231d, type: 3}
+--- !u!1 &1517993067 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
+  m_PrefabInstance: {fileID: 1605550089}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1517993069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517993067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4226905d1480e654096d2f490e4f0428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
+  attackRangeCenter: {fileID: 1559831865}
+  attackRangeRadius: 0.5
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 1024
+  currentTarget: {fileID: 0}
+  currentWeapon: {fileID: 17215590}
+  enemyDetectionCenter: {fileID: 181883266}
+  enemyDetectionRadius: 10
 --- !u!1 &1530876018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,6 +1359,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
   m_PrefabInstance: {fileID: 1132349676}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1559831864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1559831865}
+  m_Layer: 7
+  m_Name: AttackDetectionCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1559831865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559831864}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.127, z: 0.363}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630307301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1581800880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,7 +1532,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -6449052625973075247, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2075040780}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1517993069}
   m_SourcePrefab: {fileID: 100100000, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
 --- !u!1 &1630307296
 GameObject:
@@ -1592,6 +1683,8 @@ Transform:
   - {fileID: 502893995}
   - {fileID: 1084414619}
   - {fileID: 1365682690}
+  - {fileID: 1559831865}
+  - {fileID: 181883266}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1630307303
@@ -1618,7 +1711,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630307296}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b608498eab0924e4c81a9cf6166de7ff, type: 3}
   m_Name: 

@@ -9,9 +9,6 @@ public abstract class Melee : Weapon
     protected float lastAttackTime;
     public override void Attack(Animator anim)
     {
-        // 檢查攻擊冷卻（避免一幀內觸發兩次）
-        if (Time.time < nextAttackTime) return;
-
         // 1. 判斷是否重置連段
         if (Time.time - lastAttackTime > comboResetTime)
         {
@@ -26,7 +23,7 @@ public abstract class Melee : Weapon
 
         // 3. 更新計時與狀態
         lastAttackTime = Time.time;
-        nextAttackTime = Time.time + attackRate;
+
         ResetCombatTimer(); // 繼承自父類別，維持持刀姿勢
     }
     // 讓具體的刀、劍去決定怎麼播動畫（例如給不同的參數名）

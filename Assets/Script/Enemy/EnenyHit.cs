@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnenyHit : MonoBehaviour, IDamageable
+public class EnenyHit : MonoBehaviour
 {
     public int health = 100;
     Animator animator;
