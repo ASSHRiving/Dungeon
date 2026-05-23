@@ -6,12 +6,20 @@ public class PlayerInteract : MonoBehaviour
     public float interactDistance = 5f;
     public Transform interactOrigin; // 建議設在角色胸口或頭
     public LayerMask interactMask;
+    private CharacterInputSystem _inputSystem;
 
-    public void OnInteract(InputAction.CallbackContext context)
+    private void Awake()
     {
-        if (context.started)
+        _inputSystem = GetComponent<CharacterInputSystem>();
+    }
+    private void Update()
+    {
+        OnInteract();
+    }
+    private void OnInteract()
+    {
+        if (_inputSystem.playerInteract)
         {
-            // ① 從畫面中心取得目標點
             Ray cameraRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit camHit;
 
