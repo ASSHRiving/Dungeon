@@ -3,9 +3,9 @@ using UnityEngine;
 public abstract class Melee : Weapon
 {
     [Header("連段設定")]
-    public int totalComboSteps = 3;      // 總共有幾段
+    [SerializeField] protected int totalComboSteps = 5;      // 總共有幾段
     protected int currentCombo = 0;      // 目前走到第幾段
-    public float comboResetTime = 1.0f;  // 超過多久沒按就重設
+    [SerializeField] protected float comboResetTime = 1.0f;  // 超過多久沒按就重設
     protected float lastAttackTime;
     public override void Attack(Animator anim)
     {
