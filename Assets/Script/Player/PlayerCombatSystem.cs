@@ -38,7 +38,7 @@ public class PlayerCombatSystem : CharacterCombatBase
     {
         if (_animator.CheckAnimationTag("Attack"))
         {
-            _movementBase.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMoveID), true);
+            _movementBase.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMoveID)*4f, true);
         }
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace MoveBase{
-    public class CharacterMovementBase : MonoBehaviour
+    public abstract class CharacterMovementBase : MonoBehaviour
     {
         protected Animator _animator;
         protected CharacterController control;

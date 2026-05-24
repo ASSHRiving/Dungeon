@@ -1,8 +1,10 @@
+using MoveBase;
 using UnityEngine;
 
-public class CharacterHealthBase : MonoBehaviour, IDamageable
+public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 {
     protected Animator _animator;
+    protected CharacterMovementBase _movement;
 
     protected Transform _attacker;
 
@@ -12,12 +14,22 @@ public class CharacterHealthBase : MonoBehaviour, IDamageable
     protected virtual void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        _movement = GetComponent<CharacterMovementBase>();
 
     }
 
     private void LateUpdate()
     {
         OnHitLookTarget();
+        HitAnimationMotion();
+    }
+
+    private void HitAnimationMotion()
+    {
+        if (_animator.CheckAnimationTag("Hit"))
+        {
+            _movement.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMovementID), true);
+        }
     }
 
     public virtual void TakeDamage(int amount)
