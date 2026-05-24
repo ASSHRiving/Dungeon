@@ -6,7 +6,7 @@ namespace CombatBase{
     {
         protected Animator _animator;
         protected CharacterInputSystem _inputSystem;
-        protected CharacterMovementBase _movementBase;
+        protected CharacterMovementBase _movement;
 
         [SerializeField, Header("攻擊範圍")] protected Transform attackRangeCenter;
         [SerializeField] protected float attackRangeRadius;
@@ -26,7 +26,7 @@ namespace CombatBase{
         {
             _animator = GetComponent<Animator>();
             _inputSystem = GetComponentInParent<CharacterInputSystem>();
-            _movementBase = GetComponentInParent<CharacterMovementBase>();
+            _movement = GetComponentInParent<CharacterMovementBase>();
         }
 
         protected virtual void OnAnimateAttackEvent(string hitName)
