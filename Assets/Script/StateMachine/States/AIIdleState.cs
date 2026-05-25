@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AIIdle", menuName ="StateMachine/States/AIIdle")]
-public class AIIdle : StateActionSO
+public class AIIdleState : StateActionSO
 {
     public override void OnUpdate()
     {

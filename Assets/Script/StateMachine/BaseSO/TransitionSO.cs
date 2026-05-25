@@ -84,7 +84,7 @@ public class TransitionSO : ScriptableObject
         {
             foreach(var state in toStates)
             {
-                if(state.GetPriority() > statePriority)
+                if(state.GetPriority() >= statePriority)
                 {
                     statePriority = state.GetPriority();
                     toState = state;

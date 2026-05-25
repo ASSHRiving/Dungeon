@@ -73,7 +73,7 @@ public class EnemyCombatSystem : CharacterCombatBase
             _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID), true);
         }else if(_animator.CheckAnimationTag("Attack"))
         {
-            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID), true);
+            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID) * 5f, true);
         }
     }
     public float GetCurrentTargetDistance() => Vector3.Distance(currentTarget.position, transform.root.position);
