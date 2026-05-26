@@ -1,16 +1,17 @@
 using UnityEngine;
 
-public class GameAsset : MonoBehaviour
+public class GameAssets : SingletonBase<GameAssets>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField,Header("資源")] private GameSoundSO soundAssets;
+
+    private void Awake()
     {
-        
+        soundAssets.InitAssets();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlaySoundEffect(AudioSource audioSource,SoundAssetsType soundAssetsType)
     {
-        
+        audioSource.clip = soundAssets.GetClipAssets(soundAssetsType);
+        audioSource.Play();
     }
 }
