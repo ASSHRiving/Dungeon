@@ -27,7 +27,8 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     private void LateUpdate()
     {
-        UpdateMotionAnumation();
+        UpdateMotionAnimation();
+        UpdateRollAnimation();
     }
 
     private bool CanMoveControl()
@@ -86,7 +87,7 @@ public class PlayerMovementSystem : CharacterMovementBase
         
     }
 
-    private void UpdateMotionAnumation()
+    private void UpdateMotionAnimation()
     {
         if (CanRunControl())
         {
@@ -101,5 +102,16 @@ public class PlayerMovementSystem : CharacterMovementBase
         }
 
         _animator.SetFloat(runID, _inputSystem.playerRun? 1f : 0f);
+    }
+    private void UpdateRollAnimation()
+    {
+        if (_inputSystem.playerRoll)
+        {
+            _animator.SetTrigger(rollId);
+        }
+        if(_animator.CheckAnimationTag("Roll"))
+        {
+            CharacterMoveInterface(-transform.forward, _animator.GetFloat(animationMoveID), true);
+        }
     }
 }
