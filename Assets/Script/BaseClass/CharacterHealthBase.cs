@@ -5,8 +5,8 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 {
     protected Animator _animator;
     protected CharacterMovementBase _movement;
-
     protected Transform _attacker;
+    protected AudioSource _audio;
 
     //AnimationID
     protected int animationMovementID = Animator.StringToHash("AnimationMove");
@@ -15,6 +15,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     {
         _animator = GetComponentInChildren<Animator>();
         _movement = GetComponent<CharacterMovementBase>();
+        _audio = _movement.GetComponentInChildren<AudioSource>();
 
     }
 
@@ -46,6 +47,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     {
         _animator.Play(hitAnimationName,0,0f);
         SetAttacker(attacker);
+        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
     }
 
     public virtual void SetAttacker(Transform attacker)
