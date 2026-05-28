@@ -48,7 +48,7 @@ public class PlayerInteract : MonoBehaviour
 
                 if (interactable != null)
                 {
-                    interactable.Interact();
+                    interactable.Interact(transform);
                 }
             }
         }

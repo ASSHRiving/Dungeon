@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 
 public class Generator : MonoBehaviour
 {
+    [Header("Room Prefabs")]
     public GameObject startRoomPrefab;
     public List<GameObject> roomPrefabs;
     public GameObject tunnelPrefab;
@@ -10,6 +12,9 @@ public class Generator : MonoBehaviour
     private Dictionary<Vector2Int, Room> gridMap = new Dictionary<Vector2Int, Room>();
 
     public LayerMask roomBoundsLayer;
+
+    [Header("AI 導航組件")]
+    public NavMeshSurface navMeshSurface;
 
     void Start()
     {
@@ -51,6 +56,11 @@ public class Generator : MonoBehaviour
             prevRoom = currentRoom;
             currentRoom = nextRoom;
             currentPos = nextPos;
+        }
+        if (navMeshSurface != null)
+        {
+            Debug.Log("地圖生成完全結束，開始即時烘焙 NavMesh...");
+            navMeshSurface.BuildNavMesh(); 
         }
     }
     Room SpawnRoom(GameObject prefab, Vector2Int pos, Room.Direction dir, Room currentRoom)

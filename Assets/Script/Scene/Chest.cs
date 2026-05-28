@@ -8,7 +8,7 @@ public class Chest : MonoBehaviour, IInteractable
     {
         animator = GetComponentInChildren<Animator>();
     }
-    public void Interact()
+    public void Interact(Transform player)
     {
         isOpen = !isOpen;
         animator.SetBool("IsOpen", isOpen);
