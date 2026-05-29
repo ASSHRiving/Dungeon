@@ -43,7 +43,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         _animator.Play(hitAnimationName, 0, 0f);
     }
 
-    public void TakeDamage(string hitAnimationName, Transform attacker)
+    public virtual void TakeDamage(string hitAnimationName, Transform attacker)
     {
         _animator.Play(hitAnimationName,0,0f);
         SetAttacker(attacker);

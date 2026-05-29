@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class PlayerHealthSystem : CharacterHealthBase
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void TakeDamage(string hitAnimationName, Transform attacker)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (_movement.immune)
+        {
+            Debug.Log("閃避");
+            return;
+        }
+        base.TakeDamage(hitAnimationName, attacker);
     }
 }

@@ -34,6 +34,10 @@ namespace MoveBase{
         protected Vector3 movementDirection;
         protected Vector3 verticalDirection;
 
+        //閃避
+        public bool immune { get; protected set; }
+        protected float immuneTime = 0.3f;
+
         protected virtual void Awake()
         {
             _animator = GetComponentInChildren<Animator>();

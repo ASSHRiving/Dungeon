@@ -1,5 +1,6 @@
 using UnityEngine;
 using MoveBase;
+using System.Collections;
 
 public class PlayerMovementSystem : CharacterMovementBase
 {
@@ -8,6 +9,11 @@ public class PlayerMovementSystem : CharacterMovementBase
     private Transform characterCamera;
     private float rotationLerpTime = 0.1f;
     private float moveDirctionSlerpTime = 15;
+    private Vector3 rollDirection;
+
+    //閃避系統
+    private bool canRoll = true;
+
 
     [SerializeField, Header("行走速度")] private float walkSpeed;
     [SerializeField, Header("奔跑速度")] private float runSpeed;
@@ -33,7 +39,7 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     private bool CanMoveControl()
     {
-        return isOnGround && _animator.CheckAnimationTag("Motion");
+        return isOnGround && (_animator.CheckAnimationTag("Motion") || _animator.CheckAnimationTag("Roll"));
     }
 
     private bool CanRunControl()
@@ -74,16 +80,19 @@ public class PlayerMovementSystem : CharacterMovementBase
 
                 // 6. 這裡直接把我們算好的精準方向餵給 movementDirection
                 movementDirection = Vector3.Slerp(movementDirection, ResetMoveDirectionOnSlop(targetDirection), moveDirctionSlerpTime * Time.deltaTime);
+                rollDirection = movementDirection;
             }
         }
         else 
         {
             movementDirection = Vector3.zero;
         }
-            
-        control.Move((characterCurrentMoveSpeed * Time.deltaTime)
-            * movementDirection.normalized + Time.deltaTime
-            * new Vector3(0.0f, verticalSpeed, 0.0f));
+        if (!_animator.CheckAnimationTag("Roll"))
+        {  
+            control.Move((characterCurrentMoveSpeed * Time.deltaTime)
+                * movementDirection.normalized + Time.deltaTime
+                * new Vector3(0.0f, verticalSpeed, 0.0f));
+        }
         
     }
 
@@ -92,7 +101,6 @@ public class PlayerMovementSystem : CharacterMovementBase
         if (CanRunControl())
         {
             _animator.SetFloat(speedID, _inputSystem.playerMovement.magnitude * (_inputSystem.playerRun? 2f : 1f), 0.1f, Time.deltaTime);
-
             characterCurrentMoveSpeed = _inputSystem.playerRun? runSpeed : walkSpeed;
         }
         else
@@ -105,13 +113,21 @@ public class PlayerMovementSystem : CharacterMovementBase
     }
     private void UpdateRollAnimation()
     {
-        if (_inputSystem.playerRoll)
+        if (_inputSystem.playerRoll && !_animator.CheckAnimationTag("Roll"))
         {
             _animator.SetTrigger(rollId);
         }
         if(_animator.CheckAnimationTag("Roll"))
         {
-            CharacterMoveInterface(-transform.forward, _animator.GetFloat(animationMoveID), true);
+            CharacterMoveInterface(rollDirection, _animator.GetFloat(animationMoveID), true);
+            StartCoroutine(RollRoutine());
         }
     }
+    private IEnumerator RollRoutine()
+    {
+        immune = true;
+        yield return new WaitForSeconds(immuneTime);
+        immune = false;
+    }
 }
+//new Vector3(_inputSystem.playerMovement.x, 0, _inputSystem.playerMovement.y)
