@@ -119,6 +119,7 @@ public class PlayerMovementSystem : CharacterMovementBase
         }
         if(_animator.CheckAnimationTag("Roll"))
         {
+            _animator.ResetTrigger(rollId);
             CharacterMoveInterface(rollDirection, _animator.GetFloat(animationMoveID), true);
             StartCoroutine(RollRoutine());
         }
