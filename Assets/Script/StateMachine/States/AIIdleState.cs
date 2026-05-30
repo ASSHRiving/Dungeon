@@ -5,6 +5,6 @@ public class AIIdleState : StateActionSO
 {
     public override void OnUpdate()
     {
-        Debug.Log("Idle State");
+        //Debug.Log("Idle State");
     }
 }

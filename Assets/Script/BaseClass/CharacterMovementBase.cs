@@ -1,3 +1,4 @@
+using CombatBase;
 using UnityEngine;
 
 namespace MoveBase{
@@ -6,6 +7,7 @@ namespace MoveBase{
         protected Animator _animator;
         protected CharacterController control;
         protected CharacterInputSystem _inputSystem;
+        protected CharacterCombatBase _combat;
 
         [SerializeField,Header("移動速度")] protected float characterGravity;
         [SerializeField] protected float characterCurrentMoveSpeed;
@@ -43,6 +45,7 @@ namespace MoveBase{
             _animator = GetComponentInChildren<Animator>();
             control = GetComponent<CharacterController>();
             _inputSystem = GetComponent<CharacterInputSystem>();
+            _combat = GetComponentInChildren<CharacterCombatBase>();
         }
         protected virtual void Start()
         {

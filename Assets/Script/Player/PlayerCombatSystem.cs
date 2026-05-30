@@ -18,6 +18,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         DetectEnemy();
         updateTarget();
         AttackLockOnTarget();
+        CancelAttackMove();
     }
 
     private void LateUpdate()
@@ -29,8 +30,9 @@ public class PlayerCombatSystem : CharacterCombatBase
     {
         if (_inputSystem.playerLAtk && canAttack)
         {
-            currentWeapon.Attack(_animator);
             canAttack = false;
+            currentWeapon.Attack(_animator);
+            inAttack = true;
         }
     }
 

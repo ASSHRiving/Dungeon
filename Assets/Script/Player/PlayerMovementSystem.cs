@@ -39,7 +39,8 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     private bool CanMoveControl()
     {
-        return isOnGround && (_animator.CheckAnimationTag("Motion") || _animator.CheckAnimationTag("Roll"));
+        return isOnGround && (_animator.CheckAnimationTag("Motion") || _animator.CheckAnimationTag("Roll")
+            ||(_animator.CheckAnimationTag("Attack") && _combat.canAttack));
     }
 
     private bool CanRunControl()

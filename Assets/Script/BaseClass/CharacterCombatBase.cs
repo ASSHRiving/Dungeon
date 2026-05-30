@@ -8,6 +8,7 @@ namespace CombatBase{
         protected CharacterInputSystem _inputSystem;
         protected CharacterMovementBase _movement;
         protected AudioSource _audio;
+        private AnimationEventHelper _animationEvent;
 
         [SerializeField, Header("攻擊範圍")] protected Transform attackRangeCenter;
         [SerializeField] protected float attackRangeRadius;
@@ -18,10 +19,12 @@ namespace CombatBase{
         protected int lAtkID = Animator.StringToHash("LAtk");
         protected int rAtkID = Animator.StringToHash("RAtk");
         protected int defenID = Animator.StringToHash("Defen");
+        protected int speedID = Animator.StringToHash("Speed");
         protected int animationMoveID = Animator.StringToHash("AnimationMove");
         
 
-        protected bool canAttack = true;
+        public bool canAttack = true;
+        protected bool inAttack = false;
 
         protected virtual void Awake()
         {
@@ -29,6 +32,12 @@ namespace CombatBase{
             _inputSystem = GetComponentInParent<CharacterInputSystem>();
             _movement = GetComponentInParent<CharacterMovementBase>();
             _audio = _movement.GetComponentInChildren<AudioSource>();
+            _animationEvent = GetComponent<AnimationEventHelper>();
+        }
+
+        void OnEnable()
+        {
+            _animationEvent.OnAnimationFinish += AttackFinish;
         }
 
         protected virtual void OnAnimateAttackEvent(string hitName)
@@ -57,12 +66,18 @@ namespace CombatBase{
             }
         }
 
-        protected void OnAnimationFinishEvent()
+        protected void AttackFinish()
         {
             canAttack = true;
-        }   
-
-        
+        }
+        protected void CancelAttackMove()
+        {
+            if(inAttack && canAttack && _animator.GetFloat(speedID) > 0.2)
+            {
+                _animator.CrossFade("Motion", 0.1f);
+                inAttack = false;
+            }
+        }
 
         public void OnDrawGizmos()
         {
