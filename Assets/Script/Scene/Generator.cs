@@ -10,6 +10,7 @@ public class Generator : MonoBehaviour
     public GameObject tunnelPrefab;
     private int count = 5;
     private Dictionary<Vector2Int, Room> gridMap = new Dictionary<Vector2Int, Room>();
+    private List<Room> spawnedRooms = new List<Room>();
 
     public LayerMask roomBoundsLayer;
 
@@ -25,8 +26,7 @@ public class Generator : MonoBehaviour
     {
         Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity).GetComponent<Room>();
         Room prevRoom = null;
-        Vector2Int currentPos = Vector2Int.zero;
-        gridMap.Add(currentPos, currentRoom);
+
         int trys = 0;
 
         for(int i = 0; i < count; i++)
@@ -36,16 +36,10 @@ public class Generator : MonoBehaviour
                 Debug.Log("嘗試次數過多，停止生成...");
                 break;
             }
-            Vector2Int nextDir = GetNextPosition(currentPos);
-            Room.Direction direction = Vector2ToDirection(nextDir);
-            Vector2Int nextPos = currentPos + nextDir;
-            if (gridMap.ContainsKey(nextPos)) {
-                trys++;
-                i--;
-                continue;
-            }
+            Room.Direction direction = (Room.Direction)Random.Range(0, 4);
+
             GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
-            Room nextRoom = SpawnRoom(prefab, nextPos, direction, currentRoom);
+            Room nextRoom = SpawnRoom(prefab, direction, currentRoom);
             if(nextRoom == null)
             {
                 i--;
@@ -55,7 +49,7 @@ public class Generator : MonoBehaviour
             trys = 0;
             prevRoom = currentRoom;
             currentRoom = nextRoom;
-            currentPos = nextPos;
+            spawnedRooms.Add(currentRoom);
         }
         if (navMeshSurface != null)
         {
@@ -63,8 +57,9 @@ public class Generator : MonoBehaviour
             navMeshSurface.BuildNavMesh(); 
         }
     }
-    Room SpawnRoom(GameObject prefab, Vector2Int pos, Room.Direction dir, Room currentRoom)
+    Room SpawnRoom(GameObject prefab, Room.Direction dir, Room currentRoom)
     {
+        //連接通道
         Transform ExitPos = currentRoom.GetExitAnchor(dir);
         GameObject goTunnel = Instantiate(tunnelPrefab, Vector3.zero, ExitPos.rotation);
         Tunnel tunnel = goTunnel.GetComponent<Tunnel>();
@@ -74,7 +69,7 @@ public class Generator : MonoBehaviour
         {
             goTunnel.transform.position = ExitPos.position - (tunnelEntry.position - goTunnel.transform.position);
         }
-
+        //房間B
         GameObject goB = Instantiate(prefab, Vector3.zero, Quaternion.identity);
         Room newRoom = goB.GetComponent<Room>();
         Room.Direction entryDir = GetOpposite(dir);
@@ -83,6 +78,8 @@ public class Generator : MonoBehaviour
         {
             goB.transform.position = tunnelExit.position - (entryB.position - goB.transform.position);
         }
+
+        //檢測重疊
         Physics.SyncTransforms();
         Transform bounds = newRoom.GetBounds();
         if(bounds != null)
@@ -105,27 +102,13 @@ public class Generator : MonoBehaviour
                 }
             }
         }
+        //開門
         currentRoom.OpenExit(dir);
         newRoom.OpenExit(entryDir);
-        gridMap.Add(pos, newRoom);
         return newRoom;
     }
-    Vector2Int GetNextPosition(Vector2Int currentPos)
-    {
-        List<Vector2Int> directions = new List<Vector2Int>
-        {
-            Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
-        };
-        return directions[Random.Range(0, directions.Count)];
-    }
-    Room.Direction Vector2ToDirection(Vector2Int dir)
-    {
-        if(dir == Vector2Int.up)return Room.Direction.North;
-        if(dir == Vector2Int.down)return Room.Direction.South;
-        if(dir == Vector2Int.right)return Room.Direction.East;
-        if(dir == Vector2Int.left)return Room.Direction.West;
-        return Room.Direction.North;
-    }
+
+
     Room.Direction GetOpposite(Room.Direction dir)
     {
         switch (dir)
