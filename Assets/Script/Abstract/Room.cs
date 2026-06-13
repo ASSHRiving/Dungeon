@@ -66,5 +66,6 @@ public abstract class Room : MonoBehaviour
         if(Bounds != null) return Bounds;
         return null;
     }
+    public abstract void Init();
     
 }

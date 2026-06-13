@@ -9,9 +9,7 @@ public class Generator : MonoBehaviour
     public List<GameObject> roomPrefabs;
     public GameObject tunnelPrefab;
     private int count = 5;
-    private Dictionary<Vector2Int, Room> gridMap = new Dictionary<Vector2Int, Room>();
     private List<Room> spawnedRooms = new List<Room>();
-
     public LayerMask roomBoundsLayer;
 
     [Header("AI 導航組件")]
@@ -21,11 +19,17 @@ public class Generator : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Generate();
+        InitRooms();
     }
     void Generate()
     {
         Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity).GetComponent<Room>();
-        Room prevRoom = null;
+        spawnedRooms.Add(currentRoom);
+        GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
+        Room nextRoom = SpawnRoom(prefab, Room.Direction.North, currentRoom);
+        Room prevRoom = currentRoom;
+        currentRoom = nextRoom;
+        spawnedRooms.Add(currentRoom);
 
         int trys = 0;
 
@@ -38,8 +42,8 @@ public class Generator : MonoBehaviour
             }
             Room.Direction direction = (Room.Direction)Random.Range(0, 4);
 
-            GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
-            Room nextRoom = SpawnRoom(prefab, direction, currentRoom);
+            prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
+            nextRoom = SpawnRoom(prefab, direction, currentRoom);
             if(nextRoom == null)
             {
                 i--;
@@ -108,7 +112,13 @@ public class Generator : MonoBehaviour
         return newRoom;
     }
 
-
+    private void InitRooms()
+    {
+        foreach(var room in spawnedRooms)
+        {
+            room.Init();
+        }
+    }
     Room.Direction GetOpposite(Room.Direction dir)
     {
         switch (dir)
