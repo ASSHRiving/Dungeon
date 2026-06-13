@@ -7,7 +7,6 @@ public class StateMachineSystem : MonoBehaviour
 
     private void Awake()
     {
-        transition?.Init(this);
         currrentState?.OnEnter(this);
     }
     private void Update()
@@ -16,8 +15,8 @@ public class StateMachineSystem : MonoBehaviour
     }
     private void StateMachineTick()
     {
-        transition?.TryGetApplyCondition();
-        currrentState.OnUpdate();
+        transition?.TryGetApplyCondition(this);
+        currrentState.OnUpdate(this);
     }
 
 }

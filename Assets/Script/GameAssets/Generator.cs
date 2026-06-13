@@ -8,7 +8,7 @@ public class Generator : MonoBehaviour
     public GameObject startRoomPrefab;
     public List<GameObject> roomPrefabs;
     public GameObject tunnelPrefab;
-    private int count = 5;
+    private int count = 1;
     private List<Room> spawnedRooms = new List<Room>();
     public LayerMask roomBoundsLayer;
 
