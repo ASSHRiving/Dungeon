@@ -9,6 +9,12 @@ public class PlayerCombatSystem : CharacterCombatBase
     [SerializeField] private float enemyDetectionRadius;
 
     private Collider[] detectedEnemies = new Collider[1];
+    override protected void Awake()
+    {
+        base.Awake();
+        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+        currentWeapon.GetComponent<Collider>().enabled = false;
+    }
 
     private void Update()
     {
