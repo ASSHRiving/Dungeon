@@ -42,7 +42,7 @@ namespace CombatBase{
 
         protected virtual void OnAnimateAttackEvent(string hitName)
         {
-            Collider[] attackHits = new Collider[4];
+            Collider[] attackHits = new Collider[1];
             int count = Physics.OverlapSphereNonAlloc(attackRangeCenter.position, attackRangeRadius, attackHits, whatIsEnemy);
 
             if(count > 0)
@@ -52,7 +52,7 @@ namespace CombatBase{
                     IDamageable damageable = attackHits[i].GetComponentInParent<IDamageable>();
                     if (damageable != null)
                     {
-                        damageable.TakeDamage(hitName, transform.root);
+                        damageable.TakeDamage(hitName, transform.root, 50f);
                     }
                 }
             }

@@ -2,5 +2,39 @@ using UnityEngine;
 
 public class EnemyHealthSystem : CharacterHealthBase
 {
-    
+    void Start()
+    {
+        maxHealth = 100f;
+        currentHealth = maxHealth;
+        healthBar.fillAmount = currentHealth / maxHealth;
+        healthText.text = $"{currentHealth}/{maxHealth}";
+    }
+    public override void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHealth);
+        healthBar.fillAmount = currentHealth / maxHealth;
+        healthText.text = $"{currentHealth}/{maxHealth}";
+        _animator.Play(hitAnimationName,0,0f);
+        SetAttacker(attacker);
+        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
+        Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    protected override void Die()
+    {
+        isDead = true;
+        gameObject.layer = LayerMask.NameToLayer("Ground");
+        _animator.Play("Die", 0, 0f);
+        foreach (var script in scriptsToDisable)
+        {
+            script.enabled = false;
+        }
+    }
 }

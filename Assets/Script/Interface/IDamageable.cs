@@ -4,4 +4,5 @@ public interface IDamageable
     void TakeDamage(int amount);
     void TakeDamage(string hitAnimationName);
     void TakeDamage(string hitAnimationName, Transform attacker);
+    void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount);
 }

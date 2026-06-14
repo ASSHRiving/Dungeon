@@ -1,8 +1,17 @@
 using MoveBase;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 {
+    [Header("血量")]
+    public Image healthBar;
+    public TMP_Text healthText;
+    protected float maxHealth;
+    protected bool isDead = false;
+    [SerializeField] protected float currentHealth;
+    [SerializeField] protected MonoBehaviour[] scriptsToDisable;
     protected Animator _animator;
     protected CharacterMovementBase _movement;
     protected Transform _attacker;
@@ -49,6 +58,13 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
     }
+    public virtual void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount)
+    {
+        _animator.Play(hitAnimationName,0,0f);
+        SetAttacker(attacker);
+        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
+    }
+    protected abstract void Die();
 
     public virtual void SetAttacker(Transform attacker)
     {

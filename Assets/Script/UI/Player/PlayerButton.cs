@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuButton : MonoBehaviour
+public class PlayerButton : MonoBehaviour
 {
-    public void StartGame()
+    public void MainMenu()
     {
-        SceneManager.LoadScene("SampleScene"); 
+        SceneManager.LoadScene("MainMenu"); 
     }
 
     public void QuitGame()

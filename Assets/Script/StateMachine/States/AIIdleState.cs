@@ -5,6 +5,8 @@ public class AIIdleState : StateActionSO
 {
     public override void OnUpdate(StateMachineSystem stateMachineSystem)
     {
-        //Debug.Log("Idle State");
+        Animator _animator = stateMachineSystem.GetComponentInChildren<Animator>();
+        _animator.SetFloat(verticalID, 0, 0.25f, Time.deltaTime);
+        _animator.SetFloat(horizontalID, 0, 0.25f, Time.deltaTime);
     }
 }
