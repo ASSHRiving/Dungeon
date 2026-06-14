@@ -13,6 +13,7 @@ namespace CombatBase{
         [SerializeField, Header("攻擊範圍")] protected Transform attackRangeCenter;
         [SerializeField] protected float attackRangeRadius;
         [SerializeField] protected LayerMask whatIsEnemy;
+        [SerializeField] protected Weapon currentWeapon;
 
 
         //AnimationID
@@ -52,7 +53,7 @@ namespace CombatBase{
                     IDamageable damageable = attackHits[i].GetComponentInParent<IDamageable>();
                     if (damageable != null)
                     {
-                        damageable.TakeDamage(hitName, transform.root, 50f);
+                        damageable.TakeDamage(hitName, transform.root, currentWeapon.damage);
                     }
                 }
             }

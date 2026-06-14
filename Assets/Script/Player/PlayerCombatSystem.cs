@@ -4,7 +4,6 @@ using CombatBase;
 public class PlayerCombatSystem : CharacterCombatBase
 {
     [SerializeField] private Transform currentTarget;
-    [SerializeField] private Weapon currentWeapon;
 
     [SerializeField, Header("檢測敵人")] private Transform enemyDetectionCenter;
     [SerializeField] private float enemyDetectionRadius;

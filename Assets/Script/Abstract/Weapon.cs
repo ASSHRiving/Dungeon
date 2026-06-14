@@ -4,10 +4,10 @@ public abstract class Weapon : MonoBehaviour
 {
     [Header("基礎設定")]
     public string weaponName;
-    public float damage = 10f;
-    public float attackRate = 0.5f;
+    public float damage;
+    public float attackRate;
     protected float stateTimer;
-    public float combatStateDuration = 3f;
+    public float combatStateDuration;
     protected float nextAttackTime;
 
     

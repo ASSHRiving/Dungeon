@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7093515266654663487
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1003,7 +1003,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  groundDetectionOffset: 0.63
+  groundDetectionOffset: 0.7
   groundDetectionRang: 0.53
   slopRayExtent: 5
   whatIsObs:
@@ -2207,9 +2207,9 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 1024
+  currentWeapon: {fileID: 5060327605593401751}
   canAttack: 1
   currentTarget: {fileID: 0}
-  currentWeapon: {fileID: 5060327605593401751}
   enemyDetectionCenter: {fileID: 3815702584121428951}
   enemyDetectionRadius: 7
 --- !u!114 &8121567206293197973
