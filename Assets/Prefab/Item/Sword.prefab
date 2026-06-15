@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4953939180649357057}
   - component: {fileID: 8186286263188415259}
   - component: {fileID: 5300873291845164455}
+  - component: {fileID: 393641489355340520}
   m_Layer: 12
   m_Name: Sword
   m_TagString: Untagged
@@ -95,6 +96,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60f232d8b049af42b69647bcd3ca4df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropsInteract
+--- !u!114 &393641489355340520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437377769245150018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sword
+  weaponName: Sword
+  damage: 10
+  attackRate: 1.3
+  combatStateDuration: 2
+  totalComboSteps: 5
+  comboResetTime: 2
 --- !u!1001 &9177880244998475971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -166,34 +185,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5749598411352692800}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
---- !u!1 &8331387341331017106 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
-  m_PrefabInstance: {fileID: 9177880244998475971}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5749598411352692800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8331387341331017106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Sword
-  weaponName: Sword
-  damage: 10
-  attackRate: 1.3
-  combatStateDuration: 5
-  totalComboSteps: 3
-  comboResetTime: 2
 --- !u!4 &8706821515674973992 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
