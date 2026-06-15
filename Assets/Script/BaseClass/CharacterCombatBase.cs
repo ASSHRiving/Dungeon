@@ -42,7 +42,7 @@ namespace CombatBase{
             _animationEvent.OnAnimationFinish += AttackFinish;
         }
 
-        protected virtual void OnAnimateAttackEvent(string hitName)
+        protected virtual void OnAnimationAttackEvent(string hitName)
         {
             Collider[] attackHits = new Collider[1];
             int count = Physics.OverlapSphereNonAlloc(attackRangeCenter.position, attackRangeRadius, attackHits, whatIsEnemy);

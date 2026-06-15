@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 324898250900815704}
   - component: {fileID: 2229110960044177565}
   - component: {fileID: 892246330151892964}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Katana_low.002_UV_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2705328158859600099}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1207596022057821167}
-  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &2229110960044177565
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 7085901924266915493}
   - component: {fileID: -1487884536949310058}
   - component: {fileID: -8497712865708952325}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Katana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,8 +172,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.622075, y: 0.31086496, z: 0.19299611}
-  m_Center: {x: 0.50824004, y: 0.010472313, z: 0.0042695813}
+  m_Size: {x: 1.5215901, y: 0.3301968, z: 0.2148866}
+  m_Center: {x: -0.4952591, y: 0.024852574, z: -0.0066756606}
 --- !u!114 &-1487884536949310058
 MonoBehaviour:
   m_ObjectHideFlags: 0
