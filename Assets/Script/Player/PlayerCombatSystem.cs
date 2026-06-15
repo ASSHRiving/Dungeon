@@ -12,8 +12,8 @@ public class PlayerCombatSystem : CharacterCombatBase
     override protected void Awake()
     {
         base.Awake();
-        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-        currentWeapon.GetComponent<Collider>().enabled = false;
+        currentWeapon.GetComponentInParent<Rigidbody>().isKinematic = true;
+        currentWeapon.GetComponentInParent<Collider>().enabled = false;
     }
 
     private void Update()
@@ -98,4 +98,9 @@ public class PlayerCombatSystem : CharacterCombatBase
             }
         }
     }
+    public void ChangeWeapon(GameObject newWeapon)
+    {
+
+    }
 }
+
