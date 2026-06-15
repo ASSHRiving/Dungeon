@@ -13,6 +13,8 @@ public class PlayerCombatSystem : CharacterCombatBase
     override protected void Awake()
     {
         base.Awake();
+        weaponType = currentWeapon.weaponType;
+        _animator.SetInteger("WeaponType", weaponType);
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         currentWeapon.GetComponent<Collider>().enabled = false;
     }
@@ -114,6 +116,8 @@ public class PlayerCombatSystem : CharacterCombatBase
         newWeapon.transform.localRotation = Quaternion.identity;
 
         currentWeapon = newWeapon.GetComponent<Weapon>();
+        weaponType = currentWeapon.weaponType;
+        _animator.SetInteger("WeaponType", weaponType);
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         currentWeapon.GetComponent<Collider>().enabled = false;
         currentWeapon.GetComponent<DropsInteract>().enabled = false;

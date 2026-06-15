@@ -14,6 +14,7 @@ namespace CombatBase{
         [SerializeField] protected float attackRangeRadius;
         [SerializeField] protected LayerMask whatIsEnemy;
         [SerializeField] protected Weapon currentWeapon;
+        protected int weaponType;
 
 
         //AnimationID

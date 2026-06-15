@@ -9,8 +9,7 @@ public abstract class Weapon : MonoBehaviour
     protected float stateTimer;
     public float combatStateDuration;
     protected float nextAttackTime;
-
-    
+    public int weaponType;
 
     public abstract void Attack(Animator anim);
     protected virtual void Update()
