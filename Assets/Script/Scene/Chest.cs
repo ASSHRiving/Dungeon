@@ -19,7 +19,7 @@ public class Chest : MonoBehaviour, IInteractable
         if (!isOpen)
         {
             isOpen = true;
-            animator.SetBool("Open", true);
+            animator.SetBool("IsOpen", true);
             StartCoroutine(Wait());
         }
     }

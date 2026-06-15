@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5228756894863924280}
   - component: {fileID: 4953939180649357057}
   - component: {fileID: 8186286263188415259}
+  - component: {fileID: 5300873291845164455}
   m_Layer: 12
   m_Name: Sword
   m_TagString: Untagged
@@ -82,6 +83,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5300873291845164455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437377769245150018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60f232d8b049af42b69647bcd3ca4df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropsInteract
 --- !u!1001 &9177880244998475971
 PrefabInstance:
   m_ObjectHideFlags: 0
