@@ -750,6 +750,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5230906297473587974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4464665704680522253}
+  m_Layer: 7
+  m_Name: InteractDetectionCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4464665704680522253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5230906297473587974}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.483}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7438975341950709959}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5296161146044912019
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,11 +794,11 @@ GameObject:
   - component: {fileID: 1285138609084005044}
   - component: {fileID: 6697926107342612025}
   - component: {fileID: 848648934799149219}
-  - component: {fileID: 8900325056081557084}
   - component: {fileID: 4199189281554686236}
   - component: {fileID: 7394777579722637470}
   - component: {fileID: 2166173460953718933}
   - component: {fileID: 3799769169699531540}
+  - component: {fileID: 8161352174788292823}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -793,6 +824,7 @@ Transform:
   - {fileID: 3822741844114575903}
   - {fileID: 2943019914504254059}
   - {fileID: 3815702584121428951}
+  - {fileID: 4464665704680522253}
   - {fileID: 4990721137176114850}
   - {fileID: 163533834836719689}
   - {fileID: 171983226085694942}
@@ -903,23 +935,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8900325056081557084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5296161146044912019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40cf347741ec41c4d821a02dc39943de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
-  interactDistance: 3
-  interactOrigin: {fileID: 3651729652787552046}
-  interactMask:
-    serializedVersion: 2
-    m_Bits: 4161
 --- !u!114 &4199189281554686236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1040,12 +1055,29 @@ MonoBehaviour:
   healthText: {fileID: 7306819253640484099}
   currentHealth: 0
   scriptsToDisable:
-  - {fileID: 8900325056081557084}
+  - {fileID: 0}
   - {fileID: 7394777579722637470}
   - {fileID: 7394777579722637470}
   - {fileID: 7875470571385674825}
   - {fileID: 3799769169699531540}
   deathText: {fileID: 2788565178956098979}
+--- !u!114 &8161352174788292823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296161146044912019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 590df5ec96bf95e44becc7529937aad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractSystem
+  interactOrigin: {fileID: 4464665704680522253}
+  interactDistance: 2
+  interactMask:
+    serializedVersion: 2
+    m_Bits: 4161
 --- !u!1 &5711601504889235346
 GameObject:
   m_ObjectHideFlags: 0
