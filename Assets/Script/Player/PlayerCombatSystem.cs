@@ -4,6 +4,7 @@ using CombatBase;
 public class PlayerCombatSystem : CharacterCombatBase
 {
     [SerializeField] private Transform currentTarget;
+    [SerializeField] private Transform weaponHolder;
 
     [SerializeField, Header("檢測敵人")] private Transform enemyDetectionCenter;
     [SerializeField] private float enemyDetectionRadius;
@@ -100,7 +101,22 @@ public class PlayerCombatSystem : CharacterCombatBase
     }
     public void ChangeWeapon(GameObject newWeapon)
     {
+        if(currentWeapon != null)
+        {
+            currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
+            currentWeapon.GetComponent<Collider>().enabled = true;
+            currentWeapon.transform.SetParent(null);
 
+        }
+        //放到手上
+        newWeapon.transform.SetParent(weaponHolder);
+        newWeapon.transform.localPosition = Vector3.zero;
+        newWeapon.transform.localRotation = Quaternion.identity;
+
+        currentWeapon = newWeapon.GetComponent<Weapon>();
+        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+        currentWeapon.GetComponent<Collider>().enabled = false;
+        currentWeapon.GetComponent<DropsInteract>().enabled = false;
     }
 }
 

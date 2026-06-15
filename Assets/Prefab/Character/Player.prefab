@@ -919,7 +919,7 @@ MonoBehaviour:
   interactOrigin: {fileID: 3651729652787552046}
   interactMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 4161
 --- !u!114 &4199189281554686236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2210,6 +2210,7 @@ MonoBehaviour:
   currentWeapon: {fileID: 5060327605593401751}
   canAttack: 1
   currentTarget: {fileID: 0}
+  weaponHolder: {fileID: 2156378098009166446}
   enemyDetectionCenter: {fileID: 3815702584121428951}
   enemyDetectionRadius: 7
 --- !u!114 &8121567206293197973
