@@ -5,11 +5,13 @@ using Unity.AI.Navigation;
 public class Generator : MonoBehaviour
 {
     [Header("Room Prefabs")]
-    public GameObject startRoomPrefab;
-    public List<GameObject> roomPrefabs;
-    public GameObject tunnelPrefab;
-    private int count = 1;
+    [SerializeField] private GameObject startRoomPrefab;
+    [SerializeField] private List<GameObject> roomPrefabs;
+    [SerializeField] private List<GameObject> extraRoomPrefabs;
+    [SerializeField] private GameObject tunnelPrefab;
+    private int count = 5;
     private List<Room> spawnedRooms = new List<Room>();
+    private List<Room> extraRooms = new List<Room>();
     public LayerMask roomBoundsLayer;
 
     [Header("AI 導航組件")]
@@ -23,16 +25,18 @@ public class Generator : MonoBehaviour
     }
     void Generate()
     {
+        //生成起始房間
         Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity).GetComponent<Room>();
         spawnedRooms.Add(currentRoom);
+        //生成第一個房間
         GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
         Room nextRoom = SpawnRoom(prefab, Room.Direction.North, currentRoom);
         Room prevRoom = currentRoom;
         currentRoom = nextRoom;
         spawnedRooms.Add(currentRoom);
+        count--;
 
         int trys = 0;
-
         for(int i = 0; i < count; i++)
         {
             if(trys > 5)
@@ -55,10 +59,30 @@ public class Generator : MonoBehaviour
             currentRoom = nextRoom;
             spawnedRooms.Add(currentRoom);
         }
+        GenerateExtraRooms();
         if (navMeshSurface != null)
         {
             Debug.Log("地圖生成完全結束，開始即時烘焙 NavMesh...");
             navMeshSurface.BuildNavMesh(); 
+        }
+    }
+    private void GenerateExtraRooms()
+    {
+        int extraCount = Random.Range(1, 3);
+
+        for(int i = 0; i < extraCount; i++)
+        {
+            Room randomRoom = spawnedRooms[Random.Range(1, spawnedRooms.Count)];
+            Room.Direction dir = (Room.Direction)Random.Range(0, 4);
+            
+            GameObject prefab = extraRoomPrefabs[Random.Range(0, extraRoomPrefabs.Count)];
+            Room newRoom = SpawnExtraRoom(prefab, dir, randomRoom);
+            if(newRoom == null)
+            {
+                i--;
+                continue;
+            }
+            extraRooms.Add(newRoom);
         }
     }
     Room SpawnRoom(GameObject prefab, Room.Direction dir, Room currentRoom)
@@ -111,10 +135,63 @@ public class Generator : MonoBehaviour
         newRoom.OpenExit(entryDir);
         return newRoom;
     }
+    private Room SpawnExtraRoom(GameObject prefab, Room.Direction dir, Room currentRoom)
+    {
+        Transform ExitPos = currentRoom.GetExitAnchor(dir);
+        GameObject goTunnel = Instantiate(tunnelPrefab, Vector3.zero, ExitPos.rotation);
+        Tunnel tunnel = goTunnel.GetComponent<Tunnel>();
+        Transform tunnelEntry = tunnel.getEntry();
+        Transform tunnelExit = tunnel.getExit();
+        if (tunnel != null)
+        {
+            goTunnel.transform.position = ExitPos.position - (tunnelEntry.position - goTunnel.transform.position);
+        }
+        //旋轉房間
+        GameObject goB = Instantiate(prefab, Vector3.zero, ExitPos.rotation);
+        Room newRoom = goB.GetComponent<Room>();
+        Room.Direction entryDir = GetOpposite(dir);
+        Transform entryB = newRoom.GetExitAnchor(entryDir);
+        if(entryB != null)
+        {
+            goB.transform.position = tunnelExit.position - (entryB.position - goB.transform.position);
+        }
+
+        //檢測重疊
+        Physics.SyncTransforms();
+        Transform bounds = newRoom.GetBounds();
+        if(bounds != null)
+        {
+            BoxCollider box = bounds.GetComponent<BoxCollider>();
+            Collider[] colliders = Physics.OverlapBox(
+                box.bounds.center, 
+                box.bounds.extents * 0.95f, 
+                bounds.rotation, 
+                roomBoundsLayer
+            );
+            foreach(var hit in colliders)
+            {
+                if(hit.transform != bounds)
+                {
+                    Debug.Log("生成失敗，與現有房間重疊，重新生成...");
+                    Destroy(goB);
+                    Destroy(goTunnel);
+                    return null;
+                }
+            }
+        }
+        //開門
+        currentRoom.OpenExit(dir);
+        newRoom.OpenExit(entryDir);
+        return newRoom;
+    }
 
     private void InitRooms()
     {
         foreach(var room in spawnedRooms)
+        {
+            room.Init();
+        }
+        foreach(var room in extraRooms)
         {
             room.Init();
         }

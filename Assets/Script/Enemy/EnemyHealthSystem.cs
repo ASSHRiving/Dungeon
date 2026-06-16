@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class EnemyHealthSystem : CharacterHealthBase
 {
+    [SerializeField] private GameObject lootPrefab;
     void Start()
     {
         maxHealth = 100f;
@@ -32,9 +35,16 @@ public class EnemyHealthSystem : CharacterHealthBase
         isDead = true;
         gameObject.layer = LayerMask.NameToLayer("Ground");
         _animator.Play("Die", 0, 0f);
+        if (lootPrefab != null)
+        {
+            Instantiate(lootPrefab, transform.position, Quaternion.identity);
+        }
+        healthBar.gameObject.SetActive(false);
+        healthText.gameObject.SetActive(false);
         foreach (var script in scriptsToDisable)
         {
             script.enabled = false;
         }
+        Destroy(gameObject, 3.0f);
     }
 }

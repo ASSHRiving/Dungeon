@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 483347583867017087}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5748142913135199395}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,6 +117,10 @@ PrefabInstance:
       value: Wall_Chiseled
       objectReference: {fileID: 0}
     - target: {fileID: 1159351990771520630, guid: d40664af6c2779146aa5d143b6e222aa, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159351990771520630, guid: d40664af6c2779146aa5d143b6e222aa, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -183,8 +187,16 @@ PrefabInstance:
       value: DoorWall (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3366576958402537297, guid: de27758ee007264459046a1d9b4a5478, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3366576958402537297, guid: de27758ee007264459046a1d9b4a5478, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726316327357917303, guid: de27758ee007264459046a1d9b4a5478, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

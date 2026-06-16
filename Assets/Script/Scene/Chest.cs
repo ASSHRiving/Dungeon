@@ -34,7 +34,10 @@ public class Chest : MonoBehaviour, IInteractable
             float randomRightForce = Random.Range(-1.5f, 1.5f);
             Vector3 dir = (dropPoint.up * upForce) + (dropPoint.forward * forwardForce) + (dropPoint.right * randomRightForce);
             Debug.Log($" 正在對 {itemGO.name} 施加力道: {dir}，此時 isKinematic = {rb.isKinematic}");
-             rb.AddForce(dir, ForceMode.Impulse);
+            rb.AddForce(dir, ForceMode.Impulse);
+            float randomTorque = Random.Range(-0.05f, 0.05f);
+            rb.AddTorque(new Vector3(randomTorque, randomTorque, randomTorque), ForceMode.Impulse);
+
         }
         
     }

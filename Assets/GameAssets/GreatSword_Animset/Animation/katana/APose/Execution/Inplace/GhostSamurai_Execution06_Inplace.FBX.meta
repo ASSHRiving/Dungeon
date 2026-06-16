@@ -636,14 +636,14 @@ ModelImporter:
           rotationOrder: 4
       events:
       - time: 0.12149534
-        functionName: OnAnimateAttackEvent
+        functionName: OnAnimationAttackEvent
         data: Hit_R
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.40186918
-        functionName: OnAnimateAttackEvent
+        functionName: OnAnimationAttackEvent
         data: Hit_F
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

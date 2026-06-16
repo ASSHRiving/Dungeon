@@ -7,7 +7,7 @@ public class PlayerInteractSystem : MonoBehaviour
     [SerializeField] private float interactDistance;
     [SerializeField] private LayerMask interactMask;
     private CharacterInputSystem _inputSystem;
-    private Collider[] colliders = new Collider[5];
+    private Collider[] colliders = new Collider[10];
     private void Awake()
     {
         _inputSystem = GetComponent<CharacterInputSystem>();

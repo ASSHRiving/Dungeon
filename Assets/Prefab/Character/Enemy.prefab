@@ -48,6 +48,7 @@ MonoBehaviour:
   damage: 10
   attackRate: 0
   combatStateDuration: 0
+  weaponType: 0
 --- !u!1 &1870480990144633099
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,6 +561,7 @@ MonoBehaviour:
   - {fileID: 7168637028746905190}
   - {fileID: 5097280785948960929}
   - {fileID: 8325055916879527321}
+  lootPrefab: {fileID: 7730201026826768803, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
 --- !u!114 &7057759485788597434
 MonoBehaviour:
   m_ObjectHideFlags: 0
