@@ -2,15 +2,18 @@ using MoveBase;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 {
     [Header("血量")]
     public Image healthBar;
+    public Image healthBarBuffer;
     public TMP_Text healthText;
     protected float maxHealth;
     protected bool isDead = false;
     [SerializeField] protected float currentHealth;
+    protected Coroutine bufferCoroutine;
     [SerializeField] protected MonoBehaviour[] scriptsToDisable;
     protected Animator _animator;
     protected CharacterMovementBase _movement;
@@ -76,6 +79,28 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     {
         if(_animator.CheckAnimationTag("Hit"))
             transform.rotation = transform.LockOnTarget(_attacker,transform,50f);
+    }
+
+    protected void UpdateHealthBar(float targetFill)
+    {
+        healthBar.fillAmount = targetFill;
+        healthText.text = $"{currentHealth}/{maxHealth}";
+        if(bufferCoroutine != null)
+        {
+            StopCoroutine(bufferCoroutine);
+        }
+        bufferCoroutine = StartCoroutine(UpdateHealthBarBuffer(targetFill));
+    }
+    IEnumerator UpdateHealthBarBuffer(float targetFill)
+    {
+        yield return new WaitForSeconds(0.2f);
+        float startFill = healthBarBuffer.fillAmount;
+        for(float t = 0; t < 0.25f; t += Time.deltaTime)
+        {
+            healthBarBuffer.fillAmount = Mathf.Lerp(startFill, targetFill, t / 0.25f);
+            yield return null;
+        }
+        healthBarBuffer.fillAmount = targetFill;
     }
 
 }

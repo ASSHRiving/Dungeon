@@ -24,9 +24,10 @@ public class PlayerHealthSystem : CharacterHealthBase
         {
             return;
         }
+
         currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHealth);
-        healthBar.fillAmount = currentHealth / maxHealth;
-        healthText.text = $"{currentHealth}/{maxHealth}";
+        UpdateHealthBar(currentHealth / maxHealth);
+
         _animator.Play(hitAnimationName,0,0f);
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);

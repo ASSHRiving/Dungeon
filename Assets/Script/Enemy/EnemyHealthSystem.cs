@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class EnemyHealthSystem : CharacterHealthBase
 {
@@ -18,9 +19,10 @@ public class EnemyHealthSystem : CharacterHealthBase
         {
             return;
         }
+
         currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHealth);
-        healthBar.fillAmount = currentHealth / maxHealth;
-        healthText.text = $"{currentHealth}/{maxHealth}";
+        UpdateHealthBar(currentHealth / maxHealth);
+    
         _animator.Play(hitAnimationName,0,0f);
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);

@@ -12,7 +12,7 @@ public class PlayerMovementSystem : CharacterMovementBase
     private Vector3 rollDirection;
 
     //閃避系統
-    private bool canRoll = true;
+    //private bool canRoll = true;
 
 
     [SerializeField, Header("行走速度")] private float walkSpeed;
