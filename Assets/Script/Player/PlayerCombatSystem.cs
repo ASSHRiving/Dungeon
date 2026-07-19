@@ -118,6 +118,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         currentWeapon = newWeapon.GetComponent<Weapon>();
         weaponType = currentWeapon.weaponType;
         _animator.SetInteger("WeaponType", weaponType);
+        weaponSoundType = currentWeapon.weaponSoundType;
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         currentWeapon.GetComponent<Collider>().enabled = false;
         currentWeapon.GetComponent<DropsInteract>().enabled = false;

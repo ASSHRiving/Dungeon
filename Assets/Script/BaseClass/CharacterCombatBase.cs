@@ -15,6 +15,7 @@ namespace CombatBase{
         [SerializeField] protected LayerMask whatIsEnemy;
         [SerializeField] protected Weapon currentWeapon;
         protected int weaponType;
+        protected SoundAssetsType weaponSoundType;
 
 
         //AnimationID
@@ -35,6 +36,8 @@ namespace CombatBase{
             _movement = GetComponentInParent<CharacterMovementBase>();
             _audio = _movement.GetComponentInChildren<AudioSource>();
             _animationEvent = GetComponent<AnimationEventHelper>();
+            currentWeapon = GetComponentInChildren<Weapon>();
+            weaponSoundType = currentWeapon.weaponSoundType;
         }
 
         void OnEnable()
@@ -64,7 +67,7 @@ namespace CombatBase{
         {
             if (_animator.CheckAnimationTag("Attack"))
             {
-                GameAssets.Instance.PlaySoundEffect(_audio,SoundAssetsType.Sword);
+                GameAssets.Instance.PlaySoundEffect(_audio,weaponSoundType);
             }
         }
 
