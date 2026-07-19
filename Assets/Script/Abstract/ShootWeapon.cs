@@ -1,17 +1,18 @@
 using UnityEngine;
 
-public abstract class ShootWeapon : Weapon
+public abstract class RangedWeapon : Weapon
 {
     [Header("槍械特有設定")]
     public Transform shootOrigin;
     public GameObject bulletPrefab;
     public LayerMask shootMask;
     public float shootDistance = 100f;
+    public float attackRate = 1f;
+    protected float nextAttackTime;
      
     public override void Attack(Animator anim){
         if (Time.time < nextAttackTime) return;
 
-        ResetCombatTimer();
         ExecuteShoot(anim);
         nextAttackTime = Time.time + attackRate;
 

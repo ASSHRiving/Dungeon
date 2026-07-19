@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Gun : ShootWeapon
+public class Gun : RangedWeapon
 {
     protected override void ExecuteShoot(Animator anim){
         anim.SetTrigger("Attack");

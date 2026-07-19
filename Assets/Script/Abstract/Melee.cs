@@ -24,7 +24,6 @@ public abstract class Melee : Weapon
         // 3. 更新計時與狀態
         lastAttackTime = Time.time;
 
-        ResetCombatTimer(); // 繼承自父類別，維持持刀姿勢
     }
     // 讓具體的刀、劍去決定怎麼播動畫（例如給不同的參數名）
     protected abstract void AttackAnimation(Animator anim, int combo);
