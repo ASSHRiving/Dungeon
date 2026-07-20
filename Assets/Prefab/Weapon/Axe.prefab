@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5034570172128092915}
   - component: {fileID: 1782410763795014568}
   - component: {fileID: 8997176540131332733}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,8 +98,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Axe
   weaponName: Axe
   damage: 20
-  attackRate: 2
-  combatStateDuration: 2
   weaponType: 2
   weaponSoundType: 2
   totalComboSteps: 3
@@ -164,9 +162,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 1185341627082182329, guid: 17f21744854dfb542b5b3e746798157e, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229160132107178657, guid: 17f21744854dfb542b5b3e746798157e, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5326358089433006239, guid: 17f21744854dfb542b5b3e746798157e, type: 3}
       propertyPath: m_Name
       value: Axe_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326358089433006239, guid: 17f21744854dfb542b5b3e746798157e, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7321893068251830503, guid: 17f21744854dfb542b5b3e746798157e, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
