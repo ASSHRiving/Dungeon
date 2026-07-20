@@ -46,9 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
   weaponName: 
   damage: 10
-  attackRate: 0
-  combatStateDuration: 0
   weaponType: 0
+  weaponSoundType: 1
+  overrideController: {fileID: 0}
 --- !u!1 &1870480990144633099
 GameObject:
   m_ObjectHideFlags: 0
