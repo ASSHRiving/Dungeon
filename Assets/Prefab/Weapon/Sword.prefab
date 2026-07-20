@@ -110,8 +110,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Sword
   weaponName: Sword
   damage: 10
-  attackRate: 1.3
-  combatStateDuration: 2
+  weaponType: 0
+  weaponSoundType: 1
+  overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
   totalComboSteps: 5
   comboResetTime: 2
 --- !u!1001 &9177880244998475971

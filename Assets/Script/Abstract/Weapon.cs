@@ -8,6 +8,7 @@ public abstract class Weapon : MonoBehaviour
     
     public int weaponType = 0;
     public SoundAssetsType weaponSoundType = SoundAssetsType.Sword;
+    public AnimatorOverrideController overrideController;
 
     public abstract void Attack(Animator anim);
 }

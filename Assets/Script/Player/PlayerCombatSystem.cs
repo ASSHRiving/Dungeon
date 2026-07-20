@@ -103,6 +103,7 @@ public class PlayerCombatSystem : CharacterCombatBase
     }
     public void ChangeWeapon(GameObject newWeapon)
     {
+        //丟掉舊武器
         if(currentWeapon != null)
         {
             currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
@@ -110,15 +111,17 @@ public class PlayerCombatSystem : CharacterCombatBase
             currentWeapon.transform.SetParent(null);
 
         }
-        //放到手上
+        //撿起新武器
         newWeapon.transform.SetParent(weaponHolder);
         newWeapon.transform.localPosition = Vector3.zero;
         newWeapon.transform.localRotation = Quaternion.identity;
 
         currentWeapon = newWeapon.GetComponent<Weapon>();
         weaponType = currentWeapon.weaponType;
+        _animator.runtimeAnimatorController = currentWeapon.overrideController;
         _animator.SetInteger("WeaponType", weaponType);
         weaponSoundType = currentWeapon.weaponSoundType;
+
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         currentWeapon.GetComponent<Collider>().enabled = false;
         currentWeapon.GetComponent<DropsInteract>().enabled = false;

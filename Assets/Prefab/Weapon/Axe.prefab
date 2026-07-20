@@ -100,6 +100,7 @@ MonoBehaviour:
   damage: 20
   weaponType: 2
   weaponSoundType: 2
+  overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
   totalComboSteps: 3
   comboResetTime: 2
 --- !u!114 &8997176540131332733

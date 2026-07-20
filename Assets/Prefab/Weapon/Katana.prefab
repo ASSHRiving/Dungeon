@@ -188,9 +188,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Katana
   weaponName: Katana
   damage: 20
-  attackRate: 0.5
-  combatStateDuration: 2
   weaponType: 1
+  weaponSoundType: 1
+  overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
   totalComboSteps: 4
   comboResetTime: 1
 --- !u!114 &-8497712865708952325
