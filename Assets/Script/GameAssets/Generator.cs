@@ -9,7 +9,7 @@ public class Generator : MonoBehaviour
     [SerializeField] private List<GameObject> roomPrefabs;
     [SerializeField] private List<GameObject> extraRoomPrefabs;
     [SerializeField] private GameObject tunnelPrefab;
-    private int count = 5;
+    [SerializeField] private int count = 5;
     private List<Room> spawnedRooms = new List<Room>();
     private List<Room> extraRooms = new List<Room>();
     public LayerMask roomBoundsLayer;
