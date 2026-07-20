@@ -1,5 +1,7 @@
 using UnityEngine;
+using System.Collections;
 using CombatBase;
+using Unity.VisualScripting;
 
 public class PlayerCombatSystem : CharacterCombatBase
 {
@@ -103,6 +105,13 @@ public class PlayerCombatSystem : CharacterCombatBase
     }
     public void ChangeWeapon(GameObject newWeapon)
     {
+        _animator.Play("Crouch", 0, 0f);
+        StartCoroutine(WaitAndChangeWeapon(newWeapon));
+        
+    }
+    private IEnumerator WaitAndChangeWeapon(GameObject newWeapon)
+    {
+        yield return new WaitForSeconds(0.5f);
         //丟掉舊武器
         if(currentWeapon != null)
         {
