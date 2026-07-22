@@ -27,6 +27,7 @@ public class Generator : MonoBehaviour
     {
         //生成起始房間
         Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity).GetComponent<Room>();
+        MinimapEvents.RoomSpawned(currentRoom, null, Room.Direction.North);
         spawnedRooms.Add(currentRoom);
         //生成第一個房間
         GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
@@ -133,6 +134,7 @@ public class Generator : MonoBehaviour
         //開門
         currentRoom.OpenExit(dir);
         newRoom.OpenExit(entryDir);
+        MinimapEvents.RoomSpawned(newRoom, currentRoom, dir);
         return newRoom;
     }
     private Room SpawnExtraRoom(GameObject prefab, Room.Direction dir, Room currentRoom)
@@ -182,6 +184,7 @@ public class Generator : MonoBehaviour
         //開門
         currentRoom.OpenExit(dir);
         newRoom.OpenExit(entryDir);
+        MinimapEvents.RoomSpawned(newRoom, currentRoom, dir);
         return newRoom;
     }
 

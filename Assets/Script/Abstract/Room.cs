@@ -5,6 +5,7 @@ public abstract class Room : MonoBehaviour
 {
     public enum Direction { North, South, East, West }
     [SerializeField] private Transform Bounds;
+    public bool isVisited = false;
 
     [System.Serializable]
     public class ExitSet
@@ -65,6 +66,18 @@ public abstract class Room : MonoBehaviour
     {
         if(Bounds != null) return Bounds;
         return null;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"玩家進入房間 {gameObject.name}");
+        // 確認踩進來的是 Player
+        if (other.CompareTag("Player"))
+        {
+            isVisited = true;
+
+            // 【廣播】通知小地圖：玩家進這個房間了！
+            MinimapEvents.RoomEntered(this);
+        }
     }
     public abstract void Init();
     
