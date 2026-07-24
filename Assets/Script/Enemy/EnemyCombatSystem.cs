@@ -16,7 +16,7 @@ public class EnemyCombatSystem : CharacterCombatBase
     private void Update()
     {
         AIView();
-        LockOnCurrentTarget();
+        //LockOnCurrentTarget();
         UpdateAnimationMove();
     }
     private void AIView() //檢查範圍內是否有目標 並且該目標在面前的扇形範圍內

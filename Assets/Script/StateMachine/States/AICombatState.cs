@@ -8,7 +8,7 @@ public class AICombatState : StateActionSO
     
     public override void OnEnter(StateMachineSystem stateMachineSystem)
     {
-        Animator animator = stateMachineSystem.GetComponentInChildren<Animator>();
+        Animator animator = stateMachineSystem.animator;
         animator.Play("Ready");
     }
 
@@ -19,9 +19,9 @@ public class AICombatState : StateActionSO
 
     private void NoCombatMove(StateMachineSystem stateMachineSystem)
     {
-        Animator animator = stateMachineSystem.GetComponentInChildren<Animator>();
-        EnemyCombatSystem combat = stateMachineSystem.GetComponentInChildren<EnemyCombatSystem>();
-        EnemyMovementSystem movement = stateMachineSystem.GetComponent<EnemyMovementSystem>();
+        Animator animator = stateMachineSystem.animator;
+        EnemyCombatSystem combat = stateMachineSystem.combat;
+        EnemyMovementSystem movement = stateMachineSystem.movement;
 
         //非戰鬥時邏輯
         if (animator.CheckAnimationTag("Motion"))
