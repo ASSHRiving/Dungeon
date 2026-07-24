@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 97654457}
   - component: {fileID: 97654458}
+  - component: {fileID: 97654459}
   m_Layer: 5
   m_Name: MinimapPanel
   m_TagString: Untagged
@@ -175,6 +176,20 @@ MonoBehaviour:
   currentRoomColor: {r: 0, g: 1, b: 0, a: 1}
   visitedRoomColor: {r: 1, g: 1, b: 1, a: 1}
   unvisitedRoomColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.5}
+--- !u!114 &97654459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97654456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!114 &1032309757 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8773310936694302779, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
