@@ -16,8 +16,10 @@ public static class MyTools
     {
         if (target == null) return self.rotation;
 
-        Vector3 targetDirection = (target.position - self.position).normalized;
-        Quaternion newRotation = Quaternion.LookRotation(targetDirection);
+        Vector3 targetDirection = target.position - self.position;
+        targetDirection.y = 0f;
+
+        Quaternion newRotation = Quaternion.LookRotation(targetDirection.normalized);
         
         return  Quaternion.Lerp(self.rotation,newRotation,lerpTime * Time.deltaTime);
     }

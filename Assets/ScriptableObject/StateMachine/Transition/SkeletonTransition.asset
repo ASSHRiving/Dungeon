@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: SkeletonTransition
   m_EditorClassIdentifier: Assembly-CSharp::TransitionSO
   stateConfigDatas:
-  - fromState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
-    toState: {fileID: 11400000, guid: 4ca7b512b2ba1ef4cb47b6f5c2702fb6, type: 2}
-    conditions:
-    - {fileID: 11400000, guid: c19b13ac146fc3b4a84b2020a910c7ca, type: 2}
   - fromState: {fileID: 11400000, guid: 4ca7b512b2ba1ef4cb47b6f5c2702fb6, type: 2}
     toState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
     conditions:
     - {fileID: 11400000, guid: 47a465b7e94e3c046828b5286c862191, type: 2}
+  - fromState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
+    toState: {fileID: 11400000, guid: 4ca7b512b2ba1ef4cb47b6f5c2702fb6, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: c19b13ac146fc3b4a84b2020a910c7ca, type: 2}
