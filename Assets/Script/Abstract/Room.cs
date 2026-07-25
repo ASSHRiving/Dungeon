@@ -69,7 +69,6 @@ public abstract class Room : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"玩家進入房間 {gameObject.name}");
         // 確認踩進來的是 Player
         if (other.CompareTag("Player"))
         {

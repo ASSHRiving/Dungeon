@@ -25,7 +25,17 @@ public class MinimapController : MonoBehaviour
 
     // 紀錄實體 Room 對應的 UI 座標與 Image 組件
     private Dictionary<Room, Vector2> roomUIPositions = new Dictionary<Room, Vector2>();
+    private Dictionary<Room, GameObject> roomUINodes = new Dictionary<Room, GameObject>();
     private Dictionary<Room, Image> roomUIImages = new Dictionary<Room, Image>();
+
+    // 核心數據：紀錄每一條 UI 通道連接著哪兩個 Room，以及對應的通道 GameObject
+    private class UIConnection
+    {
+        public Room roomA;
+        public Room roomB;
+        public GameObject lineGO;
+    }
+    private List<UIConnection> allConnections = new List<UIConnection>();
 
     // 目標 UI 偏移量與角度
     private Vector2 targetMapPosition = Vector2.zero;
@@ -93,7 +103,9 @@ public class MinimapController : MonoBehaviour
             newUIPos = fromUIPos + offset;
 
             // 繪製兩房間之間的通道線段
-            DrawConnection(fromUIPos, newUIPos);
+            GameObject connectionGO = DrawConnection(fromUIPos, newUIPos);
+            allConnections.Add(new UIConnection { roomA = fromRoom, roomB = newRoom, lineGO = connectionGO });
+            connectionGO.SetActive(false);
         }
 
         // 生成房間 UI Icon
@@ -106,7 +118,10 @@ public class MinimapController : MonoBehaviour
 
         // 保存映射
         roomUIPositions.Add(newRoom, newUIPos);
+        roomUINodes.Add(newRoom, nodeGO);
         roomUIImages.Add(newRoom, img);
+
+        nodeGO.SetActive(false);
     }
 
     // 收到「玩家切換房間」時執行
@@ -116,6 +131,9 @@ public class MinimapController : MonoBehaviour
         {
             targetMapPosition = -currentRoomUIPos;
         }
+
+        RevealRoomAndConnectedEdges(currentActiveRoom);
+
         foreach (var pair in roomUIImages)
         {
             Room room = pair.Key;
@@ -135,6 +153,36 @@ public class MinimapController : MonoBehaviour
             }
         }
     }
+    private void RevealRoomAndConnectedEdges(Room currentRoom)
+    {
+        // A. 先將當前房間 UI 顯示出來
+        if (roomUINodes.TryGetValue(currentRoom, out GameObject currentUI))
+        {
+            currentUI.SetActive(true);
+        }
+
+        // B. 遍歷所有的通道紀錄，找出跟 currentRoom 連接的線段
+        foreach (var conn in allConnections)
+        {
+            // 如果這條通道的起點或終點包含當前房間
+            if (conn.roomA == currentRoom || conn.roomB == currentRoom)
+            {
+                // 1. 顯示這條通道線段
+                if (conn.lineGO != null)
+                {
+                    conn.lineGO.SetActive(true);
+                }
+
+                // 2. 順藤摸瓜找到「另一端的鄰居房間」，並將其 UI 顯示出來
+                Room neighborRoom = (conn.roomA == currentRoom) ? conn.roomB : conn.roomA;
+
+                if (neighborRoom != null && roomUINodes.TryGetValue(neighborRoom, out GameObject neighborUI))
+                {
+                    neighborUI.SetActive(true);
+                }
+            }
+        }
+    }
 
     // 將枚舉方位轉為 UI 座標向量
     private Vector2 GetDirectionOffset(Room.Direction dir)
@@ -150,17 +198,19 @@ public class MinimapController : MonoBehaviour
     }
 
     // 繪製 UI 通道線段
-    private void DrawConnection(Vector2 posA, Vector2 posB)
+    private GameObject DrawConnection(Vector2 posA, Vector2 posB)
     {
         GameObject lineGO = Instantiate(connectionLinePrefab, mapContent);
-        lineGO.transform.SetAsFirstSibling(); // 放到最底層，避免蓋住房間 Icon
+        lineGO.transform.SetAsFirstSibling();
 
         RectTransform rect = lineGO.GetComponent<RectTransform>();
         Vector2 dir = (posB - posA).normalized;
         float distance = Vector2.Distance(posA, posB);
 
         rect.anchoredPosition = posA;
-        rect.sizeDelta = new Vector2(distance, 4f); // 4f 為線段粗細
+        rect.sizeDelta = new Vector2(distance, 4f);
         rect.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+
+        return lineGO;
     }
 }

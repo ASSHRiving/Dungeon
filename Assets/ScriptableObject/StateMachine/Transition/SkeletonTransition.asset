@@ -21,3 +21,11 @@ MonoBehaviour:
     toState: {fileID: 11400000, guid: 4ca7b512b2ba1ef4cb47b6f5c2702fb6, type: 2}
     conditions:
     - {fileID: 11400000, guid: c19b13ac146fc3b4a84b2020a910c7ca, type: 2}
+  - fromState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
+    toState: {fileID: 11400000, guid: b926e0ed3f2046d42884000822f111d5, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 7dd1fdd333ec7894c86ec4d1696e0cdb, type: 2}
+  - fromState: {fileID: 11400000, guid: b926e0ed3f2046d42884000822f111d5, type: 2}
+    toState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: d030d00eb2e0232459c5dfd13d7d0d45, type: 2}
