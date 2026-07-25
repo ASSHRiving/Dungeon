@@ -9,7 +9,7 @@ public class PlayerHealthSystem : CharacterHealthBase
     void Start()
     {
         deathText.gameObject.SetActive(false);
-        maxHealth = 100f;
+        maxHealth = 1000f;
         currentHealth = maxHealth;
         healthBar.fillAmount = currentHealth / maxHealth;
         healthText.text = $"{currentHealth}/{maxHealth}";
