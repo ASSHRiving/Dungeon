@@ -15,7 +15,9 @@ public class PlayerCombatSystem : CharacterCombatBase
     override protected void Awake()
     {
         base.Awake();
+
         weaponType = currentWeapon.weaponType;
+        _animator.runtimeAnimatorController = currentWeapon.overrideController;
         _animator.SetInteger("WeaponType", weaponType);
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         currentWeapon.GetComponent<Collider>().enabled = false;
