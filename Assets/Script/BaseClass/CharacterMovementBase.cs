@@ -111,7 +111,7 @@ namespace MoveBase{
             }
             return dir;
         }
-
+        
         public virtual void CharacterMoveInterface(Vector3 moveDirection, float moveSpeed, bool useGravity)
         {
             if (!CanAnimationMotion(moveDirection))
