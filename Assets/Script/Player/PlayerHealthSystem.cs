@@ -5,6 +5,13 @@ using TMPro;
 public class PlayerHealthSystem : CharacterHealthBase
 {
     [SerializeField] private TMP_Text deathText;
+    [Header("角色部位SkinnedMeshRenderer")]
+    [SerializeField] private SkinnedMeshRenderer HeadSkinnedMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer ChestSkinnedMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer ArmSkinnedMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer BeltSkinnedMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer LegSkinnedMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer FeetSkinnedMeshRenderer;
 
     void Start()
     {
@@ -47,6 +54,50 @@ public class PlayerHealthSystem : CharacterHealthBase
         foreach (var script in scriptsToDisable)
         {
             script.enabled = false;
+        }
+    }
+    
+    //換裝
+    public void ChangeHeadMesh(Mesh newMesh)
+    {
+        if (HeadSkinnedMeshRenderer != null && newMesh != null)
+        {
+            HeadSkinnedMeshRenderer.sharedMesh = newMesh;
+        }
+    }
+    public void ChangeChestMesh(Mesh newMesh)
+    {
+        if (ChestSkinnedMeshRenderer != null && newMesh != null)
+        {
+            ChestSkinnedMeshRenderer.sharedMesh = newMesh;
+        }
+    }
+    public void ChangeArmMesh(Mesh newMesh)
+    {
+        if (ArmSkinnedMeshRenderer != null && newMesh != null)
+        {
+            ArmSkinnedMeshRenderer.sharedMesh = newMesh;
+        }
+    }
+    public void ChangeBeltMesh(Mesh newMesh)
+    {
+        if (BeltSkinnedMeshRenderer != null && newMesh != null)
+        {
+            BeltSkinnedMeshRenderer.sharedMesh = newMesh;
+        }
+    }
+    public void ChangeLegMesh(Mesh newMesh)
+    {
+        if (LegSkinnedMeshRenderer != null && newMesh != null)
+        {
+            LegSkinnedMeshRenderer.sharedMesh = newMesh;
+        }
+    }
+    public void ChangeFeetMesh(Mesh newMesh)
+    {
+        if (FeetSkinnedMeshRenderer != null && newMesh != null)
+        {
+            FeetSkinnedMeshRenderer.sharedMesh = newMesh;
         }
     }
 }

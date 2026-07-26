@@ -392,6 +392,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2654933636403475984, guid: cff1d2687ff31724e848a8dcdc351ae8, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4377682408014979617, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
     - target: {fileID: 5296161146044912019, guid: cff1d2687ff31724e848a8dcdc351ae8, type: 3}
       propertyPath: m_Name
       value: Fighter
@@ -824,6 +828,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5911616715936334981, guid: ca78894e280d43342a5d8619887261b2, type: 3}
   m_PrefabInstance: {fileID: 1586585517}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5422607003739074231
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6516722024900925378, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_Name
+      value: Chest Armor Type 4 Color 1 Part
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.516
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.729
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.431
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836973967061212900, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e06088ec33fb0c4b9449ccbaba8dfdf, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -834,3 +895,4 @@ SceneRoots:
   - {fileID: 311422127}
   - {fileID: 1540747774}
   - {fileID: 632877306}
+  - {fileID: 5422607003739074231}

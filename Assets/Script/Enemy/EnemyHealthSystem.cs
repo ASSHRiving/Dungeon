@@ -6,6 +6,7 @@ using System.Collections;
 public class EnemyHealthSystem : CharacterHealthBase
 {
     [SerializeField] private GameObject lootPrefab;
+
     void Start()
     {
         maxHealth = 100f;
