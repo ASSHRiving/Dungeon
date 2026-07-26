@@ -21,6 +21,11 @@ public class Chest : MonoBehaviour, IInteractable
             isOpen = true;
             animator.SetBool("IsOpen", true);
             StartCoroutine(Wait());
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = LayerMask.NameToLayer("UnInteractable");
+            }
+            gameObject.layer = LayerMask.NameToLayer("UnInteractable");
         }
     }
     private void DropItem()
