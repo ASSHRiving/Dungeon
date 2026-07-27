@@ -17,7 +17,7 @@ public class SkeletonAttackState : StateActionSO
         if(animator != null)
         {
             animator.SetFloat("Speed", 0);
-            //animator.SetBool("Attack", true);
+            animator.SetBool("Attack", true);
         }
     }
 

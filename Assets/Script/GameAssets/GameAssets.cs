@@ -6,8 +6,9 @@ public class GameAssets : SingletonBase<GameAssets>
     [SerializeField,Header("資源")] private GameSoundSO soundAssets;
     [SerializeField, Header("相機")] private CinemachineCamera playerTPS;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         soundAssets.InitAssets();
     }
 
