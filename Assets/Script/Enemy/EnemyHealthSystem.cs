@@ -56,7 +56,7 @@ public class EnemyHealthSystem : CharacterHealthBase
             }
         }
         
-        healthBar.gameObject.SetActive(false);
+        healthUI.gameObject.SetActive(false);
         healthText.gameObject.SetActive(false);
         foreach (var script in scriptsToDisable)
         {

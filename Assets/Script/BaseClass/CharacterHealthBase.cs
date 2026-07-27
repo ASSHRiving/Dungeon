@@ -9,6 +9,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     [Header("血量")]
     public Image healthBar;
     public Image healthBarBuffer;
+    public Image healthUI;
     public TMP_Text healthText;
     protected float maxHealth;
     protected bool isDead = false;

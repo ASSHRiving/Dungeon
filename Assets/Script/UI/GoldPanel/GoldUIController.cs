@@ -16,7 +16,7 @@ public class GoldUIController : MonoBehaviour
     }
     private void UpdateGoldUI(int newGoldAmount)
     {
-        goldText.text = $"Gold: {newGoldAmount}";
+        goldText.text = newGoldAmount.ToString();
     }
 
 }
