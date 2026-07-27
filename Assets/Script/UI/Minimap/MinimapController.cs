@@ -43,15 +43,15 @@ public class MinimapController : MonoBehaviour
     // 打開面板時收聽廣播
     private void OnEnable()
     {
-        MinimapEvents.OnRoomSpawned += HandleRoomSpawned;
-        MinimapEvents.OnRoomEntered += HandlePlayerEnteredRoom;
+        UIEvents.OnRoomSpawned += HandleRoomSpawned;
+        UIEvents.OnRoomEntered += HandlePlayerEnteredRoom;
     }
 
     // 關閉面板時取消收聽 (防記憶體洩漏)
     private void OnDisable()
     {
-        MinimapEvents.OnRoomSpawned -= HandleRoomSpawned;
-        MinimapEvents.OnRoomEntered -= HandlePlayerEnteredRoom;
+        UIEvents.OnRoomSpawned -= HandleRoomSpawned;
+        UIEvents.OnRoomEntered -= HandlePlayerEnteredRoom;
     }
 
     private void Start()

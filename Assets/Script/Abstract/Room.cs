@@ -75,7 +75,7 @@ public abstract class Room : MonoBehaviour
             isVisited = true;
 
             // 【廣播】通知小地圖：玩家進這個房間了！
-            MinimapEvents.RoomEntered(this);
+            UIEvents.RoomEntered(this);
         }
     }
     public abstract void Init();
