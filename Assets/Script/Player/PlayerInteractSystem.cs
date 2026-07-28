@@ -18,34 +18,39 @@ public class PlayerInteractSystem : MonoBehaviour
     }
     private void OnInteract()
     {
-        if (_inputSystem.playerInteract)
+        int count = Physics.OverlapSphereNonAlloc(interactOrigin.position, interactDistance, colliders, interactMask);
+
+        IInteractable closestInteractable = null;
+        float closestDistance = Mathf.Infinity;
+        for (int i = 0; i < count; i++)
         {
-            int count = Physics.OverlapSphereNonAlloc(interactOrigin.position, interactDistance, colliders, interactMask);
+            IInteractable interactable = colliders[i].GetComponentInParent<IInteractable>();
 
-            IInteractable closestInteractable = null;
-            float closestDistance = Mathf.Infinity;
-            for (int i = 0; i < count; i++)
+            if (interactable != null)
             {
-
-                IInteractable interactable = colliders[i].GetComponentInParent<IInteractable>();
-
-                if (interactable != null)
+                float distance = Vector3.Distance(interactOrigin.position, colliders[i].transform.position);
+                if (distance < closestDistance)
                 {
-                    float distance = Vector3.Distance(interactOrigin.position, colliders[i].transform.position);
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        closestInteractable = interactable;
-                    }
+                    closestDistance = distance;
+                    closestInteractable = interactable;
                 }
             }
-            if(closestInteractable != null)
+        }
+        if(closestInteractable != null)
+        {
+            UIEvents.InteractableDetected(closestInteractable.interactableName);
+            if (_inputSystem.playerInteract)
             {
                 closestInteractable.Interact(transform);
                 Debug.Log($"正在與 {closestInteractable} 互動，距離為 {closestDistance}");
             }
-            System.Array.Clear(colliders, 0, colliders.Length);
         }
+        else
+        {
+            UIEvents.InteractableDetected(string.Empty);
+        }
+        System.Array.Clear(colliders, 0, colliders.Length);
+        
     }
 
     private void OnDrawGizmosSelected()

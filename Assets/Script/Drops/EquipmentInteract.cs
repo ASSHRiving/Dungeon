@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EquipmentInteract : MonoBehaviour, IInteractable
 {
+    [SerializeField] public string interactableName = "Equipment";
     enum EquipmentType { Head, Chest, Arm, Belt, Leg, Feet }
     [SerializeField] private EquipmentType equipmentType;
     [SerializeField] private Mesh newMesh;
@@ -34,4 +35,5 @@ public class EquipmentInteract : MonoBehaviour, IInteractable
         }
         Destroy(this.gameObject);
     }
+    string IInteractable.interactableName => interactableName;
 }

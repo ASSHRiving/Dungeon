@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Chest : MonoBehaviour, IInteractable
 {
+    [SerializeField] public string interactableName = "Chest";
+    string IInteractable.interactableName => interactableName;
     [SerializeField] private Transform dropPoint;
     [SerializeField] private GameObject itemPrefab;
     [Header("彈射力道")]

@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1a3625c3131184cba9e99e06fcb095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Chest
+  interactableName: "\u5BF6\u7BB1"
   dropPoint: {fileID: 1546239175246406018}
   itemPrefab: {fileID: 540466111648545420, guid: 8aef6ef72a30c4d4a8b74b2ccf56f507, type: 3}
   upForce: 3

@@ -25,4 +25,12 @@ public static class UIEvents
     {
         OnGoldChanged?.Invoke(newGoldAmount);
     }
+    //***************************************
+    // 事件廣播：交互
+    //***************************************
+    public static event Action<string> OnInteractableDetected;
+    public static void InteractableDetected(string interactableName)
+    {
+        OnInteractableDetected?.Invoke(interactableName);
+    }
 }

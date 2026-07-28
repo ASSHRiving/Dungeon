@@ -29,6 +29,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     {
         _animator = GetComponentInChildren<Animator>();
         _movement = GetComponent<CharacterMovementBase>();
+        _combat = GetComponentInChildren<CharacterCombatBase>();
         _audio = _movement.GetComponentInChildren<AudioSource>();
 
     }

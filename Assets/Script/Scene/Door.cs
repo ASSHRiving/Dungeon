@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
+    [SerializeField] public string interactableName = "Door";
+    string IInteractable.interactableName => interactableName;
     private bool openIn = false;
     private bool openOut = false;
     private Animator _animator;

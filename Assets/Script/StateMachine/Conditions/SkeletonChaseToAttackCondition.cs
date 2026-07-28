@@ -6,6 +6,6 @@ public class SkeletonChaseToAttackCondition : ConditionSO
     public override bool ConditionSetUp(StateMachineSystem stateMachineSystem)
     {
         EnemyCombatSystem combat = stateMachineSystem.combat;
-        return combat.GetCurrentTarget() != null && combat.GetCurrentTargetDistance() < 1.5f + 0.1f;
+        return combat.GetCurrentTarget() != null && combat.GetCurrentTargetDistance() < 1f + 0.1f;
     }
 }
