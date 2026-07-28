@@ -149,7 +149,7 @@ public class Generator : MonoBehaviour
             goTunnel.transform.position = ExitPos.position - (tunnelEntry.position - goTunnel.transform.position);
         }
         //旋轉房間
-        GameObject goB = Instantiate(prefab, Vector3.zero, ExitPos.rotation);
+        GameObject goB = Instantiate(prefab, Vector3.zero, Quaternion.identity);
         Room newRoom = goB.GetComponent<Room>();
         Room.Direction entryDir = GetOpposite(dir);
         Transform entryB = newRoom.GetExitAnchor(entryDir);
