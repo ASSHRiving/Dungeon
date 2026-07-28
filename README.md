@@ -1,5 +1,5 @@
 # Dungeon
-## 待完成
-* 攻擊限制移動
-* 開門動畫方向
-* 隨機生成死循環的補償機制
+## 額外房間規格
+* 門在南方(-Z)
+* 放Room腳本
+* 根物件放Collider設isTrigger以及Layer設RoomBounds
