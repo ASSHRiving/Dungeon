@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &540466111648545420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6371571882414390924}
+  - component: {fileID: 2743509012396275190}
+  - component: {fileID: 1810835281741932290}
+  - component: {fileID: 2758771242735464110}
+  - component: {fileID: 1431829045131785834}
+  m_Layer: 12
+  m_Name: ThunderSword
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6371571882414390924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540466111648545420}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5686739345914358080}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &2743509012396275190
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540466111648545420}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &1810835281741932290
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540466111648545420}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2120327, y: 0.4503064, z: 0.21783942}
+  m_Center: {x: -0.34680063, y: 0.007199183, z: -0.017725974}
+--- !u!114 &2758771242735464110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540466111648545420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60f232d8b049af42b69647bcd3ca4df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropsInteract
+--- !u!114 &1431829045131785834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540466111648545420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da491b4b094cab4e89c5dea04700bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThunderSword
+  weaponName: "\u96F7\u528D"
+  damage: 10
+  weaponType: 0
+  weaponSoundType: 1
+  overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
+  totalComboSteps: 5
+  comboResetTime: 2
+--- !u!1001 &552198161608531966
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6371571882414390924}
+    m_Modifications:
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654403910166112854, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_Name
+      value: FREE ONE HANDED SWORD 1 COLOR 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654403910166112854, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+--- !u!4 &5686739345914358080 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5278946654324176574, guid: c1f779f2e34d39041bfff6c9cfcd5d0b, type: 3}
+  m_PrefabInstance: {fileID: 552198161608531966}
+  m_PrefabAsset: {fileID: 0}
