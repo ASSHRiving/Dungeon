@@ -32,14 +32,12 @@ public class EnemyCombatSystem : CharacterCombatBase
                 if(Vector3.Dot((colliderTarget[0].transform.position - transform.root.position).normalized, transform.root.forward) > 0.4f)
                 {
                     currentTarget = colliderTarget[0].transform;
-                    detectionRange = 20f;
                 }
             }
         }
         else
         {
             currentTarget = null;
-            detectionRange = 7f;
         }
     }
 
