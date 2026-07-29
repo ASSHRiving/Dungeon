@@ -33,4 +33,12 @@ public static class UIEvents
     {
         OnInteractableDetected?.Invoke(interactableName);
     }
+    //***************************************
+    // 事件廣播：確認對話框
+    //***************************************
+    public static event Action<string, Action> OnConfirmDialogRequested;
+    public static void ConfirmDialogRequested(string message, Action onConfirm)
+    {
+        OnConfirmDialogRequested?.Invoke(message, onConfirm);
+    }
 }
