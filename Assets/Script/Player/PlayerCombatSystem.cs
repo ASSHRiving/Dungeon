@@ -33,11 +33,6 @@ public class PlayerCombatSystem : CharacterCombatBase
         CancelAttackMove();
     }
 
-    private void LateUpdate()
-    {
-        
-    }
-
     private void PlayerAttackAction()
     {
         if (_inputSystem.playerLAtk && canAttack)
@@ -48,11 +43,20 @@ public class PlayerCombatSystem : CharacterCombatBase
         }
     }
 
+    //攻擊時AnimationMove參數
     private void ActionMotion()
     {
         if (_animator.CheckAnimationTag("Attack"))
         {
             _movement.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMoveID)*4f, true);
+        }
+    }
+    private void CancelAttackMove()
+    {
+        if(inAttack && canAttack && _animator.GetFloat(speedID) > 0.2)
+        {
+            _animator.CrossFade("Motion", 0.1f);
+            inAttack = false;
         }
     }
 
@@ -70,7 +74,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         {
             if (_animator.CheckAnimationTag("Attack"))
             {
-                if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.75f)
+                if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.65f)
                 {
                     return true;
                 }

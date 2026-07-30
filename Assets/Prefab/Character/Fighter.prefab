@@ -867,7 +867,6 @@ GameObject:
   - component: {fileID: 7438975341950709959}
   - component: {fileID: 5324268793043561956}
   - component: {fileID: 1285138609084005044}
-  - component: {fileID: 6697926107342612025}
   - component: {fileID: 848648934799149219}
   - component: {fileID: 4199189281554686236}
   - component: {fileID: 7394777579722637470}
@@ -963,29 +962,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6697926107342612025
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5296161146044912019}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &848648934799149219
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1093,7 +1069,7 @@ MonoBehaviour:
   characterCurrentMoveSpeed: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 4160
+    m_Bits: 28736
   groundDetectionOffset: 0.7
   groundDetectionRang: 0.53
   slopRayExtent: 5

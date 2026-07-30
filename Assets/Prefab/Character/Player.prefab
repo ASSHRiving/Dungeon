@@ -1128,6 +1128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthSystem
   healthBar: {fileID: 1077894331638576700}
   healthBarBuffer: {fileID: 867374025076862527}
+  healthUI: {fileID: 0}
   healthText: {fileID: 7306819253640484099}
   currentHealth: 0
   scriptsToDisable:
@@ -1137,6 +1138,12 @@ MonoBehaviour:
   - {fileID: 7875470571385674825}
   - {fileID: 3799769169699531540}
   deathText: {fileID: 2788565178956098979}
+  HeadSkinnedMeshRenderer: {fileID: 0}
+  ChestSkinnedMeshRenderer: {fileID: 0}
+  ArmSkinnedMeshRenderer: {fileID: 0}
+  BeltSkinnedMeshRenderer: {fileID: 0}
+  LegSkinnedMeshRenderer: {fileID: 0}
+  FeetSkinnedMeshRenderer: {fileID: 0}
 --- !u!114 &8161352174788292823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1153,7 +1160,7 @@ MonoBehaviour:
   interactDistance: 2
   interactMask:
     serializedVersion: 2
-    m_Bits: 4161
+    m_Bits: 20545
 --- !u!1 &5711601504889235346
 GameObject:
   m_ObjectHideFlags: 0

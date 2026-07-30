@@ -76,14 +76,6 @@ namespace CombatBase{
         {
             canAttack = true;
         }
-        protected void CancelAttackMove()
-        {
-            if(inAttack && canAttack && _animator.GetFloat(speedID) > 0.2)
-            {
-                _animator.CrossFade("Motion", 0.1f);
-                inAttack = false;
-            }
-        }
 
         public void OnDrawGizmos()
         {
