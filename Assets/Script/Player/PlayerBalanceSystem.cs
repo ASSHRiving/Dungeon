@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerBalanceSystem : MonoBehaviour
 {
-    private int balance = 0;
+    [SerializeField] private int balance = 0;
     private void Start()
     {
         // 初始化金幣數量
-        balance = 0;
+        balance = 50;
         // 廣播初始金幣數量
         UIEvents.GoldChanged(balance);
     }

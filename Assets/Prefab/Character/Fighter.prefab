@@ -980,7 +980,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -1161,7 +1161,7 @@ MonoBehaviour:
   interactDistance: 2
   interactMask:
     serializedVersion: 2
-    m_Bits: 4161
+    m_Bits: 20545
 --- !u!114 &-7888419797347820551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1174,6 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fd03b152aff08d44b3000d79ce981f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBalanceSystem
+  balance: 50
 --- !u!1 &5711601504889235346
 GameObject:
   m_ObjectHideFlags: 0

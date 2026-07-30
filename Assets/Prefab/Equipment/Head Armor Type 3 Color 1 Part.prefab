@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7746123126032516944}
   - component: {fileID: 7690353225819240580}
   - component: {fileID: 7771259105098036503}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Head Armor Type 3 Color 1 Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
+  interactableName: Equipment
   equipmentType: 0
   newMesh: {fileID: -7778868580684279803, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
 --- !u!54 &7690353225819240580

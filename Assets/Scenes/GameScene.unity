@@ -1343,7 +1343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1394571031
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1489,7 +1489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd2a54576b7cf646baa6307cf843e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConfirmDialogController
-  dialogPanel: {fileID: 1503892960}
+  dialogPanel: {fileID: 1394571030}
   messageText: {fileID: 812519446}
   confirmButton: {fileID: 1007032616}
   cancelButton: {fileID: 185406462}
@@ -2160,9 +2160,9 @@ MonoBehaviour:
   roomPrefabs:
   - {fileID: 796204459928682492, guid: 8af1a4eafcc11ba4d841a11c2697f4fe, type: 3}
   extraRoomPrefabs:
-  - {fileID: 2775199441071096789, guid: ebc00af521394464ba380f216e09d9f0, type: 3}
+  - {fileID: 3477438163347099500, guid: 105924fc30d484a40a7c8e9bd60bdf48, type: 3}
   tunnelPrefab: {fileID: 2029260646705554994, guid: 6493523c5afc08c43bd997b456f5fd48, type: 3}
-  count: 3
+  count: 1
   roomBoundsLayer:
     serializedVersion: 2
     m_Bits: 512

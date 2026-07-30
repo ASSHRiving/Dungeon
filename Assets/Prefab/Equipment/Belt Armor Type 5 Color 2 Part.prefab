@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6743662963648984342}
   - component: {fileID: 3663562518921153374}
   - component: {fileID: 3976491933385391214}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Belt Armor Type 5 Color 2 Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
+  interactableName: Equipment
   equipmentType: 3
   newMesh: {fileID: -1208368784549177018, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
 --- !u!65 &3663562518921153374

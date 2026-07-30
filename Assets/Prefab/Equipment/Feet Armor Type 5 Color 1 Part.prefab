@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4872622379103946051}
   - component: {fileID: 1563724885158627152}
   - component: {fileID: 4158126264633105830}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Feet Armor Type 5 Color 1 Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
+  interactableName: Equipment
   equipmentType: 5
   newMesh: {fileID: -6414558946176181594, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
 --- !u!65 &1563724885158627152

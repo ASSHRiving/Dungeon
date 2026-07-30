@@ -3,12 +3,13 @@ using UnityEngine;
 public class ShopTableInteract : MonoBehaviour, IInteractable
 {
 
-    [SerializeField] private GameObject itemPrefab;
+    [SerializeField] private GameObject itemGO;
+    [SerializeField] Transform itemPoint;
 
-    string IInteractable.interactableName => itemPrefab.name;
+    string IInteractable.interactableName => itemGO.name;
     private void Start()
     {
-        itemPrefab.SetActive(false);
+        itemGO.layer = LayerMask.NameToLayer("UnInteractable");
     }
 
     public void Interact(Transform player)
@@ -25,6 +26,10 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
                     playerBalance.SpendCoin(itemCost);
                     Debug.Log($"購買成功！花費 {itemCost} 金幣。");
                     // 在這裡可以添加購買成功後的邏輯，例如給玩家物品等
+                    
+                    itemGO.layer = LayerMask.NameToLayer("Interactable");
+                    gameObject.layer = LayerMask.NameToLayer("UnInteractable");
+
                 }
                 else
                 {
@@ -32,6 +37,24 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
                 }
             }
         });
+    }
+
+    private void DropItem()
+    {
+        if(itemGO == null || itemPoint == null) return;
+        itemGO.layer = LayerMask.NameToLayer("Interactable");
+        Rigidbody rb = itemGO.GetComponentInChildren<Rigidbody>();
+        if(rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+
+            float randomRightForce = Random.Range(-1.5f, 1.5f);
+            Vector3 dir = itemPoint.up * 1f + itemPoint.forward * 1f + itemPoint.right * randomRightForce;
+            rb.AddForce(dir, ForceMode.Impulse);
+            float randomTorque = Random.Range(-0.05f, 0.05f);
+            rb.AddTorque(new Vector3(randomTorque, randomTorque, randomTorque), ForceMode.Impulse);
+        }
     }
 
 }

@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 4493625834194185749}
   - component: {fileID: 1971774320337729474}
   - component: {fileID: 159130329623216859}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_Middle Variant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb0755804b20b24c8f3a224c23546ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  interactableName: Door
 --- !u!1 &796204459928682492
 GameObject:
   m_ObjectHideFlags: 0
@@ -1806,7 +1807,7 @@ GameObject:
   - component: {fileID: 1385040648122467730}
   - component: {fileID: 3907173457104673861}
   - component: {fileID: 3409629485926345052}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_Middle Variant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2655,7 +2656,7 @@ GameObject:
   - component: {fileID: 261329861431444045}
   - component: {fileID: 2783744297861438362}
   - component: {fileID: 4596388296612228739}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_Middle Variant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2968,6 +2969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb0755804b20b24c8f3a224c23546ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  interactableName: Door
 --- !u!1 &4708467769728252346
 GameObject:
   m_ObjectHideFlags: 0
@@ -3336,6 +3338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb0755804b20b24c8f3a224c23546ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  interactableName: Door
 --- !u!1 &5894964810713726565
 GameObject:
   m_ObjectHideFlags: 0
@@ -3867,7 +3870,7 @@ GameObject:
   - component: {fileID: 859848302991072312}
   - component: {fileID: 63365219622642923}
   - component: {fileID: 2553621555826303372}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_Middle Variant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4978,6 +4981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb0755804b20b24c8f3a224c23546ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  interactableName: Door
 --- !u!1 &9083576845854490437
 GameObject:
   m_ObjectHideFlags: 0
