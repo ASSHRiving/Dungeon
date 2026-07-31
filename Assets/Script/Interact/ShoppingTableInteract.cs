@@ -1,14 +1,23 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ShopTableInteract : MonoBehaviour, IInteractable
 {
 
-    [SerializeField] private GameObject itemGO;
+    [SerializeField] private List<GameObject> itemList;
+    private GameObject itemGO;
     [SerializeField] Transform itemPoint;
 
-    string IInteractable.interactableName => itemGO.name;
+    public string interactableName => itemGO != null ? itemGO.name : "購物桌";
+
+
     private void Start()
     {
+        init();
+    }
+    public void init()
+    {
+        itemGO = Instantiate(itemList[Random.Range(0, itemList.Count)], itemPoint.position, itemPoint.rotation, itemPoint);
         itemGO.layer = LayerMask.NameToLayer("UnInteractable");
     }
 
@@ -27,6 +36,10 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
                     Debug.Log($"購買成功！花費 {itemCost} 金幣。");
                     // 在這裡可以添加購買成功後的邏輯，例如給玩家物品等
                     
+                    foreach (Transform child in transform)
+                    {
+                        child.gameObject.layer = LayerMask.NameToLayer("UnInteractable");
+                    }
                     itemGO.layer = LayerMask.NameToLayer("Interactable");
                     gameObject.layer = LayerMask.NameToLayer("UnInteractable");
 
