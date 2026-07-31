@@ -13,7 +13,7 @@ namespace CombatBase{
         [SerializeField, Header("攻擊範圍")] protected Transform attackRangeCenter;
         [SerializeField] protected float attackRangeRadius;
         [SerializeField] protected LayerMask whatIsEnemy;
-        [SerializeField] protected Weapon currentWeapon;
+        [SerializeField] public Weapon currentWeapon;
         protected int weaponType;
         protected SoundAssetsType weaponSoundType;
 
@@ -27,7 +27,7 @@ namespace CombatBase{
         
 
         public bool canAttack = true;
-        protected bool inAttack = false;
+        public bool inAttack = false;
 
         protected virtual void Awake()
         {

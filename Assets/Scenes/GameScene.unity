@@ -1507,11 +1507,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3426146304949186138, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
       propertyPath: Radius
-      value: 2.01
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3426146304949186138, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
       propertyPath: TargetOffset.y
       value: 0.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426146304949186138, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
+      propertyPath: VerticalAxis.Range.x
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426146304949186138, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
+      propertyPath: VerticalAxis.Range.y
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3889111247039525227, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
       propertyPath: m_LocalPosition.x

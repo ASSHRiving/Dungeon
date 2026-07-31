@@ -4,7 +4,6 @@ public abstract class Melee : Weapon
 {
     [Header("連段設定")]
     [SerializeField] protected int totalComboSteps = 5;      // 總共有幾段
-    protected int currentCombo = 0;      // 目前走到第幾段
     [SerializeField] protected float comboResetTime = 1.0f;  // 超過多久沒按就重設
     protected float lastAttackTime;
     public override void Attack(Animator anim)
@@ -12,14 +11,14 @@ public abstract class Melee : Weapon
         // 1. 判斷是否重置連段
         if (Time.time - lastAttackTime > comboResetTime)
         {
-            currentCombo = 0;
+            combo = 0;
         }
 
-        currentCombo++;
-        if (currentCombo > totalComboSteps) currentCombo = 1;
+        combo++;
+        if (combo > totalComboSteps) combo = 1;
 
         // 2. 執行攻擊動作
-        AttackAnimation(anim, currentCombo);
+        AttackAnimation(anim, combo);
 
         // 3. 更新計時與狀態
         lastAttackTime = Time.time;

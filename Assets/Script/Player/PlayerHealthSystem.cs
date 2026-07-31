@@ -39,6 +39,7 @@ public class PlayerHealthSystem : CharacterHealthBase
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
         _combat.canAttack = true;
+        _combat.currentWeapon.combo = 0;
         if (currentHealth <= 0)
         {
             Die();
