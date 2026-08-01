@@ -6,6 +6,11 @@ public class EquipmentInteract : MonoBehaviour, IInteractable
     enum EquipmentType { Head, Chest, Arm, Belt, Leg, Feet }
     [SerializeField] private EquipmentType equipmentType;
     [SerializeField] private Mesh newMesh;
+    [SerializeField] private int price;
+    public int GetPrice()
+    {
+        return price;
+    }
     public void Interact(Transform player)
     {
         PlayerHealthSystem health = player.GetComponentInChildren<PlayerHealthSystem>();
