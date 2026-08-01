@@ -79,7 +79,7 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.Save();
 
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     // ==========================================
