@@ -1,12 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MinimapController : MonoBehaviour
 {
+    public enum MinimapMode
+    {
+        RotateMap, // 旋轉地圖（以玩家視角為前方）
+        FixedMap   // 固定地圖（以正北北方為上方，旋轉指針）
+    }
+    [Header("模式設定")]
+    public MinimapMode currentMode = MinimapMode.RotateMap; // 預設模式
     [Header("UI 相關繫結")]
     public RectTransform mapContainer;       // 負責「旋轉」的容器 (MapContainer)
     public RectTransform mapContent;         // 負責「位移」的容器 (MapContent)
+    public RectTransform playerIcon;         // 玩家指針 (UI_PlayerIcon)
+    public TMP_Dropdown modeDropdown;        // 下拉選單 (UI_Dropdown) 用於切換模式
     public GameObject roomNodePrefab;        // UI_RoomNode Prefab
     public GameObject connectionLinePrefab;  // UI_ConnectionLine Prefab
 
@@ -35,7 +45,7 @@ public class MinimapController : MonoBehaviour
         public Room roomB;
         public GameObject lineGO;
     }
-    private List<UIConnection> allConnections = new List<UIConnection>();
+    private List<UIConnection> allConnections = new List<UIConnection>();  // 紀錄所有的 UI 通道連接資訊
 
     // 目標 UI 偏移量與角度
     private Vector2 targetMapPosition = Vector2.zero;
@@ -47,7 +57,7 @@ public class MinimapController : MonoBehaviour
         UIEvents.OnRoomEntered += HandlePlayerEnteredRoom;
     }
 
-    // 關閉面板時取消收聽 (防記憶體洩漏)
+    // 關閉面板時取消收聽
     private void OnDisable()
     {
         UIEvents.OnRoomSpawned -= HandleRoomSpawned;
@@ -60,6 +70,14 @@ public class MinimapController : MonoBehaviour
         {
             playerTransform = Camera.main.transform;
         }
+        // 讀取玩家先前的設定紀錄 (預設為 0: RotateMap)
+        int savedMode = PlayerPrefs.GetInt("MinimapModeSetting", (int)MinimapMode.RotateMap);
+        SetMinimapMode((MinimapMode)savedMode);
+        if (modeDropdown != null)
+        {
+            modeDropdown.value = savedMode;
+            modeDropdown.RefreshShownValue(); // 刷新顯示文字
+        }
     }
 
     private void Update()
@@ -71,18 +89,74 @@ public class MinimapController : MonoBehaviour
             Time.deltaTime * moveSmoothSpeed
         );
 
-        // 2. 隨玩家面向旋轉地圖 (地圖旋轉方向要跟玩家 Y 軸相反)
-        if (playerTransform != null)
-        {
-            float playerYRotation = playerTransform.eulerAngles.y;
-            Quaternion targetRotation = Quaternion.Euler(0f, 0f, playerYRotation);
+        UpdateMapRotation();
+    }
+    private void UpdateMapRotation()
+    {
+        if (playerTransform == null) return;
 
+        float playerYRotation = playerTransform.eulerAngles.y;
+
+        if (currentMode == MinimapMode.RotateMap)
+        {
+            // 【方案 A：轉地圖】
+            // 1. 地圖容器往反方向旋轉
+            Quaternion targetMapRot = Quaternion.Euler(0f, 0f, playerYRotation);
             mapContainer.rotation = Quaternion.Slerp(
                 mapContainer.rotation, 
-                targetRotation, 
+                targetMapRot, 
                 Time.deltaTime * rotateSmoothSpeed
             );
+
+            // 2. 玩家指針歸零，永遠朝正上方 (0 度)
+            if (playerIcon != null)
+            {
+                playerIcon.localRotation = Quaternion.Slerp(
+                    playerIcon.localRotation, 
+                    Quaternion.identity, 
+                    Time.deltaTime * rotateSmoothSpeed
+                );
+            }
         }
+        else if (currentMode == MinimapMode.FixedMap)
+        {
+            // 【方案 B：固定地圖轉指針】
+            // 1. 地圖容器角度歸零 (正北向上)
+            mapContainer.rotation = Quaternion.Slerp(
+                mapContainer.rotation, 
+                Quaternion.identity, 
+                Time.deltaTime * rotateSmoothSpeed
+            );
+
+            // 2. 玩家指針跟隨玩家 Y 軸轉動 (UI 的 Z 軸旋轉要加負號，因為 UI 旋轉方向相反)
+            if (playerIcon != null)
+            {
+                Quaternion targetIconRot = Quaternion.Euler(0f, 0f, -playerYRotation);
+                playerIcon.localRotation = Quaternion.Slerp(
+                    playerIcon.localRotation, 
+                    targetIconRot, 
+                    Time.deltaTime * rotateSmoothSpeed
+                );
+            }
+        }
+    }
+    /// <summary>
+    /// 提供給 UI 設定面板或外部呼叫的動態切換接口
+    /// </summary>
+    public void SetMinimapMode(MinimapMode newMode)
+    {
+        currentMode = newMode;
+        // 儲存設定到本地檔案
+        PlayerPrefs.SetInt("MinimapModeSetting", (int)newMode);
+        PlayerPrefs.Save();
+    }
+
+    /// <summary>
+    /// UI Dropdown (下拉選單) 用的 Int 轉換接口
+    /// </summary>
+    public void SetMinimapModeFromDropdown(int modeIndex)
+    {
+        SetMinimapMode((MinimapMode)modeIndex);
     }
 
     // 收到「房間生成」時執行

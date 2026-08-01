@@ -40,7 +40,7 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
     public void Interact(Transform player)
     {
         // 觸發確認對話框事件
-        UIEvents.ConfirmDialogRequested($"你想要購買這個物品嗎？\n{interactableItem.interactableName} {interactableItem.GetPrice()}", () =>
+        UIEvents.ConfirmDialogRequested($"你想要購買這個物品嗎？\n{interactableItem.interactableName} {interactableItem.GetPrice()} 金幣", () =>
         {
             PlayerBalanceSystem playerBalance = player.GetComponent<PlayerBalanceSystem>();
             if (playerBalance != null)
