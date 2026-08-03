@@ -53,6 +53,18 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     private void PlayerMoveDirection()
     {
+        if(characterCamera == null)
+        {
+            if(Camera.main != null)
+            {
+                characterCamera = Camera.main.transform;
+            }
+            else
+            {
+                Debug.LogWarning("找不到主相機，請確保場景中有一個標記為 MainCamera 的相機。");
+                return;
+            }
+        }
         
         if (isOnGround && _inputSystem.playerMovement == Vector2.zero)
             movementDirection = Vector3.zero;

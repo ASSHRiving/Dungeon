@@ -6,10 +6,12 @@ public class Generator : MonoBehaviour
 {
     [Header("Room Prefabs")]
     [SerializeField] private GameObject startRoomPrefab;
+    [SerializeField] private GameObject endRoomPrefab;
     [SerializeField] private List<GameObject> roomPrefabs;
     [SerializeField] private List<GameObject> extraRoomPrefabs;
     [SerializeField] private GameObject tunnelPrefab;
-    [SerializeField] private int count = 5;
+    [SerializeField] private int count;
+    [SerializeField] private int level = 1;
     private List<Room> spawnedRooms = new List<Room>();
     private List<Room> extraRooms = new List<Room>();
     public LayerMask roomBoundsLayer;
@@ -21,6 +23,13 @@ public class Generator : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
+
+        if(GameManager.Instance != null)
+        {
+            level = GameManager.Instance.currentLevel;
+        }
+        count = level;
+        Debug.Log($"[Generator] 開始生成第 {level} 關地圖，目標房間數：{count}");
         Generate();
         InitRooms();
     }
@@ -60,6 +69,23 @@ public class Generator : MonoBehaviour
             prevRoom = currentRoom;
             currentRoom = nextRoom;
             spawnedRooms.Add(currentRoom);
+        }
+        //生成終點房間
+        while (true)
+        {
+            if(trys > 5)
+            {
+                Debug.LogWarning("終點房間生成失敗，請檢查房間配置！");
+                break;
+            }
+            Room.Direction dir = (Room.Direction)Random.Range(0, 4);
+            nextRoom = SpawnRoom(endRoomPrefab, dir, currentRoom);
+            if(nextRoom != null)
+            {
+                //spawnedRooms.Add(nextRoom);
+                break;
+            }
+            trys++;
         }
         GenerateExtraRooms();
         if (navMeshSurface != null)

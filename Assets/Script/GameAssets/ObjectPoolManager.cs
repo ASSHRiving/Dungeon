@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 
 public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
 {
@@ -14,6 +15,14 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
     {
         base.Awake(); // 🎯 呼叫父類 Awake
         InitCoinPool();
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void InitCoinPool()
@@ -50,5 +59,13 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
         }
 
         return coin;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 當場景切換時，重置金幣池
+        if (_coinPool != null)
+        {
+            _coinPool.Clear();
+        }
     }
 }

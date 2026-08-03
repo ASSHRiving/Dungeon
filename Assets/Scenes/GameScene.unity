@@ -2833,6 +2833,7 @@ MonoBehaviour:
   - {fileID: 2775199441071096789, guid: ebc00af521394464ba380f216e09d9f0, type: 3}
   tunnelPrefab: {fileID: 2029260646705554994, guid: 6493523c5afc08c43bd997b456f5fd48, type: 3}
   count: 5
+  level: 1
   roomBoundsLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -6213,6 +6214,7 @@ GameObject:
   - component: {fileID: 2114352891}
   - component: {fileID: 2114352890}
   - component: {fileID: 2114352892}
+  - component: {fileID: 2114352893}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6263,6 +6265,19 @@ MonoBehaviour:
   coinPrefab: {fileID: 5771507442965416563, guid: da4dfac2e17a0ce478b76b4f9e4dcf91, type: 3}
   defaultPoolSize: 20
   maxPoolSize: 100
+--- !u!114 &2114352893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114352889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3637251720f0efc46865e5aaf1fafd8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  currentLevel: 1
 --- !u!1 &2124723580
 GameObject:
   m_ObjectHideFlags: 0
@@ -6450,5 +6465,5 @@ SceneRoots:
   - {fileID: 1010441714}
   - {fileID: 1141607614}
   - {fileID: 1567578866}
-  - {fileID: 2018399591}
   - {fileID: 1626766617}
+  - {fileID: 2018399591}

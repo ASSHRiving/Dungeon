@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBalanceSystem : MonoBehaviour
 {
@@ -8,6 +9,18 @@ public class PlayerBalanceSystem : MonoBehaviour
         // 初始化金幣數量
         balance = 50;
         // 廣播初始金幣數量
+        UIEvents.GoldChanged(balance);
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         UIEvents.GoldChanged(balance);
     }
     public void AddCoin(int amount)

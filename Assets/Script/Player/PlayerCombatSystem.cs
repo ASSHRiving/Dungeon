@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using CombatBase;
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class PlayerCombatSystem : CharacterCombatBase
 {
@@ -169,6 +169,7 @@ public class PlayerCombatSystem : CharacterCombatBase
             currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
             currentWeapon.GetComponent<Collider>().enabled = true;
             currentWeapon.transform.SetParent(null);
+            SceneManager.MoveGameObjectToScene(currentWeapon.gameObject, SceneManager.GetActiveScene());
 
         }
         //撿起新武器

@@ -8,7 +8,29 @@ public class StartRoom : Room
     [SerializeField] private Transform playerSpawnPoint;
     public override void Init()
     {
-        GameObject playerGo = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
+        //場上唯一Player
+        GameObject playerGo = GameObject.FindGameObjectWithTag("Player");
+        if(playerGo != null)
+        {
+            CharacterController characterController = playerGo.GetComponent<CharacterController>();
+            if(characterController != null)
+            {
+                characterController.enabled = false;
+                playerGo.transform.position = playerSpawnPoint.position;
+                characterController.enabled = true;
+            }
+            else
+            {
+                playerGo.transform.position = playerSpawnPoint.position;
+            }
+        }
+        else
+        {
+            playerGo = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
+        }
+        DontDestroyOnLoad(playerGo);
+
+        // 設定相機追蹤玩家
         GameObject playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera");
         if(playerCamera != null && playerCamera.TryGetComponent<CinemachineCamera>(out var camera))
         {
