@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 
 public class Chest : MonoBehaviour, IInteractable
@@ -6,12 +7,19 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField] public string interactableName = "Chest";
     string IInteractable.interactableName => interactableName;
     [SerializeField] private Transform dropPoint;
-    [SerializeField] private GameObject itemPrefab;
+    [SerializeField] private List<GameObject> itemList;
+    private GameObject itemPrefab;
+
     [Header("彈射力道")]
     [SerializeField] private float upForce;
     [SerializeField] private float forwardForce;
     private bool isOpen = false;
     private Animator animator;
+    
+    private void Awake()
+    {
+        itemPrefab = itemList[Random.Range(0, itemList.Count)];
+    }
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -50,7 +58,7 @@ public class Chest : MonoBehaviour, IInteractable
     }
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         DropItem();
     }
 }

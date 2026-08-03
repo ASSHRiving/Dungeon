@@ -85,7 +85,10 @@ public class SettingsController : MonoBehaviour
     public void CloseSettings()
     {
         _inputSystem = FindPlayerInput();
-        _inputSystem.SwitchCurrentActionMap("Player");
+        if(_inputSystem != null)
+        {
+            _inputSystem.SwitchCurrentActionMap("Player");
+        }
 
         isSettingsOpen = false;
         settingsPanel.SetActive(false);

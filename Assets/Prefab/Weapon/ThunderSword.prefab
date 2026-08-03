@@ -110,8 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThunderSword
   weaponName: "\u96F7\u528D"
-  damage: 10
+  damage: 30
   weaponType: 0
+  combo: 0
   weaponSoundType: 1
   overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
   totalComboSteps: 5

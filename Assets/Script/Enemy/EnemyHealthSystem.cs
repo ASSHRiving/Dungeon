@@ -9,7 +9,7 @@ public class EnemyHealthSystem : CharacterHealthBase
 
     void Start()
     {
-        maxHealth = 100f;
+        maxHealth = 50f;
         currentHealth = maxHealth;
         healthBar.fillAmount = currentHealth / maxHealth;
         healthText.text = $"{currentHealth}/{maxHealth}";
