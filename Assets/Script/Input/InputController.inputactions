@@ -3,7 +3,7 @@
     "name": "InputController",
     "maps": [
         {
-            "name": "PlayerInput",
+            "name": "Player",
             "id": "8f04a579-6f02-49fa-bad5-567dc2dd9991",
             "actions": [
                 {
@@ -82,6 +82,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "8e84290b-d3a7-42e0-b871-8ccbbbf2a43e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Esc",
+                    "type": "Button",
+                    "id": "534f8647-111e-4813-a5f1-6c59dc5af1b7",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -229,6 +238,45 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ee9ed01-566f-4cd9-8cc0-7fb5eafefabd",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Esc",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "574c9178-22dd-41d9-9198-baa1934c24e4",
+            "actions": [
+                {
+                    "name": "Esc",
+                    "type": "Button",
+                    "id": "0da929a5-b259-41f7-b266-262f4ed74e6b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5fa9ba7c-4123-466a-ac31-7cd254412d8e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Esc",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,90 +1,99 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Cinemachine;
+using UnityEngine.InputSystem;
 
-public class SettingsManager : MonoBehaviour
+public class SettingsController : MonoBehaviour
 {
     [Header("UI 面板綁定")]
-    public GameObject settingsPanel;       // SettingsPanel 物件
+    [SerializeField] private GameObject settingsPanel;
 
     [Header("設定 UI 元件")]
-    public TMP_Dropdown minimapDropdown;   // 小地圖模式 Dropdown
+    [SerializeField] private TMP_Dropdown minimapDropdown;
+    [SerializeField] private Slider horizontalSlider;
+    [SerializeField] private Slider verticalSlider;
 
     [Header("其他控制器參照")]
-    public MinimapController minimapController;
+    [SerializeField] private MinimapController minimapController;
+    [SerializeField] private CinemachineInputAxisController cameraInput;
 
-    private bool isSettingsOpen = false;
+    private bool isSettingsOpen;
+    private PlayerInput _inputSystem;
+
+    public bool IsSettingsOpen => isSettingsOpen;
 
     private void Start()
     {
-        // 1. 初始化小地圖 UI 狀態
         int savedMinimapMode = PlayerPrefs.GetInt("MinimapModeSetting", 0);
         if (minimapDropdown != null)
         {
             minimapDropdown.value = savedMinimapMode;
             minimapDropdown.RefreshShownValue();
-            
-            // 監聽 Dropdown 切換事件
             minimapDropdown.onValueChanged.AddListener(OnMinimapModeChanged);
         }
 
-        // 確保進入遊戲時選單是關閉的
+        float savedHorizontalSensitivity = PlayerPrefs.GetFloat("HorizontalSensitivity", 6f);
+        float savedVerticalSensitivity = PlayerPrefs.GetFloat("VerticalSensitivity", 6f);
+
+        if (horizontalSlider != null)
+        {
+            horizontalSlider.SetValueWithoutNotify(savedHorizontalSensitivity);
+        }
+        ChangeHorizontalSensitivity(savedHorizontalSensitivity);
+
+        if (verticalSlider != null)
+        {
+            verticalSlider.SetValueWithoutNotify(savedVerticalSensitivity);
+        }
+        ChangeVerticalSensitivity(savedVerticalSensitivity);
+
         CloseSettings();
     }
-
     private void Update()
     {
-        // 按下 ESC 鍵切換開啟/關閉
-        if (Input.GetKeyDown(KeyCode.Escape))
+        _inputSystem = FindPlayerInput();
+        if(_inputSystem != null && _inputSystem.actions["Esc"].triggered)
         {
-            ToggleSettings();
+            if (isSettingsOpen)
+            {
+                CloseSettings();
+            }
         }
     }
-
-    /// <summary>
-    /// 切換設定選單狀態
-    /// </summary>
-    public void ToggleSettings()
+    private PlayerInput FindPlayerInput()
     {
-        isSettingsOpen = !isSettingsOpen;
-
-        if (isSettingsOpen)
+        if(_inputSystem == null)
         {
-            OpenSettings();
+            _inputSystem = FindFirstObjectByType<PlayerInput>();
         }
-        else
-        {
-            CloseSettings();
-        }
+        return _inputSystem;
     }
 
     public void OpenSettings()
     {
+        _inputSystem = FindPlayerInput();
+        _inputSystem.SwitchCurrentActionMap("UI");
+
         isSettingsOpen = true;
         settingsPanel.SetActive(true);
-        Time.timeScale = 0f; // ⏸️ 暫停遊戲時間
-        
-        // 可在此解鎖/顯示滑鼠游標（如果是 FPS/3D 遊戲）
+        Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //Cursor.visible = true;
     }
 
     public void CloseSettings()
     {
+        _inputSystem = FindPlayerInput();
+        _inputSystem.SwitchCurrentActionMap("Player");
+
         isSettingsOpen = false;
         settingsPanel.SetActive(false);
-        Time.timeScale = 1f; // ▶️ 恢復遊戲時間
-
-        // 保存所有設定
+        Time.timeScale = 1f;
         PlayerPrefs.Save();
-
         Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
     }
-
-    // ==========================================
-    // ⚙️ 各項設定觸發的回呼函式 (Event Callbacks)
-    // ==========================================
 
     private void OnMinimapModeChanged(int modeIndex)
     {
@@ -94,9 +103,25 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
-    private void OnVolumeChanged(float volume)
+    public void ChangeHorizontalSensitivity(float value)
     {
-        AudioListener.volume = volume; // 動態修改全局音量
-        PlayerPrefs.SetFloat("MasterVolumeSetting", volume);
+        if (cameraInput == null || cameraInput.Controllers.Count < 1)
+        {
+            return;
+        }
+
+        cameraInput.Controllers[0].Input.Gain = value;
+        PlayerPrefs.SetFloat("HorizontalSensitivity", value);
+    }
+
+    public void ChangeVerticalSensitivity(float value)
+    {
+        if (cameraInput == null || cameraInput.Controllers.Count < 2)
+        {
+            return;
+        }
+
+        cameraInput.Controllers[1].Input.Gain = -value;
+        PlayerPrefs.SetFloat("VerticalSensitivity", value);
     }
 }

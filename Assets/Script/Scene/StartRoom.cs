@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class StartRoom : Room
 {
@@ -8,6 +9,10 @@ public class StartRoom : Room
     public override void Init()
     {
         GameObject playerGo = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
-        GameAssets.Instance.SetUpPlayerCamera(playerGo.transform);
+        GameObject playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera");
+        if(playerCamera != null && playerCamera.TryGetComponent<CinemachineCamera>(out var camera))
+        {
+            camera.Target.TrackingTarget = playerGo.transform;
+        }
     }
 }

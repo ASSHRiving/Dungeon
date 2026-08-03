@@ -1071,9 +1071,17 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 8e84290b-d3a7-42e0-b871-8ccbbbf2a43e
     m_ActionName: 'PlayerInput/Interact[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 534f8647-111e-4813-a5f1-6c59dc5af1b7
+    m_ActionName: 'Player/Esc[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0da929a5-b259-41f7-b266-262f4ed74e6b
+    m_ActionName: 'UI/Esc[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: PlayerInput
+  m_DefaultActionMap: 8f04a579-6f02-49fa-bad5-567dc2dd9991
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &7394777579722637470
@@ -2228,6 +2236,7 @@ MonoBehaviour:
     m_Bits: 1024
   currentWeapon: {fileID: 8518826039599454908}
   canAttack: 1
+  inAttack: 0
   currentTarget: {fileID: 0}
   weaponHolder: {fileID: 2156378098009166446}
   enemyDetectionCenter: {fileID: 3815702584121428951}

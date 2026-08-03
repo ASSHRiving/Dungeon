@@ -1,66 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))] // 🔑 強制要求物件要有 PlayerInput 組件
 public class CharacterInputSystem : MonoBehaviour
 {
+    private PlayerInput _playerInput;
 
-    private InputController _inputController;
+    // 🔑 直接從 PlayerInput 讀取 Action
+    public Vector2 playerMovement => _playerInput.actions["Movement"].ReadValue<Vector2>();
+    public Vector2 playerCamera   => _playerInput.actions["CameraLook"].ReadValue<Vector2>();
+    
+    public bool playerInteract => _playerInput.actions["Interact"].triggered;
+    public bool playerPause    => _playerInput.actions["Esc"].triggered;
+    public bool playerLAtk     => _playerInput.actions["LAtk"].triggered;
+    public bool playerRoll     => _playerInput.actions["Roll"].triggered;
 
-    public Vector2 playerMovement
-    {
-        get => _inputController.PlayerInput.Movement.ReadValue<Vector2>();
-    }
-    public Vector2 playerCamera
-    {
-        get => _inputController.PlayerInput.CameraLook.ReadValue<Vector2>();
-    }
-     public bool playerInteract
-    {
-        get => _inputController.PlayerInput.Interact.triggered;
-    }
-
-    public bool playerLAtk
-    {
-        get => _inputController.PlayerInput.LAtk.triggered;
-    }
-    public bool playerRAtk
-    {
-        get => _inputController.PlayerInput.RAtk.phase == InputActionPhase.Performed;
-    }
-    public bool playerDefen
-    {
-        get => _inputController.PlayerInput.Defen.phase == InputActionPhase.Performed;
-    }
-
-    public bool playerRun
-    {
-        get => _inputController.PlayerInput.Run.phase == InputActionPhase.Performed;
-    }
-
-    public bool playerRoll
-    {
-        get => _inputController.PlayerInput.Roll.triggered;
-    }
-
-    public bool playerCrouch
-    {
-        get => _inputController.PlayerInput.Crouch.triggered;
-    }
-
+    public bool playerRAtk  => _playerInput.actions["RAtk"].phase == InputActionPhase.Performed;
+    public bool playerDefen => _playerInput.actions["Defen"].phase == InputActionPhase.Performed;
+    public bool playerRun   => _playerInput.actions["Run"].phase == InputActionPhase.Performed;
 
     private void Awake()
     {
-        if (_inputController == null)
-            _inputController = new InputController();
-    }
-
-    private void OnEnable()
-    {
-        _inputController.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputController.Disable();
+        _playerInput = GetComponent<PlayerInput>();
     }
 }
