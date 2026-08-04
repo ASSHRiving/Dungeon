@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AICombat", menuName ="StateMachine/States/AICombat")]
 public class AICombatState : StateActionSO
 {
-    private int randomHorizontal;
+    
 
     
     public override void OnEnter(StateMachineSystem stateMachineSystem)
@@ -22,6 +22,7 @@ public class AICombatState : StateActionSO
         Animator animator = stateMachineSystem.animator;
         EnemyCombatSystem combat = stateMachineSystem.combat;
         EnemyMovementSystem movement = stateMachineSystem.movement;
+        int randomHorizontal = GetRandomHorizontal();
 
         //非戰鬥時邏輯
         if (animator.CheckAnimationTag("Motion"))

@@ -534,7 +534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthSystem
   healthBar: {fileID: 7889323370025780817}
   healthBarBuffer: {fileID: 3006116528930913428}
-  healthUI: {fileID: 0}
+  healthUI: {fileID: 7882149743230178917}
   healthText: {fileID: 5070986076705743321}
   maxHealth: 300
   currentHealth: 0
@@ -1053,7 +1053,7 @@ MonoBehaviour:
   canAttack: 1
   inAttack: 0
   detectionCenter: {fileID: 8554290122612028813}
-  detectionRange: 7
+  detectionRange: 20
   whatisObs:
     serializedVersion: 2
     m_Bits: 1

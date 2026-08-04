@@ -325,7 +325,7 @@ MonoBehaviour:
   rotateSmoothSpeed: 10
   currentRoomColor: {r: 0, g: 1, b: 0, a: 1}
   visitedRoomColor: {r: 1, g: 1, b: 1, a: 1}
-  unvisitedRoomColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.5}
+  unvisitedRoomColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
 --- !u!114 &97654460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2829,6 +2829,7 @@ MonoBehaviour:
   endRoomPrefab: {fileID: 206480163023413700, guid: 1aa2c9e07a8ab91478fb318f5adc3c4f, type: 3}
   roomPrefabs:
   - {fileID: 796204459928682492, guid: 8af1a4eafcc11ba4d841a11c2697f4fe, type: 3}
+  - {fileID: 5747814024907236583, guid: 74340f58c56315c419f4d7a1049f93c7, type: 3}
   extraRoomPrefabs:
   - {fileID: 3477438163347099500, guid: 105924fc30d484a40a7c8e9bd60bdf48, type: 3}
   - {fileID: 2775199441071096789, guid: ebc00af521394464ba380f216e09d9f0, type: 3}
@@ -6336,9 +6337,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.7924528, g: 0.7924528, b: 0.28034887, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 0.79215693, g: 0.79215693, b: 0.2784314, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6360,7 +6361,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1397434079}
         m_TargetAssemblyTypeName: EscController, Assembly-CSharp
-        m_MethodName: CloseEsc
+        m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
