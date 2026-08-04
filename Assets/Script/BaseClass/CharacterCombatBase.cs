@@ -24,7 +24,6 @@ namespace CombatBase{
         protected int defenID = Animator.StringToHash("Defen");
         protected int speedID = Animator.StringToHash("Speed");
         protected int animationMoveID = Animator.StringToHash("AnimationMove");
-        
 
         public bool canAttack = true;
         public bool inAttack = false;

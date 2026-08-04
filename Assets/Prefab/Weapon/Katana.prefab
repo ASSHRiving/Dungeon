@@ -189,10 +189,11 @@ MonoBehaviour:
   weaponName: Katana
   damage: 20
   weaponType: 1
+  combo: 0
   weaponSoundType: 1
   overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
   totalComboSteps: 4
-  comboResetTime: 1
+  comboResetTime: 2
 --- !u!114 &-8497712865708952325
 MonoBehaviour:
   m_ObjectHideFlags: 0

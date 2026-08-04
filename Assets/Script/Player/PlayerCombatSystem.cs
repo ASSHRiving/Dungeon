@@ -17,7 +17,11 @@ public class PlayerCombatSystem : CharacterCombatBase
         base.Awake();
 
         weaponType = currentWeapon.weaponType;
-        _animator.runtimeAnimatorController = currentWeapon.overrideController;
+        if(currentWeapon.overrideController != null)
+        {
+            _animator.runtimeAnimatorController = currentWeapon.overrideController;
+        }
+        // _animator.runtimeAnimatorController = currentWeapon.overrideController;
         _animator.SetInteger("WeaponType", weaponType);
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         currentWeapon.GetComponent<Collider>().enabled = false;
@@ -31,6 +35,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         updateTarget();
         AttackLockOnTarget();
         CancelAttackMove();
+        //ResetInAttack();
     }
 
     private void PlayerAttackAction()
@@ -51,12 +56,19 @@ public class PlayerCombatSystem : CharacterCombatBase
             _movement.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMoveID)*4f, true);
         }
     }
+    private void ResetInAttack()
+    {
+        if (_animator.CheckAnimationTag("Motion"))
+        {
+            inAttack = false;
+        }
+    }
     private void CancelAttackMove()
     {
         if(inAttack && canAttack && _animator.GetFloat(speedID) > 0.2)
         {
-            _animator.CrossFade("Motion", 0.1f);
             inAttack = false;
+            _animator.CrossFade("Motion", 0.1f);
         }
     }
 

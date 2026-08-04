@@ -129,13 +129,13 @@ public class PlayerMovementSystem : CharacterMovementBase
         if (_inputSystem.playerRoll && !_animator.CheckAnimationTag("Roll"))
         {
             _animator.SetTrigger(rollId);
+            StartCoroutine(RollRoutine());
             _combat.inAttack = false;
         }
         if(_animator.CheckAnimationTag("Roll"))
         {
             _animator.ResetTrigger(rollId);
             CharacterMoveInterface(rollDirection, _animator.GetFloat(animationMoveID), true);
-            StartCoroutine(RollRoutine());
         }
     }
     private IEnumerator RollRoutine()
