@@ -11,7 +11,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     public Image healthBarBuffer;
     public Image healthUI;
     public TMP_Text healthText;
-    protected float maxHealth;
+    [SerializeField] protected float maxHealth;
     protected bool isDead = false;
     [SerializeField] protected float currentHealth;
     protected Coroutine bufferCoroutine;

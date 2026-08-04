@@ -5,6 +5,7 @@ public abstract class Room : MonoBehaviour
 {
     public enum Direction { North, South, East, West }
     [SerializeField] private Transform Bounds;
+    public GameObject RoomImage;
     public bool isVisited = false;
 
     [System.Serializable]

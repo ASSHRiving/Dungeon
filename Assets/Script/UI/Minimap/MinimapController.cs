@@ -31,7 +31,7 @@ public class MinimapController : MonoBehaviour
     [Header("狀態色彩設定")]
     public Color currentRoomColor = Color.green;                           // 當前房間 (亮綠)
     public Color visitedRoomColor = Color.white;                           // 已探索過的房間 (白色)
-    public Color unvisitedRoomColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);   // 尚未探索 (半透明灰色)
+    public Color unvisitedRoomColor = new Color(0.3f, 0.3f, 0.3f, 1f);   // 尚未探索
 
     // 紀錄實體 Room 對應的 UI 座標與 Image 組件
     private Dictionary<Room, Vector2> roomUIPositions = new Dictionary<Room, Vector2>();
@@ -183,7 +183,17 @@ public class MinimapController : MonoBehaviour
         }
 
         // 生成房間 UI Icon
-        GameObject nodeGO = Instantiate(roomNodePrefab, mapContent);
+        GameObject roomUI = newRoom.RoomImage;
+        GameObject nodeGO;
+        if(roomUI != null)
+        {
+            nodeGO = Instantiate(roomUI, mapContent);
+        }
+        else
+        {
+            nodeGO = Instantiate(roomNodePrefab, mapContent);
+        }
+        
         RectTransform rect = nodeGO.GetComponent<RectTransform>();
         rect.anchoredPosition = newUIPos;
 

@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room02
   Bounds: {fileID: 5153165272057918296}
+  RoomImage: {fileID: 7364463151332096303, guid: 00ae976939eb2774da23463eb3b0f4f9, type: 3}
   isVisited: 0
   exitSets:
   - direction: 0
@@ -111,6 +112,10 @@ MonoBehaviour:
     anchor: {fileID: 5253605912190075066}
     door: {fileID: 1116196324498747017}
     wall: {fileID: 5803688556780955287}
+  enemyPrefab: {fileID: 6577592684631747148, guid: dbd19255c80ad7c44aaa9c72aae17c0f, type: 3}
+  enemySpawnPoints:
+  - {fileID: 1001110155495798157}
+  - {fileID: 3527367586847526322}
 --- !u!65 &1494042882385531179
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -47,6 +47,7 @@ MonoBehaviour:
   weaponName: 
   damage: 10
   weaponType: 0
+  combo: 0
   weaponSoundType: 1
   overrideController: {fileID: 0}
 --- !u!1 &1870480990144633099
@@ -405,7 +406,6 @@ GameObject:
   - component: {fileID: 1252959308089951527}
   - component: {fileID: 614173335016940210}
   - component: {fileID: 7089886104053966095}
-  - component: {fileID: 3270987664651186399}
   - component: {fileID: 1746742022844815240}
   - component: {fileID: 8325055916879527321}
   - component: {fileID: 7057759485788597434}
@@ -495,29 +495,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3270987664651186399
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4795439386162384584}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &1746742022844815240
 CharacterController:
   m_ObjectHideFlags: 0
@@ -557,7 +534,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthSystem
   healthBar: {fileID: 7889323370025780817}
   healthBarBuffer: {fileID: 3006116528930913428}
+  healthUI: {fileID: 0}
   healthText: {fileID: 5070986076705743321}
+  maxHealth: 300
   currentHealth: 0
   scriptsToDisable:
   - {fileID: 7057759485788597434}
@@ -601,8 +580,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1327c84db1f5353479e2264aee62599d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StateMachineSystem
-  transition: {fileID: 11400000, guid: 0a8929bea2162204ba8d056a747fe5c8, type: 2}
-  currrentState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
+  transition: {fileID: 11400000, guid: bb4f22355ff452a4ebe7dfb945de0c21, type: 2}
+  currrentState: {fileID: 11400000, guid: 61feddec4ecc81b43b9440b98144ec13, type: 2}
   animator: {fileID: 0}
   combat: {fileID: 0}
   movement: {fileID: 0}
@@ -1072,6 +1051,7 @@ MonoBehaviour:
     m_Bits: 128
   currentWeapon: {fileID: 1707620591533374445}
   canAttack: 1
+  inAttack: 0
   detectionCenter: {fileID: 8554290122612028813}
   detectionRange: 7
   whatisObs:

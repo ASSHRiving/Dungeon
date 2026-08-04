@@ -575,6 +575,7 @@ MonoBehaviour:
     m_Bits: 128
   currentWeapon: {fileID: 5786339828545042137}
   canAttack: 1
+  inAttack: 0
   detectionCenter: {fileID: 5044610085686842716}
   detectionRange: 5
   whatisObs:
@@ -2201,6 +2202,7 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 84038172903388633}
   healthUI: {fileID: 1548445869031771029}
   healthText: {fileID: 1992786567560950494}
+  maxHealth: 50
   currentHealth: 0
   scriptsToDisable:
   - {fileID: 564663518897611330}
@@ -2442,6 +2444,7 @@ MonoBehaviour:
   weaponName: "\u9AB7\u9ACF\u5C0F\u5200"
   damage: 5
   weaponType: 0
+  combo: 0
   weaponSoundType: 1
   overrideController: {fileID: 0}
 --- !u!1 &6979499797611291038
