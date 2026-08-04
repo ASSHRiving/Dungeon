@@ -10,7 +10,16 @@ public class GameManager : SingletonBase<GameManager>
     {
         currentLevel++;
         Debug.Log($"[GameManager] 前往第 {currentLevel} 關！");
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("GameScene");
+
+        // 🔑 呼叫 LoadingManager 進行淡入淡出載入
+        if (LoadingController.Instance != null)
+        {
+            LoadingController.Instance.LoadLevel(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            // 備用方案
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

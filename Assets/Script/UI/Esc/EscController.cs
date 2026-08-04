@@ -119,8 +119,28 @@ public class EscController : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        if (escPanel == null)
+        {
+            return;
+        }
+        escPanel.SetActive(false);
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            Destroy(player);
+        }
+
+        if(LoadingController.Instance != null)
+        {
+            LoadingController.Instance.LoadLevel("MainMenu");
+        }
+        else
+        {
+            // 備用方案
+            Debug.LogWarning("[EscController] LoadingController 實例不存在，直接載入主選單場景。");
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }
 
