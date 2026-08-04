@@ -41,4 +41,12 @@ public static class UIEvents
     {
         OnConfirmDialogRequested?.Invoke(message, onConfirm);
     }
+    //***************************************
+    // 事件廣播：關卡資訊
+    //***************************************
+    public static event Action<string> OnLevelChanged;
+    public static void LevelChanged(string titleString)
+    {
+        OnLevelChanged?.Invoke(titleString);
+    }
 }

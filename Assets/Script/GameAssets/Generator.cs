@@ -32,6 +32,7 @@ public class Generator : MonoBehaviour
         Debug.Log($"[Generator] 開始生成第 {level} 關地圖，目標房間數：{count}");
         Generate();
         InitRooms();
+        UIEvents.LevelChanged($"1 - {level}");
     }
     void Generate()
     {
