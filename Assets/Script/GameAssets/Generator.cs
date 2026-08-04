@@ -7,6 +7,7 @@ public class Generator : MonoBehaviour
     [Header("Room Prefabs")]
     [SerializeField] private GameObject startRoomPrefab;
     [SerializeField] private GameObject endRoomPrefab;
+    [SerializeField] private GameObject bossRoomPrefab;
     [SerializeField] private List<GameObject> roomPrefabs;
     [SerializeField] private List<GameObject> extraRoomPrefabs;
     [SerializeField] private GameObject tunnelPrefab;
@@ -72,21 +73,44 @@ public class Generator : MonoBehaviour
             spawnedRooms.Add(currentRoom);
         }
         //生成終點房間
-        while (true)
+        if(level < 2)
         {
-            if(trys > 5)
+            while (true)
             {
-                Debug.LogWarning("終點房間生成失敗，請檢查房間配置！");
-                break;
+                if(trys > 5)
+                {
+                    Debug.LogWarning("終點房間生成失敗，請檢查房間配置！");
+                    break;
+                }
+                Room.Direction dir = (Room.Direction)Random.Range(0, 4);
+                nextRoom = SpawnRoom(endRoomPrefab, dir, currentRoom);
+                if(nextRoom != null)
+                {
+                    //spawnedRooms.Add(nextRoom);
+                    break;
+                }
+                trys++;
             }
-            Room.Direction dir = (Room.Direction)Random.Range(0, 4);
-            nextRoom = SpawnRoom(endRoomPrefab, dir, currentRoom);
-            if(nextRoom != null)
+        }
+        else
+        {
+            while (true)
             {
-                //spawnedRooms.Add(nextRoom);
-                break;
+                if(trys > 5)
+                {
+                    Debug.LogWarning("Boss房間生成失敗，請檢查房間配置！");
+                    break;
+                }
+                Room.Direction dir = (Room.Direction)Random.Range(0, 4);
+                nextRoom = SpawnRoom(bossRoomPrefab, dir, currentRoom);
+                if(nextRoom != null)
+                {
+                    //spawnedRooms.Add(nextRoom);
+                    nextRoom.Init();
+                    break;
+                }
+                trys++;
             }
-            trys++;
         }
         GenerateExtraRooms();
         if (navMeshSurface != null)

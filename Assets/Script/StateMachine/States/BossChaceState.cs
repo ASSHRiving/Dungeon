@@ -5,9 +5,9 @@ using UnityEngine.AI;
 public class BossChaceState : StateActionSO
 {
     [Header("距離設定")]
-    [SerializeField] private float minDistance = 2.6f;      // 太近界線 (低於此距離後退)
+    [SerializeField] private float minDistance = 2.4f;      // 太近界線 (低於此距離後退)
     [SerializeField] private float maxDistance = 6.6f;      // 太遠界線 (高於此距離追擊)
-    [SerializeField] private float attackDistance = 1.55f;   // 攻擊距離
+    [SerializeField] private float attackDistance = 2f;   // 攻擊距離
 
     [Header("移動速度")]
     [SerializeField] private float moveSpeed = 1.4f;

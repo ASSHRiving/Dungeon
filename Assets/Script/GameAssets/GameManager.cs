@@ -22,4 +22,17 @@ public class GameManager : SingletonBase<GameManager>
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
+    public void GameOver()
+    {
+        Debug.Log("[GameManager] 遊戲結束！");
+        if (LoadingController.Instance != null)
+        {
+            LoadingController.Instance.LoadLevel("MainMenu");
+        }
+        else
+        {
+            // 備用方案
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
 }

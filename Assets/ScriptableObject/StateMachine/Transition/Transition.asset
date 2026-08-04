@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TransitionSO
   stateConfigDatas:
   - fromState: {fileID: 11400000, guid: 61feddec4ecc81b43b9440b98144ec13, type: 2}
-    toState: {fileID: 11400000, guid: 44536cae64b647945be2934a9a102e9d, type: 2}
+    toState: {fileID: 11400000, guid: f046dac1dd8522446a665959dc1c832b, type: 2}
     conditions:
     - {fileID: 11400000, guid: 2762cf013274ee14cad8e95dc46d3423, type: 2}
-  - fromState: {fileID: 11400000, guid: 44536cae64b647945be2934a9a102e9d, type: 2}
+  - fromState: {fileID: 11400000, guid: f046dac1dd8522446a665959dc1c832b, type: 2}
     toState: {fileID: 11400000, guid: 61feddec4ecc81b43b9440b98144ec13, type: 2}
     conditions:
     - {fileID: 11400000, guid: 86552a241c64a1e4fbbb0d445f6769da, type: 2}
