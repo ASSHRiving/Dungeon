@@ -25,6 +25,7 @@ public class GameManager : SingletonBase<GameManager>
     public void GameOver()
     {
         Debug.Log("[GameManager] 遊戲結束！");
+        Cursor.lockState = CursorLockMode.None;
         if (LoadingController.Instance != null)
         {
             LoadingController.Instance.LoadLevel("MainMenu");
