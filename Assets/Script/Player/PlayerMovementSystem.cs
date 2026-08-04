@@ -131,6 +131,7 @@ public class PlayerMovementSystem : CharacterMovementBase
             _animator.SetTrigger(rollId);
             StartCoroutine(RollRoutine());
             _combat.inAttack = false;
+            _combat.canAttack = true;
         }
         if(_animator.CheckAnimationTag("Roll"))
         {
