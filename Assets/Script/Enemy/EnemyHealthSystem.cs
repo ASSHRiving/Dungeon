@@ -6,6 +6,7 @@ using System.Collections;
 public class EnemyHealthSystem : CharacterHealthBase
 {
     [SerializeField] private GameObject lootPrefab;
+    [SerializeField] private int gold = 5;
 
     void Start()
     {
@@ -38,8 +39,12 @@ public class EnemyHealthSystem : CharacterHealthBase
         gameObject.layer = LayerMask.NameToLayer("Ground");
         _animator.Play("Die", 0, 0f);
         
+        if (lootPrefab != null)
+        {
+            Instantiate(lootPrefab, transform.position, Quaternion.identity);
+        }
         // 在怪物的位置爆出 5 顆金幣
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < gold; i++)
         {
             // 隨機噴散的位移
             Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0.5f, Random.Range(-0.5f, 0.5f));

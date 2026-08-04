@@ -12,7 +12,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     public Image healthUI;
     public TMP_Text healthText;
     [SerializeField] protected float maxHealth;
-    protected bool isDead = false;
+    public bool isDead { get; protected set; } = false;
     [SerializeField] protected float currentHealth;
     protected Coroutine bufferCoroutine;
     [SerializeField] protected MonoBehaviour[] scriptsToDisable;

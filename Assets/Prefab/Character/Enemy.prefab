@@ -543,7 +543,8 @@ MonoBehaviour:
   - {fileID: 7168637028746905190}
   - {fileID: 5097280785948960929}
   - {fileID: 8325055916879527321}
-  lootPrefab: {fileID: 7730201026826768803, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
+  lootPrefab: {fileID: 0}
+  gold: 50
 --- !u!114 &7057759485788597434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +583,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StateMachineSystem
   transition: {fileID: 11400000, guid: bb4f22355ff452a4ebe7dfb945de0c21, type: 2}
   currrentState: {fileID: 11400000, guid: 61feddec4ecc81b43b9440b98144ec13, type: 2}
+  randomHorizontal: 1
+  strafeTimer: 0
   animator: {fileID: 0}
   combat: {fileID: 0}
   movement: {fileID: 0}
