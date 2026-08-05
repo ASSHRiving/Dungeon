@@ -435,6 +435,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8358728005158142763, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
+      propertyPath: bossMusicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f9e13a09b47ba8498b33d6a2e6b8d5f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

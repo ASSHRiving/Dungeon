@@ -7,7 +7,7 @@ public class PlayerBalanceSystem : MonoBehaviour
     private void Start()
     {
         // 初始化金幣數量
-        balance = 50;
+        balance = 0;
         // 廣播初始金幣數量
         UIEvents.GoldChanged(balance);
     }

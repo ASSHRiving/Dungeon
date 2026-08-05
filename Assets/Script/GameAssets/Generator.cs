@@ -31,7 +31,10 @@ public class Generator : MonoBehaviour
         }
         count = level;
         Debug.Log($"[Generator] 開始生成第 {level} 關地圖，目標房間數：{count}");
+
         Generate();
+        GenerateExtraRooms();
+        InitNavMesh();
         InitRooms();
         UIEvents.LevelChanged($"1 - {level}");
     }
@@ -73,7 +76,7 @@ public class Generator : MonoBehaviour
             spawnedRooms.Add(currentRoom);
         }
         //生成終點房間
-        if(level < 2)
+        if(level < 4)
         {
             while (true)
             {
@@ -111,12 +114,6 @@ public class Generator : MonoBehaviour
                 }
                 trys++;
             }
-        }
-        GenerateExtraRooms();
-        if (navMeshSurface != null)
-        {
-            Debug.Log("地圖生成完全結束，開始即時烘焙 NavMesh...");
-            navMeshSurface.BuildNavMesh(); 
         }
     }
     private void GenerateExtraRooms()
@@ -177,8 +174,8 @@ public class Generator : MonoBehaviour
                 if(hit.transform != bounds)
                 {
                     Debug.Log("生成失敗，與現有房間重疊，重新生成...");
-                    Destroy(goB);
-                    Destroy(goTunnel);
+                    DestroyImmediate(goB);
+                    DestroyImmediate(goTunnel);
                     return null;
                 }
             }
@@ -227,8 +224,8 @@ public class Generator : MonoBehaviour
                 if(hit.transform != bounds)
                 {
                     Debug.Log("生成失敗，與現有房間重疊，重新生成...");
-                    Destroy(goB);
-                    Destroy(goTunnel);
+                    DestroyImmediate(goB);
+                    DestroyImmediate(goTunnel);
                     return null;
                 }
             }
@@ -249,6 +246,14 @@ public class Generator : MonoBehaviour
         foreach(var room in extraRooms)
         {
             room.Init();
+        }
+    }
+    private void InitNavMesh()
+    {
+        if (navMeshSurface != null)
+        {
+            Physics.SyncTransforms();
+            navMeshSurface.BuildNavMesh(); 
         }
     }
     Room.Direction GetOpposite(Room.Direction dir)

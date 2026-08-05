@@ -12,6 +12,7 @@ public abstract class Melee : Weapon
         if (Time.time - lastAttackTime > comboResetTime)
         {
             combo = 0;
+            _combat.canAttack = true;
         }
 
         combo++;

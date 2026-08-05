@@ -55,8 +55,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.853668, y: 0.26288188, z: 0.22391424}
-  m_Center: {x: -0.32251585, y: -0.0044276416, z: -0.0022433698}
+  m_Size: {x: 1.1255319, y: 0.24927087, z: 0.12841985}
+  m_Center: {x: -0.40718794, y: -0.002253957, z: -0.0019153506}
 --- !u!54 &8186286263188415259
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -112,6 +112,7 @@ MonoBehaviour:
   weaponName: Sword
   damage: 10
   weaponType: 0
+  combo: 0
   weaponSoundType: 1
   overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
   totalComboSteps: 5
@@ -126,19 +127,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
       propertyPath: m_LocalScale.x
-      value: 100.000015
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
       propertyPath: m_LocalScale.y
-      value: 100
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
       propertyPath: m_LocalScale.z
-      value: 100.000015
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.177
+      value: -0.2269
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
       propertyPath: m_LocalPosition.y

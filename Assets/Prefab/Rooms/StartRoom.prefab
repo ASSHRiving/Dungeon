@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StartRoom
   Bounds: {fileID: 2218477869029593606}
+  RoomImage: {fileID: 0}
   isVisited: 0
   exitSets:
   - direction: 0
@@ -1634,6 +1635,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4523940521286639132, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
+      propertyPath: itemList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4523940521286639132, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
+      propertyPath: 'itemList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4457791777380979166, guid: ca78894e280d43342a5d8619887261b2, type: 3}
+    - target: {fileID: 4523940521286639132, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
+      propertyPath: 'itemList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2437377769245150018, guid: 8fdd5ce0a4dcfaa49a3f2be9f5cd54b6, type: 3}
     - target: {fileID: 7730201026826768803, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
       propertyPath: m_Name
       value: Chest

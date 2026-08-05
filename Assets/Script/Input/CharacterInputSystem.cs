@@ -13,9 +13,8 @@ public class CharacterInputSystem : MonoBehaviour
     public bool playerInteract => _playerInput.actions["Interact"].triggered;
     public bool playerPause    => _playerInput.actions["Esc"].triggered;
     public bool playerLAtk     => _playerInput.actions["LAtk"].triggered;
-    public bool playerRoll     => _playerInput.actions["Roll"].triggered;
 
-    public bool playerRAtk  => _playerInput.actions["RAtk"].phase == InputActionPhase.Performed;
+    public bool playerRoll  => _playerInput.actions["RAtk"].triggered;
     public bool playerDefen => _playerInput.actions["Defen"].phase == InputActionPhase.Performed;
     public bool playerRun   => _playerInput.actions["Run"].phase == InputActionPhase.Performed;
 
