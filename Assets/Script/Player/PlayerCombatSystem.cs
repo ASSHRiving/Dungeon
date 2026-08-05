@@ -68,6 +68,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         if(inAttack && canAttack && _animator.GetFloat(speedID) > 0.2)
         {
             inAttack = false;
+            canAttack = true;
             _animator.CrossFade("Motion", 0.1f);
         }
     }
