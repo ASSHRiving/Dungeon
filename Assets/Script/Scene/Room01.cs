@@ -22,6 +22,18 @@ public class Room01 : Room
             }
         }
     }
+    protected override void OnTriggerEnter(Collider other)
+    {
+        // 確認踩進來的是 Player
+        if (other.CompareTag("Player"))
+        {
+            isVisited = true;
+
+            // 【廣播】通知小地圖：玩家進這個房間了！
+            UIEvents.RoomEntered(this);
+            GameAssets.Instance.PlayBossMusic();
+        }
+    }
     private void Update()
     {
         if (IsRoomCleared() && !reward.activeSelf)

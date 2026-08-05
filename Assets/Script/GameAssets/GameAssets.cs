@@ -5,8 +5,9 @@ public class GameAssets : SingletonBase<GameAssets>
 {
     [SerializeField,Header("資源")] private GameSoundSO soundAssets;
     private AudioSource _audioSource;
-    [SerializeField]private AudioClip inGameMusicClip;
-    [SerializeField]private AudioClip menuMusicClip;
+    [SerializeField] private AudioClip inGameMusicClip;
+    [SerializeField] private AudioClip menuMusicClip;
+    [SerializeField] private AudioClip bossMusicClip;
 
     protected override void Awake()
     {
@@ -38,6 +39,15 @@ public class GameAssets : SingletonBase<GameAssets>
         if(menuMusicClip != null)
         {
             _audioSource.clip = menuMusicClip;
+            _audioSource.loop = true;
+            _audioSource.Play();
+        }
+    }
+    public void PlayBossMusic()
+    {
+        if(bossMusicClip != null)
+        {
+            _audioSource.clip = bossMusicClip;
             _audioSource.loop = true;
             _audioSource.Play();
         }

@@ -8,6 +8,7 @@ public abstract class StateActionSO : ScriptableObject
     protected int horizontalID = Animator.StringToHash("Horizontal");
     protected int verticalID = Animator.StringToHash("Vertical");
     protected int runID = Animator.StringToHash("Run");
+    protected int lockOnID = Animator.StringToHash("LockOn");
 
     public int GetPriority() => priority;
 

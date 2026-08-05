@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "BossChaceState", menuName = "StateMachine/States/BossChaceState")]
-public class BossChaceState : StateActionSO
+[CreateAssetMenu(fileName = "BossChaseState", menuName = "StateMachine/States/BossChaseState")]
+public class BossChaseState : StateActionSO
 {
     [Header("距離設定")]
     [SerializeField] private float minDistance = 2.4f;      // 太近界線 (低於此距離後退)
@@ -32,6 +32,7 @@ public class BossChaceState : StateActionSO
     public override void OnUpdate(StateMachineSystem stateMachineSystem)
     {
         NoCombatMove(stateMachineSystem);
+        LockOnCurrentTarget(stateMachineSystem);
     }
 
     private void NoCombatMove(StateMachineSystem stateMachineSystem)
@@ -86,9 +87,6 @@ public class BossChaceState : StateActionSO
 
                 SetAgentDestination(agent, targetPosition);
 
-                // 保持 Boss 面向玩家（NavMesh 橫向移動時，建議手動讓轉向面對玩家）
-                RotateTowards(selfTransform, targetTransform.position);
-
                 animator.SetFloat(verticalID, 0f, 0.25f, Time.deltaTime);
                 animator.SetFloat(horizontalID, stateMachineSystem.randomHorizontal, 0.25f, Time.deltaTime);
             }
@@ -137,6 +135,21 @@ public class BossChaceState : StateActionSO
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             self.rotation = Quaternion.Slerp(self.rotation, targetRotation, Time.deltaTime * 8f);
+        }
+    }
+    private void LockOnCurrentTarget(StateMachineSystem stateMachineSystem)
+    {
+        if(stateMachineSystem.animator.CheckAnimationTag("Motion") || stateMachineSystem.animator.CheckAnimationTag("Attack"))
+        {
+            if(stateMachineSystem.combat.GetCurrentTarget() != null)
+            {
+                stateMachineSystem.animator.SetFloat(lockOnID, 1);
+                stateMachineSystem.transform.root.rotation = stateMachineSystem.transform.LockOnTarget(stateMachineSystem.combat.GetCurrentTarget(),stateMachineSystem.transform.root.transform,50f);
+            }
+        }
+        else
+        {
+            stateMachineSystem.animator.SetFloat(lockOnID, 0);
         }
     }
 }

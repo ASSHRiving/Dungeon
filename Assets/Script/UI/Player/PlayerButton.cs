@@ -10,6 +10,6 @@ public class PlayerButton : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
+        GameManager.Instance.QuitGame();
     }
 }

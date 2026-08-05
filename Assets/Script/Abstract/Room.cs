@@ -68,7 +68,7 @@ public abstract class Room : MonoBehaviour
         if(Bounds != null) return Bounds;
         return null;
     }
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         // 確認踩進來的是 Player
         if (other.CompareTag("Player"))
