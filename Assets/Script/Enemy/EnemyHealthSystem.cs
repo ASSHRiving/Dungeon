@@ -1,18 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using System.Collections;
+using UnityEngine.AI;
 
 public class EnemyHealthSystem : CharacterHealthBase
 {
     [SerializeField] private GameObject lootPrefab;
     [SerializeField] private int gold = 5;
+    private NavMeshAgent _navMeshAgent;
 
     void Start()
     {
         currentHealth = maxHealth;
         healthBar.fillAmount = currentHealth / maxHealth;
         healthText.text = $"{currentHealth}/{maxHealth}";
+        _navMeshAgent = GetComponentInParent<NavMeshAgent>();
     }
     public override void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount)
     {
@@ -36,6 +36,7 @@ public class EnemyHealthSystem : CharacterHealthBase
     protected override void Die()
     {
         isDead = true;
+        _navMeshAgent.enabled = false;
         gameObject.layer = LayerMask.NameToLayer("Ground");
         _animator.Play("Die", 0, 0f);
         

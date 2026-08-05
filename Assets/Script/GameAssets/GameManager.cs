@@ -5,6 +5,10 @@ public class GameManager : SingletonBase<GameManager>
 {
     [Header("遊戲進度")]
     public int currentLevel = 1;
+    public void init()
+    {
+        currentLevel = 1;
+    }
 
     public void GoToNextLevel()
     {
@@ -24,8 +28,34 @@ public class GameManager : SingletonBase<GameManager>
     }
     public void GameOver()
     {
-        Debug.Log("[GameManager] 遊戲結束！");
         Cursor.lockState = CursorLockMode.None;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            Destroy(player);
+        }
+
+        if (LoadingController.Instance != null)
+        {
+            LoadingController.Instance.LoadLevel("FinalScene");
+        }
+        else
+        {
+            // 備用方案
+            SceneManager.LoadScene("FinalScene");
+        }
+    }
+    public void QuitGame()
+    {
+        Cursor.lockState = CursorLockMode.None;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            Destroy(player);
+        }
+
         if (LoadingController.Instance != null)
         {
             LoadingController.Instance.LoadLevel("MainMenu");
@@ -35,5 +65,6 @@ public class GameManager : SingletonBase<GameManager>
             // 備用方案
             SceneManager.LoadScene("MainMenu");
         }
+        GameAssets.Instance.PlayMenuMusic();
     }
 }

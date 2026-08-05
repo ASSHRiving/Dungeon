@@ -65,7 +65,6 @@ public class LoadingController : SingletonBase<LoadingController>
     /// </summary>
     private IEnumerator Fade(float targetAlpha)
     {
-        Debug.Log($"[Test] Fade 開始: target={targetAlpha}, time={Time.realtimeSinceStartup}");
         if (fadeCanvasGroup == null) yield break;
 
         fadeCanvasGroup.blocksRaycasts = true; // 變黑過程中阻擋玩家點擊 UI

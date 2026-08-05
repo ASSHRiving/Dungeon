@@ -569,7 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
   attackRangeCenter: {fileID: 8892428528030753854}
-  attackRangeRadius: 0.4
+  attackRangeRadius: 0.6
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
@@ -2210,6 +2210,7 @@ MonoBehaviour:
   - {fileID: 2546180715555292158}
   - {fileID: 2520551439961800375}
   lootPrefab: {fileID: 5771507442965416563, guid: da4dfac2e17a0ce478b76b4f9e4dcf91, type: 3}
+  gold: 5
 --- !u!114 &564663518897611330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2248,6 +2249,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StateMachineSystem
   transition: {fileID: 11400000, guid: 0a8929bea2162204ba8d056a747fe5c8, type: 2}
   currrentState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
+  randomHorizontal: 1
+  strafeTimer: 0
   animator: {fileID: 0}
   combat: {fileID: 0}
   movement: {fileID: 0}

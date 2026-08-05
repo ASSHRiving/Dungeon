@@ -7,6 +7,7 @@ namespace CombatBase{
         protected Animator _animator;
         protected CharacterInputSystem _inputSystem;
         protected CharacterMovementBase _movement;
+        protected CharacterHealthBase _health;
         protected AudioSource _audio;
         private AnimationEventHelper _animationEvent;
 
@@ -35,6 +36,7 @@ namespace CombatBase{
             _movement = GetComponentInParent<CharacterMovementBase>();
             _audio = _movement.GetComponentInChildren<AudioSource>();
             _animationEvent = GetComponent<AnimationEventHelper>();
+            _health = GetComponentInParent<CharacterHealthBase>();
             currentWeapon = GetComponentInChildren<Weapon>();
             weaponSoundType = currentWeapon.weaponSoundType;
         }

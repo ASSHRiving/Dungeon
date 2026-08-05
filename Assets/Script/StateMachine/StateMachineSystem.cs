@@ -12,6 +12,7 @@ public class StateMachineSystem : MonoBehaviour
     public Animator animator;
     public EnemyCombatSystem combat;
     public EnemyMovementSystem movement;
+    public CharacterHealthBase health;
     public NavMeshAgent agent;
 
     private void Awake()
