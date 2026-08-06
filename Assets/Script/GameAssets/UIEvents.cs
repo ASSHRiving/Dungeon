@@ -49,4 +49,12 @@ public static class UIEvents
     {
         OnLevelChanged?.Invoke(titleString);
     }
+    //***************************************
+    // 事件廣播：角色死亡
+    //***************************************
+    public static event Action OnPlayerDied;
+    public static void PlayerDied()
+    {
+        OnPlayerDied?.Invoke();
+    }
 }

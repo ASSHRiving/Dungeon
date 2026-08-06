@@ -4,7 +4,6 @@ using TMPro;
 
 public class PlayerHealthSystem : CharacterHealthBase
 {
-    [SerializeField] private TMP_Text deathText;
     [Header("角色部位SkinnedMeshRenderer")]
     [SerializeField] private SkinnedMeshRenderer HeadSkinnedMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer ChestSkinnedMeshRenderer;
@@ -15,7 +14,6 @@ public class PlayerHealthSystem : CharacterHealthBase
 
     void Start()
     {
-        deathText.gameObject.SetActive(false);
         maxHealth = 100f;
         currentHealth = maxHealth;
         healthBar.fillAmount = currentHealth / maxHealth;
@@ -47,8 +45,8 @@ public class PlayerHealthSystem : CharacterHealthBase
     }
     protected override void Die()
     {
+        UIEvents.PlayerDied();
         isDead = true;
-        deathText.gameObject.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gameObject.layer = LayerMask.NameToLayer("Ground");
