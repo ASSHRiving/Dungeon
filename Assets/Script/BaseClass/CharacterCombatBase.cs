@@ -27,6 +27,25 @@ namespace CombatBase{
         protected int animationMoveID = Animator.StringToHash("AnimationMove");
 
         public bool canAttack = true;
+        
+
+        /*
+        private bool _canAttack = true;
+        public bool canAttack
+        {
+            get => _canAttack;
+            set
+            {
+                // 當有人把它從 false 改成 true，或者從 true 改成 false 時，印出到底是誰改的！
+                if (_canAttack != value)
+                {
+                    Debug.Log($"[canAttack 狀態改變] 變成 {value}，呼叫來源：{System.Environment.StackTrace}");
+                }
+                _canAttack = value;
+            }
+        }
+        */
+        
         public bool inAttack = false;
 
         protected virtual void Awake()
