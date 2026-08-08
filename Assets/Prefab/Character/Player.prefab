@@ -551,13 +551,11 @@ GameObject:
   - component: {fileID: 7438975341950709959}
   - component: {fileID: 5324268793043561956}
   - component: {fileID: 1285138609084005044}
-  - component: {fileID: 6697926107342612025}
   - component: {fileID: 848648934799149219}
-  - component: {fileID: 4199189281554686236}
-  - component: {fileID: 7394777579722637470}
-  - component: {fileID: 2166173460953718933}
-  - component: {fileID: 3799769169699531540}
-  - component: {fileID: 8161352174788292823}
+  - component: {fileID: -133465328341834416}
+  - component: {fileID: 6183891989983397325}
+  - component: {fileID: 8111878505643444011}
+  - component: {fileID: 5599069062710896955}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -645,29 +643,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6697926107342612025
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5296161146044912019}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &848648934799149219
 CharacterController:
   m_ObjectHideFlags: 0
@@ -693,7 +668,29 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4199189281554686236
+--- !u!195 &-133465328341834416
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296161146044912019}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &6183891989983397325
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -702,72 +699,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5296161146044912019}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Script: {fileID: 11500000, guid: 60a9973e6e983624db8387c9f29d366d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: e4c71c08a01ea6944aed90557440eb8a, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9927e287-3a54-4843-b8e9-516ceefce43b
-    m_ActionName: 'PlayerInput/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8e09fca9-bec1-4e7c-8352-37163e6a47ca
-    m_ActionName: 'PlayerInput/CameraLook[/Mouse/delta]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: deb81225-9733-4498-a968-bc995abd6eed
-    m_ActionName: 'PlayerInput/LAtk[/Mouse/leftButton]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6944620f-98e8-41c9-b085-8619d5df9d8b
-    m_ActionName: 'PlayerInput/RAtk[/Mouse/rightButton]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: edc436fa-d759-4b67-b33e-519f7f4212f3
-    m_ActionName: 'PlayerInput/Defen[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: dd2b5eb6-1fd8-413d-8288-cae628e7e9a5
-    m_ActionName: 'PlayerInput/Run[/Keyboard/leftShift]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 28012576-98a9-42ef-98e5-ac959ae77936
-    m_ActionName: 'PlayerInput/Roll[/Keyboard/c]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0b1d245b-e442-4dcf-ad94-e16b5f1728aa
-    m_ActionName: 'PlayerInput/Crouch[/Keyboard/leftCtrl]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8e84290b-d3a7-42e0-b871-8ccbbbf2a43e
-    m_ActionName: 'PlayerInput/Interact[/Keyboard/e]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 534f8647-111e-4813-a5f1-6c59dc5af1b7
-    m_ActionName: 'Player/Esc[/Keyboard/escape]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0da929a5-b259-41f7-b266-262f4ed74e6b
-    m_ActionName: 'UI/Esc[/Keyboard/escape]'
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 8f04a579-6f02-49fa-bad5-567dc2dd9991
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &7394777579722637470
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthSystem
+  healthBar: {fileID: 0}
+  healthBarBuffer: {fileID: 0}
+  healthUI: {fileID: 0}
+  healthText: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  scriptsToDisable: []
+  lootPrefab: {fileID: 0}
+  gold: 5
+--- !u!114 &8111878505643444011
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -776,24 +720,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5296161146044912019}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 318a1de0cf81aa54c899b9b71f32679b, type: 3}
+  m_Script: {fileID: 11500000, guid: e2f71d96050dc9c45b4d7ec95960e0fa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem
-  characterGravity: -9.8
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementSystem
+  characterGravity: 0
   characterCurrentMoveSpeed: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 4160
-  groundDetectionOffset: 0.7
-  groundDetectionRang: 0.53
-  slopRayExtent: 5
+    m_Bits: 0
+  groundDetectionOffset: 0.1
+  groundDetectionRang: 0.2
+  slopRayExtent: 0
   whatIsObs:
     serializedVersion: 2
-    m_Bits: 1088
+    m_Bits: 0
   isOnGround: 0
-  walkSpeed: 3
-  runSpeed: 6
---- !u!114 &2166173460953718933
+--- !u!114 &5599069062710896955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -802,56 +744,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5296161146044912019}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 658dd63bff2946545b78f1abe3074793, type: 3}
+  m_Script: {fileID: 11500000, guid: 1327c84db1f5353479e2264aee62599d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterInputSystem
---- !u!114 &3799769169699531540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5296161146044912019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f553eb3da38f7b44d9a80f56b31e0352, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthSystem
-  healthBar: {fileID: 1077894331638576700}
-  healthBarBuffer: {fileID: 867374025076862527}
-  healthUI: {fileID: 0}
-  healthText: {fileID: 7306819253640484099}
-  maxHealth: 0
-  currentHealth: 0
-  scriptsToDisable:
-  - {fileID: 0}
-  - {fileID: 7394777579722637470}
-  - {fileID: 7394777579722637470}
-  - {fileID: 7875470571385674825}
-  - {fileID: 3799769169699531540}
-  HeadSkinnedMeshRenderer: {fileID: 0}
-  ChestSkinnedMeshRenderer: {fileID: 0}
-  ArmSkinnedMeshRenderer: {fileID: 0}
-  BeltSkinnedMeshRenderer: {fileID: 0}
-  LegSkinnedMeshRenderer: {fileID: 0}
-  FeetSkinnedMeshRenderer: {fileID: 0}
---- !u!114 &8161352174788292823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5296161146044912019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590df5ec96bf95e44becc7529937aad7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractSystem
-  interactOrigin: {fileID: 4464665704680522253}
-  interactDistance: 2
-  interactMask:
-    serializedVersion: 2
-    m_Bits: 20545
+  m_EditorClassIdentifier: Assembly-CSharp::StateMachineSystem
+  transition: {fileID: 0}
+  currrentState: {fileID: 0}
+  randomHorizontal: 1
+  strafeTimer: 0
+  animator: {fileID: 0}
+  combat: {fileID: 0}
+  movement: {fileID: 0}
+  health: {fileID: 0}
+  agent: {fileID: 0}
 --- !u!1 &5711601504889235346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,7 +1334,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
+      objectReference: {fileID: 9100000, guid: db4e78be9d703f84eb68863d21209fa4, type: 2}
     - target: {fileID: 6878619132023275588, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1477,9 +1381,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7875470571385674825}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8121567206293197973}
   m_SourcePrefab: {fileID: 100100000, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
 --- !u!4 &1335461351620474612 stripped
@@ -1492,30 +1393,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
   m_PrefabInstance: {fileID: 1513836726519632159}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7875470571385674825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856419463300754510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4226905d1480e654096d2f490e4f0428, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
-  attackRangeCenter: {fileID: 2943019914504254059}
-  attackRangeRadius: 0.5
-  whatIsEnemy:
-    serializedVersion: 2
-    m_Bits: 1024
-  currentWeapon: {fileID: 0}
-  canAttack: 1
-  inAttack: 0
-  currentTarget: {fileID: 0}
-  weaponHolder: {fileID: 2156378098009166446}
-  enemyDetectionCenter: {fileID: 3815702584121428951}
-  enemyDetectionRadius: 7
 --- !u!114 &8121567206293197973
 MonoBehaviour:
   m_ObjectHideFlags: 0
