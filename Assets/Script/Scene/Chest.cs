@@ -19,9 +19,6 @@ public class Chest : MonoBehaviour, IInteractable
     private void Awake()
     {
         itemPrefab = itemList[Random.Range(0, itemList.Count)];
-    }
-    void Start()
-    {
         animator = GetComponentInChildren<Animator>();
     }
     public void Interact(Transform player)
