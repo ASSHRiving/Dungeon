@@ -405,7 +405,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1335461351620474612}
@@ -561,8 +561,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  groundDetectionOffset: 0.7
-  groundDetectionRang: 0.44
+  groundDetectionOffset: 1.12
+  groundDetectionRang: 0.59
   slopRayExtent: 0
   whatIsObs:
     serializedVersion: 2

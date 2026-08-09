@@ -24,10 +24,15 @@ public class BossChase : StateActionSO
     public override void OnEnter(StateMachineSystem stateMachineSystem)
     {
         NavMeshAgent agent = stateMachineSystem.agent;
+        Animator animator = stateMachineSystem.animator;
         if(agent != null)
         {
             agent.isStopped = false;
             agent.speed = moveSpeed;
+        }
+        if(animator != null)
+        {
+            animator.Play("Ready");
         }
         stateMachineSystem.strafeTimer = 0f;
         stateMachineSystem.attackTimer = 0f;
