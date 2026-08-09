@@ -1,4 +1,4 @@
-using CombatBase;
+
 using UnityEngine;
 
 public class EnemyCombatSystem : CharacterCombatBase
@@ -10,6 +10,9 @@ public class EnemyCombatSystem : CharacterCombatBase
     Collider[] colliderTarget = new Collider[1];
 
     [SerializeField, Header("當前目標")] private Transform currentTarget;
+    private Transform spawnPoint;
+    public void SetSpawnPoint(Transform point) => spawnPoint = point;
+    public Transform GetSpawnPoint() => spawnPoint;
 
     private int lockOnID = Animator.StringToHash("LockOn");
 

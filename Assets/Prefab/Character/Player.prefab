@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 8477887791818903007}
   - component: {fileID: 38294268887403799}
   - component: {fileID: 867374025076862527}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBarBuffer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 5285374962459089090}
   - component: {fileID: 197880153061745748}
   - component: {fileID: 7306819253640484099}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 2886963829638707229}
   - component: {fileID: 830924517055130584}
   - component: {fileID: 1077894331638576700}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBarRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,37 +509,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &5230906297473587974
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4464665704680522253}
-  m_Layer: 7
-  m_Name: InteractDetectionCenter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4464665704680522253
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5230906297473587974}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.483}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7438975341950709959}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5296161146044912019
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +525,7 @@ GameObject:
   - component: {fileID: 6183891989983397325}
   - component: {fileID: 8111878505643444011}
   - component: {fileID: 5599069062710896955}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -572,7 +541,7 @@ Transform:
   m_GameObject: {fileID: 5296161146044912019}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.185, y: 1, z: -2.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -581,7 +550,6 @@ Transform:
   - {fileID: 3822741844114575903}
   - {fileID: 2943019914504254059}
   - {fileID: 3815702584121428951}
-  - {fileID: 4464665704680522253}
   - {fileID: 4990721137176114850}
   - {fileID: 163533834836719689}
   m_Father: {fileID: 0}
@@ -727,13 +695,13 @@ MonoBehaviour:
   characterCurrentMoveSpeed: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
-  groundDetectionOffset: 0.1
-  groundDetectionRang: 0.2
+    m_Bits: 64
+  groundDetectionOffset: 0.7
+  groundDetectionRang: 0.44
   slopRayExtent: 0
   whatIsObs:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   isOnGround: 0
 --- !u!114 &5599069062710896955
 MonoBehaviour:
@@ -830,7 +798,7 @@ GameObject:
   - component: {fileID: 5146153464199939014}
   - component: {fileID: 6341946783038153671}
   - component: {fileID: 1362924180719399802}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -909,7 +877,7 @@ GameObject:
   - component: {fileID: 8208239135693734448}
   - component: {fileID: 2302489406417311533}
   - component: {fileID: 4467237342906235068}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1382,6 +1350,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8121567206293197973}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3804507561228082989}
   m_SourcePrefab: {fileID: 100100000, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
 --- !u!4 &1335461351620474612 stripped
 Transform:
@@ -1405,6 +1376,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5045c66f5b8114842801b4e2a0ae8903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationEventHelper
+--- !u!114 &3804507561228082989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856419463300754510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9f8b4193ab1dc46bf3509b3d265cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
+  attackRangeCenter: {fileID: 2943019914504254059}
+  attackRangeRadius: 0
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 0
+  currentWeapon: {fileID: 0}
+  canAttack: 1
+  inAttack: 0
+  detectionCenter: {fileID: 3815702584121428951}
+  detectionRange: 0
+  whatisObs:
+    serializedVersion: 2
+    m_Bits: 0
+  currentTarget: {fileID: 0}
 --- !u!4 &3711641971810874318 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6449052625973075247, guid: ab802391c1f97774a98456c7e03b397a, type: 3}
@@ -1458,9 +1455,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2705328158859600099, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4170710271409233420, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
       propertyPath: m_Name
       value: Katana
+      objectReference: {fileID: 0}
+    - target: {fileID: 4170710271409233420, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

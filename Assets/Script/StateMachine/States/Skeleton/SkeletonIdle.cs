@@ -10,15 +10,15 @@ public class SkeletonIdle : StateActionSO
     public override void OnEnter(StateMachineSystem stateMachineSystem)
     {
         NavMeshAgent agent = stateMachineSystem.agent;
-        EnemyMovementSystem movement = stateMachineSystem.movement;
+        EnemyCombatSystem combat = stateMachineSystem.combat;
 
-        if (agent != null && movement != null && movement.GetSpawnPoint() != null)
+        if (agent != null && combat != null && combat.GetSpawnPoint() != null)
         {
             // 1. 重新啟用 Agent（確保 Agent 正常運作）
             agent.isStopped = false;
             
             // 2. 命令 Agent 跑回出生點
-            agent.SetDestination(movement.GetSpawnPoint().position); // 確保目標點在地面上
+            agent.SetDestination(combat.GetSpawnPoint().position); // 確保目標點在地面上
         }
     }
 

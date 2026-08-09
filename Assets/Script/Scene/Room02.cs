@@ -11,10 +11,10 @@ public class Room02: Room
         foreach (var point in enemySpawnPoints)
         {
             GameObject enemyGo = Instantiate(enemyPrefab, point.position, point.rotation);
-            EnemyMovementSystem enemyMovement = enemyGo.GetComponent<EnemyMovementSystem>();
-            if (enemyMovement != null)
+            EnemyCombatSystem combat = enemyGo.GetComponent<EnemyCombatSystem>();
+            if (combat != null)
             {
-                enemyMovement.SetSpawnPoint(point);
+                combat.SetSpawnPoint(point);
             }
         }
     }

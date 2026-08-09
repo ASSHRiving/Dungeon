@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using CombatBase;
+
 public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 {
     [Header("血量")]

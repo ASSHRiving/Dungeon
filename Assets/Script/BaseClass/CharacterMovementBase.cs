@@ -1,4 +1,3 @@
-using CombatBase;
 using UnityEngine;
 
 namespace MoveBase{

@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using CombatBase;
 using UnityEngine.SceneManagement;
 
 public class PlayerCombatSystem : CharacterCombatBase
