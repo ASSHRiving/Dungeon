@@ -15,6 +15,12 @@ public class EnemyCombatSystem : CharacterCombatBase
     public Transform GetSpawnPoint() => spawnPoint;
 
     private int lockOnID = Animator.StringToHash("LockOn");
+    protected override void Awake()
+    {
+        base.Awake();
+        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+        currentWeapon.GetComponent<Collider>().enabled = false;
+    }
 
     private void Update()
     {

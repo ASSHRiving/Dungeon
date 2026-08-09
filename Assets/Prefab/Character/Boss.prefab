@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 8111878505643444011}
   - component: {fileID: 5599069062710896955}
   m_Layer: 10
-  m_Name: Player
+  m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -717,7 +717,7 @@ Transform:
   m_GameObject: {fileID: 6112390287749596784}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.187, z: 0.615}
+  m_LocalPosition: {x: 0, y: 0.187, z: 0.553}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1298,18 +1298,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
   attackRangeCenter: {fileID: 2943019914504254059}
-  attackRangeRadius: 0
+  attackRangeRadius: 0.8
   whatIsEnemy:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   currentWeapon: {fileID: 0}
   canAttack: 1
   inAttack: 0
   detectionCenter: {fileID: 3815702584121428951}
-  detectionRange: 0
+  detectionRange: 7
   whatisObs:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   currentTarget: {fileID: 0}
 --- !u!4 &3711641971810874318 stripped
 Transform:

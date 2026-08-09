@@ -18,4 +18,22 @@ public class Room02: Room
             }
         }
     }
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        if (other.CompareTag("Player"))
+        {
+            foreach(var exit in exitSets)
+            {
+                if (exit.door.activeSelf)
+                {
+                    Gate gate = exit.door.GetComponent<Gate>();
+                    if(gate != null)
+                    {
+                        gate.CloseGate();
+                    }
+                }
+            }
+        }
+    }
 }

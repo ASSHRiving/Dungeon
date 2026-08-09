@@ -17,7 +17,7 @@ public abstract class Room : MonoBehaviour
         public GameObject wall;
     }
     
-    [SerializeField] private List<ExitSet> exitSets;
+    [SerializeField] protected List<ExitSet> exitSets;
 
     void Awake()
     {

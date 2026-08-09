@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 299ae0dceaf59704cbb8c684a0bb86b8, type: 3}
   m_Name: BossTransition
   m_EditorClassIdentifier: Assembly-CSharp::TransitionSO
-  stateConfigDatas: []
+  stateConfigDatas:
+  - fromState: {fileID: 11400000, guid: 8a9c1493f35485e49846f9111d990a3a, type: 2}
+    toState: {fileID: 11400000, guid: 9a86bacc5c0499a4690b4d9ec2332505, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 2762cf013274ee14cad8e95dc46d3423, type: 2}
+  - fromState: {fileID: 11400000, guid: 9a86bacc5c0499a4690b4d9ec2332505, type: 2}
+    toState: {fileID: 11400000, guid: 8a9c1493f35485e49846f9111d990a3a, type: 2}
+    conditions:
+    - {fileID: 11400000, guid: 86552a241c64a1e4fbbb0d445f6769da, type: 2}

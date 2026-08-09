@@ -3,7 +3,7 @@ using UnityEngine;
 public class Gate : MonoBehaviour
 {
     private Animator animator;
-    private bool isOpen = false;
+    private bool isOpen = true;
     private int openID = Animator.StringToHash("IsOpen"); 
     private void Awake()
     {
