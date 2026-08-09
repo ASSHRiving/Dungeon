@@ -71,6 +71,17 @@ public class EnemyCombatSystem : CharacterCombatBase
         }
     }
 
+    private void UpdateAnimationMove()
+    {
+        if (_animator.CheckAnimationTag("Roll"))
+        {
+            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID), true);
+        }else if(_animator.CheckAnimationTag("Attack"))
+        {
+            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID) * 5f, true);
+        }
+    }
+
     /// <summary>
     /// 獲取當前目標
     /// </summary>
@@ -87,16 +98,6 @@ public class EnemyCombatSystem : CharacterCombatBase
         }
     }
 
-    private void UpdateAnimationMove()
-    {
-        if (_animator.CheckAnimationTag("Roll"))
-        {
-            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID), true);
-        }else if(_animator.CheckAnimationTag("Attack"))
-        {
-            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID) * 5f, true);
-        }
-    }
     /// <summary>
     /// 獲取當前目標的距離
     /// </summary>

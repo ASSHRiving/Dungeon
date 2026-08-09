@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: BossChase
   m_EditorClassIdentifier: Assembly-CSharp::BossChase
   priority: 0
-  minDistance: 2.4
-  maxDistance: 6.6
+  minDistance: 1.5
+  maxDistance: 3
   attackDistance: 2
   moveSpeed: 2
   strafeSpeed: 1.4
   strafeChangeInterval: 1.5
   AttackColddown: 5
+  availableSkills:
+  - {fileID: 11400000, guid: 276e4d24767384d48b474b2ac8790da3, type: 2}
