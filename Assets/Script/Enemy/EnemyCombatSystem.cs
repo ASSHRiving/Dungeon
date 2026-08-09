@@ -49,7 +49,7 @@ public class EnemyCombatSystem : CharacterCombatBase
         }
     }
 
-    private void LockOnCurrentTarget()
+    public void LockOnCurrentTarget()
     {
         if(_animator.CheckAnimationTag("Motion") || _animator.CheckAnimationTag("Attack"))
         {
@@ -65,7 +65,10 @@ public class EnemyCombatSystem : CharacterCombatBase
         }
     }
 
-    
+    /// <summary>
+    /// 獲取當前目標
+    /// </summary>
+    /// <returns>Transform</returns>
     public Transform GetCurrentTarget()
     {
         if(currentTarget == null)
@@ -88,5 +91,9 @@ public class EnemyCombatSystem : CharacterCombatBase
             _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID) * 5f, true);
         }
     }
+    /// <summary>
+    /// 獲取當前目標的距離
+    /// </summary>
+    /// <returns>float</returns>
     public float GetCurrentTargetDistance() => currentTarget ? Vector3.Distance(currentTarget.position, transform.root.position) : 0f;
 }

@@ -7,19 +7,24 @@ public class StateMachineSystem : MonoBehaviour
     [Header("目前狀態")]public StateActionSO currrentState;
 
     [HideInInspector] public int randomHorizontal = 1;
-    [HideInInspector] public float strafeTimer = 0f;
 
-    public Animator animator;
-    public EnemyCombatSystem combat;
-    public EnemyMovementSystem movement;
-    public CharacterHealthBase health;
-    public NavMeshAgent agent;
+    //計時器
+    [HideInInspector] public float strafeTimer = 0f;
+    [HideInInspector] public float attackTimer = 0f;
+
+    //外部腳本
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public EnemyCombatSystem combat;
+    [HideInInspector] public EnemyMovementSystem movement;
+    [HideInInspector] public CharacterHealthBase health;
+    [HideInInspector] public NavMeshAgent agent;
 
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
         combat = GetComponentInChildren<EnemyCombatSystem>();
         movement = GetComponent<EnemyMovementSystem>();
+        health = GetComponent<EnemyHealthSystem>();
         agent = GetComponent<NavMeshAgent>();
     }
     private void Start()
