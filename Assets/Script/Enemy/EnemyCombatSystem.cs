@@ -10,7 +10,7 @@ public class EnemyCombatSystem : CharacterCombatBase
     Collider[] colliderTarget = new Collider[1];
 
     [SerializeField, Header("當前目標")] private Transform currentTarget;
-    private Transform spawnPoint;
+    [SerializeField] private Transform spawnPoint;
     public void SetSpawnPoint(Transform point) => spawnPoint = point;
     public Transform GetSpawnPoint() => spawnPoint;
 
@@ -38,6 +38,7 @@ public class EnemyCombatSystem : CharacterCombatBase
         int count = Physics.OverlapSphereNonAlloc(detectionCenter.position, detectionRange, colliderTarget, whatIsEnemy);
         if(count > 0)
         {
+            Debug.Log("1");
             //檢查與目標之間是否有障礙物遮擋
             if(!Physics.Raycast(transform.root.position + transform.root.up * .5f,
                 (colliderTarget[0].transform.position - transform.root.position).normalized, out var hit, detectionRange, whatisObs))

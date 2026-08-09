@@ -4,9 +4,7 @@ using UnityEngine.AI;
 [CreateAssetMenu(fileName = "SkeletonIdle", menuName = "StateMachine/States/SkeletonIdle")]
 public class SkeletonIdle : StateActionSO
 {
-    // 可在 SO 上設定抵達的容許誤差距離（通常設 0.2 ~ 0.5 即可）
     [SerializeField] private float stoppingDistance = 0.3f;
-
     public override void OnEnter(StateMachineSystem stateMachineSystem)
     {
         NavMeshAgent agent = stateMachineSystem.agent;
