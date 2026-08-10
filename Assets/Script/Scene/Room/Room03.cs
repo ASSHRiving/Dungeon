@@ -1,20 +1,24 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Room02: Room
+public class Room03: Room
 {
     [Header("敵人生成設定")]
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private List<Transform> enemySpawnPoints;
     public override void Init()
     {
-        foreach (var point in enemySpawnPoints)
+        if(enemyPrefab != null && enemySpawnPoints != null)
         {
-            GameObject enemyGo = Instantiate(enemyPrefab, point.position, point.rotation);
-            EnemyCombatSystem combat = enemyGo.GetComponentInChildren<EnemyCombatSystem>();
-            if (combat != null)
+            foreach (var point in enemySpawnPoints)
             {
-                combat.SetSpawnPoint(point);
+                if(point == null) continue;
+                GameObject enemyGo = Instantiate(enemyPrefab, point.position, point.rotation);
+                EnemyCombatSystem combat = enemyGo.GetComponentInChildren<EnemyCombatSystem>();
+                if (combat != null)
+                {
+                    combat.SetSpawnPoint(point);
+                }
             }
         }
     }

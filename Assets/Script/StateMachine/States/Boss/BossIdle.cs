@@ -38,7 +38,6 @@ public class BossIdle : StateActionSO
             // 判斷是否「已經抵達目的地」：剩餘距離 <= 設定的停止距離
             if (agent.remainingDistance <= stoppingDistance)
             {
-                Debug.Log("到了出生點");
                 // 到了出生點：徹底停止 Agent 並清除路徑
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero; // 將慣性速度歸零，防止微幅漂移
@@ -51,7 +50,6 @@ public class BossIdle : StateActionSO
             }
             else
             {
-                Debug.Log("還在回出生點的路上");
                 // 還在回出生點的路上：播放移動動畫
                 if (animator != null)
                 {
