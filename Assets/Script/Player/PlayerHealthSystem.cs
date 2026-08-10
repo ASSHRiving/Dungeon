@@ -14,7 +14,6 @@ public class PlayerHealthSystem : CharacterHealthBase
 
     void Start()
     {
-        maxHealth = 100f;
         currentHealth = maxHealth;
         healthBar.fillAmount = currentHealth / maxHealth;
         healthText.text = $"{currentHealth}/{maxHealth}";

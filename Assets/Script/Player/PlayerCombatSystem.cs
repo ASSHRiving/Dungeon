@@ -39,7 +39,7 @@ public class PlayerCombatSystem : CharacterCombatBase
 
     private void PlayerAttackAction()
     {
-        if (_inputSystem.playerLAtk && canAttack)
+        if (_inputSystem.playerLAtk && canAttack && !_animator.CheckAnimationTag("Hit"))
         {
             canAttack = false;
             currentWeapon.Attack(_animator);
