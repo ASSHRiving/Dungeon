@@ -6,6 +6,7 @@ public class EnemyHealthSystem : CharacterHealthBase
     [SerializeField] private GameObject lootPrefab;
     [SerializeField] private int gold = 5;
     private NavMeshAgent _navMeshAgent;
+    public System.Action OnDeath;           //死亡廣播
 
     void Start()
     {
@@ -35,6 +36,7 @@ public class EnemyHealthSystem : CharacterHealthBase
     }
     protected override void Die()
     {
+        OnDeath?.Invoke();
         isDead = true;
         _navMeshAgent.enabled = false;
         gameObject.layer = LayerMask.NameToLayer("Ground");
