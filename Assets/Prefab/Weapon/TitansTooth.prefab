@@ -55,8 +55,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3082771, y: 0.56250787, z: 0.23786041}
-  m_Center: {x: -0.4598478, y: 0.007869348, z: 0.0034008026}
+  m_Size: {x: 2.3267055, y: 0.7746825, z: 0.23786041}
+  m_Center: {x: -0.37955475, y: -0.09821798, z: 0.0034008026}
 --- !u!54 &8911190696469547184
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60f232d8b049af42b69647bcd3ca4df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropsInteract
-  interactableName: Drops
+  interactableName: "\u6CF0\u5766\u4E4B\u7259"
 --- !u!114 &5993175073647905508
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ public class Room03: Room
     [Header("敵人生成設定")]
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private List<Transform> enemySpawnPoints;
+    private List<GameObject> spawnedEnemies = new List<GameObject>();
+    private bool isClear = false;
     public override void Init()
     {
         if(enemyPrefab != null && enemySpawnPoints != null)
@@ -14,6 +16,7 @@ public class Room03: Room
             {
                 if(point == null) continue;
                 GameObject enemyGo = Instantiate(enemyPrefab, point.position, point.rotation);
+                spawnedEnemies.Add(enemyGo);
                 EnemyCombatSystem combat = enemyGo.GetComponentInChildren<EnemyCombatSystem>();
                 if (combat != null)
                 {
@@ -22,20 +25,64 @@ public class Room03: Room
             }
         }
     }
+
+    void Update()
+    {
+        if(IsRoomCleared() && !isClear)
+        {
+            isClear = true;
+            OpenGate();
+            GameAssets.Instance.PlayInGameMusic();
+        }
+    }
+
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
         if (other.CompareTag("Player"))
         {
-            foreach(var exit in exitSets)
+            if (!isClear)
             {
-                if (exit.door.activeSelf)
+                CloseGate();
+                GameAssets.Instance.PlayBossMusic();
+            }
+        }
+    }
+    private bool IsRoomCleared()
+    {
+        foreach (var enemy in spawnedEnemies)
+        {
+            if (enemy != null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    private void CloseGate()
+    {
+        foreach(var exit in exitSets)
+        {
+            if (exit.door.activeSelf)
+            {
+                Gate gate = exit.door.GetComponent<Gate>();
+                if(gate != null)
                 {
-                    Gate gate = exit.door.GetComponent<Gate>();
-                    if(gate != null)
-                    {
-                        gate.CloseGate();
-                    }
+                    gate.CloseGate();
+                }
+            }
+        }
+    }
+    private void OpenGate()
+    {
+        foreach(var exit in exitSets)
+        {
+            if (exit.door.activeSelf)
+            {
+                Gate gate = exit.door.GetComponent<Gate>();
+                if(gate != null)
+                {
+                    gate.OpenGate();
                 }
             }
         }

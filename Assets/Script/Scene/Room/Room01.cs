@@ -15,7 +15,7 @@ public class Room01 : Room
         {
             GameObject enemyGo = Instantiate(enemyPrefab, point.position, point.rotation);
             spawnedEnemies.Add(enemyGo);
-            EnemyCombatSystem combat = enemyGo.GetComponent<EnemyCombatSystem>();
+            EnemyCombatSystem combat = enemyGo.GetComponentInChildren<EnemyCombatSystem>();
             if (combat != null)
             {
                 combat.SetSpawnPoint(point);
