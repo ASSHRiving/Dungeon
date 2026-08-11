@@ -41,10 +41,18 @@ public class Room03: Room
         base.OnTriggerEnter(other);
         if (other.CompareTag("Player"))
         {
-            if (!isClear)
+            if (!isClear)                  //首次進房
             {
                 CloseGate();
                 GameAssets.Instance.PlayBossMusic();
+                foreach(var enemy in spawnedEnemies)
+                {
+                    EnemyCombatSystem combat = enemy.GetComponentInChildren<EnemyCombatSystem>();
+                    if (combat != null)
+                    {
+                        combat.SetCurrentTarget(other.transform);
+                    }
+                }
             }
         }
     }

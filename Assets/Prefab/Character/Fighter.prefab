@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 8477887791818903007}
   - component: {fileID: 38294268887403799}
   - component: {fileID: 867374025076862527}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBarBuffer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 5285374962459089090}
   - component: {fileID: 197880153061745748}
   - component: {fileID: 7306819253640484099}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 2886963829638707229}
   - component: {fileID: 830924517055130584}
   - component: {fileID: 1077894331638576700}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBarRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -518,7 +518,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4464665704680522253}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: InteractDetectionCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -916,7 +916,7 @@ GameObject:
   - component: {fileID: 5146153464199939014}
   - component: {fileID: 6341946783038153671}
   - component: {fileID: 1362924180719399802}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -995,7 +995,7 @@ GameObject:
   - component: {fileID: 8208239135693734448}
   - component: {fileID: 2302489406417311533}
   - component: {fileID: 4467237342906235068}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1308,9 +1308,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2181851946170151819, guid: c7a90dcadeb8a514f9481faedcdf351b, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2491513048122870044, guid: c7a90dcadeb8a514f9481faedcdf351b, type: 3}
       propertyPath: m_Name
       value: TitansTooth
+      objectReference: {fileID: 0}
+    - target: {fileID: 2491513048122870044, guid: c7a90dcadeb8a514f9481faedcdf351b, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
