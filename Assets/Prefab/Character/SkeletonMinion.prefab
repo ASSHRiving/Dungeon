@@ -577,7 +577,7 @@ MonoBehaviour:
   canAttack: 1
   inAttack: 0
   detectionCenter: {fileID: 5044610085686842716}
-  detectionRange: 5
+  detectionRange: 20
   whatisObs:
     serializedVersion: 2
     m_Bits: 1
@@ -2180,8 +2180,8 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.6
-  m_Radius: 0.35
+  m_Height: 1.4
+  m_Radius: 0.38
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

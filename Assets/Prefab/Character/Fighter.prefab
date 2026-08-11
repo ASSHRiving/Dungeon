@@ -605,7 +605,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.98, z: 0}
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &4199189281554686236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -697,8 +697,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 28736
-  groundDetectionOffset: -0.3
-  groundDetectionRang: 0.35
+  groundDetectionOffset: -0.12
+  groundDetectionRang: 0.38
   slopRayExtent: 5
   whatIsObs:
     serializedVersion: 2
