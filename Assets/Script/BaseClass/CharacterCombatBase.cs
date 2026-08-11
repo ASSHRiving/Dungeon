@@ -10,6 +10,8 @@ public abstract class CharacterCombatBase : MonoBehaviour
     protected CharacterHealthBase _health;
     protected AudioSource _audio;
     private AnimationEventHelper _animationEvent;
+    
+    //===================================================================
 
     [SerializeField, Header("攻擊範圍")] protected Transform attackRangeCenter;
     [SerializeField] protected float attackRangeRadius;

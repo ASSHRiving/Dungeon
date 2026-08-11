@@ -7,10 +7,16 @@ public class PlayerCombatSystem : CharacterCombatBase
     [SerializeField] private Transform currentTarget;
     [SerializeField] private Transform weaponHolder;
 
-    [SerializeField, Header("檢測敵人")] private Transform enemyDetectionCenter;
+    [Header("索敵設定")]
+    [SerializeField] private Transform enemyDetectionCenter;
     [SerializeField] private float enemyDetectionRadius;
-
+    [SerializeField] private LayerMask whatIsObs;
     private Collider[] detectedEnemies = new Collider[10];
+
+    [Header("鏡頭參考")]
+    [SerializeField] private Transform mainCameraTransform;
+
+
     override protected void Awake()
     {
         base.Awake();
@@ -74,7 +80,7 @@ public class PlayerCombatSystem : CharacterCombatBase
 
     private bool CanAttackLockOn()
         {
-            if (_animator.CheckAnimationTag("Attack") && _inputSystem.playerMovement == Vector2.zero)
+            if (_animator.CheckAnimationTag("Attack"))
             {
                 if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.65f)
                 {
@@ -86,6 +92,13 @@ public class PlayerCombatSystem : CharacterCombatBase
 
     private void DetectEnemy()
     {
+        // 1. 確保有抓到 Main Camera
+        if (mainCameraTransform == null)
+        {
+            if (Camera.main != null) mainCameraTransform = Camera.main.transform;
+            else return;
+        }
+
         int count = Physics.OverlapSphereNonAlloc(enemyDetectionCenter.position, enemyDetectionRadius, detectedEnemies, whatIsEnemy);
         
         if (count > 0)
@@ -93,8 +106,10 @@ public class PlayerCombatSystem : CharacterCombatBase
             Transform bestTarget = null;
             float highestDot = -1f; // 點積最低是 -1，所以從 -1 開始比
 
-            // 取得玩家當前正前方的方向 vector
-            Vector3 playerForward = transform.forward;
+            // 取得鏡頭正前方的平面方向
+            Vector3 cameraForward = mainCameraTransform.forward;
+            cameraForward.y = 0;
+            cameraForward.Normalize();
 
             for (int i = 0; i < count; i++)
             {
@@ -102,23 +117,36 @@ public class PlayerCombatSystem : CharacterCombatBase
 
                 // 1. 取得敵人的根物件，避免同一個敵人因為有多個 Collider 而被重複或算錯位置
                 Transform enemyRoot = detectedEnemies[i].transform.root;
+                if (enemyRoot == transform.root) continue;
 
-                // 2. 計算從「玩家」指向「敵人」的向量（忽略 Y 軸高度差，讓純平面旋轉更精確）
-                Vector3 directionToEnemy = (enemyRoot.position - transform.position);
-                directionToEnemy.y = 0; // 如果敵人高低差大，歸零可以避免影響視線角度判斷
-                directionToEnemy.Normalize(); // 單位化，確保長度為 1
+                // 計算玩家到敵人的方向與距離
+                Vector3 origin = transform.position + Vector3.up * 1f; // 從玩家胸口/眼睛高度發射，避免地面貼地撞到腳下微小坡度
+                Vector3 enemyTargetPos = enemyRoot.position + Vector3.up * 1f; // 射向敵人胸口位置
 
-                // 3. 計算內積（Dot Product）
-                float dot = Vector3.Dot(playerForward, directionToEnemy);
+                Vector3 directionToEnemy = (enemyTargetPos - origin);
+                float distanceToEnemy = directionToEnemy.magnitude;
+                directionToEnemy.Normalize();
 
-                // 5. 找出內積最大（最接近玩家面向）的敵人
+                // 計算平面方向內積（畫面中央優先度）
+                Vector3 flatDir = (enemyRoot.position - transform.position);
+                flatDir.y = 0;
+                flatDir.Normalize();
+
+                float dot = Vector3.Dot(cameraForward, flatDir);
+
+                // 條件 A：必須在鏡頭視野範圍內 (例如 Dot > 0.3)
                 if (dot > highestDot)
                 {
-                    highestDot = dot;
-                    bestTarget = enemyRoot;
+                    // 🔑 條件 B：Raycast 視線遮擋檢查
+                    // 射線從玩家發射到敵人，長度為實際距離 distanceToEnemy
+                    // 如果沒有打到 whatIsObs，代表視線完全無遮擋！
+                    if (!Physics.Raycast(origin, directionToEnemy, out RaycastHit hit, distanceToEnemy, whatIsObs))
+                    {
+                        highestDot = dot;
+                        bestTarget = enemyRoot;
+                    }
                 }
             }
-
             // 如果有找到適合的目標，設定為 Target
             if (bestTarget != null)
             {
