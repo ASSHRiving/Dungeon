@@ -36,8 +36,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         CancelAttackMove();
         //ResetInAttack();
     }
-
-    private void PlayerAttackAction()
+    private void PlayerAttackAction()   //執行攻擊
     {
         if (_inputSystem.playerLAtk && canAttack && !_animator.CheckAnimationTag("Hit"))
         {
@@ -46,25 +45,16 @@ public class PlayerCombatSystem : CharacterCombatBase
             inAttack = true;
         }
     }
-
-    //攻擊時AnimationMove參數
-    private void ActionMotion()
+    private void ActionMotion()         //攻擊時AnimationMove參數
     {
         if (_animator.CheckAnimationTag("Attack"))
         {
             _movement.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMoveID)*4f, true);
         }
     }
-    private void ResetInAttack()
+    private void CancelAttackMove()     //取消後搖
     {
-        if (_animator.CheckAnimationTag("Motion"))
-        {
-            inAttack = false;
-        }
-    }
-    private void CancelAttackMove()
-    {
-        if(inAttack && canAttack && _animator.GetFloat(speedID) > 0.2)
+        if(inAttack && canAttack && _inputSystem.playerMovement != Vector2.zero)
         {
             inAttack = false;
             canAttack = true;
@@ -72,7 +62,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         }
     }
 
-    private void AttackLockOnTarget()
+    private void AttackLockOnTarget()   //攻擊鎖敵
     {
         if(CanAttackLockOn()){
             if (currentTarget != null)
@@ -84,7 +74,7 @@ public class PlayerCombatSystem : CharacterCombatBase
 
     private bool CanAttackLockOn()
         {
-            if (_animator.CheckAnimationTag("Attack"))
+            if (_animator.CheckAnimationTag("Attack") && _inputSystem.playerMovement == Vector2.zero)
             {
                 if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.65f)
                 {
