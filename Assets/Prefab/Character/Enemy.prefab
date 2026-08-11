@@ -154,7 +154,7 @@ Transform:
   m_GameObject: {fileID: 2413248994364709423}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -282,7 +282,7 @@ Transform:
   m_GameObject: {fileID: 3336566230306719009}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.102, z: 0.592}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0.592}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -514,12 +514,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8325055916879527321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +537,7 @@ MonoBehaviour:
   healthUI: {fileID: 7882149743230178917}
   healthText: {fileID: 5070986076705743321}
   maxHealth: 300
+  shield: 10
   currentHealth: 0
   scriptsToDisable:
   - {fileID: 7057759485788597434}
@@ -562,8 +563,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  groundDetectionOffset: 0.7
-  groundDetectionRang: 0.32
+  groundDetectionOffset: -0.18
+  groundDetectionRang: 0.38
   slopRayExtent: 0
   whatIsObs:
     serializedVersion: 2
@@ -599,7 +600,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4795439386162384584}
   m_Enabled: 1
-  m_AgentTypeID: -1372625422
+  m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -610,7 +611,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 1
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &6343006554346893621
@@ -649,7 +650,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.1}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6660036840987884825
@@ -952,7 +953,7 @@ Transform:
   m_GameObject: {fileID: 8038881223996499849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.755, z: 0.1443}
+  m_LocalPosition: {x: 0, y: 1.7, z: 0.1443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -976,7 +977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5364906875230734735, guid: 0f5d8a8c1e57835419d2fbd5d29cc115, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5364906875230734735, guid: 0f5d8a8c1e57835419d2fbd5d29cc115, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1063,6 +1064,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   currentTarget: {fileID: 0}
+  spawnPoint: {fileID: 0}
 --- !u!114 &8289167736103186554
 MonoBehaviour:
   m_ObjectHideFlags: 0

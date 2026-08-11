@@ -18,8 +18,16 @@ public class EnemyCombatSystem : CharacterCombatBase
     protected override void Awake()
     {
         base.Awake();
-        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-        currentWeapon.GetComponent<Collider>().enabled = false;
+        Rigidbody rb = currentWeapon.GetComponent<Rigidbody>();
+        Collider col = currentWeapon.GetComponent<Collider>();
+        if(rb != null)
+        {
+            rb.isKinematic = true;
+        }
+        if(col != null)
+        {
+            col.enabled = false;
+        }
     }
 
     private void Update()
@@ -39,8 +47,8 @@ public class EnemyCombatSystem : CharacterCombatBase
         if(count > 0)
         {
             Collider target = colliderTarget[0];
-            Vector3 origin = transform.root.position + transform.root.up * 0.5f;
-            Vector3 targetPos = target.transform.position;
+            Vector3 origin = transform.root.position + transform.root.up * 1f;
+            Vector3 targetPos = target.transform.root.position + target.transform.root.up;
             Vector3 dirToTarget = (targetPos - origin).normalized;
             float distToTarget = Vector3.Distance(origin, target.transform.position);
             //檢查與目標之間是否有障礙物遮擋

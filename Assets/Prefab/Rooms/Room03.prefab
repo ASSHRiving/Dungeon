@@ -2024,6 +2024,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Carpet_Green
       objectReference: {fileID: 0}
+    - target: {fileID: 5786272363911959125, guid: ac1fd1afdb0602f428b3d53dcc62d278, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5786272363912253045, guid: ac1fd1afdb0602f428b3d53dcc62d278, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.25
@@ -3190,6 +3194,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_02
       objectReference: {fileID: 0}
+    - target: {fileID: 8178109065456489191, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8209778948206908569, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.4256859
@@ -4004,6 +4012,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8178109065456489191, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8209778948206908569, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.88317394
@@ -4314,6 +4326,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_02 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8178109065456489191, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8209778948206908569, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5638676
@@ -4499,6 +4515,10 @@ PrefabInstance:
     - target: {fileID: 8178109065456489191, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
       propertyPath: m_Name
       value: Wood_02 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8178109065456489191, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8209778948206908569, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
       propertyPath: m_LocalPosition.x
