@@ -28,8 +28,9 @@ public class PlayerHealthSystem : CharacterHealthBase
         {
             return;
         }
+        float damage =  Mathf.Clamp(damageAmount - shield, 0f, damageAmount);
 
-        currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
 
         _animator.Play(hitAnimationName,0,0f);
@@ -57,46 +58,50 @@ public class PlayerHealthSystem : CharacterHealthBase
     }
     
     //換裝
-    public void ChangeHeadMesh(Mesh newMesh)
+    public void ChangeEquipment(Mesh newMesh, EquipmentInteract.EquipmentType type, ShopItem item)
     {
-        if (HeadSkinnedMeshRenderer != null && newMesh != null)
+        switch (type)
         {
-            HeadSkinnedMeshRenderer.sharedMesh = newMesh;
+            case EquipmentInteract.EquipmentType.Head:
+                if (HeadSkinnedMeshRenderer != null && newMesh != null)
+                {
+                    HeadSkinnedMeshRenderer.sharedMesh = newMesh;
+                }
+                break;
+            case EquipmentInteract.EquipmentType.Chest:
+                if (ChestSkinnedMeshRenderer != null && newMesh != null)
+                {
+                    ChestSkinnedMeshRenderer.sharedMesh = newMesh;
+                }
+                break;
+            case EquipmentInteract.EquipmentType.Arm:
+                if (ArmSkinnedMeshRenderer != null && newMesh != null)
+                {
+                    ArmSkinnedMeshRenderer.sharedMesh = newMesh;
+                }
+                break;
+            case EquipmentInteract.EquipmentType.Belt:
+                if (BeltSkinnedMeshRenderer != null && newMesh != null)
+                {
+                    BeltSkinnedMeshRenderer.sharedMesh = newMesh;
+                }
+                break;
+            case EquipmentInteract.EquipmentType.Leg:
+                if (LegSkinnedMeshRenderer != null && newMesh != null)
+                {
+                    LegSkinnedMeshRenderer.sharedMesh = newMesh;
+                }
+                break;
+            case EquipmentInteract.EquipmentType.Feet:
+                if (FeetSkinnedMeshRenderer != null && newMesh != null)
+                {
+                    FeetSkinnedMeshRenderer.sharedMesh = newMesh;
+                }
+                break; 
         }
-    }
-    public void ChangeChestMesh(Mesh newMesh)
-    {
-        if (ChestSkinnedMeshRenderer != null && newMesh != null)
-        {
-            ChestSkinnedMeshRenderer.sharedMesh = newMesh;
-        }
-    }
-    public void ChangeArmMesh(Mesh newMesh)
-    {
-        if (ArmSkinnedMeshRenderer != null && newMesh != null)
-        {
-            ArmSkinnedMeshRenderer.sharedMesh = newMesh;
-        }
-    }
-    public void ChangeBeltMesh(Mesh newMesh)
-    {
-        if (BeltSkinnedMeshRenderer != null && newMesh != null)
-        {
-            BeltSkinnedMeshRenderer.sharedMesh = newMesh;
-        }
-    }
-    public void ChangeLegMesh(Mesh newMesh)
-    {
-        if (LegSkinnedMeshRenderer != null && newMesh != null)
-        {
-            LegSkinnedMeshRenderer.sharedMesh = newMesh;
-        }
-    }
-    public void ChangeFeetMesh(Mesh newMesh)
-    {
-        if (FeetSkinnedMeshRenderer != null && newMesh != null)
-        {
-            FeetSkinnedMeshRenderer.sharedMesh = newMesh;
-        }
+        maxHealth += item.health;
+        currentHealth += item.health;
+        shield += item.shield;
+        UpdateHealthBar(currentHealth / maxHealth);
     }
 }

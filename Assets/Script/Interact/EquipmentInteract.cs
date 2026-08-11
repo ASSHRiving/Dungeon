@@ -3,10 +3,15 @@ using UnityEngine;
 public class EquipmentInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] public string interactableName = "Equipment";
-    enum EquipmentType { Head, Chest, Arm, Belt, Leg, Feet }
+    public enum EquipmentType { Head, Chest, Arm, Belt, Leg, Feet }
     [SerializeField] private EquipmentType equipmentType;
     [SerializeField] private Mesh newMesh;
     [SerializeField] private int price;
+    private ShopItem item;
+    private void Awake()
+    {
+        item = GetComponent<ShopItem>();
+    }
     public int GetPrice()
     {
         return price;
@@ -16,27 +21,7 @@ public class EquipmentInteract : MonoBehaviour, IInteractable
         PlayerHealthSystem health = player.GetComponentInChildren<PlayerHealthSystem>();
         if (health != null)
         {
-            switch (equipmentType)
-            {
-                case EquipmentType.Head:
-                    health.ChangeHeadMesh(newMesh);
-                    break;
-                case EquipmentType.Chest:
-                    health.ChangeChestMesh(newMesh);
-                    break;
-                case EquipmentType.Arm:
-                    health.ChangeArmMesh(newMesh);
-                    break;
-                case EquipmentType.Belt:
-                    health.ChangeBeltMesh(newMesh);
-                    break;
-                case EquipmentType.Leg:
-                    health.ChangeLegMesh(newMesh);
-                    break;
-                case EquipmentType.Feet:
-                    health.ChangeFeetMesh(newMesh);
-                    break;
-            }
+            health.ChangeEquipment(newMesh, equipmentType, item);
         }
         Destroy(this.gameObject);
     }

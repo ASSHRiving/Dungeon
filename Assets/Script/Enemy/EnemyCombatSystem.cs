@@ -45,14 +45,12 @@ public class EnemyCombatSystem : CharacterCombatBase
             float distToTarget = Vector3.Distance(origin, target.transform.position);
             //檢查與目標之間是否有障礙物遮擋
             if (!Physics.Raycast(origin, dirToTarget, out var hit, distToTarget, whatisObs))
-            {
-                
+            {          
                 //檢查目標是否在面前
                 if(Vector3.Dot((colliderTarget[0].transform.position - transform.root.position).normalized, transform.root.forward) > 0.4f)
                 {
                     currentTarget = colliderTarget[0].transform;
                 }
-                
             }
             else
             {

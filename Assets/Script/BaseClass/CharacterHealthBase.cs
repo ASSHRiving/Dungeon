@@ -3,15 +3,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System;
 
 public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 {
-    [Header("血量")]
+    [Header("血條UI")]
     public Image healthBar;
     public Image healthBarBuffer;
     public Image healthUI;
     public TMP_Text healthText;
+
+    [Header("數值")]
     [SerializeField] protected float maxHealth = 100;
+    [SerializeField] protected float shield = 10;
     public bool isDead { get; protected set; } = false;
     [SerializeField] protected float currentHealth;
     protected Coroutine bufferCoroutine;
