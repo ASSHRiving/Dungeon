@@ -2251,6 +2251,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StateMachineSystem
   transition: {fileID: 11400000, guid: 0a8929bea2162204ba8d056a747fe5c8, type: 2}
   currrentState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
+  allEnemySkills:
+  - {fileID: 11400000, guid: bc752c916048e89458f7fde0afdbe833, type: 2}
+  - {fileID: 11400000, guid: ffa4e1c11ad6b14499491ef0b9621374, type: 2}
+  - {fileID: 11400000, guid: 3fc1a570316665e45b9ea0aa320afb7b, type: 2}
   randomHorizontal: 1
   strafeTimer: 0
   attackTimer: 0
