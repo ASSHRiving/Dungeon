@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 
 public class SettingsController : MonoBehaviour
 {
@@ -13,10 +14,13 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private TMP_Dropdown minimapDropdown;
     [SerializeField] private Slider horizontalSlider;
     [SerializeField] private Slider verticalSlider;
+    [SerializeField] private Slider bgmSlider;
+    [SerializeField] private Slider effectSlider;
 
     [Header("其他控制器參照")]
     [SerializeField] private MinimapController minimapController;
     [SerializeField] private CinemachineInputAxisController cameraInput;
+    [SerializeField] public AudioMixer mainMixer;
 
     private bool isSettingsOpen;
     private PlayerInput _inputSystem;
@@ -47,6 +51,23 @@ public class SettingsController : MonoBehaviour
             verticalSlider.SetValueWithoutNotify(savedVerticalSensitivity);
         }
         ChangeVerticalSensitivity(savedVerticalSensitivity);
+
+        float bgmVal = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
+        float effectVal = PlayerPrefs.GetFloat("EffectVolume", 0.5f);
+        if(bgmSlider != null)
+        {
+            bgmSlider.value = bgmVal;
+        }
+        if(effectSlider != null)
+        {
+            effectSlider.value = effectVal;
+        }
+        SetBGMVolume(bgmVal);
+        SetEffectVolume(effectVal);
+
+        // 動態綁定 UI Slider 事件
+        bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+        effectSlider.onValueChanged.AddListener(SetEffectVolume);
 
         CloseSettings();
     }
@@ -126,5 +147,21 @@ public class SettingsController : MonoBehaviour
 
         cameraInput.Controllers[1].Input.Gain = -value;
         PlayerPrefs.SetFloat("VerticalSensitivity", value);
+    }
+
+    public void SetBGMVolume(float value)
+    {
+        float adjustedValue = Mathf.Pow(value, 2);
+        float dB = Mathf.Log10(adjustedValue) * 20;
+        mainMixer.SetFloat("BGMVolume", dB);
+        PlayerPrefs.SetFloat("BGMVolume", value);
+    }
+
+    public void SetEffectVolume(float value)
+    {
+        float adjustedValue = Mathf.Pow(value, 2);
+        float dB = Mathf.Log10(adjustedValue) * 20;
+        mainMixer.SetFloat("EffectVolume", dB);
+        PlayerPrefs.SetFloat("EffectVolume", value);
     }
 }
