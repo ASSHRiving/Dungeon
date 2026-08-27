@@ -76,7 +76,7 @@ ModelImporter:
             outWeight: 0
           - serializedVersion: 3
             time: 0.17530863
-            value: 0.5
+            value: 1
             inSlope: Infinity
             outSlope: 0
             tangentMode: 7
@@ -105,7 +105,7 @@ ModelImporter:
           postInfinity: 3
           rotationOrder: 4
       events:
-      - time: 0.19444445
+      - time: 0.2340786
         functionName: OnAnimationAttackEvent
         data: Hit_F
         objectReferenceParameter: {instanceID: 0}
