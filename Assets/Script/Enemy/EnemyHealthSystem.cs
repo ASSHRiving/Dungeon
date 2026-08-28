@@ -15,20 +15,36 @@ public class EnemyHealthSystem : CharacterHealthBase
         healthText.text = $"{currentHealth}/{maxHealth}";
         _navMeshAgent = GetComponentInParent<NavMeshAgent>();
     }
-    public override void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount)
+    public override void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount, float poiseDamage = 10f)
     {
         if (isDead)
         {
             return;
         }
+        //減傷公式
+        float damage =  Mathf.Clamp(damageAmount - shield, 0f, damageAmount);
 
         currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
-    
-        _animator.Play(hitAnimationName,0,0f);
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
         Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");
+
+        if(damage/maxHealth > 0.05f)
+        {
+            // 扣除韌性與判斷是否被打斷/播放受擊動畫
+            currentPoise -= poiseDamage;
+            poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
+            if(currentPoise <= 0)
+            {
+                _animator.Play(hitAnimationName,0,0f);
+                _combat.canAttack = true;
+                _combat.currentWeapon.combo = 0;
+                
+                currentPoise = maxPoise;
+            }     
+        }
+        
         if (currentHealth <= 0)
         {
             Die();

@@ -16,6 +16,14 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     [Header("數值")]
     [SerializeField] protected float maxHealth = 100;
     [SerializeField] protected float shield = 10;
+
+    [Header("韌性系統 (Poise System)")]
+    public float maxPoise = 100f;        // 最大韌性值
+    public float currentPoise = 100f;    // 當前韌性值
+    public float poiseRecoveryRate = 20f; // 每秒恢復的韌性
+    protected float poiseRecoveryTimer = 0f;
+    public float poiseRecoveryDelay = 3f; // 停止受擊後多長時間開始恢復韌性
+
     public bool isDead { get; protected set; } = false;
     [SerializeField] protected float currentHealth;
     protected Coroutine bufferCoroutine;
@@ -37,6 +45,10 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         _audio = _movement.GetComponentInChildren<AudioSource>();
 
     }
+    private void Update()
+    {
+        RecoverPoise();
+    }
 
     private void LateUpdate()
     {
@@ -57,18 +69,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         throw new System.NotImplementedException("TakeDamage method must be implemented by subclasses.");
     }
 
-    public virtual void TakeDamage(string hitAnimationName)
-    {
-        _animator.Play(hitAnimationName, 0, 0f);
-    }
-
-    public virtual void TakeDamage(string hitAnimationName, Transform attacker)
-    {
-        _animator.Play(hitAnimationName,0,0f);
-        SetAttacker(attacker);
-        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
-    }
-    public virtual void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount)
+    public virtual void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount, float poiseDamage = 10f)
     {
         _animator.Play(hitAnimationName,0,0f);
         SetAttacker(attacker);
@@ -108,6 +109,20 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
             yield return null;
         }
         healthBarBuffer.fillAmount = targetFill;
+    }
+    private void RecoverPoise()
+    {
+        if (currentPoise < maxPoise)
+        {
+            if (poiseRecoveryTimer > 0)
+            {
+                poiseRecoveryTimer -= Time.deltaTime;
+            }
+            else
+            {
+                currentPoise = Mathf.Min(maxPoise, currentPoise + poiseRecoveryRate * Time.deltaTime);
+            }
+        }
     }
 
 }

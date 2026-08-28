@@ -80,7 +80,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
                 if (damageable != null)
                 {
                     Debug.Log($"攻擊到 {attackHits[i]}，造成 {currentWeapon.damage} 傷害");
-                    damageable.TakeDamage(hitName, transform.root, currentWeapon.damage);
+                    damageable.TakeDamage(hitName, transform.root, currentWeapon.damage, 10);
                 }
             }
         }
