@@ -15,7 +15,7 @@ public class SkeletonChase : StateActionSO
         NavMeshAgent agent = stateMachineSystem.agent;
         if(combat == null || animator == null || agent == null || combat.GetCurrentTarget() == null) return;
 
-
+        stateMachineSystem.transform.root.rotation = stateMachineSystem.transform.LockOnTarget(combat.GetCurrentTarget(),stateMachineSystem.transform.root.transform,50f);
         float distance = combat.GetCurrentTargetDistance();
 
         if(animator.CheckAnimationTag("Motion"))

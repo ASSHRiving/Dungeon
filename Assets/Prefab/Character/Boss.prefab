@@ -584,9 +584,11 @@ MonoBehaviour:
   transition: {fileID: 11400000, guid: fae173cd2df4a214aa4a48f1a802ee18, type: 2}
   currrentState: {fileID: 11400000, guid: 8a9c1493f35485e49846f9111d990a3a, type: 2}
   allEnemySkills:
+  - {fileID: 11400000, guid: df79ea757740f0d46b4f4e43566eef45, type: 2}
   - {fileID: 11400000, guid: 276e4d24767384d48b474b2ac8790da3, type: 2}
   - {fileID: 11400000, guid: ab85d4317447e014880a9eb1e4dd4937, type: 2}
   - {fileID: 11400000, guid: b665e95b21c16274293554dc35a51971, type: 2}
+  - {fileID: 11400000, guid: 036504f4db0e29e488e15a733619fb77, type: 2}
   randomHorizontal: 1
   strafeTimer: 0
   attackTimer: 0

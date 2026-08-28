@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2643f699052b64d4c91addf6038151f2, type: 3}
   m_Name: SkeletonAttack
   m_EditorClassIdentifier: Assembly-CSharp::SkeletonAttack
-  skillName: 
-  animTriggerName: 
+  skillName: "\u9AB7\u9ACF\u8FD1\u653B\u64CA"
+  animTriggerName: Attack2
   minDistance: 0
-  maxDistance: 5
-  cooldown: 5
+  maxDistance: 2
+  cooldown: 3
   weight: 1

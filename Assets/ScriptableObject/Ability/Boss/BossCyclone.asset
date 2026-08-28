@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b29aa9bc679cb154daf244f293f39030, type: 3}
-  m_Name: SkeletonAttackToIdle
-  m_EditorClassIdentifier: Assembly-CSharp::SkeletonAttackToIdle
-  priority: 0
+  m_Script: {fileID: 11500000, guid: 6c2d1561b81b88147bd81fd5b81616d2, type: 3}
+  m_Name: BossCyclone
+  m_EditorClassIdentifier: Assembly-CSharp::BossCyclone
+  skillName: 
+  animTriggerName: 
+  minDistance: 0
+  maxDistance: 5
+  cooldown: 5
+  weight: 1
