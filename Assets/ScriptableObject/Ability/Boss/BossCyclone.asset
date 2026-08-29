@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2d1561b81b88147bd81fd5b81616d2, type: 3}
   m_Name: BossCyclone
   m_EditorClassIdentifier: Assembly-CSharp::BossCyclone
-  skillName: 
-  animTriggerName: 
+  skillName: "\u8FF4\u65CB\u65AC"
+  animTriggerName: Cyclone
   minDistance: 0
-  maxDistance: 5
-  cooldown: 5
+  maxDistance: 6.5
+  cooldown: 10
   weight: 1
