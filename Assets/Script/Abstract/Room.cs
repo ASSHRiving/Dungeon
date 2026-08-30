@@ -4,9 +4,6 @@ using System.Collections.Generic;
 public abstract class Room : MonoBehaviour
 {
     public enum Direction { North, South, East, West }
-    [SerializeField] private Transform Bounds;
-    public GameObject RoomImage;
-    public bool isVisited = false;
 
     [System.Serializable]
     public class ExitSet
@@ -16,7 +13,10 @@ public abstract class Room : MonoBehaviour
         public GameObject door;
         public GameObject wall;
     }
-    
+
+    [SerializeField] private Transform Bounds;
+    public GameObject RoomImage;
+    public bool isVisited = false;
     [SerializeField] protected List<ExitSet> exitSets;
 
     void Awake()
@@ -63,6 +63,29 @@ public abstract class Room : MonoBehaviour
         }
         Debug.LogWarning($"{gameObject.name} 找不到 {dir} 方向的出口！");
     }
+    public void CloseGate()
+    {
+        foreach (var exit in exitSets)
+        {
+            if (exit.door.activeSelf)
+            {
+                Gate gate = exit.door.GetComponent<Gate>();
+                if (gate != null) gate.CloseGate();
+            }
+        }
+    }
+
+    public void OpenGate()
+    {
+        foreach (var exit in exitSets)
+        {
+            if (exit.door.activeSelf)
+            {
+                Gate gate = exit.door.GetComponent<Gate>();
+                if (gate != null) gate.OpenGate();
+            }
+        }
+    }
     public Transform GetBounds()
     {
         if(Bounds != null) return Bounds;
@@ -80,5 +103,4 @@ public abstract class Room : MonoBehaviour
         }
     }
     public abstract void Init();
-    
 }
