@@ -63,12 +63,12 @@ public class EnemyCombatSystem : CharacterCombatBase
             }
             else
             {
-                currentTarget = null;
+                //currentTarget = null;
             }
         }
         else
         {
-            currentTarget = null;
+            //currentTarget = null;
         }
     }
 
