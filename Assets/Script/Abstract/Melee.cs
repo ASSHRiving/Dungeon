@@ -26,4 +26,9 @@ public abstract class Melee : Weapon
     }
     // 讓具體的刀、劍去決定怎麼播動畫（例如給不同的參數名）
     protected abstract void AttackAnimation(Animator anim, int combo);
+    
+    public void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+    }
 }

@@ -8,6 +8,11 @@ public abstract class Weapon : MonoBehaviour
     public float damage = 0f;
     public int weaponType = 0;
     public int combo = 0;
+
+    [Header("攻擊檢測")]
+    public Transform attackPoint;
+    public float attackRadius;
+    
     public SoundAssetsType weaponSoundType = SoundAssetsType.Sword;
     public AnimatorOverrideController overrideController;
 

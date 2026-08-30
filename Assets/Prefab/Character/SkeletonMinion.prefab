@@ -2205,6 +2205,10 @@ MonoBehaviour:
   healthText: {fileID: 1992786567560950494}
   maxHealth: 50
   shield: 10
+  maxPoise: 100
+  currentPoise: 100
+  poiseRecoveryRate: 20
+  poiseRecoveryDelay: 3
   currentHealth: 0
   scriptsToDisable:
   - {fileID: 564663518897611330}
@@ -2378,7 +2382,8 @@ Transform:
   m_LocalPosition: {x: 0.091, y: -0.024, z: 0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2448974556895601791}
   m_Father: {fileID: 4674488975978317807}
   m_LocalEulerAnglesHint: {x: 3.773, y: -177.603, z: 259.45502}
 --- !u!33 &7144903691759734326
@@ -2454,6 +2459,8 @@ MonoBehaviour:
   damage: 5
   weaponType: 0
   combo: 0
+  attackPoint: {fileID: 2448974556895601791}
+  attackRadius: 0.4
   weaponSoundType: 1
   overrideController: {fileID: 0}
 --- !u!1 &6979499797611291038
@@ -3441,6 +3448,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00021800399, y: 1.13739, z: 0.097378686}
     m_Extent: {x: 0.08624918, y: 0.08903241, z: 0.0870906}
   m_DirtyAABB: 0
+--- !u!1 &8359422388685097531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2448974556895601791}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2448974556895601791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8359422388685097531}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.447, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6091144438220341651}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8477380504879160064
 GameObject:
   m_ObjectHideFlags: 0

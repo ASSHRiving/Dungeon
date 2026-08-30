@@ -6,4 +6,8 @@ public class EnemyWeapon : Weapon
     {
         
     }
+    public void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+    }
 }

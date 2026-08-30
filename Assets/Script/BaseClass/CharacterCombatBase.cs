@@ -65,6 +65,9 @@ public abstract class CharacterCombatBase : MonoBehaviour
         _health = GetComponentInParent<CharacterHealthBase>();
         currentWeapon = GetComponentInChildren<Weapon>();
         weaponSoundType = currentWeapon.weaponSoundType;
+
+        attackRangeCenter = currentWeapon.attackPoint;
+        attackRangeRadius = currentWeapon.attackRadius;
     }
 
     void OnEnable()
