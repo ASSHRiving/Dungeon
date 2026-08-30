@@ -30,8 +30,9 @@ public class EnemyCombatSystem : CharacterCombatBase
         }
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         AIView();
         //LockOnCurrentTarget();
         UpdateAnimationMove();

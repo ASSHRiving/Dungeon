@@ -123,16 +123,23 @@ ModelImporter:
           postInfinity: 3
           rotationOrder: 4
       events:
-      - time: 0.5023256
-        functionName: OnAnimationFinishEvent
-        data: 
+      - time: 0.3318014
+        functionName: OnAnimationAttackEvent
+        data: Hit_L
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.33551198
-        functionName: OnAnimationAttackEvent
-        data: Hit_L
+      - time: 0.5023256
+        functionName: OnAttackHitboxStart
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: 7afec09376653484bb691b3663927e32, type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.37149534
+        functionName: OnAttackHitboxEnd
+        data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0

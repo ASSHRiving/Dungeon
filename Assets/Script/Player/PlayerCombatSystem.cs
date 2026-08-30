@@ -32,8 +32,9 @@ public class PlayerCombatSystem : CharacterCombatBase
         currentWeapon.GetComponent<Collider>().enabled = false;
     }
 
-    private void Update()
+    override protected void Update()
     {
+        base.Update();
         PlayerAttackAction();
         ActionMotion();
         DetectEnemy();

@@ -1,5 +1,6 @@
 using UnityEngine;
 using MoveBase;
+using System.Collections.Generic;
 
 
 public abstract class CharacterCombatBase : MonoBehaviour
@@ -16,6 +17,11 @@ public abstract class CharacterCombatBase : MonoBehaviour
     [SerializeField, Header("攻擊範圍")] protected Transform attackRangeCenter;
     [SerializeField] protected float attackRangeRadius;
     [SerializeField] protected LayerMask whatIsEnemy;
+    private bool isHitboxActive = false;
+    private AttackData currentAttackData;
+    private HashSet<IDamageable> hitTargets = new HashSet<IDamageable>();   // 用來記錄「當前這一招已經命中過哪些敵人」，防止重複造成傷害
+
+
     [SerializeField] public Weapon currentWeapon;
     protected int weaponType;
     protected SoundAssetsType weaponSoundType;
@@ -27,7 +33,6 @@ public abstract class CharacterCombatBase : MonoBehaviour
     protected int defenID = Animator.StringToHash("Defen");
     protected int speedID = Animator.StringToHash("Speed");
     protected int animationMoveID = Animator.StringToHash("AnimationMove");
-
     public bool canAttack = true;
     
 
@@ -67,8 +72,57 @@ public abstract class CharacterCombatBase : MonoBehaviour
         _animationEvent.OnAnimationFinish += AttackFinish;
     }
 
+    protected virtual void Update()
+    {
+        // 只要 Hitbox 處於開啟狀態，每一幀都進行重疊檢測
+        if (isHitboxActive)
+        {
+            CheckAttackHitbox();
+        }
+    }
+    public void OnAttackHitboxStart(AttackData attackData)
+    {
+        isHitboxActive = true;
+        currentAttackData = attackData;
+        hitTargets.Clear(); // 每次開啟新招式時，清空歷史命中紀錄
+        PlayWeaponEffect();
+    }
+    public void OnAttackHitboxEnd()
+    {
+        isHitboxActive = false;
+        currentAttackData = null;
+        hitTargets.Clear();
+    }
+
+    private void CheckAttackHitbox()
+    {
+        Collider[] attackHits = new Collider[10];
+        int count = Physics.OverlapSphereNonAlloc(attackRangeCenter.position, attackRangeRadius, attackHits, whatIsEnemy);
+        
+        for (int i = 0; i < count; i++)
+        {
+            IDamageable damageable = attackHits[i].GetComponentInParent<IDamageable>();
+            
+            // 關鍵：只有「有 IDamageable」且「這次揮刀還沒打過」的目標才造成傷害
+            if (damageable != null && !hitTargets.Contains(damageable))
+            {
+                hitTargets.Add(damageable); // 標記為已命中
+
+                float finalDamage = currentWeapon.damage * currentAttackData.damageMultiplier;
+                
+                Debug.Log($"[命中新目標] {attackHits[i].name} | 傷害: {finalDamage} | 削韌: {currentAttackData.poiseDamage}");
+                
+                damageable.TakeDamage(transform.root, finalDamage, currentAttackData);
+            }
+        }
+    }
+
+
+
     protected virtual void OnAnimationAttackEvent(string hitName)
     {
+        Debug.LogWarning("Legacy Attack Event");
+        /*
         Collider[] attackHits = new Collider[10];
         int count = Physics.OverlapSphereNonAlloc(attackRangeCenter.position, attackRangeRadius, attackHits, whatIsEnemy);
 
@@ -85,6 +139,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
             }
         }
         PlayWeaponEffect();
+        */
     }
     private void PlayWeaponEffect()
     {

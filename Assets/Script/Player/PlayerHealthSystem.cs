@@ -18,7 +18,7 @@ public class PlayerHealthSystem : CharacterHealthBase
         healthBar.fillAmount = currentHealth / maxHealth;
         healthText.text = $"{currentHealth}/{maxHealth}";
     }
-    public override void TakeDamage(string hitAnimationName, Transform attacker, float damageAmount, float poiseDamage = 10f)
+    public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData)
     {
         if (_movement.immune)
         {
@@ -40,11 +40,11 @@ public class PlayerHealthSystem : CharacterHealthBase
         if(damage/maxHealth > 0.05f)
         {
             // 扣除韌性與判斷是否被打斷/播放受擊動畫
-            currentPoise -= poiseDamage;
+            currentPoise -= attackData.poiseDamage;
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
             if(currentPoise <= 0)
             {
-                _animator.Play(hitAnimationName,0,0f);
+                _animator.Play(attackData.hitAnimationName,0,0f);
                 _combat.canAttack = true;
                 _combat.currentWeapon.combo = 0;
 
