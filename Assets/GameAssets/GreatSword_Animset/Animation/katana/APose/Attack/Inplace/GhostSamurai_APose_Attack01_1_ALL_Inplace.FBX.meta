@@ -638,7 +638,7 @@ ModelImporter:
       - time: 0.15946677
         functionName: OnAttackHitboxStart
         data: 
-        objectReferenceParameter: {fileID: 11400000, guid: 276e4d24767384d48b474b2ac8790da3, type: 2}
+        objectReferenceParameter: {fileID: 11400000, guid: 54d82999b0364fa4889827bf8975d65b, type: 2}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -650,7 +650,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.18014696
-        functionName: OnAttackHitBoxEnd
+        functionName: OnAttackHitboxEnd
         data: 0
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
