@@ -21,10 +21,9 @@ public abstract class FightingRoom : Room
 
     [Header("波次設定")]
     [SerializeField] protected List<EnemyWave> waves = new List<EnemyWave>();
-    [SerializeField] private float spawnDelay = 1.5f;          // 🔑 特效出現到敵人刷出的延遲時間 (秒)
+    [SerializeField] private float spawnDelay = 1.5f;          // 特效出現到敵人刷出的延遲時間 (秒)
 
 
-    protected List<GameObject> currentWaveEnemies = new List<GameObject>();
     protected int remainingEnemyCount = 0;
     protected int currentWaveIndex = 0;
     protected bool isBattleStarted = false;
@@ -38,7 +37,6 @@ public abstract class FightingRoom : Room
     protected IEnumerator SpawnWaveRoutine(int waveIndex)
     {
         isSpawningWave = true;
-        currentWaveEnemies.Clear();
 
         if (waveIndex < waves.Count)
         {
@@ -66,7 +64,6 @@ public abstract class FightingRoom : Room
                     if (vfx != null) Destroy(vfx);
                 }
 
-                // 🔑 設定這波敵人要擊殺的總數
                 remainingEnemyCount = wave.spawnConfigs.Count; 
 
                 // 3. 生成敵人並註冊死亡事件
@@ -79,7 +76,6 @@ public abstract class FightingRoom : Room
                     }
 
                     GameObject enemyGo = Instantiate(config.enemyPrefab, config.spawnPoint.position, config.spawnPoint.rotation);
-                    currentWaveEnemies.Add(enemyGo);
 
                     EnemyCombatSystem combat = enemyGo.GetComponentInChildren<EnemyCombatSystem>();
                     EnemyHealthSystem health = enemyGo.GetComponentInChildren<EnemyHealthSystem>();

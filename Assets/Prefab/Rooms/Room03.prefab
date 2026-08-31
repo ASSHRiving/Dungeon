@@ -515,25 +515,31 @@ MonoBehaviour:
   - waveName: Wave1
     spawnConfigs:
     - enemyPrefab: {fileID: 6577592684631747148, guid: dbd19255c80ad7c44aaa9c72aae17c0f, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       spawnPoint: {fileID: 5496891572411800139}
     - enemyPrefab: {fileID: 6577592684631747148, guid: dbd19255c80ad7c44aaa9c72aae17c0f, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       spawnPoint: {fileID: 859396578404011260}
     - enemyPrefab: {fileID: 6577592684631747148, guid: dbd19255c80ad7c44aaa9c72aae17c0f, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       spawnPoint: {fileID: 6776613604793171918}
   - waveName: Wave2
     spawnConfigs:
     - enemyPrefab: {fileID: 6577592684631747148, guid: dbd19255c80ad7c44aaa9c72aae17c0f, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       spawnPoint: {fileID: 5319021001037268686}
     - enemyPrefab: {fileID: 6577592684631747148, guid: dbd19255c80ad7c44aaa9c72aae17c0f, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       spawnPoint: {fileID: 8342757672220672708}
     - enemyPrefab: {fileID: 6577592684631747148, guid: dbd19255c80ad7c44aaa9c72aae17c0f, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       spawnPoint: {fileID: 6102595468893266159}
   - waveName: Wave3
     spawnConfigs:
     - enemyPrefab: {fileID: 5296161146044912019, guid: e92c1992a09c5e14b9641dfa19379726, type: 3}
+      spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
       spawnPoint: {fileID: 501510398170842416}
-  warningEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
-  spawnDelay: 1.5
+  spawnDelay: 2
 --- !u!1 &8206845525875644541
 GameObject:
   m_ObjectHideFlags: 0
