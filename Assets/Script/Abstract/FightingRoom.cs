@@ -115,7 +115,32 @@ public abstract class FightingRoom : Room
             {
                 isClear = true;
                 OpenGate();
+                isBattleStarted = false;
                 GameAssets.Instance.PlayInGameMusic();
+            }
+        }
+    }
+    public override void Init()
+    {
+        isBattleStarted = false;
+        isSpawningWave = false;
+        isClear = false;
+        currentWaveIndex = 0;
+    }
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+
+        if (other.CompareTag("Player"))
+        {
+            if (!isBattleStarted && !isClear)
+            {
+                isBattleStarted = true;
+                playerTransform = other.transform;
+
+                CloseGate();
+                // 啟動第一波生成協程
+                StartCoroutine(SpawnWaveRoutine(currentWaveIndex));
             }
         }
     }
