@@ -23,7 +23,6 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
 
     [SerializeField] public Weapon currentWeapon;
-    protected int weaponType;
     protected SoundAssetsType weaponSoundType;
 
 
@@ -64,10 +63,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
         _animationEvent = GetComponent<AnimationEventHelper>();
         _health = GetComponentInParent<CharacterHealthBase>();
         currentWeapon = GetComponentInChildren<Weapon>();
-        weaponSoundType = currentWeapon.weaponSoundType;
-
-        attackRangeCenter = currentWeapon.attackPoint;
-        attackRangeRadius = currentWeapon.attackRadius;
+        InitWeapon();
     }
 
     void OnEnable()
@@ -157,9 +153,21 @@ public abstract class CharacterCombatBase : MonoBehaviour
         canAttack = true;
     }
 
-    public void OnDrawGizmos()
+    protected virtual void InitWeapon()
     {
-        Gizmos.DrawWireSphere(attackRangeCenter.position, attackRangeRadius);
+        attackRangeCenter = currentWeapon.attackPoint;
+        attackRangeRadius = currentWeapon.attackRadius;
+        weaponSoundType = currentWeapon.weaponSoundType;
+        Rigidbody rb = currentWeapon.GetComponent<Rigidbody>();
+        Collider col = currentWeapon.GetComponent<Collider>();
+        if(rb != null)
+        {
+            rb.isKinematic = true;
+        }
+        if(col != null)
+        {
+            col.enabled = false;
+        }
     }
 }
 

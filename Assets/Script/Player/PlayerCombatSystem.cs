@@ -16,20 +16,13 @@ public class PlayerCombatSystem : CharacterCombatBase
     [Header("鏡頭參考")]
     [SerializeField] private Transform mainCameraTransform;
 
+    private int weaponType;
+
 
     override protected void Awake()
     {
         base.Awake();
-
-        weaponType = currentWeapon.weaponType;
-        if(currentWeapon.overrideController != null)
-        {
-            _animator.runtimeAnimatorController = currentWeapon.overrideController;
-        }
-        // _animator.runtimeAnimatorController = currentWeapon.overrideController;
-        _animator.SetInteger("WeaponType", weaponType);
-        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-        currentWeapon.GetComponent<Collider>().enabled = false;
+        InitWeapon();
     }
 
     override protected void Update()
@@ -185,6 +178,17 @@ public class PlayerCombatSystem : CharacterCombatBase
             }
         }
     }
+    protected override void InitWeapon()
+    {
+        base.InitWeapon();
+        weaponType = currentWeapon.weaponType;
+        if(currentWeapon.overrideController != null)
+        {
+            _animator.runtimeAnimatorController = currentWeapon.overrideController;
+        }
+        _animator.SetInteger("WeaponType", weaponType);
+        currentWeapon.GetComponent<DropsInteract>().enabled = false;
+    }
     public void ChangeWeapon(GameObject newWeapon)
     {
         _animator.Play("Crouch", 0, 0f);
@@ -200,7 +204,7 @@ public class PlayerCombatSystem : CharacterCombatBase
             currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
             currentWeapon.GetComponent<Collider>().enabled = true;
             currentWeapon.transform.SetParent(null);
-            SceneManager.MoveGameObjectToScene(currentWeapon.gameObject, SceneManager.GetActiveScene());
+            SceneManager.MoveGameObjectToScene(currentWeapon.gameObject, SceneManager.GetActiveScene());   //移除Dont Destory
 
         }
         //撿起新武器
@@ -209,14 +213,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         newWeapon.transform.localRotation = Quaternion.identity;
 
         currentWeapon = newWeapon.GetComponent<Weapon>();
-        weaponType = currentWeapon.weaponType;
-        _animator.runtimeAnimatorController = currentWeapon.overrideController;
-        _animator.SetInteger("WeaponType", weaponType);
-        weaponSoundType = currentWeapon.weaponSoundType;
-
-        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-        currentWeapon.GetComponent<Collider>().enabled = false;
-        currentWeapon.GetComponent<DropsInteract>().enabled = false;
+        InitWeapon();
     }
 }
 
