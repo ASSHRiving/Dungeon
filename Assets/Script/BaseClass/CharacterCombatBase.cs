@@ -75,9 +75,13 @@ public abstract class CharacterCombatBase : MonoBehaviour
     protected virtual void Update()
     {
         // 只要 Hitbox 處於開啟狀態，每一幀都進行重疊檢測
-        if (isHitboxActive)
+        if (isHitboxActive && _animator.CheckAnimationTag("Attack"))
         {
             CheckAttackHitbox();
+        }
+        else
+        {
+            OnAttackHitboxEnd(); // 確保在攻擊動畫結束後，Hitbox 也會被關閉
         }
     }
     public void OnAttackHitboxStart(AttackData attackData)
