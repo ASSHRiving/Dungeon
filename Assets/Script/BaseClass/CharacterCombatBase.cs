@@ -24,6 +24,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     [SerializeField] public Weapon currentWeapon;
     protected SoundAssetsType weaponSoundType;
+    protected TrailRenderer weaponTrail;
 
 
     //AnimationID
@@ -84,6 +85,11 @@ public abstract class CharacterCombatBase : MonoBehaviour
         isHitboxActive = true;
         currentAttackData = attackData;
         hitTargets.Clear(); // 每次開啟新招式時，清空歷史命中紀錄
+        if(weaponTrail != null)
+        {
+            weaponTrail.Clear();
+            weaponTrail.emitting = true;
+        }
         PlayWeaponEffect();
     }
     public void OnAttackHitboxEnd()
@@ -91,6 +97,10 @@ public abstract class CharacterCombatBase : MonoBehaviour
         isHitboxActive = false;
         currentAttackData = null;
         hitTargets.Clear();
+        if(weaponTrail != null)
+        {
+            weaponTrail.emitting = false;
+        }
     }
 
     private void CheckAttackHitbox()
@@ -167,6 +177,11 @@ public abstract class CharacterCombatBase : MonoBehaviour
         if(col != null)
         {
             col.enabled = false;
+        }
+        if(currentWeapon.weaponTrail != null)
+        {
+            weaponTrail = currentWeapon.weaponTrail;
+            weaponTrail.emitting = false;
         }
     }
 }
