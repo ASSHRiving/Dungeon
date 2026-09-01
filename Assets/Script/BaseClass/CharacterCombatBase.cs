@@ -126,8 +126,6 @@ public abstract class CharacterCombatBase : MonoBehaviour
         }
     }
 
-
-
     protected virtual void OnAnimationAttackEvent(string hitName)
     {
         Debug.LogWarning("Legacy Attack Event");

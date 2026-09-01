@@ -105,14 +105,14 @@ ModelImporter:
           postInfinity: 3
           rotationOrder: 4
       events:
-      - time: 0.3143722
+      - time: 0.3131407
         functionName: OnAttackHitboxStart
         data: 
         objectReferenceParameter: {fileID: 11400000, guid: 1d2281433bdd65243b3cff6c191fcf03, type: 2}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.34345794
+      - time: 0.34592098
         functionName: OnAttackHitboxEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
