@@ -40,6 +40,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         {
             impulseSource.GenerateImpulse();
         }
+        GameAssets.Instance.DoHitstop(0.05f, 0.05f); // 觸發 Hitstop (頓幀)
         Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");
 
         if(damage/maxHealth > 0.05f)
