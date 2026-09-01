@@ -1,13 +1,21 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.Cinemachine;
 
 public class EnemyHealthSystem : CharacterHealthBase
 {
     [SerializeField] private GameObject lootPrefab;
     [SerializeField] private int gold = 5;
     private NavMeshAgent _navMeshAgent;
+    private CinemachineImpulseSource impulseSource;
     public System.Action OnDeath;           //死亡廣播
 
+
+    protected override void Awake()
+    {
+        base.Awake();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+    }
     void Start()
     {
         currentHealth = maxHealth;
@@ -17,7 +25,7 @@ public class EnemyHealthSystem : CharacterHealthBase
     }
     public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData)
     {
-        if (isDead)
+        if(isDead)
         {
             return;
         }
@@ -28,6 +36,10 @@ public class EnemyHealthSystem : CharacterHealthBase
         UpdateHealthBar(currentHealth / maxHealth);
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
+        if(impulseSource != null)
+        {
+            impulseSource.GenerateImpulse();
+        }
         Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");
 
         if(damage/maxHealth > 0.05f)
