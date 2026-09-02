@@ -17,6 +17,7 @@ public abstract class Weapon : MonoBehaviour
     public AnimatorOverrideController overrideController;
 
     public TrailRenderer weaponTrail;
+    public ParticleSystem weaponEffect;
 
     public abstract void Attack(Animator anim);
 }

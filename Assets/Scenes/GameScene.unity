@@ -6146,7 +6146,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1041050314575096760, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1964538248}
   m_SourcePrefab: {fileID: 100100000, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
 --- !u!1 &1584331854
 GameObject:
@@ -8065,7 +8068,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4169655869234218568, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
   m_PrefabInstance: {fileID: 1567578866}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1964538246}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
@@ -8146,6 +8149,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956927794}
   m_CullTransparentMesh: 1
+--- !u!1 &1964538246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1041050314575096760, guid: bc2f3e3bab31ccc4fa8a0b590e056001, type: 3}
+  m_PrefabInstance: {fileID: 1567578866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1964538248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964538246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1980426841
 GameObject:
   m_ObjectHideFlags: 0

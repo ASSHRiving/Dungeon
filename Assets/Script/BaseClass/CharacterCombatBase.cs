@@ -21,10 +21,12 @@ public abstract class CharacterCombatBase : MonoBehaviour
     private AttackData currentAttackData;
     private HashSet<IDamageable> hitTargets = new HashSet<IDamageable>();   // 用來記錄「當前這一招已經命中過哪些敵人」，防止重複造成傷害
 
+    //===================================================================
 
     [SerializeField] public Weapon currentWeapon;
     protected SoundAssetsType weaponSoundType;
     protected TrailRenderer weaponTrail;
+    protected ParticleSystem weaponEffect;
 
 
     //AnimationID
@@ -94,6 +96,13 @@ public abstract class CharacterCombatBase : MonoBehaviour
             weaponTrail.Clear();
             weaponTrail.emitting = true;
         }
+        if(weaponEffect != null)
+        {
+            weaponEffect.Clear(); // 清空舊粒子
+            var emission = weaponEffect.emission;
+            emission.enabled = true; // 開啟發射
+            weaponEffect.Play();
+        }
         PlayWeaponEffect();
     }
     public void OnAttackHitboxEnd()
@@ -104,6 +113,11 @@ public abstract class CharacterCombatBase : MonoBehaviour
         if(weaponTrail != null)
         {
             weaponTrail.emitting = false;
+        }
+        if(weaponEffect != null)
+        {
+            var emission = weaponEffect.emission;
+            emission.enabled = false;
         }
     }
 
@@ -184,6 +198,11 @@ public abstract class CharacterCombatBase : MonoBehaviour
         {
             weaponTrail = currentWeapon.weaponTrail;
             weaponTrail.emitting = false;
+        }
+        if(currentWeapon.weaponEffect != null)
+        {
+            weaponEffect = currentWeapon.weaponEffect;
+            weaponEffect.Stop();
         }
     }
 }
