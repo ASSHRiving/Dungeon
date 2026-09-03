@@ -42,7 +42,7 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
         }
 
         _coinPool = new ObjectPool<GameObject>(
-            createFunc: () => Instantiate(coinPrefab, transform), // 建議設為子物件以保持 Hierarchy 整潔
+            createFunc: () => Instantiate(coinPrefab, transform),
             actionOnGet: (coin) => coin.SetActive(true),
             actionOnRelease: (coin) => coin.SetActive(false),
             actionOnDestroy: (coin) => Destroy(coin),
@@ -70,7 +70,7 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
     }
     #endregion
 
-    #region 傷害飄字物件池邏輯 (新增)
+    #region 傷害飄字物件池邏輯
     private void InitDamageTextPool()
     {
         if (damageTextPrefab == null)

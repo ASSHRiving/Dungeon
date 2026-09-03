@@ -118,8 +118,8 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
+  m_enableVertexGradient: 1
+  m_colorMode: 2
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 3
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -195,6 +195,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageText
   textMesh: {fileID: 6685349150286274320}
-  moveSpeed: 2
   duration: 0.8
-  randomOffset: {x: 0.5, y: 0.5, z: 0}
+  popDuration: 0.08
+  maxPopScale: 2.2
+  arcHeight: 1.2
+  normalGradient: {fileID: 11400000, guid: 6d11aebf86b132947bbd0cdad8ba8fe1, type: 2}
+  critGradient: {fileID: 11400000, guid: ff641568a960fb149b2034ecd24370b7, type: 2}

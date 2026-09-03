@@ -31,7 +31,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         }
         //減傷公式
         float damage =  Mathf.Clamp(damageAmount - shield, 0f, damageAmount);
-        ObjectPoolManager.Instance.SpawnDamageText(transform.position, damage, false);
+        ObjectPoolManager.Instance.SpawnDamageText(transform.position, damage, true);
 
         currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
