@@ -306,7 +306,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.2
+        value: 0.17
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -315,7 +315,7 @@ TrailRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.05
+        value: 0.08
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -364,7 +364,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.02
   m_Autodestruct: 0
-  m_Emitting: 1
+  m_Emitting: 0
   m_ApplyActiveColorSpace: 1
 --- !u!198 &35073345575339700
 ParticleSystem:
@@ -1203,7 +1203,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 10
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1256,7 +1256,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2

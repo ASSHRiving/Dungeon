@@ -19,5 +19,10 @@ public abstract class Weapon : MonoBehaviour
     public TrailRenderer weaponTrail;
     public ParticleSystem weaponEffect;
 
+    protected virtual void Start()
+    {
+        if(weaponEffect != null) weaponEffect.Stop();
+    }
+
     public abstract void Attack(Animator anim);
 }
