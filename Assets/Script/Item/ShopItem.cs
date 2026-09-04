@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShopItem : MonoBehaviour
 {
-    [SerializeField] string itemName;
+    [SerializeField] public string itemName;
     [SerializeField] public int price;
     [SerializeField] public int damage;
     [SerializeField] public int shield;

@@ -6,15 +6,10 @@ public class EquipmentInteract : MonoBehaviour, IInteractable
     public enum EquipmentType { Head, Chest, Arm, Belt, Leg, Feet }
     [SerializeField] private EquipmentType equipmentType;
     [SerializeField] private Mesh newMesh;
-    [SerializeField] private int price;
     private ShopItem item;
     private void Awake()
     {
         item = GetComponent<ShopItem>();
-    }
-    public int GetPrice()
-    {
-        return price;
     }
     public void Interact(Transform player)
     {

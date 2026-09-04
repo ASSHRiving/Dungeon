@@ -431,6 +431,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6706124339822269311, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
+      propertyPath: damageTextPrefab
+      value: 
+      objectReference: {fileID: 6218494515443344597, guid: c48abdf81ae443a459d259424c9bc850, type: 3}
     - target: {fileID: 7078665548527523251, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
       propertyPath: m_Name
       value: GameManager

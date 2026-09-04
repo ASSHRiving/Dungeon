@@ -7,7 +7,7 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
     [SerializeField] private List<GameObject> itemList;
     private GameObject itemGO;
     [SerializeField] Transform itemPoint;
-    EquipmentInteract interactableItem;
+    ShopItem item;
 
     public string interactableName
     {
@@ -16,9 +16,9 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
             if(itemGO == null) return "空的購物桌"; // 如果物品尚未生成，返回 "空的購物桌"
             else
             {
-                if (interactableItem != null)
+                if (item != null)
                 {
-                    return $"購買 {interactableItem.interactableName}";
+                    return $"購買 {item.itemName}";
                 }
                 return $"購買 {itemGO.name}"; // 如果物品沒有實現 IInteractable，則返回物品的名稱
             }
@@ -34,18 +34,18 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
     {
         itemGO = Instantiate(itemList[Random.Range(0, itemList.Count)], itemPoint.position, itemPoint.rotation, itemPoint);
         itemGO.layer = LayerMask.NameToLayer("UnInteractable");
-        interactableItem = itemGO.GetComponent<EquipmentInteract>();
+        item = itemGO.GetComponent<ShopItem>();
     }
 
     public void Interact(Transform player)
     {
         // 觸發確認對話框事件
-        UIEvents.ConfirmDialogRequested($"你想要購買這個物品嗎？\n{interactableItem.interactableName} {interactableItem.GetPrice()} 金幣", () =>
+        UIEvents.ConfirmDialogRequested($"你想要購買這個物品嗎？\n{item.itemName} {item.price} 金幣", () =>
         {
             PlayerBalanceSystem playerBalance = player.GetComponent<PlayerBalanceSystem>();
             if (playerBalance != null)
             {
-                int itemCost = interactableItem.GetPrice();
+                int itemCost = item.price;
                 if (playerBalance.GetCoin() >= itemCost)
                 {
                     playerBalance.SpendCoin(itemCost);
