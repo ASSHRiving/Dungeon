@@ -72,8 +72,10 @@ public class PlayerHealthSystem : CharacterHealthBase
     }
     
     //換裝
-    public void ChangeEquipment(Mesh newMesh, EquipmentInteract.EquipmentType type, ShopItem item)
+    public void ChangeEquipment(EquipmentInteract.EquipmentType type, ShopItem item)
     {
+        ShopItem.EquipmentData itemData = item.equipmentDataList[item.currentEquipmentIndex];
+        Mesh newMesh = itemData.mesh;
         switch (type)
         {
             case EquipmentInteract.EquipmentType.Head:
@@ -113,9 +115,9 @@ public class PlayerHealthSystem : CharacterHealthBase
                 }
                 break; 
         }
-        maxHealth += item.health;
-        currentHealth += item.health;
-        shield += item.shield;
+        maxHealth += itemData.health;
+        currentHealth += itemData.health;
+        shield += itemData.shield;
         UpdateHealthBar(currentHealth / maxHealth);
     }
 }

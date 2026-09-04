@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5366917585494419560
+--- !u!1 &4833568240241158506
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3384663260403734855}
-  - component: {fileID: 7655928662417098185}
-  - component: {fileID: 6224966385962830424}
-  - component: {fileID: 5635208426787137591}
-  - component: {fileID: 7775805524923412418}
-  - component: {fileID: 375576259918356811}
-  m_Layer: 14
-  m_Name: KnightFeet
+  - component: {fileID: 5220273071594234372}
+  - component: {fileID: 3411989662787558013}
+  - component: {fileID: 756337610020071173}
+  - component: {fileID: 7939707100792404992}
+  - component: {fileID: 4685379742997478567}
+  - component: {fileID: 4727940240993099798}
+  m_Layer: 0
+  m_Name: SaintKnightLegs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3384663260403734855
+--- !u!4 &5220273071594234372
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366917585494419560}
+  m_GameObject: {fileID: 4833568240241158506}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.595, y: -4.2021, z: -5.477}
+  m_LocalPosition: {x: 4.5572224, y: -4.367597, z: -1.7269303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7655928662417098185
+--- !u!33 &3411989662787558013
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366917585494419560}
-  m_Mesh: {fileID: -5901297593905682718, guid: bca8f494185bae34da1ed163567b580e, type: 3}
---- !u!23 &6224966385962830424
+  m_GameObject: {fileID: 4833568240241158506}
+  m_Mesh: {fileID: -679941090199688871, guid: fd3388c1ff4b25841b401efaafd44151, type: 3}
+--- !u!23 &756337610020071173
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366917585494419560}
+  m_GameObject: {fileID: 4833568240241158506}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -93,60 +93,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5635208426787137591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366917585494419560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14209d4d46e62e24c983af003be8c560, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShopItem
-  equipmentDataList:
-  - equipmentName: "\u521D\u7D1A\u9A0E\u58EB\u9774"
-    newMesh: {fileID: -5764517047964905822, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    price: 0
-    damage: 0
-    shield: 0
-    health: 0
-  - equipmentName: "\u4E2D\u7D1A\u9A0E\u58EB\u9774"
-    newMesh: {fileID: -3564381715251934424, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    price: 0
-    damage: 0
-    shield: 0
-    health: 0
-  - equipmentName: "\u9AD8\u7D1A\u9A0E\u58EB\u9774"
-    newMesh: {fileID: -273134680926918008, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    price: 0
-    damage: 0
-    shield: 0
-    health: 0
-  currentEquipmentIndex: 0
---- !u!114 &7775805524923412418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366917585494419560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
-  interactableName: "\u9A0E\u58EB\u9774"
-  equipmentType: 5
-  newMesh: {fileID: -5764517047964905822, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
---- !u!65 &375576259918356811
+--- !u!65 &7939707100792404992
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366917585494419560}
+  m_GameObject: {fileID: 4833568240241158506}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -159,5 +112,51 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.38261408, y: 0.32227522, z: 0.30657843}
-  m_Center: {x: -0.000000014901161, y: 0.007940292, z: 0.03515978}
+  m_Size: {x: 0.5183834, y: 0.8785816, z: 0.3185352}
+  m_Center: {x: -0.000000029802322, y: -0.07077417, z: 0.010894112}
+--- !u!114 &4685379742997478567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4833568240241158506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14209d4d46e62e24c983af003be8c560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopItem
+  equipmentDataList:
+  - equipmentName: "\u521D\u7D1A\u8056\u9A0E\u58EB\u8B77\u817F"
+    mesh: {fileID: -2035403855210090885, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+  - equipmentName: "\u4E2D\u7D1A\u8056\u9A0E\u58EB\u8B77\u817F"
+    mesh: {fileID: 2834847736197715925, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+  - equipmentName: "\u9AD8\u7D1A\u8056\u9A0E\u58EB\u8B77\u817F"
+    mesh: {fileID: 161158466591583863, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+  currentEquipmentIndex: 0
+--- !u!114 &4727940240993099798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4833568240241158506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
+  interactableName: "\u8056\u9A0E\u58EB\u8B77\u817F"
+  equipmentType: 4

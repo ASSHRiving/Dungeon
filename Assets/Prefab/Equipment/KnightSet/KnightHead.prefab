@@ -105,11 +105,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14209d4d46e62e24c983af003be8c560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
-  itemName: "\u9A0E\u58EB\u982D\u76D4"
-  price: 10
-  damage: 0
-  shield: 0
-  health: 0
+  equipmentDataList:
+  - equipmentName: "\u521D\u7D1A\u9A0E\u58EB\u982D\u76D4"
+    newMesh: {fileID: -5919393615871578326, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+  - equipmentName: "\u4E2D\u7D1A\u9A0E\u58EB\u982D\u76D4"
+    newMesh: {fileID: 6712159999129877996, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+  - equipmentName: "\u9AD8\u7D1A\u9A0E\u58EB\u982D\u76D4"
+    newMesh: {fileID: 258485432068982520, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+  currentEquipmentIndex: 0
 --- !u!114 &8306514674536301932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,10 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
-  interactableName: Equipment
+  interactableName: "\u9A0E\u58EB\u982D\u76D4"
   equipmentType: 0
   newMesh: {fileID: -5919393615871578326, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-  price: 9
 --- !u!65 &-2186514502656312851
 BoxCollider:
   m_ObjectHideFlags: 0

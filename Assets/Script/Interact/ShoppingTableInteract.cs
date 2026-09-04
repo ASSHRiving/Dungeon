@@ -8,6 +8,7 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
     private GameObject itemGO;
     [SerializeField] Transform itemPoint;
     ShopItem item;
+    ShopItem.EquipmentData itemData;
 
     public string interactableName
     {
@@ -18,7 +19,7 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
             {
                 if (item != null)
                 {
-                    return $"購買 {item.itemName}";
+                    return $"購買 {itemData.equipmentName}";
                 }
                 return $"購買 {itemGO.name}"; // 如果物品沒有實現 IInteractable，則返回物品的名稱
             }
@@ -35,17 +36,18 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
         itemGO = Instantiate(itemList[Random.Range(0, itemList.Count)], itemPoint.position, itemPoint.rotation, itemPoint);
         itemGO.layer = LayerMask.NameToLayer("UnInteractable");
         item = itemGO.GetComponent<ShopItem>();
+        itemData = item.equipmentDataList[item.currentEquipmentIndex];
     }
 
     public void Interact(Transform player)
     {
         // 觸發確認對話框事件
-        UIEvents.ConfirmDialogRequested($"你想要購買這個物品嗎？\n{item.itemName} {item.price} 金幣", () =>
+        UIEvents.ConfirmDialogRequested($"你想要購買這個物品嗎？\n{itemData.equipmentName} {itemData.price} 金幣", () =>
         {
             PlayerBalanceSystem playerBalance = player.GetComponent<PlayerBalanceSystem>();
             if (playerBalance != null)
             {
-                int itemCost = item.price;
+                int itemCost = itemData.price;
                 if (playerBalance.GetCoin() >= itemCost)
                 {
                     playerBalance.SpendCoin(itemCost);
