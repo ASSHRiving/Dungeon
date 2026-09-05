@@ -23,15 +23,17 @@ public class EnemyHealthSystem : CharacterHealthBase
         healthText.text = $"{currentHealth}/{maxHealth}";
         _navMeshAgent = GetComponentInParent<NavMeshAgent>();
     }
-    public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData)
+    public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
         if(isDead)
         {
             return;
         }
         //減傷公式
-        float damage =  Mathf.Clamp(damageAmount - shield, 0f, damageAmount);
-        ObjectPoolManager.Instance.SpawnDamageText(transform.position, damage, true);
+        float armorDR = shield / (shield + 100f);
+        armorDR = Mathf.Clamp(armorDR, 0f, 0.85f);
+        float damage = damageAmount * (1f - armorDR);
+        ObjectPoolManager.Instance.SpawnDamageText(transform.position, damage, isCritical);
 
         currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);

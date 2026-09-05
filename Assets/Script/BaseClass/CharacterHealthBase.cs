@@ -69,7 +69,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         throw new System.NotImplementedException("TakeDamage method must be implemented by subclasses.");
     }
 
-    public virtual void TakeDamage(Transform attacker, float damageAmount, AttackData attackData)
+    public virtual void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
         _animator.Play(attackData.hitAnimationName,0,0f);
         SetAttacker(attacker);

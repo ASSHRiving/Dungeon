@@ -734,8 +734,8 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 867374025076862527}
   healthUI: {fileID: 0}
   healthText: {fileID: 7306819253640484099}
-  maxHealth: 1000
-  shield: 10
+  maxHealth: 100
+  shield: 0
   maxPoise: 100
   currentPoise: 100
   poiseRecoveryRate: 20
@@ -1136,6 +1136,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   currentWeapon: {fileID: 0}
+  currentDamage: 0
+  critRate: 0
   canAttack: 1
   inAttack: 0
   currentTarget: {fileID: 0}

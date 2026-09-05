@@ -42,7 +42,7 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
         }
 
         _coinPool = new ObjectPool<GameObject>(
-            createFunc: () => Instantiate(coinPrefab, transform),
+            createFunc: () => Instantiate(coinPrefab),
             actionOnGet: (coin) => coin.SetActive(true),
             actionOnRelease: (coin) => coin.SetActive(false),
             actionOnDestroy: (coin) => Destroy(coin),
@@ -83,7 +83,7 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
             createFunc: () => Instantiate(damageTextPrefab, transform),
             actionOnGet: (dmgText) => dmgText.gameObject.SetActive(true),
             actionOnRelease: (dmgText) => dmgText.gameObject.SetActive(false),
-            actionOnDestroy: (dmgText) => Destroy(dmgText.gameObject),
+            actionOnDestroy: (dmgText) => Destroy(dmgText),
             collectionCheck: true,
             defaultCapacity: defaultDamagePoolSize,
             maxSize: maxDamagePoolSize

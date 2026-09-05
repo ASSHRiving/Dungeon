@@ -18,7 +18,7 @@ public class PlayerHealthSystem : CharacterHealthBase
         healthBar.fillAmount = currentHealth / maxHealth;
         healthText.text = $"{currentHealth}/{maxHealth}";
     }
-    public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData)
+    public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
         if (_movement.immune)
         {
@@ -29,7 +29,9 @@ public class PlayerHealthSystem : CharacterHealthBase
             return;
         }
         //減傷公式
-        float damage =  Mathf.Clamp(damageAmount - shield, 0f, damageAmount);
+        float armorDR = shield / (shield + 100f);
+        armorDR = Mathf.Clamp(armorDR, 0f, 0.85f);
+        float damage = damageAmount * (1f - armorDR);
 
         currentHealth = Mathf.Clamp(currentHealth - damage, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
@@ -118,6 +120,8 @@ public class PlayerHealthSystem : CharacterHealthBase
         maxHealth += itemData.health;
         currentHealth += itemData.health;
         shield += itemData.shield;
+        _combat.currentDamage += itemData.damage;
+        _combat.critRate += itemData.critRate;
         UpdateHealthBar(currentHealth / maxHealth);
     }
 }

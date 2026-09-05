@@ -107,23 +107,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
   equipmentDataList:
   - equipmentName: "\u521D\u7D1A\u9A0E\u58EB\u80F8\u7532"
-    newMesh: {fileID: 7487524454677423182, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    price: 0
+    mesh: {fileID: 7487524454677423182, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 15
     damage: 0
-    shield: 0
-    health: 0
+    shield: 8
+    health: 25
+    critRate: 0
   - equipmentName: "\u4E2D\u7D1A\u9A0E\u58EB\u80F8\u7532"
-    newMesh: {fileID: 5986844685762987933, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    price: 0
+    mesh: {fileID: 5986844685762987933, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 40
     damage: 0
-    shield: 0
-    health: 0
+    shield: 15
+    health: 45
+    critRate: 0
   - equipmentName: "\u9AD8\u7D1A\u9A0E\u58EB\u80F8\u7532"
-    newMesh: {fileID: -8274973492000293679, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    price: 0
+    mesh: {fileID: -8274973492000293679, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    price: 80
     damage: 0
-    shield: 0
-    health: 0
+    shield: 26
+    health: 85
+    critRate: 3
   currentEquipmentIndex: 0
 --- !u!114 &1870175793590881749
 MonoBehaviour:
@@ -139,7 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
   interactableName: "\u9A0E\u58EB\u80F8\u7532"
   equipmentType: 1
-  newMesh: {fileID: 7487524454677423182, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
 --- !u!65 &-6836364363080455162
 BoxCollider:
   m_ObjectHideFlags: 0

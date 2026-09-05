@@ -9,9 +9,10 @@ public class ShopItem : MonoBehaviour
         public string equipmentName;
         public Mesh mesh;
         public int price;
-        public int damage;
-        public int shield;
-        public int health;
+        public float damage;
+        public float shield;
+        public float health;
+        public float critRate;
     }
     [SerializeField] public List<EquipmentData> equipmentDataList;
     [SerializeField] public int currentEquipmentIndex = 0;
