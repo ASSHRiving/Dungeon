@@ -76,7 +76,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         {
             if (_animator.CheckAnimationTag("Attack"))
             {
-                if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.65f)
+                if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.15f)
                 {
                     return true;
                 }

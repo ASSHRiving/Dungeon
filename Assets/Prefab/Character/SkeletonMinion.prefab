@@ -574,6 +574,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   currentWeapon: {fileID: 5786339828545042137}
+  currentDamage: 0
+  critRate: 0
   canAttack: 1
   inAttack: 0
   detectionCenter: {fileID: 5044610085686842716}
@@ -2206,9 +2208,9 @@ MonoBehaviour:
   healthText: {fileID: 1992786567560950494}
   maxHealth: 50
   shield: 10
-  maxPoise: 100
-  currentPoise: 100
-  poiseRecoveryRate: 20
+  maxPoise: 0
+  currentPoise: 0
+  poiseRecoveryRate: 0
   poiseRecoveryDelay: 3
   currentHealth: 0
   scriptsToDisable:
@@ -2518,6 +2520,7 @@ MonoBehaviour:
   weaponSoundType: 1
   overrideController: {fileID: 0}
   weaponTrail: {fileID: 0}
+  weaponEffect: {fileID: 0}
 --- !u!1 &6979499797611291038
 GameObject:
   m_ObjectHideFlags: 0
