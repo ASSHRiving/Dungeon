@@ -1,5 +1,4 @@
 using UnityEngine;
-using MoveBase;
 using System.Collections;
 
 public class PlayerMovementSystem : CharacterMovementBase

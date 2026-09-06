@@ -19,9 +19,9 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
             {
                 if (item != null)
                 {
-                    return $"購買 {itemData.equipmentName}";
+                    return $"購買 \n{itemData.equipmentName}";
                 }
-                return $"購買 {itemGO.name}"; // 如果物品沒有實現 IInteractable，則返回物品的名稱
+                return $"購買 \n{itemGO.name}"; // 如果物品沒有實現 IInteractable，則返回物品的名稱
             }
         }
     }
@@ -42,7 +42,7 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
     public void Interact(Transform player)
     {
         // 觸發確認對話框事件
-        UIEvents.ConfirmDialogRequested($"你想要購買這個物品嗎？\n{itemData.equipmentName} {itemData.price} 金幣", () =>
+        UIEvents.ConfirmDialogRequested($"你要購買這個物品嗎？\n{itemData.equipmentName} \n{itemData.price} 金幣", () =>
         {
             PlayerBalanceSystem playerBalance = player.GetComponent<PlayerBalanceSystem>();
             if (playerBalance != null)
