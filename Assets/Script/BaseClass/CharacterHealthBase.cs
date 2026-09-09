@@ -73,7 +73,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     protected void UpdateHealthBar(float targetFill)
     {
         healthBar.fillAmount = targetFill;
-        healthText.text = $"{currentHealth}/{maxHealth}";
+        healthText.text = $"{currentHealth:F0}/{maxHealth:F0}";
         if(bufferCoroutine != null)
         {
             StopCoroutine(bufferCoroutine);
@@ -105,6 +105,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
             }
         }
     }
+
 
     #region 外部方法
     public virtual void SetAttacker(Transform attacker)

@@ -35,7 +35,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         float damage = damageAmount * (1f - armorDR);
         ObjectPoolManager.Instance.SpawnDamageText(transform.position, damage, isCritical);
 
-        currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
