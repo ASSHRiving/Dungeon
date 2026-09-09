@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5635208426787137591}
   - component: {fileID: 7775805524923412418}
   - component: {fileID: 375576259918356811}
+  - component: {fileID: 2161851393828621150}
   m_Layer: 14
   m_Name: KnightFeet
   m_TagString: Untagged
@@ -163,3 +164,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.38261408, y: 0.32227522, z: 0.30657843}
   m_Center: {x: -0.000000014901161, y: 0.007940292, z: 0.03515978}
+--- !u!54 &2161851393828621150
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5366917585494419560}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

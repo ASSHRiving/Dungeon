@@ -4,7 +4,7 @@ public class EquipmentInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] public string interactableName = "Equipment";
     public enum EquipmentType { Head, Chest, Arm, Belt, Leg, Feet }
-    [SerializeField] private EquipmentType equipmentType;
+    [SerializeField] public EquipmentType equipmentType;
     private ShopItem item;
     private void Awake()
     {
@@ -12,12 +12,17 @@ public class EquipmentInteract : MonoBehaviour, IInteractable
     }
     public void Interact(Transform player)
     {
-        PlayerHealthSystem health = player.GetComponentInChildren<PlayerHealthSystem>();
-        if (health != null)
+        CharacterEquipment characterEquipment = player.GetComponentInChildren<CharacterEquipment>();
+        if (characterEquipment != null)
         {
-            health.ChangeEquipment(equipmentType, item);
+            //Debug.Log($"Equipping {item.equipmentName} to {equipmentType}");
+            characterEquipment.EquipItem(this.gameObject);
         }
-        Destroy(this.gameObject);
+        else
+        {
+            //Debug.LogWarning("CharacterEquipment component not found on player.");
+        }
+        
     }
     string IInteractable.interactableName => interactableName;
 }

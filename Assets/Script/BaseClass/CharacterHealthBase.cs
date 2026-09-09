@@ -12,9 +12,8 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     public Image healthUI;
     public TMP_Text healthText;
 
-    [Header("數值")]
-    [SerializeField] protected float maxHealth = 100;
-    [SerializeField] protected float shield = 10;
+    [SerializeField] public float maxHealth = 100;
+    [SerializeField] public float shield = 10;
 
     [Header("韌性系統 (Poise System)")]
     public float maxPoise = 100f;        // 最大韌性值
@@ -27,14 +26,18 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     [SerializeField] protected float currentHealth;
     protected Coroutine bufferCoroutine;
     [SerializeField] protected MonoBehaviour[] scriptsToDisable;
+
+
     protected Animator _animator;
     protected CharacterMovementBase _movement;
-    protected CharacterCombatBase _combat;
+    protected CharacterCombatBase _combat; 
     protected Transform _attacker;
     protected AudioSource _audio;
 
     //AnimationID
     protected int animationMovementID = Animator.StringToHash("AnimationMove");
+
+    protected abstract void Die();
 
     protected virtual void Awake()
     {
@@ -42,7 +45,6 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         _movement = GetComponent<CharacterMovementBase>();
         _combat = GetComponentInChildren<CharacterCombatBase>();
         _audio = _movement.GetComponentInChildren<AudioSource>();
-
     }
     private void Update()
     {
@@ -62,26 +64,6 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
             _movement.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMovementID), true);
         }
     }
-
-    public virtual void TakeDamage(int amount)
-    {
-        throw new System.NotImplementedException("TakeDamage method must be implemented by subclasses.");
-    }
-
-    public virtual void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
-    {
-        _animator.Play(attackData.hitAnimationName,0,0f);
-        SetAttacker(attacker);
-        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
-    }
-    protected abstract void Die();
-
-    public virtual void SetAttacker(Transform attacker)
-    {
-        if (_attacker != attacker || _attacker == null)
-            _attacker = attacker;
-    }
-
     private void OnHitLookTarget()
     {
         if(_animator.CheckAnimationTag("Hit"))
@@ -123,5 +105,31 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
             }
         }
     }
+
+    #region 外部方法
+    public virtual void SetAttacker(Transform attacker)
+    {
+        if (_attacker != attacker || _attacker == null)
+            _attacker = attacker;
+    }
+    public virtual void TakeDamage(int amount)
+    {
+        throw new System.NotImplementedException("TakeDamage method must be implemented by subclasses.");
+    }
+
+    public virtual void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
+    {
+        _animator.Play(attackData.hitAnimationName,0,0f);
+        SetAttacker(attacker);
+        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
+    }
+    public void ModifyMaxHealth(float newMaxHealth)
+    {
+        float healthRatio = currentHealth / maxHealth;
+        maxHealth = newMaxHealth;
+        currentHealth = Mathf.Clamp(maxHealth * healthRatio, 1f, maxHealth);
+        UpdateHealthBar(currentHealth / maxHealth);
+    }
+    #endregion
 
 }

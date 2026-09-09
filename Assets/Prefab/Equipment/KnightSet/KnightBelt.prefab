@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8333531510923234863}
   - component: {fileID: 4485921564606421041}
   - component: {fileID: 6579343487355687387}
+  - component: {fileID: 5548752576983893747}
   m_Layer: 14
   m_Name: KnightBelt
   m_TagString: Untagged
@@ -163,3 +164,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5480418, y: 0.29436606, z: 0.39115688}
   m_Center: {x: 0, y: -0.029947966, z: -0.045753404}
+--- !u!54 &5548752576983893747
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2938169060934834032}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

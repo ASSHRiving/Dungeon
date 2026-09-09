@@ -16,4 +16,12 @@ public class ShopItem : MonoBehaviour
     }
     [SerializeField] public List<EquipmentData> equipmentDataList;
     [SerializeField] public int currentEquipmentIndex = 0;
+    
+    public string equipmentName => equipmentDataList[currentEquipmentIndex].equipmentName;
+    public Mesh mesh => equipmentDataList[currentEquipmentIndex].mesh;
+    public int price => equipmentDataList[currentEquipmentIndex].price;
+    public float damage => equipmentDataList[currentEquipmentIndex].damage;
+    public float shield => equipmentDataList[currentEquipmentIndex].shield;
+    public float health => equipmentDataList[currentEquipmentIndex].health;
+    public float critRate => equipmentDataList[currentEquipmentIndex].critRate;
 }

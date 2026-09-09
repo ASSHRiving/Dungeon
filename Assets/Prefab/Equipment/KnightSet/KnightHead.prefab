@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3516753996722538653}
   - component: {fileID: 8306514674536301932}
   - component: {fileID: -2186514502656312851}
+  - component: {fileID: -7676591160147854102}
   m_Layer: 14
   m_Name: KnightHead
   m_TagString: Untagged
@@ -163,3 +164,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.29277605, y: 0.35193968, z: 0.35974053}
   m_Center: {x: 0, y: 0.0051920414, z: -0.028602019}
+--- !u!54 &-7676591160147854102
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169848288877405413}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

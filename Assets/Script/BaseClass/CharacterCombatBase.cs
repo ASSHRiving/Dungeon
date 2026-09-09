@@ -23,7 +23,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
     //===================================================================
 
     [SerializeField] public Weapon currentWeapon;
-    [SerializeField] public float currentDamage = 0f;
+    [SerializeField] public float damage = 0f;
     [SerializeField] public float critRate = 0f;
     protected SoundAssetsType weaponSoundType;
     protected TrailRenderer weaponTrail;
@@ -135,13 +135,13 @@ public abstract class CharacterCombatBase : MonoBehaviour
             if (damageable != null && !hitTargets.Contains(damageable))
             {
                 hitTargets.Add(damageable); // 標記為已命中
-                float attackDamage = Mathf.Clamp(currentWeapon.damage + currentDamage, 0f, float.MaxValue);
-                
 
+                bool isCritical = Random.value < (critRate / 100f); // 判斷是否暴擊
+                float attackDamage = Mathf.Clamp(currentWeapon.damage + damage, 0f, float.MaxValue);
                 float finalDamage = attackDamage * currentAttackData.damageMultiplier;
-                
-                Debug.Log($"[命中新目標] {attackHits[i].name} | 傷害: {finalDamage} | 削韌: {currentAttackData.poiseDamage}");
-                
+                if(isCritical) finalDamage *= 1.5f; // 暴擊傷害加成
+
+                Debug.Log($"[命中新目標] {attackHits[i].name} | 傷害: {finalDamage} | 削韌: {currentAttackData.poiseDamage}"); 
                 damageable.TakeDamage(transform.root, finalDamage, currentAttackData);
             }
         }

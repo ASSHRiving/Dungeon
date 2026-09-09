@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerStatsController : MonoBehaviour
 {
     private PlayerInput playerInput;
-    private ChatacterStats playerStats;
+    private CharacterStats playerStats;
 
     [Header("玩家狀態UI")]
     public GameObject playerStatsPanel;
@@ -57,7 +57,7 @@ public class PlayerStatsController : MonoBehaviour
     {
         if (playerStats == null)
         {
-            playerStats = FindFirstObjectByType<ChatacterStats>();
+            playerStats = FindFirstObjectByType<CharacterStats>();
         }
 
         healthText.text = $"生命值: {playerStats.maxHealth}";

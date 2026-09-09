@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8382085551557152486}
   - component: {fileID: 1870175793590881749}
   - component: {fileID: -6836364363080455162}
+  - component: {fileID: 1524886688335132365}
   m_Layer: 14
   m_Name: KnightChest
   m_TagString: Untagged
@@ -163,3 +164,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5810802, y: 0.612145, z: 0.438137}
   m_Center: {x: 0, y: -0.109610826, z: 0.038642973}
+--- !u!54 &1524886688335132365
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098363305182194362}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

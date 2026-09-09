@@ -120,7 +120,7 @@ public class PlayerHealthSystem : CharacterHealthBase
         maxHealth += itemData.health;
         currentHealth += itemData.health;
         shield += itemData.shield;
-        _combat.currentDamage += itemData.damage;
+        _combat.damage += itemData.damage;
         _combat.critRate += itemData.critRate;
         UpdateHealthBar(currentHealth / maxHealth);
     }

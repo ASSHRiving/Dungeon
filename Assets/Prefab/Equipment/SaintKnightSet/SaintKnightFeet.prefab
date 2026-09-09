@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1122581084704067201}
   - component: {fileID: 1933956992487744950}
   - component: {fileID: 8253695057152701690}
+  - component: {fileID: 7046001291110419593}
   m_Layer: 0
   m_Name: SaintKnightFeet
   m_TagString: Untagged
@@ -133,18 +134,21 @@ MonoBehaviour:
     damage: 0
     shield: 0
     health: 0
+    critRate: 0
   - equipmentName: "\u4E2D\u7D1A\u8056\u9A0E\u58EB\u9774"
     mesh: {fileID: -4344742150338797371, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
     price: 0
     damage: 0
     shield: 0
     health: 0
+    critRate: 0
   - equipmentName: "\u9AD8\u7D1A\u8056\u9A0E\u58EB\u9774"
     mesh: {fileID: 8646283205900779456, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
     price: 0
     damage: 0
     shield: 0
     health: 0
+    critRate: 0
   currentEquipmentIndex: 0
 --- !u!114 &8253695057152701690
 MonoBehaviour:
@@ -160,3 +164,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
   interactableName: "\u8056\u9A0E\u58EB\u9774"
   equipmentType: 5
+--- !u!54 &7046001291110419593
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945345577184212411}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
