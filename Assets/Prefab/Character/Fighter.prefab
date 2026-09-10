@@ -739,6 +739,16 @@ MonoBehaviour:
   isOnGround: 0
   walkSpeed: 3
   runSpeed: 10
+  audioSource: {fileID: 5910682669041207671}
+  FootstepsSounds:
+  - {fileID: 8300000, guid: 4728ae49e283f2c488889fcb96814741, type: 3}
+  - {fileID: 8300000, guid: a6b10e871d8dc6f46a5591249e36a9fd, type: 3}
+  - {fileID: 8300000, guid: 99ef211e18a04d14cb5baab485ad3159, type: 3}
+  - {fileID: 8300000, guid: cffa77f5ebf06e14aa81eda884d43c81, type: 3}
+  - {fileID: 8300000, guid: d63fe9a5a24772c44b21f00be586426a, type: 3}
+  - {fileID: 8300000, guid: 9c5d7a7410ad6264c94db9aa5b29b44d, type: 3}
+  - {fileID: 8300000, guid: a56a01f3a42b8634c98def5078d478bc, type: 3}
+  - {fileID: 8300000, guid: 0fb7bd8569228db40a10267fc830124a, type: 3}
 --- !u!114 &2166173460953718933
 MonoBehaviour:
   m_ObjectHideFlags: 0
