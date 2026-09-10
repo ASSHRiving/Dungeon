@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class TutorialController : MonoBehaviour
 {
+    [SerializeField] private UIController uiController;
     [SerializeField] private GameObject tutorialPanel;
-    private PlayerInput _inputSystem;
     private bool isTutorialOpen = false;
     private void Start()
     {
@@ -24,20 +24,18 @@ public class TutorialController : MonoBehaviour
         if(isTutorialOpen)
         {
             Cursor.lockState = CursorLockMode.None;
-            _inputSystem = FindPlayerInput();
-            if(_inputSystem != null)
+            if(uiController.GetPlayerInput() != null)
             {
-                _inputSystem.SwitchCurrentActionMap("UI");
+                uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
             }
         }
     }
     public void Confirm()
     {
         isTutorialOpen = false;
-        _inputSystem = FindPlayerInput();
-        if(_inputSystem != null)
+        if(uiController.GetPlayerInput() != null)
         {
-            _inputSystem.SwitchCurrentActionMap("Player");
+            uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
         }
 
         tutorialPanel.SetActive(false);
@@ -46,19 +44,10 @@ public class TutorialController : MonoBehaviour
     public void OpenTutorial()
     {
         isTutorialOpen = true;
-        _inputSystem = FindPlayerInput();
-        if(_inputSystem != null)
+        if(uiController.GetPlayerInput() != null)
         {
-            _inputSystem.SwitchCurrentActionMap("UI");
+            uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
         }
         tutorialPanel.SetActive(true);
-    }
-    private PlayerInput FindPlayerInput()
-    {
-        if(_inputSystem == null)
-        {
-            _inputSystem = FindFirstObjectByType<PlayerInput>();
-        }
-        return _inputSystem;
     }
 }

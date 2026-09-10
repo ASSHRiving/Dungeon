@@ -5,6 +5,7 @@ using TMPro;
 
 public class MinimapController : MonoBehaviour
 {
+    [SerializeField] private UIController uiController;
     public enum MinimapMode
     {
         RotateMap, // 旋轉地圖（以玩家視角為前方）
@@ -19,9 +20,6 @@ public class MinimapController : MonoBehaviour
     public TMP_Dropdown modeDropdown;        // 下拉選單 (UI_Dropdown) 用於切換模式
     public GameObject roomNodePrefab;        // UI_RoomNode Prefab
     public GameObject connectionLinePrefab;  // UI_ConnectionLine Prefab
-
-    [Header("玩家參照 (負責讀取旋轉)")]
-    public Transform playerTransform;        // 玩家角色的 Transform
 
     [Header("地圖距離與跟隨設定")]
     public float roomGridDistance = 60f;      // 房間之間的像素距離
@@ -66,10 +64,6 @@ public class MinimapController : MonoBehaviour
 
     private void Start()
     {
-        if (Camera.main != null)
-        {
-            playerTransform = Camera.main.transform;
-        }
         // 讀取玩家先前的設定紀錄 (預設為 0: RotateMap)
         int savedMode = PlayerPrefs.GetInt("MinimapModeSetting", (int)MinimapMode.RotateMap);
         SetMinimapMode((MinimapMode)savedMode);
@@ -93,9 +87,9 @@ public class MinimapController : MonoBehaviour
     }
     private void UpdateMapRotation()
     {
-        if (playerTransform == null) return;
+        if (uiController.GetCameraTransform() == null) return;
 
-        float playerYRotation = playerTransform.eulerAngles.y;
+        float playerYRotation = uiController.GetCameraTransform().eulerAngles.y;
 
         if (currentMode == MinimapMode.RotateMap)
         {

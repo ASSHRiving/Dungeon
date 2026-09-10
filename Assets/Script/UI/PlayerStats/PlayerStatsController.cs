@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerStatsController : MonoBehaviour
 {
-    private PlayerInput playerInput;
+    [SerializeField] private UIController uiController;
     private CharacterStats playerStats;
 
     [Header("玩家狀態UI")]
@@ -31,10 +31,7 @@ public class PlayerStatsController : MonoBehaviour
 
     private void Update()
     {
-        if(playerInput == null)
-        {
-            playerInput = FindFirstObjectByType<PlayerInput>();
-        }else if(playerInput.actions["Character"].triggered)
+        if(uiController.GetPlayerInput() != null && uiController.GetPlayerInput().actions["Character"].triggered)
         {
             TogglePanel();
         }
@@ -43,7 +40,10 @@ public class PlayerStatsController : MonoBehaviour
     private void TogglePanel()
     {
         if (playerStatsPanel == null) return;
-
+        if(uiController.GetPlayerInput() != null)
+        {
+            uiController.GetPlayerInput().SwitchCurrentActionMap(isPanelOpen ? "Player" : "UI");
+        }
         isPanelOpen = !isPanelOpen;
         playerStatsPanel.SetActive(isPanelOpen);
 

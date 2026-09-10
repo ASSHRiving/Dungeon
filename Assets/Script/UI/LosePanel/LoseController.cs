@@ -21,5 +21,4 @@ public class LoseController : MonoBehaviour
     {
         GameManager.Instance.QuitGame();
     }
-   
 }

@@ -1,12 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class ConfirmDialogController : MonoBehaviour
 {
+    [SerializeField] private UIController uiController;
+    [Header("UI Elements")]
     [SerializeField] private GameObject dialogPanel;
     [SerializeField] private TMPro.TMP_Text messageText;
     [SerializeField] private UnityEngine.UI.Button confirmButton;
     [SerializeField] private UnityEngine.UI.Button cancelButton;
-    private PlayerInput _inputSystem;
+
 
     private void OnEnable()
     {
@@ -40,8 +43,10 @@ public class ConfirmDialogController : MonoBehaviour
     {
         if(dialogPanel == null) return;
 
-        _inputSystem = FindPlayerInput();
-        _inputSystem.SwitchCurrentActionMap("Player");
+        if(uiController.GetPlayerInput() != null)
+        {
+            uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
+        }
 
         dialogPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
@@ -50,18 +55,12 @@ public class ConfirmDialogController : MonoBehaviour
     {
         if(dialogPanel == null) return;
         
-        _inputSystem = FindPlayerInput();
-        _inputSystem.SwitchCurrentActionMap("UI");
+        if(uiController.GetPlayerInput() != null)
+        {
+            uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
+        }
 
         dialogPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
-    }
-    private PlayerInput FindPlayerInput()
-    {
-        if(_inputSystem == null)
-        {
-            _inputSystem = FindFirstObjectByType<PlayerInput>();
-        }
-        return _inputSystem;
     }
 }

@@ -18,14 +18,12 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private Slider effectSlider;
 
     [Header("其他控制器參照")]
+    [SerializeField] private UIController uiController;
     [SerializeField] private MinimapController minimapController;
     [SerializeField] private CinemachineInputAxisController cameraInput;
     [SerializeField] public AudioMixer mainMixer;
 
     private bool isSettingsOpen;
-    private PlayerInput _inputSystem;
-
-    public bool IsSettingsOpen => isSettingsOpen;
 
     private void Start()
     {
@@ -73,8 +71,7 @@ public class SettingsController : MonoBehaviour
     }
     private void Update()
     {
-        _inputSystem = FindPlayerInput();
-        if(_inputSystem != null && _inputSystem.actions["Esc"].triggered)
+        if(uiController.GetPlayerInput() != null && uiController.GetPlayerInput().actions["Esc"].triggered)
         {
             if (isSettingsOpen)
             {
@@ -82,19 +79,12 @@ public class SettingsController : MonoBehaviour
             }
         }
     }
-    private PlayerInput FindPlayerInput()
-    {
-        if(_inputSystem == null)
-        {
-            _inputSystem = FindFirstObjectByType<PlayerInput>();
-        }
-        return _inputSystem;
-    }
-
     public void OpenSettings()
     {
-        _inputSystem = FindPlayerInput();
-        _inputSystem.SwitchCurrentActionMap("UI");
+        if(uiController.GetPlayerInput() != null)
+        {
+            uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
+        }
 
         isSettingsOpen = true;
         settingsPanel.SetActive(true);
@@ -105,10 +95,9 @@ public class SettingsController : MonoBehaviour
 
     public void CloseSettings()
     {
-        _inputSystem = FindPlayerInput();
-        if(_inputSystem != null)
+        if(uiController.GetPlayerInput() != null)
         {
-            _inputSystem.SwitchCurrentActionMap("Player");
+            uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
         }
 
         isSettingsOpen = false;

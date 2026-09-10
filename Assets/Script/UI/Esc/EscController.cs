@@ -4,11 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class EscController : MonoBehaviour
 {
+    [SerializeField] private UIController uiController;
     [Header("UI 面板綁定")]
     [SerializeField] private GameObject escPanel;
     [SerializeField] private SettingsController settingsPanel;
-    private PlayerInput _inputSystem;
-
     private bool isEscOpen;
 
     /// <summary>
@@ -30,19 +29,10 @@ public class EscController : MonoBehaviour
 
     private void Update()
     {
-        _inputSystem = FindPlayerInput();
-        if(_inputSystem != null && _inputSystem.actions["Esc"].triggered)
+        if(uiController.GetPlayerInput() != null && uiController.GetPlayerInput().actions["Esc"].triggered)
         {
             ToggleEsc();
         }
-    }
-    private PlayerInput FindPlayerInput()
-    {
-        if(_inputSystem == null)
-        {
-            _inputSystem = FindFirstObjectByType<PlayerInput>();
-        }
-        return _inputSystem;
     }
 
     public void ToggleEsc()
@@ -59,8 +49,10 @@ public class EscController : MonoBehaviour
 
     public void OpenEsc()
     {
-        _inputSystem = FindPlayerInput();
-        _inputSystem.SwitchCurrentActionMap("UI");
+        if(uiController.GetPlayerInput() != null)
+        {
+            uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
+        }
 
         if (escPanel == null)
         {
@@ -76,8 +68,10 @@ public class EscController : MonoBehaviour
 
     public void CloseEsc()
     {
-        _inputSystem = FindPlayerInput();
-        _inputSystem.SwitchCurrentActionMap("Player");
+        if(uiController.GetPlayerInput() != null)
+        {
+            uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
+        }
 
         if (escPanel == null)
         {
