@@ -90,6 +90,7 @@ public class EscController : MonoBehaviour
     /// </summary>
     public void ResumeGame()
     {
+        GameAssets.Instance.PlayUIClickSound();
         CloseEsc();
     }
 
@@ -98,6 +99,7 @@ public class EscController : MonoBehaviour
     /// </summary>
     public void OpenSettings()
     {
+        GameAssets.Instance.PlayUIClickSound();
         if (settingsPanel == null)
         {
             Debug.LogWarning($"{nameof(EscController)} 缺少 SettingsController 參照。", this);
@@ -113,6 +115,7 @@ public class EscController : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
+        GameAssets.Instance.PlayUIClickSound();
         if (escPanel == null)
         {
             return;

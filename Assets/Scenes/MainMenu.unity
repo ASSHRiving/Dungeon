@@ -379,7 +379,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1001 &251094496
+--- !u!1001 &315860378
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -387,21 +387,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3757002298708156095, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
-      propertyPath: m_Resource
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6395817522519334565, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1628.9495
+      value: 558.44904
       objectReference: {fileID: 0}
     - target: {fileID: 6395817522519334565, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 572.84607
+      value: 828.46985
       objectReference: {fileID: 0}
     - target: {fileID: 6395817522519334565, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -524.29224
+      value: -971.65955
       objectReference: {fileID: 0}
     - target: {fileID: 6395817522519334565, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
       propertyPath: m_LocalRotation.w
@@ -431,18 +427,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6706124339822269311, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
-      propertyPath: damageTextPrefab
-      value: 
-      objectReference: {fileID: 6218494515443344597, guid: c48abdf81ae443a459d259424c9bc850, type: 3}
     - target: {fileID: 7078665548527523251, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8358728005158142763, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
-      propertyPath: bossMusicClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 5f9e13a09b47ba8498b33d6a2e6b8d5f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1724,4 +1712,4 @@ SceneRoots:
   - {fileID: 698724814}
   - {fileID: 345235935}
   - {fileID: 1190815613}
-  - {fileID: 251094496}
+  - {fileID: 315860378}

@@ -32,6 +32,7 @@ public class TutorialController : MonoBehaviour
     }
     public void Confirm()
     {
+        GameAssets.Instance.PlayUIClickSound();
         isTutorialOpen = false;
         if(uiController.GetPlayerInput() != null)
         {

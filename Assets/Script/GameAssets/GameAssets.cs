@@ -8,6 +8,7 @@ public class GameAssets : SingletonBase<GameAssets>
     [SerializeField] private AudioClip inGameMusicClip;
     [SerializeField] private AudioClip menuMusicClip;
     [SerializeField] private AudioClip bossMusicClip;
+    [SerializeField] private AudioClip uiClickSound;
     
     [Header("Hitstop (頓幀)")]
     private Coroutine currentHitstopCoroutine;
@@ -53,6 +54,13 @@ public class GameAssets : SingletonBase<GameAssets>
             _audioSource.clip = bossMusicClip;
             _audioSource.loop = true;
             _audioSource.Play();
+        }
+    }
+    public void PlayUIClickSound()
+    {
+        if(uiClickSound != null)
+        {
+            _audioSource.PlayOneShot(uiClickSound, 3f);
         }
     }
     /// <summary>

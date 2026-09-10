@@ -6,6 +6,7 @@ public class MainMenuButton : MonoBehaviour
     [SerializeField] private string nextSceneName = "GameScene"; // 預設下一關場景名稱
     public void StartGame()
     {
+        GameAssets.Instance.PlayUIClickSound();
         GameManager.Instance.init(); // 初始化遊戲進度
         if (LoadingController.Instance != null)
         {
@@ -22,6 +23,7 @@ public class MainMenuButton : MonoBehaviour
 
     public void QuitGame()
     {
+        GameAssets.Instance.PlayUIClickSound();
         Application.Quit();
     }
 }

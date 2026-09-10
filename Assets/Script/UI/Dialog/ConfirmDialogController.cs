@@ -31,12 +31,14 @@ public class ConfirmDialogController : MonoBehaviour
         {
             onConfirm?.Invoke();
             CloseDialog();
+            GameAssets.Instance.PlayUIClickSound();
         });
 
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(() =>
         {
             CloseDialog();
+            GameAssets.Instance.PlayUIClickSound();
         });
     }
     private void CloseDialog()

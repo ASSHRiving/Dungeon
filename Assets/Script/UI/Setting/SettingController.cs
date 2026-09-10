@@ -67,7 +67,8 @@ public class SettingsController : MonoBehaviour
         bgmSlider.onValueChanged.AddListener(SetBGMVolume);
         effectSlider.onValueChanged.AddListener(SetEffectVolume);
 
-        CloseSettings();
+        //CloseSettings();
+        settingsPanel.SetActive(false);
     }
     private void Update()
     {
@@ -95,6 +96,7 @@ public class SettingsController : MonoBehaviour
 
     public void CloseSettings()
     {
+        GameAssets.Instance.PlayUIClickSound();
         if(uiController.GetPlayerInput() != null)
         {
             uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
@@ -110,6 +112,7 @@ public class SettingsController : MonoBehaviour
 
     private void OnMinimapModeChanged(int modeIndex)
     {
+        GameAssets.Instance.PlayUIClickSound();
         if (minimapController != null)
         {
             minimapController.SetMinimapMode((MinimapController.MinimapMode)modeIndex);

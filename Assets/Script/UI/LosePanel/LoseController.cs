@@ -19,6 +19,7 @@ public class LoseController : MonoBehaviour
     }
     public void QuitGame()
     {
+        GameAssets.Instance.PlayUIClickSound();
         GameManager.Instance.QuitGame();
     }
 }

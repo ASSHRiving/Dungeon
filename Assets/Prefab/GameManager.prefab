@@ -50,6 +50,8 @@ MonoBehaviour:
   soundAssets: {fileID: 11400000, guid: 001acfc9deccc224599c0e7821b09576, type: 2}
   inGameMusicClip: {fileID: 8300000, guid: 2c89dedcbf19d1f4997cd85d100151c1, type: 3}
   menuMusicClip: {fileID: 8300000, guid: 8c359478f0f222c45b8e74bcd8dd6bce, type: 3}
+  bossMusicClip: {fileID: 8300000, guid: 5f9e13a09b47ba8498b33d6a2e6b8d5f, type: 3}
+  uiClickSound: {fileID: 8300000, guid: 83a8355d5217fc144b287c2e87383598, type: 3}
 --- !u!114 &6706124339822269311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,8 +65,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
   coinPrefab: {fileID: 5771507442965416563, guid: da4dfac2e17a0ce478b76b4f9e4dcf91, type: 3}
-  defaultPoolSize: 20
-  maxPoolSize: 100
+  defaultCoinPoolSize: 20
+  maxCoinPoolSize: 100
+  damageTextPrefab: {fileID: 6218494515443344597, guid: c48abdf81ae443a459d259424c9bc850, type: 3}
+  defaultDamagePoolSize: 20
+  maxDamagePoolSize: 50
 --- !u!114 &258616125387801724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +94,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 364061969478851772, guid: 7f4f7b30c445f5d4ea8aeccf44cb8a1f, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 8c359478f0f222c45b8e74bcd8dd6bce, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
