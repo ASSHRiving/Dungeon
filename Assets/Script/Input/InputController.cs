@@ -352,6 +352,15 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Character"",
+                    ""type"": ""Button"",
+                    ""id"": ""6960fb34-fc7c-4a2c-8e03-d9ccdf48b6de"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -363,6 +372,17 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Esc"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""353b093d-f22c-4ff3-8f56-5cf5c222ea1a"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Character"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -386,6 +406,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Esc = m_UI.FindAction("Esc", throwIfNotFound: true);
+        m_UI_Character = m_UI.FindAction("Character", throwIfNotFound: true);
     }
 
     ~@InputController()
@@ -663,6 +684,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_Esc;
+    private readonly InputAction m_UI_Character;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -678,6 +700,10 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/Esc".
         /// </summary>
         public InputAction @Esc => m_Wrapper.m_UI_Esc;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/Character".
+        /// </summary>
+        public InputAction @Character => m_Wrapper.m_UI_Character;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -707,6 +733,9 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @Esc.started += instance.OnEsc;
             @Esc.performed += instance.OnEsc;
             @Esc.canceled += instance.OnEsc;
+            @Character.started += instance.OnCharacter;
+            @Character.performed += instance.OnCharacter;
+            @Character.canceled += instance.OnCharacter;
         }
 
         /// <summary>
@@ -721,6 +750,9 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @Esc.started -= instance.OnEsc;
             @Esc.performed -= instance.OnEsc;
             @Esc.canceled -= instance.OnEsc;
+            @Character.started -= instance.OnCharacter;
+            @Character.performed -= instance.OnCharacter;
+            @Character.canceled -= instance.OnCharacter;
         }
 
         /// <summary>
@@ -846,5 +878,12 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEsc(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Character" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCharacter(InputAction.CallbackContext context);
     }
 }

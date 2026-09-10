@@ -35,15 +35,16 @@ public class PlayerStatsController : MonoBehaviour
         {
             TogglePanel();
         }
+        else if(uiController.GetPlayerInput() != null && uiController.GetPlayerInput().actions["Esc"].triggered && isPanelOpen)
+        {
+            TogglePanel();
+        }
     }
 
     private void TogglePanel()
     {
         if (playerStatsPanel == null) return;
-        if(uiController.GetPlayerInput() != null)
-        {
-            uiController.GetPlayerInput().SwitchCurrentActionMap(isPanelOpen ? "Player" : "UI");
-        }
+        uiController.GetPlayerInput().SwitchCurrentActionMap(isPanelOpen ? "Player" : "UI");
         isPanelOpen = !isPanelOpen;
         playerStatsPanel.SetActive(isPanelOpen);
 
