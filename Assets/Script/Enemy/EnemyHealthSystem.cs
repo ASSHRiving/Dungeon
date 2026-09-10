@@ -32,12 +32,15 @@ public class EnemyHealthSystem : CharacterHealthBase
         //減傷公式
         float armorDR = shield / (shield + 100f);
         armorDR = Mathf.Clamp(armorDR, 0f, 0.85f);
-        float damage = damageAmount * (1f - armorDR);
-        ObjectPoolManager.Instance.SpawnDamageText(transform.position, damage, isCritical);
+        int finaldamage = Mathf.RoundToInt(damageAmount * (1f - armorDR));
 
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0f, maxHealth);
+        ObjectPoolManager.Instance.SpawnDamageText(transform.position, finaldamage, isCritical);
+
+        currentHealth = Mathf.Clamp(currentHealth - finaldamage, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
         SetAttacker(attacker);
+
+        // 播放受擊音效、觸發攝影機震動、頓幀
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
         if(impulseSource != null)
         {
@@ -46,9 +49,9 @@ public class EnemyHealthSystem : CharacterHealthBase
         GameAssets.Instance.DoHitstop(0.05f, 0.05f); // 觸發 Hitstop (頓幀)
         Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");
 
-        if(damage/maxHealth > 0.05f)
+        // 扣除韌性與判斷是否被打斷/播放受擊動畫
+        if(finaldamage/maxHealth > 0.05f)
         {
-            // 扣除韌性與判斷是否被打斷/播放受擊動畫
             currentPoise -= attackData.poiseDamage;
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
             if(currentPoise <= 0)

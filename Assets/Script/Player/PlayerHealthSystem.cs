@@ -4,13 +4,6 @@ using TMPro;
 
 public class PlayerHealthSystem : CharacterHealthBase
 {
-    [Header("角色部位SkinnedMeshRenderer")]
-    [SerializeField] private SkinnedMeshRenderer HeadSkinnedMeshRenderer;
-    [SerializeField] private SkinnedMeshRenderer ChestSkinnedMeshRenderer;
-    [SerializeField] private SkinnedMeshRenderer ArmSkinnedMeshRenderer;
-    [SerializeField] private SkinnedMeshRenderer BeltSkinnedMeshRenderer;
-    [SerializeField] private SkinnedMeshRenderer LegSkinnedMeshRenderer;
-    [SerializeField] private SkinnedMeshRenderer FeetSkinnedMeshRenderer;
 
     void Start()
     {
@@ -31,15 +24,15 @@ public class PlayerHealthSystem : CharacterHealthBase
         //減傷公式
         float armorDR = shield / (shield + 100f);
         armorDR = Mathf.Clamp(armorDR, 0f, 0.85f);
-        float damage = damageAmount * (1f - armorDR);
+        int finalDamage = Mathf.RoundToInt(damageAmount * (1f - armorDR));
 
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0f, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth - finalDamage, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
 
         //受擊動畫
-        if(damage/maxHealth > 0.05f)
+        if(finalDamage/maxHealth > 0.05f)
         {
             // 扣除韌性與判斷是否被打斷/播放受擊動畫
             currentPoise -= attackData.poiseDamage;
@@ -71,57 +64,5 @@ public class PlayerHealthSystem : CharacterHealthBase
         {
             script.enabled = false;
         }
-    }
-    
-    //換裝
-    public void ChangeEquipment(EquipmentInteract.EquipmentType type, ShopItem item)
-    {
-        ShopItem.EquipmentData itemData = item.equipmentDataList[item.currentEquipmentIndex];
-        Mesh newMesh = itemData.mesh;
-        switch (type)
-        {
-            case EquipmentInteract.EquipmentType.Head:
-                if (HeadSkinnedMeshRenderer != null && newMesh != null)
-                {
-                    HeadSkinnedMeshRenderer.sharedMesh = newMesh;
-                }
-                break;
-            case EquipmentInteract.EquipmentType.Chest:
-                if (ChestSkinnedMeshRenderer != null && newMesh != null)
-                {
-                    ChestSkinnedMeshRenderer.sharedMesh = newMesh;
-                }
-                break;
-            case EquipmentInteract.EquipmentType.Arm:
-                if (ArmSkinnedMeshRenderer != null && newMesh != null)
-                {
-                    ArmSkinnedMeshRenderer.sharedMesh = newMesh;
-                }
-                break;
-            case EquipmentInteract.EquipmentType.Belt:
-                if (BeltSkinnedMeshRenderer != null && newMesh != null)
-                {
-                    BeltSkinnedMeshRenderer.sharedMesh = newMesh;
-                }
-                break;
-            case EquipmentInteract.EquipmentType.Leg:
-                if (LegSkinnedMeshRenderer != null && newMesh != null)
-                {
-                    LegSkinnedMeshRenderer.sharedMesh = newMesh;
-                }
-                break;
-            case EquipmentInteract.EquipmentType.Feet:
-                if (FeetSkinnedMeshRenderer != null && newMesh != null)
-                {
-                    FeetSkinnedMeshRenderer.sharedMesh = newMesh;
-                }
-                break; 
-        }
-        maxHealth += itemData.health;
-        currentHealth += itemData.health;
-        shield += itemData.shield;
-        _combat.damage += itemData.damage;
-        _combat.critRate += itemData.critRate;
-        UpdateHealthBar(currentHealth / maxHealth);
     }
 }
