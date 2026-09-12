@@ -695,9 +695,9 @@ Transform:
   m_Children:
   - {fileID: 4834578413066844968}
   - {fileID: 7516434599841223570}
-  - {fileID: 9139127248907476367}
   - {fileID: 6524804539303782773}
   - {fileID: 8049244389935800657}
+  - {fileID: 9139127248907476367}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &1893508996170350496
@@ -791,6 +791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementSystem
   characterGravity: -9.8
   characterCurrentMoveSpeed: 0
+  footstepSoundType: 5
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -801,6 +802,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   isOnGround: 0
+  audioSource: {fileID: 828876732644070618}
 --- !u!114 &3764410466006088352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,7 +1022,7 @@ MonoBehaviour:
   combo: 0
   attackPoint: {fileID: 6524804539303782773}
   attackRadius: 1
-  weaponSoundType: 1
+  weaponSoundType: 3
   overrideController: {fileID: 0}
   weaponTrail: {fileID: 0}
   weaponEffect: {fileID: 0}

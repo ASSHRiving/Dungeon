@@ -5,6 +5,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
     protected CharacterController control;
     protected CharacterInputSystem _inputSystem;
     protected CharacterCombatBase _combat;
+    protected AnimationEventHelper animationEventHelper;
 
     [SerializeField,Header("移動速度")] protected float characterGravity;
     [SerializeField] protected float characterCurrentMoveSpeed;
@@ -12,6 +13,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
     protected float characterFallOutDeltaTime;
     protected float verticalSpeed; 
     protected float maxVerticalSpeed = 53f;
+    [SerializeField] private SoundAssetsType footstepSoundType;
 
     [SerializeField, Header("地面檢測")] protected LayerMask whatIsGround;
     [SerializeField] protected float groundDetectionOffset = 0.1f;
@@ -37,12 +39,20 @@ public abstract class CharacterMovementBase : MonoBehaviour
     public bool immune { get; protected set; }
     protected float immuneTime = 0.3f;
 
+    [Header("音源設定")]
+    [SerializeField] private AudioSource audioSource;
+
     protected virtual void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
         control = GetComponent<CharacterController>();
         _inputSystem = GetComponent<CharacterInputSystem>();
         _combat = GetComponentInChildren<CharacterCombatBase>();
+        animationEventHelper = GetComponentInChildren<AnimationEventHelper>();
+        if(animationEventHelper != null)
+        {
+            animationEventHelper.OnFootstepEvent += PlayFootstepSound;
+        }
     }
     protected virtual void Start()
     {
@@ -67,6 +77,13 @@ public abstract class CharacterMovementBase : MonoBehaviour
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundDetectionOffset, transform.position.z);
         isOnGround = Physics.CheckSphere(spherePosition, groundDetectionRang, whatIsGround, QueryTriggerInteraction.Ignore);
         
+    }
+    private void PlayFootstepSound()
+    {
+        if(audioSource != null )
+        {
+            GameAssets.Instance.PlaySoundEffect(audioSource, footstepSoundType);
+        }
     }
 
     private void CharacterGravity()

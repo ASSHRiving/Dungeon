@@ -16,22 +16,11 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     [SerializeField, Header("行走速度")] private float walkSpeed;
     [SerializeField, Header("奔跑速度")] private float runSpeed;
-
-    [Header("音源設定")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip[] FootstepsSounds;
-
-    private AnimationEventHelper animationEventHelper;
-
     protected override void Awake()
     {
         base.Awake();
         characterCamera = Camera.main.transform;
-        animationEventHelper = GetComponentInChildren<AnimationEventHelper>();
-        if(animationEventHelper != null)
-        {
-            animationEventHelper.OnFootstepEvent += PlayFootstepSound;
-        }
+        
     }
 
     protected override void Update()
@@ -160,14 +149,6 @@ public class PlayerMovementSystem : CharacterMovementBase
         immune = true;
         yield return new WaitForSeconds(immuneTime);
         immune = false;
-    }
-    private void PlayFootstepSound()
-    {
-        if(audioSource != null && FootstepsSounds.Length > 0)
-        {
-            int randomIndex = Random.Range(0, FootstepsSounds.Length);
-            audioSource.PlayOneShot(FootstepsSounds[randomIndex], 2.0f);
-        }
     }
 }
 //new Vector3(_inputSystem.playerMovement.x, 0, _inputSystem.playerMovement.y)

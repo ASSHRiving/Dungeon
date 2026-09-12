@@ -6,7 +6,10 @@ public enum SoundAssetsType
 {
     Hit,
     Sword,
-    GSword
+    GSword,
+    Punch,
+    PlayerFootstep,
+    GolemFootstep
 }
 
 [CreateAssetMenu(fileName = "SoundAssets", menuName = "CreataAssets/Sound")]
