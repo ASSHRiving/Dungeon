@@ -18,7 +18,7 @@ public class Generator : MonoBehaviour
     public LayerMask roomBoundsLayer;
 
     [Header("AI 導航組件")]
-    public NavMeshSurface navMeshSurface;
+    public List<NavMeshSurface> navMeshSurfaces;
 
     void Start()
     {
@@ -250,10 +250,13 @@ public class Generator : MonoBehaviour
     }
     private void InitNavMesh()
     {
-        if (navMeshSurface != null)
+        if (navMeshSurfaces != null)
         {
             Physics.SyncTransforms();
-            navMeshSurface.BuildNavMesh(); 
+            foreach(var surface in navMeshSurfaces)
+            {
+                surface.BuildNavMesh();
+            }
         }
     }
     Room.Direction GetOpposite(Room.Direction dir)

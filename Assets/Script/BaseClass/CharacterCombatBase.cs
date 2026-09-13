@@ -13,8 +13,9 @@ public abstract class CharacterCombatBase : MonoBehaviour
     
     //===================================================================
 
-    [SerializeField, Header("攻擊範圍")] protected Transform attackRangeCenter;
-    [SerializeField] protected float attackRangeRadius;
+    protected Transform attackRangeCenter;
+    protected float attackRangeRadius;
+    [Header("攻擊設定")]
     [SerializeField] protected LayerMask whatIsEnemy;
     private bool isHitboxActive = false;
     private AttackData currentAttackData;

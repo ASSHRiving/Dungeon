@@ -775,7 +775,7 @@ MonoBehaviour:
   healthText: {fileID: 7306819253640484099}
   maxHealth: 100
   shield: 0
-  maxPoise: 100
+  maxPoise: 0
   currentPoise: 100
   poiseRecoveryRate: 20
   poiseRecoveryDelay: 3
@@ -1165,8 +1165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4226905d1480e654096d2f490e4f0428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
-  attackRangeCenter: {fileID: 0}
-  attackRangeRadius: 0.5
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 1024

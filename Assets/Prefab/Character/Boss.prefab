@@ -536,8 +536,8 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 6494675721654408944}
   healthUI: {fileID: 1063218574216015186}
   healthText: {fileID: 5287683612154019611}
-  maxHealth: 500
-  shield: 25
+  maxHealth: 350
+  shield: 50
   maxPoise: 100
   currentPoise: 100
   poiseRecoveryRate: 20
@@ -564,6 +564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementSystem
   characterGravity: -9.8
   characterCurrentMoveSpeed: 0
+  footstepSoundType: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -574,6 +575,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   isOnGround: 0
+  audioSource: {fileID: 0}
 --- !u!114 &5599069062710896955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1362,13 +1364,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9f8b4193ab1dc46bf3509b3d265cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
-  attackRangeCenter: {fileID: 2943019914504254059}
-  attackRangeRadius: 0.8
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
   currentWeapon: {fileID: 0}
-  currentDamage: 0
+  damage: 0
   critRate: 0
   canAttack: 1
   inAttack: 0

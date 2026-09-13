@@ -81,7 +81,7 @@ public class EnemyCombatSystem : CharacterCombatBase
             _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID), true);
         }else if(_animator.CheckAnimationTag("Attack"))
         {
-            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID) * 10f, true);
+            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID) * 6f, true);
         }
     }
 
