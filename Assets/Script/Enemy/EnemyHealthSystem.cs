@@ -56,7 +56,7 @@ public class EnemyHealthSystem : CharacterHealthBase
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
             if(currentPoise <= 0)
             {
-                _animator.Play(attackData.hitAnimationName,0,0f);
+                _animator.CrossFade(attackData.hitAnimationName, 0.1f);
                 _combat.canAttack = true;
                 _combat.currentWeapon.combo = 0;
                 
@@ -75,7 +75,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         isDead = true;
         _navMeshAgent.enabled = false;
         gameObject.layer = LayerMask.NameToLayer("Ground");
-        _animator.Play("Die", 0, 0f);
+        _animator.CrossFade("Die", 0.1f);
         
         if (lootPrefab != null)
         {

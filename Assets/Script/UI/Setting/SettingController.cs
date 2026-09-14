@@ -43,7 +43,7 @@ public class SettingsController : MonoBehaviour
         LoadVolume();       //初始化音效
         LoadRebinds();      //初始化按鍵綁定
         InitType();         //初始化頁面
-        
+
         //CloseSettings();
         settingsPanel.SetActive(false);
     }
@@ -111,22 +111,27 @@ public class SettingsController : MonoBehaviour
     #region 分頁
     private void InitType()
     {
-        ShowSoundType();
+        soundType.SetActive(true);
+        imageType.SetActive(false);
+        preferType.SetActive(false);
     }
     public void ShowSoundType()
     {
+        GameAssets.Instance.PlayUIClickSound();
         soundType.SetActive(true);
         imageType.SetActive(false);
         preferType.SetActive(false);
     }
     public void ShowImageType()
     {
+        GameAssets.Instance.PlayUIClickSound();
         soundType.SetActive(false);
         imageType.SetActive(true);
         preferType.SetActive(false);
     }
     public void ShowPreferType()
     {
+        GameAssets.Instance.PlayUIClickSound();
         soundType.SetActive(false);
         imageType.SetActive(false);
         preferType.SetActive(true);
@@ -211,18 +216,22 @@ public class SettingsController : MonoBehaviour
     #region 按鍵綁定
     public void RebindLAtk()
     {
+        GameAssets.Instance.PlayUIClickSound();
         StartRebind("Player/LAtk", 0, lAtkText);
     }
     public void RebindRAtk()
     {
+        GameAssets.Instance.PlayUIClickSound();
         StartRebind("Player/RAtk", 0, rAtkText);
     }
     public void RebindRun()
     {
+        GameAssets.Instance.PlayUIClickSound();
         StartRebind("Player/Run", 0, runText);
     }
     public void RebindInteract()
     {
+        GameAssets.Instance.PlayUIClickSound();
         StartRebind("Player/Interact", 0, interactText);
     }
     private void StartRebind(
