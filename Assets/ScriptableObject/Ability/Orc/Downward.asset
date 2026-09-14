@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95abef87c3546b24981f5c8b80711575, type: 3}
   m_Name: Downward
   m_EditorClassIdentifier: Assembly-CSharp::NormalAttack
-  skillName: 
-  animTriggerName: 
+  skillName: "\u4E0B\u5288"
+  animTriggerName: Downward
   minDistance: 0
-  maxDistance: 5
-  cooldown: 5
+  maxDistance: 1.5
+  cooldown: 20
   weight: 1

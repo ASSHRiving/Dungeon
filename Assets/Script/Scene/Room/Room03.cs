@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Room03 : FightingRoom
 { 
-
+    [SerializeField] private GameObject reward;
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
@@ -13,8 +13,20 @@ public class Room03 : FightingRoom
         {
             if (!isBattleStarted && !isClear)
             {
-                GameAssets.Instance.PlayBossMusic();
+                
             }
+        }
+    }
+    public override void Init()
+    {
+        base.Init();
+        reward.SetActive(false);
+    }
+    void Update()
+    {
+        if (isClear && !reward.activeSelf)
+        {
+            reward.SetActive(true);
         }
     }
 }

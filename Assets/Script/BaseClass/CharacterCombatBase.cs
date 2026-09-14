@@ -26,6 +26,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
     [SerializeField] public Weapon currentWeapon;
     [SerializeField] public float damage = 0f;
     [SerializeField] public float critRate = 0f;
+    public float totalDamage => currentWeapon.damage + damage;
     protected SoundAssetsType weaponSoundType;
     protected TrailRenderer weaponTrail;
     protected ParticleSystem weaponEffect;

@@ -45,6 +45,7 @@ public abstract class FightingRoom : Room
 
             if (wave != null && wave.spawnConfigs != null)
             {
+                UIEvents.LevelChanged(wave.waveName);
                 // 1. 生成預警特效
                 foreach (var config in wave.spawnConfigs)
                 {
@@ -141,6 +142,7 @@ public abstract class FightingRoom : Room
                 CloseGate();
                 // 啟動第一波生成協程
                 StartCoroutine(SpawnWaveRoutine(currentWaveIndex));
+                GameAssets.Instance.PlayBossMusic();
             }
         }
     }
