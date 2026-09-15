@@ -23,7 +23,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
     protected Transform attackRangeCenter;
     protected float attackRangeRadius;
     [Header("攻擊設定")]
-    [SerializeField] protected HitboxData[] hitboxs;
+    [SerializeField] protected HitboxData[] hitboxes;
     [SerializeField] protected LayerMask whatIsEnemy;
     private Collider[] attackHits = new Collider[10];
     private bool isHitboxActive = false;
@@ -135,10 +135,10 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     private void CheckAttackHitbox()
     {
-        foreach(int index in currentAttackData.hitboxs)
+        foreach(int index in currentAttackData.hitboxes)
         {
-            if(index > hitboxs.Length - 1) continue;
-            int count = Physics.OverlapSphereNonAlloc(hitboxs[index].center.position, hitboxs[index].radius, attackHits, whatIsEnemy);
+            if(index > hitboxes.Length - 1) continue;
+            int count = Physics.OverlapSphereNonAlloc(hitboxes[index].center.position, hitboxes[index].radius, attackHits, whatIsEnemy);
             for (int i = 0; i < count; i++)
             {
                 IDamageable damageable = attackHits[i].GetComponentInParent<IDamageable>();
@@ -198,11 +198,13 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     protected virtual void InitWeapon()
     {
-        if(hitboxs != null && hitboxs.Length > 0)
+        if(currentWeapon.attackPoint != null && currentWeapon.attackRadius != 0)
         {
-            hitboxs[0].hitboxName = "主武器";
-            hitboxs[0].center = currentWeapon.attackPoint;
-            hitboxs[0].radius = currentWeapon.attackRadius;
+            if(hitboxes != null && hitboxes.Length > 0){
+                hitboxes[0].hitboxName = "主武器";
+                hitboxes[0].center = currentWeapon.attackPoint;
+                hitboxes[0].radius = currentWeapon.attackRadius;
+            }
         }
 
         weaponSoundType = currentWeapon.weaponSoundType;
@@ -231,10 +233,10 @@ public abstract class CharacterCombatBase : MonoBehaviour
     // 🎨 開發除錯：可以在 Scene 畫面預覽 Hitbox 的球體範圍
     private void OnDrawGizmosSelected()
     {
-        if (hitboxs == null) return;
+        if (hitboxes == null) return;
 
         Gizmos.color = new Color(1f, 0f, 0f, 0.4f);
-        foreach (var hb in hitboxs)
+        foreach (var hb in hitboxes)
         {
             if (hb != null && hb.center != null)
             {

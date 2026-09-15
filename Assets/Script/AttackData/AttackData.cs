@@ -8,5 +8,5 @@ public class AttackData : ScriptableObject
     public float damageMultiplier = 1.0f;       // 傷害倍率
     public float poiseDamage = 25f;             // 削韌值
     public SoundAssetsType hitSound;
-    public List<int> hitboxs;
+    public List<int> hitboxes = new List<int> { 0 };
 }
