@@ -35,6 +35,7 @@ public class DamageText : MonoBehaviour
         // 1. 設置 ARPG 風格漸層與字型大小
         if (isCrit && critGradient != null)
         {
+            Debug.Log("爆擊");
             textMesh.colorGradientPreset = critGradient;
             textMesh.fontSize = 2f;
         }

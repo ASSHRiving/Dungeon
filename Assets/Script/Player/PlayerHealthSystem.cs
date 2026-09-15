@@ -34,7 +34,7 @@ public class PlayerHealthSystem : CharacterHealthBase
         {
             impulseSource.GenerateImpulseWithForce(attackData.shakeForce);
         }
-        GameAssets.Instance.DoHitstop(0.05f, 0.05f); // 觸發 Hitstop (頓幀)
+        GameAssets.Instance.DoHitstop(attackData.hitStopTime, 0.03f); // 觸發 Hitstop (頓幀)
 
         //受擊動畫
         if(finalDamage/maxHealth > 0.05f)

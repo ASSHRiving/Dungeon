@@ -154,7 +154,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
                     if(isCritical) finalDamage *= 1.5f; // 暴擊傷害加成
 
                     Debug.Log($"[命中新目標] {attackHits[i].name} | 傷害: {finalDamage} | 削韌: {currentAttackData.poiseDamage}"); 
-                    damageable.TakeDamage(transform.root, finalDamage, currentAttackData);
+                    damageable.TakeDamage(transform.root, finalDamage, currentAttackData, isCritical);
                 }
             }
         }

@@ -16,5 +16,6 @@ MonoBehaviour:
   damageMultiplier: 1
   poiseDamage: 25
   hitSound: 3
-  shakeForce: 0
+  shakeForce: 4
+  hitStopTime: 0.1
   hitboxes: 03000000

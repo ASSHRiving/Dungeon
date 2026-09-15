@@ -45,7 +45,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         {
             impulseSource.GenerateImpulseWithForce(attackData.shakeForce);
         }
-        GameAssets.Instance.DoHitstop(0.05f, 0.05f); // 觸發 Hitstop (頓幀)
+        GameAssets.Instance.DoHitstop(attackData.hitStopTime, 0.03f); // 觸發 Hitstop (頓幀)
         Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");
 
         // 扣除韌性與判斷是否被打斷/播放受擊動畫

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13ecc36662e0ef7409ea77203e40843d, type: 3}
-  m_Name: Attack1
+  m_Name: Stamp
   m_EditorClassIdentifier: Assembly-CSharp::Attack1
   skillName: "\u8E29\u8E0F"
-  animTriggerName: Attack1
+  animTriggerName: Stamp
   minDistance: 0
   maxDistance: 3
-  cooldown: 10
+  cooldown: 15
   weight: 1

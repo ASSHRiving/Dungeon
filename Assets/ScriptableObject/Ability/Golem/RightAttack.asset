@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13ecc36662e0ef7409ea77203e40843d, type: 3}
-  m_Name: Attack2
+  m_Name: RightAttack
   m_EditorClassIdentifier: Assembly-CSharp::Attack1
   skillName: "\u63EE\u62F3"
-  animTriggerName: Attack2
+  animTriggerName: RightAttack
   minDistance: 0
   maxDistance: 3
-  cooldown: 10
+  cooldown: 15
   weight: 1

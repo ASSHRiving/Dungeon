@@ -10,6 +10,7 @@ public class AttackData : ScriptableObject
     public SoundAssetsType hitSound;
     [Tooltip("打擊鏡頭抖動(輕:0.3 重:1.2)")]
     public float shakeForce;
+    public float hitStopTime = 0.5f;
     [Tooltip("需要開啟的hitbox(1.右手主武器)")]
     public List<int> hitboxes = new List<int> { 0 };
 }

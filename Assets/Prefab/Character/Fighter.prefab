@@ -736,7 +736,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 28736
-  groundDetectionOffset: -0.4
+  groundDetectionOffset: -0.31
   groundDetectionRang: 0.38
   whatIsObs:
     serializedVersion: 2
@@ -773,7 +773,7 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 867374025076862527}
   healthUI: {fileID: 0}
   healthText: {fileID: 7306819253640484099}
-  maxHealth: 100
+  maxHealth: 1000
   shield: 0
   maxPoise: 0
   currentPoise: 100
@@ -875,7 +875,7 @@ MonoBehaviour:
     DissipationRate: 0.25
     RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
     AmplitudeGain: 1.5
-    FrequencyGain: 1.5
+    FrequencyGain: 4
     RepeatMode: 0
     Randomize: 1
     TimeEnvelope:
@@ -1227,7 +1227,7 @@ MonoBehaviour:
     m_Bits: 1024
   currentWeapon: {fileID: 0}
   damage: 0
-  critRate: 0
+  critRate: 20
   canAttack: 1
   inAttack: 0
   currentTarget: {fileID: 0}
