@@ -30,6 +30,11 @@ public class PlayerHealthSystem : CharacterHealthBase
         UpdateHealthBar(currentHealth / maxHealth);
         SetAttacker(attacker);
         GameAssets.Instance.PlaySoundEffect(_audio, attackData.hitSound);
+        if(impulseSource != null)
+        {
+            impulseSource.GenerateImpulseWithForce(attackData.shakeForce);
+        }
+        GameAssets.Instance.DoHitstop(0.05f, 0.05f); // 觸發 Hitstop (頓幀)
 
         //受擊動畫
         if(finalDamage/maxHealth > 0.05f)
@@ -39,7 +44,7 @@ public class PlayerHealthSystem : CharacterHealthBase
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
             if(currentPoise <= 0)
             {
-                _animator.Play(attackData.hitAnimationName,0,0f);
+                _animator.CrossFade(attackData.hitAnimationName, 0.1f);
                 _combat.canAttack = true;
                 _combat.currentWeapon.combo = 0;
 

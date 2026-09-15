@@ -1,20 +1,19 @@
 using UnityEngine;
 using UnityEngine.AI;
-using Unity.Cinemachine;
+
 
 public class EnemyHealthSystem : CharacterHealthBase
 {
     [SerializeField] private GameObject lootPrefab;
     [SerializeField] private int gold = 5;
     private NavMeshAgent _navMeshAgent;
-    private CinemachineImpulseSource impulseSource;
+    
     public System.Action OnDeath;           //死亡廣播
 
 
     protected override void Awake()
     {
         base.Awake();
-        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
     void Start()
     {
@@ -44,7 +43,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         GameAssets.Instance.PlaySoundEffect(_audio, attackData.hitSound);
         if(impulseSource != null)
         {
-            impulseSource.GenerateImpulse();
+            impulseSource.GenerateImpulseWithForce(attackData.shakeForce);
         }
         GameAssets.Instance.DoHitstop(0.05f, 0.05f); // 觸發 Hitstop (頓幀)
         Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System;
+using Unity.Cinemachine;
 
 public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 {
@@ -33,6 +34,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     protected CharacterCombatBase _combat; 
     protected Transform _attacker;
     protected AudioSource _audio;
+    protected CinemachineImpulseSource impulseSource;
 
     //AnimationID
     protected int animationMovementID = Animator.StringToHash("AnimationMove");
@@ -45,6 +47,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         _movement = GetComponent<CharacterMovementBase>();
         _combat = GetComponentInChildren<CharacterCombatBase>();
         _audio = _movement.GetComponentInChildren<AudioSource>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
     private void Update()
     {
