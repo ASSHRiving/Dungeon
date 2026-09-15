@@ -29,7 +29,7 @@ public class PlayerHealthSystem : CharacterHealthBase
         currentHealth = Mathf.Clamp(currentHealth - finalDamage, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
         SetAttacker(attacker);
-        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
+        GameAssets.Instance.PlaySoundEffect(_audio, attackData.hitSound);
 
         //受擊動畫
         if(finalDamage/maxHealth > 0.05f)

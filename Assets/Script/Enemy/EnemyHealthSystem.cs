@@ -41,7 +41,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         SetAttacker(attacker);
 
         // 播放受擊音效、觸發攝影機震動、頓幀
-        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
+        GameAssets.Instance.PlaySoundEffect(_audio, attackData.hitSound);
         if(impulseSource != null)
         {
             impulseSource.GenerateImpulse();
