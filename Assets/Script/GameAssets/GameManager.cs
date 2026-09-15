@@ -5,6 +5,12 @@ public class GameManager : SingletonBase<GameManager>
 {
     [Header("遊戲進度")]
     public int currentLevel = 1;
+    public int deathCount {get; private set;}
+    protected override void Awake()
+    {
+        base.Awake();
+        deathCount = PlayerPrefs.GetInt("DeathCount", 0);
+    }
     public void init()
     {
         currentLevel = 1;
@@ -67,4 +73,20 @@ public class GameManager : SingletonBase<GameManager>
         }
         GameAssets.Instance.PlayMenuMusic();
     }
+    #region 統計資料
+    public void AddDeath()
+    {
+        deathCount += 1;
+        PlayerPrefs.SetInt("DeathCount", deathCount);
+        PlayerPrefs.Save();
+    }
+    public void ResetStats()
+    {
+        deathCount = 0;
+
+        PlayerPrefs.DeleteKey("DeathCount");
+
+        PlayerPrefs.Save();
+    }
+    #endregion
 }

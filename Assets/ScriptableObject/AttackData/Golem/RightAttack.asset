@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RightAttack
   m_EditorClassIdentifier: Assembly-CSharp::AttackData
   hitAnimationName: Hit_L
-  damageMultiplier: 1
+  damageMultiplier: 0.9
   poiseDamage: 25
   hitSound: 3
   shakeForce: 3

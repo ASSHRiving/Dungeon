@@ -60,6 +60,7 @@ public class PlayerHealthSystem : CharacterHealthBase
     protected override void Die()
     {
         UIEvents.PlayerDied();
+        GameManager.Instance.AddDeath();
         isDead = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

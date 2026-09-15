@@ -86,6 +86,13 @@ public abstract class FightingRoom : Room
                         if (playerTransform != null)
                         {
                             combat.SetCurrentTarget(playerTransform);
+                            Vector3 direction = playerTransform.position - combat.transform.position;
+                            direction.y = 0f;
+
+                            if (direction != Vector3.zero)
+                            {
+                                combat.transform.rotation = Quaternion.LookRotation(direction);
+                            }
                         }
                     }
                     if(health != null)
