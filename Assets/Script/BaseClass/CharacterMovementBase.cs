@@ -18,7 +18,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
     [SerializeField, Header("地面檢測")] protected LayerMask whatIsGround;
     [SerializeField] protected float groundDetectionOffset = 0.1f;
     [SerializeField] protected float groundDetectionRang = 0.2f;
-    [SerializeField] protected float slopRayExtent;
+    
     [SerializeField, Header("障礙物檢測")] protected LayerMask whatIsObs;
     [SerializeField] protected bool isOnGround;
 
@@ -113,6 +113,8 @@ public abstract class CharacterMovementBase : MonoBehaviour
         }
     }
 
+    /*
+    [SerializeField] protected float slopRayExtent;
     protected Vector3 ResetMoveDirectionOnSlop(Vector3 dir)
     {
         if (Physics.Raycast(transform.position, -Vector3.up, out var hit, slopRayExtent))
@@ -125,14 +127,15 @@ public abstract class CharacterMovementBase : MonoBehaviour
         }
         return dir;
     }
-    
+    */
+
     public virtual void CharacterMoveInterface(Vector3 moveDirection, float moveSpeed, bool useGravity)
     {
         if (!CanAnimationMotion(moveDirection))
         {
             movementDirection = moveDirection.normalized;
     
-            movementDirection = ResetMoveDirectionOnSlop(movementDirection);
+            //movementDirection = ResetMoveDirectionOnSlop(movementDirection);
 
             if (useGravity)
             {
