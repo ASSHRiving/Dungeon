@@ -91,7 +91,7 @@ public class PlayerMovementSystem : CharacterMovementBase
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationLerpTime);
 
                 // 6. 這裡直接把我們算好的精準方向餵給 movementDirection
-                movementDirection = Vector3.Slerp(movementDirection, ResetMoveDirectionOnSlop(targetDirection), moveDirctionSlerpTime * Time.deltaTime);
+                movementDirection = Vector3.Slerp(movementDirection, targetDirection, moveDirctionSlerpTime * Time.deltaTime);
                 rollDirection = movementDirection;
             }
         }

@@ -568,8 +568,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9f8b4193ab1dc46bf3509b3d265cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
-  attackRangeCenter: {fileID: 8892428528030753854}
-  attackRangeRadius: 0.6
+  hitboxs:
+  - hitboxName: "\u4E3B\u6B66\u5668"
+    center: {fileID: 2448974556895601791}
+    radius: 0.3
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
@@ -2240,7 +2242,6 @@ MonoBehaviour:
     m_Bits: 64
   groundDetectionOffset: 0
   groundDetectionRang: 0.25
-  slopRayExtent: 0
   whatIsObs:
     serializedVersion: 2
     m_Bits: 192
@@ -2518,7 +2519,7 @@ MonoBehaviour:
   weaponType: 0
   combo: 0
   attackPoint: {fileID: 2448974556895601791}
-  attackRadius: 0.4
+  attackRadius: 0.3
   weaponSoundType: 1
   overrideController: {fileID: 0}
   weaponTrail: {fileID: 0}

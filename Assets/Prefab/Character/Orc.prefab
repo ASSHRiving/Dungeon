@@ -239,6 +239,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2818666274993407722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5765754901337987584}
+  m_Layer: 0
+  m_Name: AttackDetection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5765754901337987584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2818666274993407722}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.13, y: -0, z: -0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6206936607102032088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3336517219903551986
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,7 +643,6 @@ MonoBehaviour:
     m_Bits: 64
   groundDetectionOffset: -0.4
   groundDetectionRang: 0.5
-  slopRayExtent: 0
   whatIsObs:
     serializedVersion: 2
     m_Bits: 192
@@ -943,6 +973,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8457872100070452606, guid: 98b84760283dd92468f2bcff8920e4ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5765754901337987584}
     - targetCorrespondingSourceObject: {fileID: 1320832785532696368, guid: 98b84760283dd92468f2bcff8920e4ef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3491899481491788577}
@@ -960,6 +993,11 @@ PrefabInstance:
 --- !u!4 &3537463449150816918 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1320832785532696368, guid: 98b84760283dd92468f2bcff8920e4ef, type: 3}
+  m_PrefabInstance: {fileID: 2540894579281737126}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6206936607102032088 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8457872100070452606, guid: 98b84760283dd92468f2bcff8920e4ef, type: 3}
   m_PrefabInstance: {fileID: 2540894579281737126}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8264160045451514172 stripped
@@ -984,6 +1022,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9f8b4193ab1dc46bf3509b3d265cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
+  hitboxs:
+  - hitboxName: "\u4E3B\u6B66\u5668"
+    center: {fileID: 3491899481491788577}
+    radius: 0.6
+  - hitboxName: "\u53F3\u8173"
+    center: {fileID: 5765754901337987584}
+    radius: 0.4
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128

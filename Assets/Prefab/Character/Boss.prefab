@@ -570,7 +570,6 @@ MonoBehaviour:
     m_Bits: 64
   groundDetectionOffset: -0.15
   groundDetectionRang: 0.5
-  slopRayExtent: 0
   whatIsObs:
     serializedVersion: 2
     m_Bits: 192
@@ -1364,6 +1363,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9f8b4193ab1dc46bf3509b3d265cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
+  hitboxs:
+  - hitboxName: "\u4E3B\u6B66\u5668"
+    center: {fileID: 0}
+    radius: 0
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
