@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 49670398409959554}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &851850816945150143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8246114685713887463}
+  m_Layer: 10
+  m_Name: AttackDetection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8246114685713887463
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851850816945150143}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.961, z: 0.797}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7683289000984637894}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1652404013038948801
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,6 +819,7 @@ Transform:
   m_Children:
   - {fileID: 4834578413066844968}
   - {fileID: 7516434599841223570}
+  - {fileID: 8246114685713887463}
   - {fileID: 8049244389935800657}
   - {fileID: 9139127248907476367}
   m_Father: {fileID: 0}
@@ -1108,6 +1140,9 @@ MonoBehaviour:
   - hitboxName: "\u5DE6\u8173"
     center: {fileID: 2413149641862413398}
     radius: 0.8
+  - hitboxName: "\u5168\u8EAB"
+    center: {fileID: 8246114685713887463}
+    radius: 1.6
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
