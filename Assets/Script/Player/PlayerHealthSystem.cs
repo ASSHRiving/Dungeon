@@ -4,6 +4,8 @@ using TMPro;
 
 public class PlayerHealthSystem : CharacterHealthBase
 {
+    [SerializeField] private AudioClip missSound;
+    [SerializeField] private AudioClip deathSound;
 
     void Start()
     {
@@ -16,7 +18,8 @@ public class PlayerHealthSystem : CharacterHealthBase
         if (_movement.immune)
         {
             Debug.Log("閃避");
-            GameAssets.Instance.DoHitstop(0.25f, 0.03f);
+            GameAssets.Instance.DoHitstop(0.25f, 0.1f);
+            _audio.PlayOneShot(missSound, 3f);
             return;
         }else if(isDead)
         {
@@ -66,6 +69,8 @@ public class PlayerHealthSystem : CharacterHealthBase
     {
         UIEvents.PlayerDied();
         GameManager.Instance.AddDeath();
+        _audio.PlayOneShot(deathSound, 2f);
+        //GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Death);
         isDead = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

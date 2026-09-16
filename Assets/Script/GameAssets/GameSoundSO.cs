@@ -4,12 +4,16 @@ using System.Collections.Generic;
 
 public enum SoundAssetsType
 {
-    Hit,
+    SwordHit,
     Sword,
     GSword,
     Punch,
     PlayerFootstep,
-    GolemFootstep
+    GolemFootstep,
+    AttackMiss,
+    DefaultHit,
+    Death,
+    None
 }
 
 [CreateAssetMenu(fileName = "SoundAssets", menuName = "CreataAssets/Sound")]
@@ -39,6 +43,8 @@ public class GameSoundSO : ScriptableObject
     }
     public AudioClip GetClipAssets(SoundAssetsType soundAssetsType)
     {
+        if(soundAssetsType == SoundAssetsType.None) return null;
+
         // 💡 關鍵改良：用 TryGetValue 代替直接查 Key，防止找不到時崩潰，並做安全檢查
         if (assetsDictionary.TryGetValue(soundAssetsType, out AudioClip[] clips))
         {

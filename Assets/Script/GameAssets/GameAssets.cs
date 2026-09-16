@@ -68,8 +68,7 @@ public class GameAssets : SingletonBase<GameAssets>
     #region 音效
     public void PlaySoundEffect(AudioSource audioSource,SoundAssetsType soundAssetsType)
     {
-        audioSource.clip = soundAssets.GetClipAssets(soundAssetsType);
-        audioSource.Play();
+        audioSource.PlayOneShot(soundAssets.GetClipAssets(soundAssetsType));
     }
     public void PlayInGameMusic()
     {

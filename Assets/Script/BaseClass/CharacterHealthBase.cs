@@ -125,7 +125,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     {
         _animator.Play(attackData.hitAnimationName,0,0f);
         SetAttacker(attacker);
-        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Hit);
+        GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.SwordHit);
     }
     public void ModifyMaxHealth(float newMaxHealth)
     {

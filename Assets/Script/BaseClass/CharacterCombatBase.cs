@@ -187,7 +187,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
     {
         if (_animator.CheckAnimationTag("Attack"))
         {
-            GameAssets.Instance.PlaySoundEffect(_audio,weaponSoundType);
+            GameAssets.Instance.PlaySoundEffect(_audio, currentAttackData.weaponSound);
         }
     }
 
