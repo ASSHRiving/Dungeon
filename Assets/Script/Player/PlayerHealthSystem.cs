@@ -16,11 +16,13 @@ public class PlayerHealthSystem : CharacterHealthBase
         if (_movement.immune)
         {
             Debug.Log("閃避");
+            GameAssets.Instance.DoHitstop(0.25f, 0.03f);
             return;
         }else if(isDead)
         {
             return;
         }
+
         //減傷公式
         float armorDR = shield / (shield + 100f);
         armorDR = Mathf.Clamp(armorDR, 0f, 0.85f);
@@ -28,13 +30,16 @@ public class PlayerHealthSystem : CharacterHealthBase
 
         currentHealth = Mathf.Clamp(currentHealth - finalDamage, 0f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
-        SetAttacker(attacker);
+        
+
+        //受擊反饋
         GameAssets.Instance.PlaySoundEffect(_audio, attackData.hitSound);
         if(impulseSource != null)
         {
             impulseSource.GenerateImpulseWithForce(attackData.shakeForce);
         }
         GameAssets.Instance.DoHitstop(attackData.hitStopTime, 0.03f); // 觸發 Hitstop (頓幀)
+        SetAttacker(attacker);
 
         //受擊動畫
         if(finalDamage/maxHealth > 0.05f)

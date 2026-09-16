@@ -41,7 +41,7 @@ ModelImporter:
       name: 1Hand_Up_Attack_A_3_InPlace
       takeName: 1Hand_Up_Attack_A_3_InPlace
       internalID: -2752935217625242881
-      firstFrame: 0
+      firstFrame: 3
       lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
@@ -75,7 +75,25 @@ ModelImporter:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.21355236
+            time: 0.054347824
+            value: 0.5
+            inSlope: Infinity
+            outSlope: 0
+            tangentMode: 7
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.11956522
+            value: 0
+            inSlope: Infinity
+            outSlope: 0
+            tangentMode: 7
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.26739132
             value: 1.2
             inSlope: Infinity
             outSlope: 0
@@ -84,7 +102,7 @@ ModelImporter:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.3798768
+            time: 0.3347826
             value: 0
             inSlope: Infinity
             outSlope: 0
@@ -105,21 +123,21 @@ ModelImporter:
           postInfinity: 3
           rotationOrder: 4
       events:
-      - time: 0.3131407
+      - time: 0.27986574
         functionName: OnAttackHitboxStart
         data: 
         objectReferenceParameter: {fileID: 11400000, guid: 1d2281433bdd65243b3cff6c191fcf03, type: 2}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.34592098
+      - time: 0.31614864
         functionName: OnAttackHitboxEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.41860464
+      - time: 0.38357836
         functionName: OnAnimationFinishEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
