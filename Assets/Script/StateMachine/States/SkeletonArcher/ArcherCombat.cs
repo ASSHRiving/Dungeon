@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "BossChase", menuName = "StateMachine/States/Boss/BossChase")]
-public class BossChase : StateActionSO
+public class ArcherCombat : StateActionSO
 {
     [Header("距離設定")]
     [SerializeField] private float minDistance = 2.4f;      // 太近界線 (低於此距離後退)
+    [SerializeField] private float stepbackDistance = 1.5f;
     [SerializeField] private float maxDistance = 6.6f;      // 太遠界線 (高於此距離追擊)
 
     [Header("移動速度")]
@@ -15,6 +15,8 @@ public class BossChase : StateActionSO
 
     [Header("計時設定")]
     [SerializeField] private float strafeChangeInterval = 1.5f; // 每 1.5 秒換一次左右方向
+
+    private int dodgeId = Animator.StringToHash("Dodge");
 
     public override void OnEnter(StateMachineSystem stateMachineSystem)
     {
@@ -27,7 +29,6 @@ public class BossChase : StateActionSO
         }
         if(animator != null)
         {
-            animator.SetFloat(lockOnID, 1);
             animator.Play("Ready");
         }
         stateMachineSystem.strafeTimer = 0f;
@@ -41,20 +42,13 @@ public class BossChase : StateActionSO
         NavMeshAgent agent = stateMachineSystem.agent;
         if(combat == null || animator == null || agent == null || combat.GetCurrentTarget() == null) return;
 
+        combat.LockOnCurrentTarget();
+
         Transform targetTransform = combat.GetCurrentTarget();
         Transform selfTransform = stateMachineSystem.transform;
         float distance = combat.GetCurrentTargetDistance();
         stateMachineSystem.strafeTimer += Time.deltaTime;
         stateMachineSystem.attackTimer += Time.deltaTime;
-
-        if (animator.CheckAnimationTag("Motion"))
-        {
-            selfTransform.rotation = stateMachineSystem.transform.LockOnTarget(targetTransform, selfTransform, 10f);
-        }
-        else if(animator.CheckAnimationTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.4f)
-        {
-            selfTransform.rotation = stateMachineSystem.transform.LockOnTarget(targetTransform, selfTransform, 10f);
-        }
 
         // -------------------------------------------------------------
         // 1. 嘗試向 StateMachineSystem 詢問是否有可用技能
@@ -77,13 +71,21 @@ public class BossChase : StateActionSO
             //近距離後退
             if(distance < minDistance)
             {
-                agent.speed = moveSpeed;
-                Vector3 retreatDir = (selfTransform.position - targetTransform.position).normalized;
-                Vector3 destination = selfTransform.position + retreatDir * 2f;
-                agent.SetDestination(destination);
+                if(distance < stepbackDistance)
+                {
+                    animator.SetTrigger(dodgeId);
+                }
+                else
+                {
+                    agent.speed = moveSpeed;
+                    Vector3 retreatDir = (selfTransform.position - targetTransform.position).normalized;
+                    Vector3 destination = selfTransform.position + retreatDir * 2f;
+                    agent.SetDestination(destination);
 
-                animator.SetFloat(verticalID, -1f, 0.25f, Time.deltaTime);
-                animator.SetFloat(horizontalID, 0f, 0.25f, Time.deltaTime);
+                    animator.SetFloat(verticalID, -1f, 0.25f, Time.deltaTime);
+                    animator.SetFloat(horizontalID, 0f, 0.25f, Time.deltaTime);
+                }
+                
 
             }
             //中距離徘徊
@@ -122,9 +124,5 @@ public class BossChase : StateActionSO
             animator.SetFloat(horizontalID, 0f);
             animator.SetFloat(runID, 0f);
         }
-    }
-    public override void OnExit(StateMachineSystem stateMachineSystem)
-    {
-
     }
 }
