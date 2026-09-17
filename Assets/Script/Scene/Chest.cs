@@ -1,0 +1,61 @@
+using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
+
+public class Chest : MonoBehaviour, IInteractable
+{
+    [SerializeField] public string interactableName = "Chest";
+    string IInteractable.interactableName => interactableName;
+    [SerializeField] private Transform dropPoint;
+    [SerializeField] private List<GameObject> itemList;
+    private GameObject itemPrefab;
+
+    [Header("彈射力道")]
+    [SerializeField] private float upForce;
+    [SerializeField] private float forwardForce;
+    private bool isOpen = false;
+    private Animator animator;
+    
+    private void Awake()
+    {
+        itemPrefab = itemList[Random.Range(0, itemList.Count)];
+        animator = GetComponentInChildren<Animator>();
+    }
+    public void Interact(Transform player)
+    {
+        if (!isOpen)
+        {
+            isOpen = true;
+            animator.SetBool("IsOpen", true);
+            StartCoroutine(Wait());
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = LayerMask.NameToLayer("UnInteractable");
+            }
+            gameObject.layer = LayerMask.NameToLayer("UnInteractable");
+        }
+    }
+    private void DropItem()
+    {
+        if (itemPrefab == null || dropPoint == null)return;
+
+        GameObject itemGO = Instantiate(itemPrefab, dropPoint.position, dropPoint.rotation);
+        Rigidbody rb = itemGO.GetComponentInChildren<Rigidbody>();
+        if(rb != null)
+        {
+            float randomRightForce = Random.Range(-1.5f, 1.5f);
+            Vector3 dir = (dropPoint.up * upForce) + (dropPoint.forward * forwardForce) + (dropPoint.right * randomRightForce);
+            //Debug.Log($" 正在對 {itemGO.name} 施加力道: {dir}，此時 isKinematic = {rb.isKinematic}");
+            rb.AddForce(dir, ForceMode.Impulse);
+            float randomTorque = Random.Range(-0.05f, 0.05f);
+            rb.AddTorque(new Vector3(randomTorque, randomTorque, randomTorque), ForceMode.Impulse);
+
+        }
+        
+    }
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(0.2f);
+        DropItem();
+    }
+}

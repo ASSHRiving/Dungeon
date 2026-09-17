@@ -1,0 +1,155 @@
+using UnityEngine;
+using System.Collections;
+
+public class PlayerMovementSystem : CharacterMovementBase
+{
+    private float targetRotation;
+    private float rotationVelocity;
+    private Transform characterCamera;
+    private float rotationLerpTime = 0.1f;
+    private float moveDirctionSlerpTime = 20;
+    private Vector3 rollDirection;
+
+    //閃避系統
+    //private bool canRoll = true;
+
+
+    [SerializeField, Header("行走速度")] private float walkSpeed;
+    [SerializeField, Header("奔跑速度")] private float runSpeed;
+    protected override void Awake()
+    {
+        base.Awake();
+        characterCamera = Camera.main.transform;
+        
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        PlayerMoveDirection();    
+    }
+
+    private void LateUpdate()
+    {
+        UpdateMotionAnimation();
+        UpdateRollAnimation();
+    }
+
+    private bool CanMoveControl()
+    {
+        return isOnGround && (_animator.CheckAnimationTag("Motion") ||(_animator.CheckAnimationTag("Attack") && _combat.canAttack)
+            || _animator.CheckAnimationTag("Roll"));
+    }
+
+    private bool CanRunControl()
+    {
+        if (Vector3.Dot(movementDirection.normalized, transform.forward) < 0.75f) return false;
+        if (!CanMoveControl()) return false;
+       
+        return true;
+    }
+
+    private void PlayerMoveDirection()
+    {
+        if(characterCamera == null)
+        {
+            if(Camera.main != null)
+            {
+                characterCamera = Camera.main.transform;
+            }
+            else
+            {
+                Debug.LogWarning("找不到主相機，請確保場景中有一個標記為 MainCamera 的相機。");
+                return;
+            }
+        }
+        
+        if (isOnGround && _inputSystem.playerMovement == Vector2.zero)
+            movementDirection = Vector3.zero;
+        
+        if(CanMoveControl()) 
+        {
+            if(_inputSystem.playerMovement != Vector2.zero){
+                // 1. 抓取相機在世界座標的正前方與正右方
+                Vector3 camForward = characterCamera.forward;
+                Vector3 camRight = characterCamera.right;
+
+                // 2. 重要：把 Y 軸（高度）歸零！我們只需要水平面的方向
+                camForward.y = 0f;
+                camRight.y = 0f;
+                camForward.Normalize();
+                camRight.Normalize();
+
+                // 3. 根據玩家的輸入（X 是左右，Y 是前後），直接計算出世界座標的移動方向
+                Vector3 targetDirection = camForward * _inputSystem.playerMovement.y + camRight * _inputSystem.playerMovement.x;
+
+                // 4. 計算出這個方向對應的 3D 角度（讓角色轉身用）
+                targetRotation = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
+
+                // 5. 讓角色平滑轉向目標角度
+                transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationLerpTime);
+
+                // 6. 這裡直接把我們算好的精準方向餵給 movementDirection
+                movementDirection = Vector3.Slerp(movementDirection, targetDirection, moveDirctionSlerpTime * Time.deltaTime);
+                rollDirection = movementDirection;
+            }
+        }
+        else 
+        {
+            movementDirection = Vector3.zero;
+        }
+        if (!_animator.CheckAnimationTag("Roll"))
+        {  
+            control.Move((characterCurrentMoveSpeed * Time.deltaTime)
+                * movementDirection.normalized + Time.deltaTime
+                * new Vector3(0.0f, verticalSpeed, 0.0f));
+        }
+        
+    }
+
+    private void UpdateMotionAnimation()
+    {
+        if (CanRunControl())
+        {
+            float targetSpeed = _inputSystem.playerMovement.magnitude * (_inputSystem.playerRun ? 2f : 1f);
+            _animator.SetFloat(speedID, targetSpeed, 0.1f, Time.deltaTime);
+            
+            characterCurrentMoveSpeed = _inputSystem.playerRun? runSpeed : walkSpeed;
+        }
+        else
+        {
+            _animator.SetFloat(speedID, 0f, 0.1f, Time.deltaTime);
+            if(_animator.GetFloat(speedID) < 0.001f)
+            {
+                _animator.SetFloat(speedID, 0f);
+            }
+            characterCurrentMoveSpeed = 0f;
+        }
+
+        _animator.SetFloat(runID, _inputSystem.playerRun? 1f : 0f);
+    }
+    private void UpdateRollAnimation()
+    {
+        if (_inputSystem.playerRoll && !_animator.CheckAnimationTag("Roll"))
+        {
+            _animator.SetTrigger(rollId);
+            StartCoroutine(RollRoutine());
+            _combat.inAttack = false;
+            _combat.canAttack = true;
+        }
+        if(_animator.CheckAnimationTag("Roll"))
+        {
+            _animator.ResetTrigger(rollId);
+            CharacterMoveInterface(rollDirection, _animator.GetFloat(animationMoveID), true);
+        }
+    }
+    private IEnumerator RollRoutine()
+    {
+        immune = true;
+        yield return new WaitForSeconds(immuneTime);
+        immune = false;
+    }
+}
+//new Vector3(_inputSystem.playerMovement.x, 0, _inputSystem.playerMovement.y)
+
