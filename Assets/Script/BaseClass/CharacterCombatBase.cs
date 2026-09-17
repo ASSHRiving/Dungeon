@@ -19,9 +19,6 @@ public abstract class CharacterCombatBase : MonoBehaviour
     private AnimationEventHelper _animationEvent;
     
     //===================================================================
-
-    protected Transform attackRangeCenter;
-    protected float attackRangeRadius;
     [Header("攻擊設定")]
     [SerializeField] protected HitboxData[] hitboxes;
     [SerializeField] protected LayerMask whatIsEnemy;
@@ -39,7 +36,9 @@ public abstract class CharacterCombatBase : MonoBehaviour
     protected SoundAssetsType weaponSoundType;
     protected TrailRenderer weaponTrail;
     protected ParticleSystem weaponEffect;
+    [SerializeField] protected GameObject arrowPrefab;
 
+    [SerializeField] protected Transform currentTarget;
 
     //AnimationID
     protected int lAtkID = Animator.StringToHash("LAtk");
@@ -98,6 +97,8 @@ public abstract class CharacterCombatBase : MonoBehaviour
             OnAttackHitboxEnd(); // 確保在攻擊動畫結束後，Hitbox 也會被關閉
         }
     }
+
+    #region 動畫事件
     public void OnAttackHitboxStart(AttackData attackData)
     {
         isHitboxActive = true;
@@ -132,6 +133,19 @@ public abstract class CharacterCombatBase : MonoBehaviour
             emission.enabled = false;
         }
     }
+
+    public void OnAnimationShoot(AttackData attackData)
+    {
+        if(arrowPrefab == null) return;
+        Transform shootPoint = hitboxes[attackData.hitboxes[0]].center;
+        GameObject arrowGO = Instantiate(arrowPrefab, shootPoint.position, shootPoint.rotation);
+        Arrow arrow = arrowGO.GetComponent<Arrow>();
+        if(arrow != null)
+        {
+            arrow.Setup(this.transform, currentTarget, attackData);
+        }
+    }
+    #endregion
 
     private void CheckAttackHitbox()
     {

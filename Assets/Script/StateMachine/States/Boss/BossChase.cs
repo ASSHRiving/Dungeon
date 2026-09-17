@@ -51,7 +51,7 @@ public class BossChase : StateActionSO
         {
             selfTransform.rotation = stateMachineSystem.transform.LockOnTarget(targetTransform, selfTransform, 10f);
         }
-        else if(animator.CheckAnimationTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.4f)
+        else if((animator.CheckAnimationTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.4f) || animator.CheckAnimationTag("Aim"))
         {
             selfTransform.rotation = stateMachineSystem.transform.LockOnTarget(targetTransform, selfTransform, 10f);
         }

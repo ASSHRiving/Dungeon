@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "BossChase", menuName = "StateMachine/States/Boss/BossChase")]
+//[CreateAssetMenu(fileName = "BossChase", menuName = "StateMachine/States/Boss/BossChase")]
 public class ArcherCombat : StateActionSO
 {
     [Header("距離設定")]

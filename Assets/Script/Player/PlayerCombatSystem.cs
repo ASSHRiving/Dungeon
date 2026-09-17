@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCombatSystem : CharacterCombatBase
 {
-    [SerializeField] private Transform currentTarget;
+    
     [SerializeField] private Transform weaponHolder;
 
     [Header("索敵設定")]

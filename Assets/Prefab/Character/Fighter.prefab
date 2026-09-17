@@ -1230,9 +1230,10 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   damage: 1000
   critRate: 12.5
+  arrowPrefab: {fileID: 0}
+  currentTarget: {fileID: 0}
   canAttack: 1
   inAttack: 0
-  currentTarget: {fileID: 0}
   weaponHolder: {fileID: 7625551209400036020}
   enemyDetectionCenter: {fileID: 3815702584121428951}
   enemyDetectionRadius: 7

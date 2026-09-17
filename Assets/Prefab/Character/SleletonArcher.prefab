@@ -446,6 +446,68 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4802598242633402673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7905658110175150655}
+  m_Layer: 0
+  m_Name: AttackPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7905658110175150655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4802598242633402673}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -0.188}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1327527422991953916}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5446293383874938908
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6984740562123972219}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6984740562123972219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5446293383874938908}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0.224}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1327527422991953916}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5809195218124080314
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,9 +673,9 @@ GameObject:
   - component: {fileID: 85290272677220058}
   - component: {fileID: 2909727335840652909}
   - component: {fileID: 1137384079718944246}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SleletonArcher
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -731,7 +793,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  groundDetectionOffset: -0.44
+  groundDetectionOffset: -0.35
   groundDetectionRang: 0.5
   whatIsObs:
     serializedVersion: 2
@@ -750,9 +812,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1327c84db1f5353479e2264aee62599d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StateMachineSystem
-  transition: {fileID: 11400000, guid: fae173cd2df4a214aa4a48f1a802ee18, type: 2}
+  transition: {fileID: 11400000, guid: 7b26d276fccbf964b8dcd4e5c3903c37, type: 2}
   currrentState: {fileID: 11400000, guid: 8a9c1493f35485e49846f9111d990a3a, type: 2}
-  allEnemySkills: []
+  allEnemySkills:
+  - {fileID: 11400000, guid: 2e89fb41b92093141a6028dfa3c3c82b, type: 2}
+  - {fileID: 11400000, guid: 17ce647e8da97b940b9b7d383ba5e22c, type: 2}
+  - {fileID: 11400000, guid: 57b47bd77f1d26a448f4115f7d34676b, type: 2}
   randomHorizontal: 1
   strafeTimer: 0
   attackTimer: 0
@@ -872,7 +937,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3124470699953093131, guid: a1400470f4c08b445bacf3f5fbaf2ac8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6984740562123972219}
+    - targetCorrespondingSourceObject: {fileID: 3124470699953093131, guid: a1400470f4c08b445bacf3f5fbaf2ac8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7905658110175150655}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 177611436018950081, guid: a1400470f4c08b445bacf3f5fbaf2ac8, type: 3}
       insertIndex: -1
@@ -884,6 +955,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8038399499555997838}
   m_SourcePrefab: {fileID: 100100000, guid: a1400470f4c08b445bacf3f5fbaf2ac8, type: 3}
+--- !u!4 &1327527422991953916 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3124470699953093131, guid: a1400470f4c08b445bacf3f5fbaf2ac8, type: 3}
+  m_PrefabInstance: {fileID: 4120805360562312695}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3462382594632650892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 665635562375644539, guid: a1400470f4c08b445bacf3f5fbaf2ac8, type: 3}
@@ -906,13 +982,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9f8b4193ab1dc46bf3509b3d265cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
-  hitboxes: []
+  hitboxes:
+  - hitboxName: "\u4E3B\u6B66\u5668"
+    center: {fileID: 6984740562123972219}
+    radius: 0
+  - hitboxName: "\u4E3B\u6B66\u56681"
+    center: {fileID: 7905658110175150655}
+    radius: 2
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
-  currentWeapon: {fileID: 0}
+  currentWeapon: {fileID: 8038399499555997838}
   damage: 0
   critRate: 0
+  arrowPrefab: {fileID: 2843567150353494133, guid: fe3e72cc348ea8a468598e7cd3e62bd1, type: 3}
+  currentTarget: {fileID: 0}
   canAttack: 1
   inAttack: 0
   detectionCenter: {fileID: 1132861017543697995}
@@ -920,7 +1004,6 @@ MonoBehaviour:
   whatisObs:
     serializedVersion: 2
     m_Bits: 65
-  currentTarget: {fileID: 0}
   spawnPoint: {fileID: 0}
 --- !u!114 &3017146828301870935
 MonoBehaviour:
@@ -947,7 +1030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
   weaponName: "\u6B66\u5668\u540D\u7A31"
-  damage: 0
+  damage: 20
   weaponType: 0
   combo: 0
   attackPoint: {fileID: 0}
