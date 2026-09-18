@@ -36,5 +36,6 @@ public class StartRoom : Room
         {
             camera.Target.TrackingTarget = playerGo.transform;
         }
+        GameEvent.PlayerSpawn(playerGo.transform);
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks.Dataflow;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,12 @@ public class GameManager : SingletonBase<GameManager>
     [Header("遊戲進度")]
     public int currentLevel = 1;
     public int deathCount {get; private set;}
+    public Transform player;
+    private void OnEnable()
+    {
+        GameEvent.OnPalyerSpawn += SetPlayer;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -14,6 +21,10 @@ public class GameManager : SingletonBase<GameManager>
     public void init()
     {
         currentLevel = 1;
+    }
+    private void SetPlayer(Transform transform)
+    {
+        player = transform;
     }
 
     public void GoToNextLevel()
