@@ -1,4 +1,3 @@
-using System.Threading.Tasks.Dataflow;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +9,7 @@ public class GameManager : SingletonBase<GameManager>
     public Transform player;
     private void OnEnable()
     {
-        GameEvent.OnPalyerSpawn += SetPlayer;
+        GameEvent.OnPlayerSpawn += SetPlayer;
     }
 
     protected override void Awake()

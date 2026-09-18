@@ -1,11 +1,13 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class PlayerStatsController : MonoBehaviour
 {
     [SerializeField] private UIController uiController;
     private CharacterStats playerStats;
+    private CharacterEquipment playerEquipment;
 
     [Header("玩家狀態UI")]
     public GameObject playerStatsPanel;
@@ -13,12 +15,11 @@ public class PlayerStatsController : MonoBehaviour
     public TMP_Text shieldText;
     public TMP_Text attackText;
     public TMP_Text critRateText;
+    
+    [Header("Equipment Slots")]
+    public List<EquipmentSlotUI> equipmentSlots = new List<EquipmentSlotUI>();
 
     private bool isPanelOpen = false;
-    private void Awake()
-    {
-        
-    }
 
     private void Start()
     {
@@ -58,13 +59,27 @@ public class PlayerStatsController : MonoBehaviour
     {
         if (playerStats == null)
         {
-            playerStats = FindFirstObjectByType<CharacterStats>();
+            playerStats = uiController.GetPlayer().GetComponent<CharacterStats>();
+        }
+        if (playerEquipment == null)
+        {
+            playerEquipment = uiController.GetPlayer().GetComponent<CharacterEquipment>();
         }
 
         healthText.text = $"生命值: {playerStats.maxHealth}";
         shieldText.text = $"護盾值: {playerStats.shield}";
         attackText.text = $"攻擊力: {playerStats.damage}";
         critRateText.text = $"暴擊率: {playerStats.critRate}%";
+
+        if(equipmentSlots != null)
+        {
+            foreach(var slot in equipmentSlots)
+            {
+                if(slot == null) continue;
+                GameObject equipment = playerEquipment.GetEquippedItem(slot.slotType);
+                slot.DisplayItem(equipment);
+            }
+        }
     }
 
 }

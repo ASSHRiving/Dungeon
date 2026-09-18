@@ -13,6 +13,7 @@ public class ShopItem : MonoBehaviour
         public float shield;
         public float health;
         public float critRate;
+        public Sprite itemIcon; 
     }
     [SerializeField] public List<EquipmentData> equipmentDataList;
     [SerializeField] public int currentEquipmentIndex = 0;
@@ -24,4 +25,5 @@ public class ShopItem : MonoBehaviour
     public float shield => equipmentDataList[currentEquipmentIndex].shield;
     public float health => equipmentDataList[currentEquipmentIndex].health;
     public float critRate => equipmentDataList[currentEquipmentIndex].critRate;
+    public Sprite itemIcon => equipmentDataList[currentEquipmentIndex].itemIcon;
 }

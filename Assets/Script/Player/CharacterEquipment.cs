@@ -59,6 +59,17 @@ public class CharacterEquipment : MonoBehaviour
             equippedItems[type] = null;
         }
     }
+    /// <summary>
+    /// 取得特定部位目前穿戴的裝備物件
+    /// </summary>
+    public GameObject GetEquippedItem(EquipmentInteract.EquipmentType type)
+    {
+        if (equippedItems.ContainsKey(type))
+        {
+            return equippedItems[type];
+        }
+        return null;
+    }
     private void UnequipStatsUpdate(GameObject item)
     {
         ShopItem shopItem = item.GetComponent<ShopItem>();
