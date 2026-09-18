@@ -1,6 +1,6 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class EquipmentSlotUI : MonoBehaviour
 {
@@ -54,5 +54,23 @@ public class EquipmentSlotUI : MonoBehaviour
         currentItem = null;
         if (iconImage != null) iconImage.gameObject.SetActive(false);
         if (emptyPlaceholder != null) emptyPlaceholder.SetActive(true);
+    }
+
+    //滑鼠懸停
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(currentItem != null)
+        {
+            ShopItem shopItem = currentItem.GetComponent<ShopItem>();
+            UIEvents.ShowTooltip(shopItem, slotType);
+        }
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        UIEvents.HideTooltip();
+    }
+    private void OnDisable()
+    {
+        UIEvents.HideTooltip();
     }
 }

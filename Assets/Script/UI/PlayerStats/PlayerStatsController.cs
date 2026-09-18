@@ -44,15 +44,41 @@ public class PlayerStatsController : MonoBehaviour
 
     private void TogglePanel()
     {
-        if (playerStatsPanel == null) return;
-        uiController.GetPlayerInput().SwitchCurrentActionMap(isPanelOpen ? "Player" : "UI");
-        isPanelOpen = !isPanelOpen;
-        playerStatsPanel.SetActive(isPanelOpen);
-
         if (isPanelOpen)
         {
-            UpdatePlayerStatsUI();
+            ClosePanel();
         }
+        else
+        {
+            OpenPanel();
+        }
+    }
+    public void OpenPanel()
+    {
+        isPanelOpen = true;
+        if (playerStatsPanel == null) return;
+        playerStatsPanel.SetActive(true);
+        if(uiController.GetPlayerInput() != null)
+        {
+            uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
+        }
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+
+        UpdatePlayerStatsUI();
+    }
+    public void ClosePanel()
+    {
+        isPanelOpen = false;
+        if (playerStatsPanel == null) return;
+        playerStatsPanel.SetActive(false);
+        if(uiController.GetPlayerInput() != null)
+        {
+            uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
+        }
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     private void UpdatePlayerStatsUI()

@@ -57,4 +57,20 @@ public static class UIEvents
     {
         OnPlayerDied?.Invoke();
     }
+    //***************************************
+    // 事件廣播：顯示資訊框
+    //***************************************
+    public static event Action<ShopItem, EquipmentInteract.EquipmentType> OnShowTooltip;
+    public static void ShowTooltip(ShopItem shopItem, EquipmentInteract.EquipmentType type)
+    {
+        OnShowTooltip?.Invoke(shopItem, type);
+    }
+    //***************************************
+    // 事件廣播：關閉資訊框
+    //***************************************
+    public static event Action OnHideTooltip;
+    public static void HideTooltip()
+    {
+        OnHideTooltip?.Invoke();
+    }
 }
