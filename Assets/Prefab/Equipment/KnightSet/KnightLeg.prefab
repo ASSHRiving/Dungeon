@@ -114,6 +114,7 @@ MonoBehaviour:
     shield: 5.5
     health: 18
     critRate: 0
+    itemIcon: {fileID: 21300000, guid: 0c25e7d3b1bb7c742a6eab424f0b9889, type: 3}
   - equipmentName: "\u4E2D\u7D1A\u9A0E\u58EB\u8B77\u817F"
     mesh: {fileID: 3046221711419639211, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
     price: 30
@@ -121,6 +122,7 @@ MonoBehaviour:
     shield: 8.5
     health: 30
     critRate: 0
+    itemIcon: {fileID: 0}
   - equipmentName: "\u9AD8\u7D1A\u9A0E\u58EB\u8B77\u817F"
     mesh: {fileID: 4197196975614087283, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
     price: 55
@@ -128,6 +130,7 @@ MonoBehaviour:
     shield: 12.5
     health: 48
     critRate: 3
+    itemIcon: {fileID: 0}
   currentEquipmentIndex: 0
 --- !u!114 &4277039241119451917
 MonoBehaviour:

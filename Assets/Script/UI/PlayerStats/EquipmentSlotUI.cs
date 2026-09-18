@@ -37,7 +37,7 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 iconImage.gameObject.SetActive(true);
             }
 
-            if (emptyPlaceholder != null) emptyPlaceholder.SetActive(false);
+            //if (emptyPlaceholder != null) emptyPlaceholder.SetActive(false);
         }
         else
         {
