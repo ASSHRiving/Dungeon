@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class EquipmentSlotUI : MonoBehaviour
+public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Slot Settings")]
     public EquipmentInteract.EquipmentType slotType;

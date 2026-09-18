@@ -7,7 +7,6 @@ public class TooltipController : MonoBehaviour
     public GameObject tooltipPanel;
     public RectTransform tooltipRect;
     public TextMeshProUGUI nameText;
-    public TextMeshProUGUI typeText;
     public TextMeshProUGUI statsText;
 
     [Header("Settings")]
@@ -67,14 +66,13 @@ public class TooltipController : MonoBehaviour
 
         // 設定裝備名稱與部位
         nameText.text = shopItem.equipmentName;
-        typeText.text = $"部位: {equipmentType}";
 
         // 組合屬性字串 (只顯示 > 0 的屬性，以四捨五入整數呈現)
         string stats = "";
         if (shopItem.damage > 0) stats += $"攻擊力: +{Mathf.RoundToInt(shopItem.damage)}\n";
         if (shopItem.critRate > 0) stats += $"暴擊率: +{Mathf.RoundToInt(shopItem.critRate)}%\n";
         if (shopItem.health > 0) stats += $"最大生命: +{Mathf.RoundToInt(shopItem.health)}\n";
-        if (shopItem.shield > 0) stats += $"護甲/護盾: +{Mathf.RoundToInt(shopItem.shield)}\n";
+        if (shopItem.shield > 0) stats += $"護甲: +{Mathf.RoundToInt(shopItem.shield)}\n";
 
         statsText.text = string.IsNullOrEmpty(stats) ? "無附加屬性" : stats.TrimEnd();
 

@@ -93,7 +93,7 @@ public class PlayerStatsController : MonoBehaviour
         }
 
         healthText.text = $"生命值: {playerStats.maxHealth}";
-        shieldText.text = $"護盾值: {playerStats.shield}";
+        shieldText.text = $"護甲: {playerStats.shield}";
         attackText.text = $"攻擊力: {playerStats.damage}";
         critRateText.text = $"暴擊率: {playerStats.critRate}%";
 
