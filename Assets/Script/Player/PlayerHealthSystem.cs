@@ -53,11 +53,6 @@ public class PlayerHealthSystem : CharacterHealthBase
             if(currentPoise <= 0)
             {
                 _animator.CrossFade(attackData.hitAnimationName, 0.1f);
-                _animator.ResetTrigger("Roll");
-                _animator.ResetTrigger("LAtk");
-                _combat.canAttack = true;
-                _combat.currentWeapon.combo = 0;
-
                 currentPoise = maxPoise;
             }     
         }
