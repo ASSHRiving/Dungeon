@@ -57,7 +57,7 @@ public class Arrow : MonoBehaviour
             Debug.Log($"箭矢擊中玩家！造成 {damage} 點傷害");
 
             // 可在此生成命中特效 (VFX)
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         else if (root.CompareTag("Untagged"))
         {
