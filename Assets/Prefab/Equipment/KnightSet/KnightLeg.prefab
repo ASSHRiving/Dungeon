@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4688704435807930699}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.216049, y: -3.819, z: -5.141065}
+  m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: -90, z: 0}
 --- !u!33 &1002167492001923553
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -109,6 +109,7 @@ MonoBehaviour:
   equipmentDataList:
   - equipmentName: "\u521D\u7D1A\u9A0E\u58EB\u8B77\u817F"
     mesh: {fileID: 7667517744132231187, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -3465133991075975780, guid: d3489605e3e046247bece4ef061f2643, type: 3}
     price: 12
     damage: 0
     shield: 5.5
@@ -117,6 +118,7 @@ MonoBehaviour:
     itemIcon: {fileID: 21300000, guid: 0c25e7d3b1bb7c742a6eab424f0b9889, type: 3}
   - equipmentName: "\u4E2D\u7D1A\u9A0E\u58EB\u8B77\u817F"
     mesh: {fileID: 3046221711419639211, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -2672736116154677258, guid: 2b166bd69089c8242942d56a724b8523, type: 3}
     price: 30
     damage: 0
     shield: 8.5
@@ -125,12 +127,14 @@ MonoBehaviour:
     itemIcon: {fileID: 0}
   - equipmentName: "\u9AD8\u7D1A\u9A0E\u58EB\u8B77\u817F"
     mesh: {fileID: 4197196975614087283, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: 7546904002728429346, guid: e5fa19f903e303744812177dcff5e9c4, type: 3}
     price: 55
     damage: 0
     shield: 12.5
     health: 48
     critRate: 3
-    itemIcon: {fileID: 0}
+    itemIcon: {fileID: 21300000, guid: 6a73beb683200f44c943108ae234ab35, type: 3}
+  prefabRenderer: {fileID: 1002167492001923553}
   currentEquipmentIndex: 0
 --- !u!114 &4277039241119451917
 MonoBehaviour:
@@ -144,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
-  interactableName: "\u9A0E\u58EB\u8B77\u817F"
+  interactableName: "\u88DD\u5099 \u9A0E\u58EB\u8B77\u817F"
   equipmentType: 4
 --- !u!65 &-6744390668034411123
 BoxCollider:

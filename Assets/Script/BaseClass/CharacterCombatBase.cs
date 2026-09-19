@@ -15,7 +15,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
     protected CharacterInputSystem _inputSystem;
     protected CharacterMovementBase _movement;
     protected CharacterHealthBase _health;
-    protected AudioSource _audio;
+    [SerializeField]protected AudioSource _audio;
     private AnimationEventHelper _animationEvent;
     
     //===================================================================

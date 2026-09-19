@@ -4,7 +4,8 @@ using System.Collections;
 public class GameAssets : SingletonBase<GameAssets>
 {
     [SerializeField,Header("資源")] private GameSoundSO soundAssets;
-    private AudioSource _audioSource;
+    [SerializeField] private AudioSource bgmAudio;
+    [SerializeField] private AudioSource effectAudio;
     [SerializeField] private AudioClip inGameMusicClip;
     [SerializeField] private AudioClip menuMusicClip;
     [SerializeField] private AudioClip bossMusicClip;
@@ -17,7 +18,6 @@ public class GameAssets : SingletonBase<GameAssets>
     {
         base.Awake();
         soundAssets.InitAssets();
-        _audioSource = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -74,34 +74,34 @@ public class GameAssets : SingletonBase<GameAssets>
     {
         if(inGameMusicClip != null)
         {
-            _audioSource.clip = inGameMusicClip;
-            _audioSource.loop = true;
-            _audioSource.Play();
+            bgmAudio.clip = inGameMusicClip;
+            bgmAudio.loop = true;
+            bgmAudio.Play();
         }
     }
     public void PlayMenuMusic()
     {
         if(menuMusicClip != null)
         {
-            _audioSource.clip = menuMusicClip;
-            _audioSource.loop = true;
-            _audioSource.Play();
+            bgmAudio.clip = menuMusicClip;
+            bgmAudio.loop = true;
+            bgmAudio.Play();
         }
     }
     public void PlayBossMusic()
     {
         if(bossMusicClip != null)
         {
-            _audioSource.clip = bossMusicClip;
-            _audioSource.loop = true;
-            _audioSource.Play();
+            bgmAudio.clip = bossMusicClip;
+            bgmAudio.loop = true;
+            bgmAudio.Play();
         }
     }
     public void PlayUIClickSound()
     {
         if(uiClickSound != null)
         {
-            _audioSource.PlayOneShot(uiClickSound, 3f);
+            effectAudio.PlayOneShot(uiClickSound, 3f);
         }
     }
     #endregion

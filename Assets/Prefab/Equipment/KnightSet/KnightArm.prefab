@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1252458375104662717}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.077326, y: -4.24, z: -4.572953}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -109,6 +109,7 @@ MonoBehaviour:
   equipmentDataList:
   - equipmentName: "\u521D\u7D1A\u9A0E\u58EB\u8B77\u624B"
     mesh: {fileID: -5074843315612655542, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: 2290843657522530007, guid: bf3aa48209e2e5b439b2323d69fd3ec7, type: 3}
     price: 5
     damage: 8
     shield: 2.5
@@ -117,6 +118,7 @@ MonoBehaviour:
     itemIcon: {fileID: 21300000, guid: 862f49d36a5cb70409e9e89145feefac, type: 3}
   - equipmentName: "\u4E2D\u7D1A\u9A0E\u58EB\u8B77\u624B"
     mesh: {fileID: -4494762241965879729, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -360259599613003977, guid: eaf790a81c93b114dbb2b438905cf780, type: 3}
     price: 12
     damage: 15
     shield: 3.5
@@ -125,12 +127,14 @@ MonoBehaviour:
     itemIcon: {fileID: 0}
   - equipmentName: "\u9AD8\u7D1A\u9A0E\u58EB\u8B77\u624B"
     mesh: {fileID: -5768876020731055324, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -913217735617071115, guid: b1a52cf77a8652d4887018795cf3084f, type: 3}
     price: 30
     damage: 30
     shield: 5
     health: 13
     critRate: 25
-    itemIcon: {fileID: 0}
+    itemIcon: {fileID: 21300000, guid: 4aded793746f1734eaaf17c2e12f1ae4, type: 3}
+  prefabRenderer: {fileID: 3040515346168021766}
   currentEquipmentIndex: 0
 --- !u!114 &911555805789651647
 MonoBehaviour:
@@ -144,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
-  interactableName: "\u9A0E\u58EB\u8B77\u624B"
+  interactableName: "\u88DD\u5099 \u9A0E\u58EB\u8B77\u624B"
   equipmentType: 2
 --- !u!65 &7654615126138632860
 BoxCollider:

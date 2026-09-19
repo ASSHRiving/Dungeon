@@ -5,6 +5,8 @@ public class Arrow : MonoBehaviour
     [SerializeField] private float speed = 25f;      // 箭矢飛行速度
     [SerializeField] private float damage = 20f;     // 箭矢傷害
     [SerializeField] private float lifeTime = 5f;    // 沒命中時的生存時間
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip sound;
     private AttackData attackData;
     private Transform attacker;
     private Transform target;
@@ -20,6 +22,10 @@ public class Arrow : MonoBehaviour
         attacker = _attacker;
         target = _target;
         attackData = _attackData;
+        if(audioSource != null && sound != null)
+        {
+            audioSource.PlayOneShot(sound, 2f);
+        }
 
         // 面向目標方向
         if (target != null)

@@ -541,6 +541,9 @@ MonoBehaviour:
     - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
       spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       spawnPoint: {fileID: 6776613604793171918}
+    - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+      spawnPoint: {fileID: 5319021001037268686}
   - waveName: Wave4
     spawnConfigs:
     - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
@@ -564,9 +567,24 @@ MonoBehaviour:
       spawnPoint: {fileID: 859396578404011260}
   - waveName: Boss
     spawnConfigs:
-    - enemyPrefab: {fileID: 5296161146044912019, guid: e92c1992a09c5e14b9641dfa19379726, type: 3}
+    - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
       spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
-      spawnPoint: {fileID: 501510398170842416}
+      spawnPoint: {fileID: 859396578404011260}
+    - enemyPrefab: {fileID: 8368422514923744205, guid: 177795e011e2d4e4da92a8eaa47f0bbd, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+      spawnPoint: {fileID: 859396578404011260}
+    - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+      spawnPoint: {fileID: 6776613604793171918}
+    - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+      spawnPoint: {fileID: 5319021001037268686}
+    - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+      spawnPoint: {fileID: 8342757672220672708}
+    - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+      spawnPoint: {fileID: 6102595468893266159}
   spawnDelay: 2
   reward: {fileID: 1242599117299817303}
 --- !u!1 &8206845525875644541

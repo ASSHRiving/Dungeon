@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 public class CharacterEquipment : MonoBehaviour
 {
     private Dictionary<EquipmentInteract.EquipmentType, GameObject> equippedItems = new Dictionary<EquipmentInteract.EquipmentType, GameObject>();
@@ -15,6 +16,9 @@ public class CharacterEquipment : MonoBehaviour
     [SerializeField] private SkinnedMeshRenderer BeltSkinnedMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer LegSkinnedMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer FeetSkinnedMeshRenderer;
+
+    [SerializeField] private GameObject hair;         //頭髮在戴頭盔時不顯示
+    [SerializeField] private GameObject ear;
     private void Awake()
     {
         combat = GetComponentInChildren<CharacterCombatBase>();
@@ -44,6 +48,12 @@ public class CharacterEquipment : MonoBehaviour
         item.transform.SetParent(equipmentHolder);
         item.transform.localPosition = Vector3.zero;
         item.gameObject.SetActive(false);
+
+        if(type == EquipmentInteract.EquipmentType.Head)    //頭髮在戴頭盔時不顯示
+        {
+            hair.SetActive(false);
+            ear.SetActive(false);
+        }
     }
 
     public void UnequipItem(EquipmentInteract.EquipmentType type)

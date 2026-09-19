@@ -1,11 +1,13 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using System.Collections.Generic;
 
 public class StartRoom : Room
 {
     [Header("玩家生成設定")]
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform playerSpawnPoint;
+    public List<GameObject> initEquipment;
     public override void Init()
     {
         //場上唯一Player
@@ -27,6 +29,16 @@ public class StartRoom : Room
         else
         {
             playerGo = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
+            CharacterEquipment equipment = playerGo.GetComponent<CharacterEquipment>();
+            if(initEquipment != null)
+            {
+                foreach(var item in initEquipment)
+                {
+                    GameObject itemGo = Instantiate(item);
+                    itemGo.GetComponent<ShopItem>().SetIndex(0);
+                    equipment.EquipItem(itemGo);
+                }
+            }
         }
         DontDestroyOnLoad(playerGo);
 

@@ -99,6 +99,13 @@ MonoBehaviour:
     wall: {fileID: 3698132217141485422}
   playerPrefab: {fileID: 5296161146044912019, guid: cff1d2687ff31724e848a8dcdc351ae8, type: 3}
   playerSpawnPoint: {fileID: 2654964818690629500}
+  initEquipment:
+  - {fileID: 1252458375104662717, guid: 544bec143d0cdec42b70e71498e61425, type: 3}
+  - {fileID: 2938169060934834032, guid: 7a2544879d056414d904d03a5f399390, type: 3}
+  - {fileID: 1098363305182194362, guid: d658977efae47d647af6d4f10024c641, type: 3}
+  - {fileID: 5366917585494419560, guid: a24016a536351644487d77653f0cc95f, type: 3}
+  - {fileID: 9169848288877405413, guid: 444ecf5f88552254298c6aac376eca0a, type: 3}
+  - {fileID: 4688704435807930699, guid: f874c3d5f3d15e44db273ae6fff9999a, type: 3}
 --- !u!65 &429733985186018106
 BoxCollider:
   m_ObjectHideFlags: 0

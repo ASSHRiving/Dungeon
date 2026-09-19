@@ -773,10 +773,10 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 867374025076862527}
   healthUI: {fileID: 0}
   healthText: {fileID: 7306819253640484099}
-  maxHealth: 150
-  shield: 10
+  maxHealth: 100
+  shield: 0
   maxPoise: 0
-  currentPoise: 100
+  currentPoise: 0
   poiseRecoveryRate: 20
   poiseRecoveryDelay: 3
   currentHealth: 0
@@ -851,6 +851,8 @@ MonoBehaviour:
   BeltSkinnedMeshRenderer: {fileID: 8767254610026964248}
   LegSkinnedMeshRenderer: {fileID: 1367126702573329943}
   FeetSkinnedMeshRenderer: {fileID: 3520630158220269830}
+  hair: {fileID: 6519974446015929312}
+  ear: {fileID: 2117804896841555431}
 --- !u!114 &7280129513519287728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,6 +1138,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 92c22a7e694c68d40988b1cfc5eadbab, type: 2}
+    - target: {fileID: 5423428242913910945, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6243864562159482719, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
       propertyPath: m_Name
       value: Character
@@ -1188,6 +1194,11 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 270632728402502998, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
   m_PrefabInstance: {fileID: 1240875246208367425}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2117804896841555431 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 890460532916741798, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
+  m_PrefabInstance: {fileID: 1240875246208367425}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &2654933636403475984 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3882174781524774225, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
@@ -1228,8 +1239,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   currentWeapon: {fileID: 0}
-  damage: 1000
-  critRate: 12.5
+  damage: 0
+  critRate: 0
   arrowPrefab: {fileID: 0}
   currentTarget: {fileID: 0}
   canAttack: 1
@@ -1253,6 +1264,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5045c66f5b8114842801b4e2a0ae8903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationEventHelper
+--- !u!1 &6519974446015929312 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5423428242913910945, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
+  m_PrefabInstance: {fileID: 1240875246208367425}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7625551209400036020 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8713092100742566389, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}

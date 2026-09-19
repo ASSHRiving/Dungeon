@@ -13,7 +13,8 @@ public enum SoundAssetsType
     AttackMiss,
     DefaultHit,
     Death,
-    None
+    None,
+    Arrow
 }
 
 [CreateAssetMenu(fileName = "SoundAssets", menuName = "CreataAssets/Sound")]

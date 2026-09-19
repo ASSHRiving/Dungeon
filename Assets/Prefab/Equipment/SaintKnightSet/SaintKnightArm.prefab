@@ -130,25 +130,32 @@ MonoBehaviour:
   equipmentDataList:
   - equipmentName: "\u521D\u7D1A\u8056\u9A0E\u58EB\u8B77\u624B"
     mesh: {fileID: 3390027128253250263, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -6047057747852897639, guid: 00e9584fd0198534886358b5d02653de, type: 3}
     price: 0
     damage: 0
     shield: 0
     health: 0
     critRate: 0
+    itemIcon: {fileID: 0}
   - equipmentName: "\u4E2D\u7D1A\u8056\u9A0E\u58EB\u8B77\u624B"
     mesh: {fileID: -6650198067682971855, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -8589466159031896858, guid: 086dc3faf3cf2524cbee87fde6ca0f26, type: 3}
     price: 0
     damage: 0
     shield: 0
     health: 0
     critRate: 0
+    itemIcon: {fileID: 0}
   - equipmentName: "\u9AD8\u7D1A\u8056\u9A0E\u58EB\u8B77\u624B"
     mesh: {fileID: -8056588769129496622, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: 8307703174970341373, guid: a50dee6b9ac419044963d6607c7121ad, type: 3}
     price: 0
     damage: 0
     shield: 0
     health: 0
     critRate: 0
+    itemIcon: {fileID: 0}
+  prefabRenderer: {fileID: 4922721938658864266}
   currentEquipmentIndex: 0
 --- !u!114 &4400405443662156386
 MonoBehaviour:
@@ -162,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
-  interactableName: "\u8056\u9A0E\u58EB\u8B77\u624B"
+  interactableName: "\u88DD\u5099 \u8056\u9A0E\u58EB\u8B77\u624B"
   equipmentType: 2
 --- !u!54 &-2524260156181965417
 Rigidbody:
