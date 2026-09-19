@@ -42,7 +42,7 @@ public class PlayerStatsController : MonoBehaviour
         }
     }
 
-    private void TogglePanel()
+    public void TogglePanel()
     {
         if (isPanelOpen)
         {
