@@ -14,6 +14,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
     protected float verticalSpeed; 
     protected float maxVerticalSpeed = 53f;
     [SerializeField] private SoundAssetsType footstepSoundType;
+    [SerializeField] private GameSoundSO soundAssets;
 
     [SerializeField, Header("地面檢測")] protected LayerMask whatIsGround;
     [SerializeField] protected float groundDetectionOffset = 0.1f;
@@ -82,7 +83,8 @@ public abstract class CharacterMovementBase : MonoBehaviour
     {
         if(audioSource != null )
         {
-            GameAssets.Instance.PlaySoundEffect(audioSource, footstepSoundType);
+            audioSource.PlayOneShot(soundAssets.GetClipAssets(footstepSoundType), 2f);
+            //GameAssets.Instance.PlaySoundEffect(audioSource, footstepSoundType);
         }
     }
 

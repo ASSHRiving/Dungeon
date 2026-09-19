@@ -73,7 +73,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         OnDeath?.Invoke();
         isDead = true;
         _navMeshAgent.enabled = false;
-        gameObject.layer = LayerMask.NameToLayer("Ground");
+        gameObject.layer = LayerMask.NameToLayer("UnInteractable");
         _animator.CrossFade("Die", 0.1f);
         
         if (lootPrefab != null)

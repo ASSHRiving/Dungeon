@@ -568,6 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9f8b4193ab1dc46bf3509b3d265cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
+  _audio: {fileID: 0}
   hitboxes:
   - hitboxName: "\u4E3B\u6B66\u5668"
     center: {fileID: 0}
@@ -578,6 +579,8 @@ MonoBehaviour:
   currentWeapon: {fileID: 5786339828545042137}
   damage: 0
   critRate: 0
+  arrowPrefab: {fileID: 0}
+  currentTarget: {fileID: 0}
   canAttack: 1
   inAttack: 0
   detectionCenter: {fileID: 5044610085686842716}
@@ -585,7 +588,6 @@ MonoBehaviour:
   whatisObs:
     serializedVersion: 2
     m_Bits: 1
-  currentTarget: {fileID: 0}
   spawnPoint: {fileID: 0}
 --- !u!1 &1576138468227602216
 GameObject:
@@ -2237,6 +2239,7 @@ MonoBehaviour:
   characterGravity: -9.8
   characterCurrentMoveSpeed: 0
   footstepSoundType: 9
+  soundAssets: {fileID: 11400000, guid: 001acfc9deccc224599c0e7821b09576, type: 2}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64

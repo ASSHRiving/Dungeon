@@ -733,6 +733,7 @@ MonoBehaviour:
   characterGravity: -9.8
   characterCurrentMoveSpeed: 0
   footstepSoundType: 4
+  soundAssets: {fileID: 11400000, guid: 001acfc9deccc224599c0e7821b09576, type: 2}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 28736
@@ -1231,6 +1232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4226905d1480e654096d2f490e4f0428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
+  _audio: {fileID: 0}
   hitboxes:
   - hitboxName: "\u4E3B\u6B66\u5668"
     center: {fileID: 0}
