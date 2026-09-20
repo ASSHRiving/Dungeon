@@ -1,7 +1,7 @@
 using UnityEngine;
 public abstract class CharacterMovementBase : MonoBehaviour
 {
-    protected Animator _animator;
+    protected Animator animator;
     protected CharacterController control;
     protected CharacterInputSystem _inputSystem;
     protected CharacterCombatBase _combat;
@@ -45,7 +45,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        _animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         control = GetComponent<CharacterController>();
         _inputSystem = GetComponent<CharacterInputSystem>();
         _combat = GetComponentInChildren<CharacterCombatBase>();
@@ -67,7 +67,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
 
     protected bool CanAnimationMotion(Vector3 dir)
     {
-        return Physics.Raycast(transform.position + transform.up * .5f, dir.normalized * _animator.GetFloat(animationMoveID), out var hit, 1f,whatIsObs);
+        return Physics.Raycast(transform.position + transform.up * .5f, dir.normalized * animator.GetFloat(animationMoveID), out var hit, 1f,whatIsObs);
     }
 
     /// <summary>

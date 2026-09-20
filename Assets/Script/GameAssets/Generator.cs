@@ -11,11 +11,17 @@ public class Generator : MonoBehaviour
     [SerializeField] private List<GameObject> roomPrefabs;
     [SerializeField] private List<GameObject> extraRoomPrefabs;
     [SerializeField] private GameObject tunnelPrefab;
-    [SerializeField] private int count;
-    [SerializeField] private int level = 1;
+    private int count;
+    private int level = 1;
+
+    //儲存已生成房間的陣列
     private List<Room> spawnedRooms = new List<Room>();
     private List<Room> extraRooms = new List<Room>();
+
     public LayerMask roomBoundsLayer;
+
+    private int maxGenerateAttempts = 20;
+    private Transform mapRoot;
 
     [Header("AI 導航組件")]
     public List<NavMeshSurface> navMeshSurfaces;
@@ -29,19 +35,42 @@ public class Generator : MonoBehaviour
         {
             level = GameManager.Instance.currentLevel;
         }
-        count = level;
+
         Debug.Log($"[Generator] 開始生成第 {level} 關地圖，目標房間數：{count}");
 
-        Generate();
+        mapRoot = new GameObject("GeneratedMap").transform;
+        mapRoot.SetParent(transform);
+
+        bool success = false;
+        for(int i = 0; i < maxGenerateAttempts; i++)
+        {
+            ClearMap();
+            spawnedRooms.Clear();
+            extraRooms.Clear();
+            if (Generate())
+            {
+                success = true;
+                break;
+            }
+            Debug.LogWarning($"[Generator] 第 {i + 1} 次生成失敗，重新生成地圖。");
+        }
+        if (!success)
+        {
+            Debug.LogError("[Generator] 超過最大生成次數，無法生成完整地圖！");
+            return;
+        }
+
         GenerateExtraRooms();
         InitNavMesh();
         InitRooms();
+
         UIEvents.LevelChanged($"1 - {level}");
     }
-    void Generate()
+    private bool Generate()
     {
+        count = level;
         //生成起始房間
-        Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity).GetComponent<Room>();
+        Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity, mapRoot).GetComponent<Room>();
         UIEvents.RoomSpawned(currentRoom, null, Room.Direction.North);
         spawnedRooms.Add(currentRoom);
         //生成第一個房間
@@ -58,7 +87,7 @@ public class Generator : MonoBehaviour
             if(trys > 5)
             {
                 Debug.Log("嘗試次數過多，停止生成...");
-                break;
+                return false;
             }
             Room.Direction direction = (Room.Direction)Random.Range(0, 4);
 
@@ -75,15 +104,16 @@ public class Generator : MonoBehaviour
             currentRoom = nextRoom;
             spawnedRooms.Add(currentRoom);
         }
+
         //生成終點房間
-        if(level < 4)
+        if(level < 2)
         {
             while (true)
             {
                 if(trys > 5)
                 {
                     Debug.LogWarning("終點房間生成失敗，請檢查房間配置！");
-                    break;
+                    return false;
                 }
                 Room.Direction dir = (Room.Direction)Random.Range(0, 4);
                 nextRoom = SpawnRoom(endRoomPrefab, dir, currentRoom);
@@ -102,7 +132,7 @@ public class Generator : MonoBehaviour
                 if(trys > 5)
                 {
                     Debug.LogWarning("Boss房間生成失敗，請檢查房間配置！");
-                    break;
+                    return false;
                 }
                 Room.Direction dir = (Room.Direction)Random.Range(0, 4);
                 nextRoom = SpawnRoom(bossRoomPrefab, dir, currentRoom);
@@ -115,6 +145,7 @@ public class Generator : MonoBehaviour
                 trys++;
             }
         }
+        return true;
     }
     private void GenerateExtraRooms()
     {
@@ -127,28 +158,20 @@ public class Generator : MonoBehaviour
             
             GameObject prefab = extraRoomPrefabs[Random.Range(0, extraRoomPrefabs.Count)];
             Room newRoom = SpawnExtraRoom(prefab, dir, randomRoom);
-            if(newRoom == null)
+            if(newRoom != null)
             {
-                i--;
-                continue;
+                extraRooms.Add(newRoom);
             }
-            extraRooms.Add(newRoom);
         }
     }
     Room SpawnRoom(GameObject prefab, Room.Direction dir, Room currentRoom)
     {
         //連接通道
-        Transform ExitPos = currentRoom.GetExitAnchor(dir);
-        GameObject goTunnel = Instantiate(tunnelPrefab, Vector3.zero, ExitPos.rotation);
-        Tunnel tunnel = goTunnel.GetComponent<Tunnel>();
-        Transform tunnelEntry = tunnel.getEntry();
-        Transform tunnelExit = tunnel.getExit();
-        if (tunnel != null)
-        {
-            goTunnel.transform.position = ExitPos.position - (tunnelEntry.position - goTunnel.transform.position);
-        }
+        GameObject goTunnel = SpawnTunnel(dir, currentRoom);
+        Transform tunnelExit = goTunnel.GetComponent<Tunnel>().getExit();
+
         //房間B
-        GameObject goB = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+        GameObject goB = Instantiate(prefab, Vector3.zero, Quaternion.identity, mapRoot);
         Room newRoom = goB.GetComponent<Room>();
         Room.Direction entryDir = GetOpposite(dir);
         Transform entryB = newRoom.GetExitAnchor(entryDir);
@@ -158,27 +181,11 @@ public class Generator : MonoBehaviour
         }
 
         //檢測重疊
-        Physics.SyncTransforms();
-        Transform bounds = newRoom.GetBounds();
-        if(bounds != null)
+        if (!CheckBounds(newRoom))
         {
-            BoxCollider box = bounds.GetComponent<BoxCollider>();
-            Collider[] colliders = Physics.OverlapBox(
-                box.bounds.center, 
-                box.bounds.extents * 0.95f, 
-                bounds.rotation, 
-                roomBoundsLayer
-            );
-            foreach(var hit in colliders)
-            {
-                if(hit.transform != bounds)
-                {
-                    Debug.Log("生成失敗，與現有房間重疊，重新生成...");
-                    DestroyImmediate(goB);
-                    DestroyImmediate(goTunnel);
-                    return null;
-                }
-            }
+            DestroyImmediate(goB);
+            DestroyImmediate(goTunnel);
+            return null;
         }
         //開門
         currentRoom.OpenExit(dir);
@@ -188,17 +195,13 @@ public class Generator : MonoBehaviour
     }
     private Room SpawnExtraRoom(GameObject prefab, Room.Direction dir, Room currentRoom)
     {
+        //連接通道
+        GameObject goTunnel = SpawnTunnel(dir, currentRoom);
+        Transform tunnelExit = goTunnel.GetComponent<Tunnel>().getExit();
+
+        //生成額外房間
         Transform ExitPos = currentRoom.GetExitAnchor(dir);
-        GameObject goTunnel = Instantiate(tunnelPrefab, Vector3.zero, ExitPos.rotation);
-        Tunnel tunnel = goTunnel.GetComponent<Tunnel>();
-        Transform tunnelEntry = tunnel.getEntry();
-        Transform tunnelExit = tunnel.getExit();
-        if (tunnel != null)
-        {
-            goTunnel.transform.position = ExitPos.position - (tunnelEntry.position - goTunnel.transform.position);
-        }
-        //旋轉房間
-        GameObject goB = Instantiate(prefab, Vector3.zero, ExitPos.rotation);
+        GameObject goB = Instantiate(prefab, Vector3.zero, ExitPos.rotation, mapRoot);
         Room newRoom = goB.GetComponent<Room>();
         Room.Direction entryDir = GetOpposite(dir);
         Transform entryB = newRoom.GetExitAnchor(entryDir);
@@ -208,6 +211,33 @@ public class Generator : MonoBehaviour
         }
 
         //檢測重疊
+        if (!CheckBounds(newRoom))
+        {
+            DestroyImmediate(goB);
+            DestroyImmediate(goTunnel);
+            return null;
+        }
+        //開門
+        currentRoom.OpenExit(dir);
+        newRoom.OpenExit(entryDir);
+        UIEvents.RoomSpawned(newRoom, currentRoom, dir);
+        return newRoom;
+    }
+    private GameObject SpawnTunnel(Room.Direction dir, Room currentRoom)
+    {
+        Transform ExitPos = currentRoom.GetExitAnchor(dir);
+        GameObject goTunnel = Instantiate(tunnelPrefab, Vector3.zero, ExitPos.rotation, mapRoot);
+        Tunnel tunnel = goTunnel.GetComponent<Tunnel>();
+        Transform tunnelEntry = tunnel.getEntry();
+        Transform tunnelExit = tunnel.getExit();
+        if (tunnel != null)
+        {
+            goTunnel.transform.position = ExitPos.position - (tunnelEntry.position - goTunnel.transform.position);
+        }
+        return goTunnel;
+    }
+    private bool CheckBounds(Room newRoom)
+    {
         Physics.SyncTransforms();
         Transform bounds = newRoom.GetBounds();
         if(bounds != null)
@@ -224,17 +254,22 @@ public class Generator : MonoBehaviour
                 if(hit.transform != bounds)
                 {
                     Debug.Log("生成失敗，與現有房間重疊，重新生成...");
-                    DestroyImmediate(goB);
-                    DestroyImmediate(goTunnel);
-                    return null;
+                    return false;
                 }
             }
         }
-        //開門
-        currentRoom.OpenExit(dir);
-        newRoom.OpenExit(entryDir);
-        UIEvents.RoomSpawned(newRoom, currentRoom, dir);
-        return newRoom;
+        else
+        {
+            return false;
+        }
+        return true;
+    }
+    private void ClearMap()
+    {
+        for (int i = mapRoot.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(mapRoot.GetChild(i).gameObject);
+        }
     }
 
     private void InitRooms()

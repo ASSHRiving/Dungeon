@@ -38,8 +38,8 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     private bool CanMoveControl()
     {
-        return isOnGround && (_animator.CheckAnimationTag("Motion") ||(_animator.CheckAnimationTag("Attack") && _combat.canAttack)
-            || _animator.CheckAnimationTag("Roll"));
+        return isOnGround && (animator.CheckAnimationTag("Motion") ||(animator.CheckAnimationTag("Attack") && _combat.canAttack)
+            || animator.CheckAnimationTag("Roll"));
     }
 
     private bool CanRunControl()
@@ -99,7 +99,7 @@ public class PlayerMovementSystem : CharacterMovementBase
         {
             movementDirection = Vector3.zero;
         }
-        if (!_animator.CheckAnimationTag("Roll"))
+        if (!animator.CheckAnimationTag("Roll"))
         {  
             control.Move((characterCurrentMoveSpeed * Time.deltaTime)
                 * movementDirection.normalized + Time.deltaTime
@@ -113,35 +113,35 @@ public class PlayerMovementSystem : CharacterMovementBase
         if (CanRunControl())
         {
             float targetSpeed = _inputSystem.playerMovement.magnitude * (_inputSystem.playerRun ? 2f : 1f);
-            _animator.SetFloat(speedID, targetSpeed, 0.1f, Time.deltaTime);
+            animator.SetFloat(speedID, targetSpeed, 0.1f, Time.deltaTime);
             
             characterCurrentMoveSpeed = _inputSystem.playerRun? runSpeed : walkSpeed;
         }
         else
         {
-            _animator.SetFloat(speedID, 0f, 0.1f, Time.deltaTime);
-            if(_animator.GetFloat(speedID) < 0.001f)
+            animator.SetFloat(speedID, 0f, 0.1f, Time.deltaTime);
+            if(animator.GetFloat(speedID) < 0.001f)
             {
-                _animator.SetFloat(speedID, 0f);
+                animator.SetFloat(speedID, 0f);
             }
             characterCurrentMoveSpeed = 0f;
         }
 
-        _animator.SetFloat(runID, _inputSystem.playerRun? 1f : 0f);
+        animator.SetFloat(runID, _inputSystem.playerRun? 1f : 0f);
     }
     private void UpdateRollAnimation()
     {
-        if (_inputSystem.playerRoll && !_animator.CheckAnimationTag("Roll"))
+        if (_inputSystem.playerRoll && !animator.CheckAnimationTag("Roll"))
         {
-            _animator.SetTrigger(rollId);
+            animator.SetTrigger(rollId);
             StartCoroutine(RollRoutine());
             _combat.inAttack = false;
             _combat.canAttack = true;
         }
-        if(_animator.CheckAnimationTag("Roll"))
+        if(animator.CheckAnimationTag("Roll"))
         {
-            _animator.ResetTrigger(rollId);
-            CharacterMoveInterface(rollDirection, _animator.GetFloat(animationMoveID), true);
+            animator.ResetTrigger(rollId);
+            CharacterMoveInterface(rollDirection, animator.GetFloat(animationMoveID), true);
         }
     }
     private IEnumerator RollRoutine()
