@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections.Generic;
+using Unity.Mathematics;
 
 public class StartRoom : Room
 {
@@ -19,6 +20,7 @@ public class StartRoom : Room
             {
                 characterController.enabled = false;
                 playerGo.transform.position = playerSpawnPoint.position;
+                playerGo.transform.rotation = playerSpawnPoint.rotation;
                 characterController.enabled = true;
             }
             else

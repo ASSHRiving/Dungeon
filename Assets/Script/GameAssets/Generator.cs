@@ -150,18 +150,27 @@ public class Generator : MonoBehaviour
     private void GenerateExtraRooms()
     {
         int extraCount = Random.Range(1, 3);
-
+        int trys = 0;
         for(int i = 0; i < extraCount; i++)
         {
+            if(trys > 5)
+            {
+                Debug.Log("嘗試次數過多，停止生成...");
+                return;
+            }
             Room randomRoom = spawnedRooms[Random.Range(1, spawnedRooms.Count)];
             Room.Direction dir = (Room.Direction)Random.Range(0, 4);
             
             GameObject prefab = extraRoomPrefabs[Random.Range(0, extraRoomPrefabs.Count)];
             Room newRoom = SpawnExtraRoom(prefab, dir, randomRoom);
-            if(newRoom != null)
+            if(newRoom == null)
             {
-                extraRooms.Add(newRoom);
+                i--;
+                trys++;
+                continue;
+                
             }
+            extraRooms.Add(newRoom);
         }
     }
     Room SpawnRoom(GameObject prefab, Room.Direction dir, Room currentRoom)
