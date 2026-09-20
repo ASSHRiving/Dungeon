@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class ResetTrigger : StateMachineBehaviour
 {
-    public string[] triggers;
+    [SerializeField] private string[] triggerNamesToReset = { "Roll"};
 
     // 在狀態機進入這個狀態時被呼叫
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        foreach (var info in triggers)
+        foreach (string triggerName in triggerNamesToReset)
         {
-            animator.ResetTrigger(info);
+            animator.ResetTrigger(triggerName);
         }
     }
 }

@@ -14,8 +14,8 @@ public class PlayerMovementSystem : CharacterMovementBase
     //private bool canRoll = true;
 
 
-    [SerializeField, Header("行走速度")] private float walkSpeed;
-    [SerializeField, Header("奔跑速度")] private float runSpeed;
+    [SerializeField, Header("行走速度")] public float walkSpeed;
+    [SerializeField, Header("奔跑速度")] public float runSpeed;
     protected override void Awake()
     {
         base.Awake();

@@ -101,12 +101,16 @@ MonoBehaviour:
   damage: 20
   weaponType: 2
   combo: 0
-  weaponSoundType: 2
-  overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
-  totalComboSteps: 3
-  comboResetTime: 2
+  runSpeed: 6
+  walkSpeed: 3
   attackPoint: {fileID: 643936859160606776}
   attackRadius: 0.5
+  weaponSoundType: 2
+  overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
+  weaponTrail: {fileID: 0}
+  weaponEffect: {fileID: 0}
+  totalComboSteps: 3
+  comboResetTime: 2
 --- !u!114 &8997176540131332733
 MonoBehaviour:
   m_ObjectHideFlags: 0

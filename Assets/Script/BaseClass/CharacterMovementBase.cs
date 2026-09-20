@@ -1,18 +1,21 @@
 using UnityEngine;
 public abstract class CharacterMovementBase : MonoBehaviour
 {
+    //參考腳本
     protected Animator animator;
     protected CharacterController control;
     protected CharacterInputSystem _inputSystem;
     protected CharacterCombatBase _combat;
     protected AnimationEventHelper animationEventHelper;
+    //==========================================================================
 
-    [SerializeField,Header("移動速度")] protected float characterGravity;
+    [SerializeField] protected float characterGravity = -9.8f;
     [SerializeField] protected float characterCurrentMoveSpeed;
     protected float characterFallTime = 0.15f;
     protected float characterFallOutDeltaTime;
     protected float verticalSpeed; 
     protected float maxVerticalSpeed = 53f;
+    [Header("音效")]
     [SerializeField] private SoundAssetsType footstepSoundType;
     [SerializeField] private GameSoundSO soundAssets;
 

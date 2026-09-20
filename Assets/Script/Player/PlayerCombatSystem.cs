@@ -188,6 +188,11 @@ public class PlayerCombatSystem : CharacterCombatBase
         }
         _animator.SetInteger("WeaponType", weaponType);
         currentWeapon.GetComponent<DropsInteract>().enabled = false;
+
+        PlayerMovementSystem playerMovement = GetComponentInParent<PlayerMovementSystem>();
+        playerMovement.runSpeed = currentWeapon.runSpeed;
+        playerMovement.walkSpeed = currentWeapon.walkSpeed;
+
     }
     public void ChangeWeapon(GameObject newWeapon)
     {

@@ -8,6 +8,9 @@ public abstract class Weapon : MonoBehaviour
     public float damage = 0f;
     public int weaponType = 0;
     public int combo = 0;
+    [Header("移動速度")]
+    public float runSpeed = 7;
+    public float walkSpeed = 3;
 
     [Header("攻擊檢測")]
     public Transform attackPoint;
