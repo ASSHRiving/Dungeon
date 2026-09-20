@@ -764,7 +764,7 @@ MonoBehaviour:
   maxHealth: 100
   shield: 10
   maxPoise: 20
-  currentPoise: 100
+  currentPoise: 50
   poiseRecoveryRate: 20
   poiseRecoveryDelay: 3
   currentHealth: 0
@@ -774,7 +774,7 @@ MonoBehaviour:
   - {fileID: 5942121330266574512}
   - {fileID: 6290760331224706982}
   lootPrefab: {fileID: 0}
-  gold: 5
+  gold: 30
 --- !u!114 &85290272677220058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,6 +1035,8 @@ MonoBehaviour:
   damage: 20
   weaponType: 0
   combo: 0
+  runSpeed: 7
+  walkSpeed: 3
   attackPoint: {fileID: 0}
   attackRadius: 0
   weaponSoundType: 1

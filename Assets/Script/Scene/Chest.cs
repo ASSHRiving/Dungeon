@@ -8,6 +8,7 @@ public class Chest : MonoBehaviour, IInteractable
     string IInteractable.interactableName => interactableName;
     [SerializeField] private Transform dropPoint;
     [SerializeField] private List<GameObject> itemList;
+    [SerializeField] private int gold;
     private GameObject itemPrefab;
 
     [Header("彈射力道")]
@@ -18,7 +19,10 @@ public class Chest : MonoBehaviour, IInteractable
     
     private void Awake()
     {
-        itemPrefab = itemList[Random.Range(0, itemList.Count)];
+        if(itemList != null)
+        {
+            itemPrefab = itemList[Random.Range(0, itemList.Count)];
+        }
         animator = GetComponentInChildren<Animator>();
     }
     public void Interact(Transform player)
@@ -37,6 +41,22 @@ public class Chest : MonoBehaviour, IInteractable
     }
     private void DropItem()
     {
+        for (int i = 0; i < gold; i++)
+        {
+            // 隨機噴散的位移
+            Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0.5f, Random.Range(-0.5f, 0.5f));
+            
+            // 🎯 直接跟你的 Singleton 拿金幣！
+            GameObject coin = ObjectPoolManager.Instance.GetCoin(dropPoint.position + randomOffset, Quaternion.identity);
+
+            // (可選) 給金幣一個微小的向外爆發力
+            if (coin != null && coin.TryGetComponent<Rigidbody>(out Rigidbody coinRb))
+            {
+                Vector3 force = new Vector3(Random.Range(-2f, 2f), 4f, Random.Range(-2f, 2f));
+                coinRb.AddForce(force, ForceMode.Impulse);
+            }
+        }
+
         if (itemPrefab == null || dropPoint == null)return;
 
         GameObject itemGO = Instantiate(itemPrefab, dropPoint.position, dropPoint.rotation);
@@ -51,7 +71,6 @@ public class Chest : MonoBehaviour, IInteractable
             rb.AddTorque(new Vector3(randomTorque, randomTorque, randomTorque), ForceMode.Impulse);
 
         }
-        
     }
     private IEnumerator Wait()
     {

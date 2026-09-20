@@ -2223,7 +2223,7 @@ MonoBehaviour:
   - {fileID: 2546180715555292158}
   - {fileID: 2520551439961800375}
   lootPrefab: {fileID: 5771507442965416563, guid: da4dfac2e17a0ce478b76b4f9e4dcf91, type: 3}
-  gold: 5
+  gold: 10
 --- !u!114 &564663518897611330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2521,6 +2521,8 @@ MonoBehaviour:
   damage: 5
   weaponType: 0
   combo: 0
+  runSpeed: 7
+  walkSpeed: 3
   attackPoint: {fileID: 2448974556895601791}
   attackRadius: 0.3
   weaponSoundType: 1

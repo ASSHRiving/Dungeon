@@ -900,7 +900,7 @@ MonoBehaviour:
   - {fileID: 3764410466006088352}
   - {fileID: 1314375226372862932}
   lootPrefab: {fileID: 0}
-  gold: 30
+  gold: 100
 --- !u!114 &3335438274744454527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1189,6 +1189,8 @@ MonoBehaviour:
   damage: 10
   weaponType: 0
   combo: 0
+  runSpeed: 7
+  walkSpeed: 3
   attackPoint: {fileID: 0}
   attackRadius: 0
   weaponSoundType: 3
