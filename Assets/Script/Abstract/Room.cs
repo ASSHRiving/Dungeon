@@ -15,7 +15,7 @@ public abstract class Room : MonoBehaviour
     }
 
     [SerializeField] private Transform Bounds;
-    public GameObject RoomImage;
+    public Sprite RoomImage;
     public bool isVisited = false;
     [SerializeField] protected List<ExitSet> exitSets;
 

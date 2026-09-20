@@ -177,21 +177,16 @@ public class MinimapController : MonoBehaviour
         }
 
         // 生成房間 UI Icon
-        GameObject roomUI = newRoom.RoomImage;
-        GameObject nodeGO;
-        if(roomUI != null)
-        {
-            nodeGO = Instantiate(roomUI, mapContent);
-        }
-        else
-        {
-            nodeGO = Instantiate(roomNodePrefab, mapContent);
-        }
-        
+        GameObject nodeGO = Instantiate(roomNodePrefab, mapContent);
         RectTransform rect = nodeGO.GetComponent<RectTransform>();
         rect.anchoredPosition = newUIPos;
 
         Image img = nodeGO.GetComponent<Image>();
+        Sprite roomUI = newRoom.RoomImage;
+        if(roomUI != null)
+        {
+            nodeGO.GetComponent<RoomNodeUI>().roomSprite.sprite = roomUI;
+        }
         img.color = unvisitedRoomColor; // 初始設為未探索顏色
 
         // 保存映射
