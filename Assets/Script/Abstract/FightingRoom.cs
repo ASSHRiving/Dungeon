@@ -142,7 +142,6 @@ public abstract class FightingRoom : Room
                 CloseGate();
                 // 啟動第一波生成協程
                 StartCoroutine(SpawnWaveRoutine(currentWaveIndex));
-                GameAssets.Instance.PlayBossMusic();
             }
         }
     }

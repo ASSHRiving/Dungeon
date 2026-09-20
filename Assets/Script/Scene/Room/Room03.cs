@@ -11,9 +11,9 @@ public class Room03 : FightingRoom
 
         if (other.CompareTag("Player"))
         {
-            if (!isBattleStarted && !isClear)
+            if (!isClear)
             {
-                
+                GameAssets.Instance.PlayBossMusic();
             }
         }
     }
