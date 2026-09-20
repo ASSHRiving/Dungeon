@@ -68,13 +68,13 @@ public class Generator : MonoBehaviour
     }
     private bool Generate()
     {
-        count = level;
+        count = level + 1;
         //生成起始房間
         Room currentRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity, mapRoot).GetComponent<Room>();
         UIEvents.RoomSpawned(currentRoom, null, Room.Direction.North);
         spawnedRooms.Add(currentRoom);
         //生成第一個房間
-        GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
+        GameObject prefab = roomPrefabs[0];
         Room nextRoom = SpawnRoom(prefab, Room.Direction.North, currentRoom);
         Room prevRoom = currentRoom;
         currentRoom = nextRoom;
@@ -106,7 +106,7 @@ public class Generator : MonoBehaviour
         }
 
         //生成終點房間
-        if(level < 2)
+        if(level < 5)
         {
             while (true)
             {

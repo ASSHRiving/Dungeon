@@ -36,7 +36,7 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
         itemGO = Instantiate(itemList[Random.Range(0, itemList.Count)], itemPoint);
         itemGO.layer = LayerMask.NameToLayer("UnInteractable");
         item = itemGO.GetComponent<ShopItem>();
-        item.SetIndex(2);
+        item.SetIndex(Random.Range(1,3));
         itemData = item.equipmentDataList[item.currentEquipmentIndex];
     }
 
