@@ -5,6 +5,26 @@ using System.Collections;
 public abstract class FightingRoom : Room
 {
     [System.Serializable]
+    public class LevelWaveGroups
+    {
+        public int level;
+
+        public List<EnemyWaveGroup> waveGroups = new List<EnemyWaveGroup>();
+    }
+    [System.Serializable]
+    public class EnemyWaveGroup
+    {
+        public string groupName = "Group 1";
+        public float weight = 1;
+        public List<EnemyWave> waves;
+    }
+    [System.Serializable]
+    public class EnemyWave
+    {
+        public string waveName = "Wave";
+        public List<SpawnConfig> spawnConfigs; 
+    }
+    [System.Serializable]
     public class SpawnConfig
     {
         public GameObject enemyPrefab;  // 該位置要刷出的敵人 Prefab
@@ -12,15 +32,10 @@ public abstract class FightingRoom : Room
         public Transform spawnPoint;    // 生成點 Transform
     }
 
-    [System.Serializable]
-    public class EnemyWave
-    {
-        public string waveName = "Wave";
-        public List<SpawnConfig> spawnConfigs; 
-    }
-
     [Header("波次設定")]
-    [SerializeField] protected List<EnemyWave> waves = new List<EnemyWave>();
+    [Header("各關卡的敵人波次組合")]
+    [SerializeField] protected List<LevelWaveGroups> levelWaveGroups = new List<LevelWaveGroups>();
+    protected List<EnemyWave> waves;
     [SerializeField] private float spawnDelay = 1.5f;          // 特效出現到敵人刷出的延遲時間 (秒)
 
 
@@ -123,10 +138,71 @@ public abstract class FightingRoom : Room
     }
     public override void Init()
     {
+        SelectWaves();
         isBattleStarted = false;
         isSpawningWave = false;
         isClear = false;
         currentWaveIndex = 0;
+    }
+    private void SelectWaves()
+    {
+        int currentLevel = GameManager.Instance.currentLevel;
+
+        LevelWaveGroups currentLevelGroups = null;
+
+        // 找到目前關卡的波次組合
+        foreach (LevelWaveGroups levelGroups in levelWaveGroups)
+        {
+            if (levelGroups.level == currentLevel)
+            {
+                currentLevelGroups = levelGroups;
+                break;
+            }
+        }
+
+        if (currentLevelGroups == null ||
+            currentLevelGroups.waveGroups.Count == 0)
+        {
+            Debug.LogWarning(
+                $"找不到 Level {currentLevel} 的敵人波次組合！"
+            );
+
+            return;
+        }
+
+        // 計算總權重
+        float totalWeight = 0f;
+
+        foreach (EnemyWaveGroup group in currentLevelGroups.waveGroups)
+        {
+            if (group != null && group.waves.Count > 0)
+            {
+                totalWeight += group.weight;
+            }
+        }
+
+        if (totalWeight <= 0f)
+        {
+            Debug.LogWarning("所有波次組合的權重都是 0！");
+            return;
+        }
+
+        // 依照權重隨機選擇
+        float randomValue = Random.Range(0f, totalWeight);
+
+        foreach (EnemyWaveGroup group in currentLevelGroups.waveGroups)
+        {
+            if (group == null || group.waves.Count == 0)
+                continue;
+
+            randomValue -= group.weight;
+
+            if (randomValue <= 0f)
+            {
+                waves = group.waves;
+                return;
+            }
+        }
     }
     protected override void OnTriggerEnter(Collider other)
     {

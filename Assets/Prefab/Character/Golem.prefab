@@ -887,8 +887,8 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 2693099489413561318}
   healthUI: {fileID: 4487243819961881374}
   healthText: {fileID: 6234274595060731125}
-  maxHealth: 500
-  shield: 50
+  maxHealth: 700
+  shield: 100
   maxPoise: 1000
   currentPoise: 1000
   poiseRecoveryRate: 200
@@ -1186,7 +1186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
   weaponName: "\u53F3\u624B"
-  damage: 10
+  damage: 30
   weaponType: 0
   combo: 0
   runSpeed: 7

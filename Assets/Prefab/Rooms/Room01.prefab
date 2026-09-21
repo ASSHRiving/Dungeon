@@ -226,6 +226,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2348616061427368171, guid: edcc86a903182d0429c0d7b2c727fec0, type: 3}
+--- !u!1 &605231871305674472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2877473115766915789}
+  m_Layer: 0
+  m_Name: EmenySpawnPoint (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2877473115766915789
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605231871305674472}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.86221653, z: -0, w: 0.50654}
+  m_LocalPosition: {x: 3.98, y: -0.0001127582, z: -10.36}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8086243748712056112}
+  m_LocalEulerAnglesHint: {x: 0, y: 119.133, z: 0}
 --- !u!1 &796204459928682492
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +314,9 @@ Transform:
   - {fileID: 3522625414417348110}
   - {fileID: 1385085247029632797}
   - {fileID: 5077548700860557686}
+  - {fileID: 5576592241489310351}
+  - {fileID: 1509269024938907245}
+  - {fileID: 2877473115766915789}
   - {fileID: 131339886307120719}
   - {fileID: 3555115875085897989}
   m_Father: {fileID: 0}
@@ -304,30 +338,153 @@ MonoBehaviour:
   isVisited: 0
   exitSets:
   - direction: 0
-    anchor: {fileID: 2378671669933860776}
-    door: {fileID: 8514609228210639925}
-    wall: {fileID: 895829233707278986}
+    anchor: {fileID: 1768129990408915998}
+    door: {fileID: 5738397808717381507}
+    wall: {fileID: 3883662456013244732}
   - direction: 1
     anchor: {fileID: 1768129990408915998}
     door: {fileID: 5738397808717381507}
     wall: {fileID: 3883662456013244732}
   - direction: 2
-    anchor: {fileID: 1872638510208774105}
-    door: {fileID: 5681212251676515396}
-    wall: {fileID: 3787756514602445563}
+    anchor: {fileID: 1768129990408915998}
+    door: {fileID: 5738397808717381507}
+    wall: {fileID: 3883662456013244732}
   - direction: 3
-    anchor: {fileID: 4682922133888973924}
-    door: {fileID: 1717664085005783033}
-    wall: {fileID: 7895151444083161414}
-  waves:
-  - waveName: Wave1
-    spawnConfigs:
-    - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
-      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
-      spawnPoint: {fileID: 5077548700860557686}
-    - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
-      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
-      spawnPoint: {fileID: 1385085247029632797}
+    anchor: {fileID: 1768129990408915998}
+    door: {fileID: 5738397808717381507}
+    wall: {fileID: 3883662456013244732}
+  levelWaveGroups:
+  - level: 1
+    waveGroups:
+    - groupName: 1+1
+      weight: 1
+      waves:
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5077548700860557686}
+  - level: 2
+    waveGroups:
+    - groupName: 2Warrior 1+1
+      weight: 1
+      waves:
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 2877473115766915789}
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5077548700860557686}
+    - groupName: 2Orc
+      weight: 1
+      waves:
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
+          spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
+          spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+          spawnPoint: {fileID: 2877473115766915789}
+  - level: 3
+    waveGroups:
+    - groupName: Orc  2Warrior 1+2
+      weight: 1
+      waves:
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
+          spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 2877473115766915789}
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5077548700860557686}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5576592241489310351}
+    - groupName: Golem
+      weight: 1
+      waves:
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 8368422514923744205, guid: 177795e011e2d4e4da92a8eaa47f0bbd, type: 3}
+          spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+  - level: 4
+    waveGroups:
+    - groupName: 1+2 2Warrior Orc+2
+      weight: 1
+      waves:
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5077548700860557686}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5576592241489310351}
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
+          spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5077548700860557686}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5576592241489310351}
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 2877473115766915789}
+    - groupName: Golem+Archer
+      weight: 1
+      waves:
+      - waveName: Warning
+        spawnConfigs:
+        - enemyPrefab: {fileID: 8368422514923744205, guid: 177795e011e2d4e4da92a8eaa47f0bbd, type: 3}
+          spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+          spawnPoint: {fileID: 1385085247029632797}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5077548700860557686}
+        - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5576592241489310351}
   spawnDelay: 1.5
   reward: {fileID: 8268076693157899778}
 --- !u!65 &4857762466890685964
@@ -2063,12 +2220,43 @@ Transform:
   m_GameObject: {fileID: 4948148014882333254}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 6.14, y: 1, z: -7.17}
+  m_LocalPosition: {x: 9.99, y: -0.0001127582, z: -9.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8086243748712056112}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &5192090416770564800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1509269024938907245}
+  m_Layer: 0
+  m_Name: EmenySpawnPoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1509269024938907245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5192090416770564800}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.90593654, z: -0, w: -0.42341366}
+  m_LocalPosition: {x: 14.28, y: -0.0001127582, z: -1.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8086243748712056112}
+  m_LocalEulerAnglesHint: {x: 0, y: 230.101, z: 0}
 --- !u!1 &6796857716468620763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2408,6 +2596,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2348616061427368171, guid: edcc86a903182d0429c0d7b2c727fec0, type: 3}
+--- !u!1 &7565004168267982849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5576592241489310351}
+  m_Layer: 0
+  m_Name: EmenySpawnPoint (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5576592241489310351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7565004168267982849}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.5650529, z: -0, w: -0.82505465}
+  m_LocalPosition: {x: 18.26, y: -0.0001127582, z: -14.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8086243748712056112}
+  m_LocalEulerAnglesHint: {x: 0, y: 291.188, z: 0}
 --- !u!1 &7597970747347886575
 GameObject:
   m_ObjectHideFlags: 0
@@ -2748,13 +2967,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8090839481865498808}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.6217214, z: -0, w: -0.78323853}
-  m_LocalPosition: {x: -6.789, y: 1, z: -7.609}
+  m_LocalRotation: {x: -0, y: -0.73221284, z: -0, w: -0.68107593}
+  m_LocalPosition: {x: -7.25, y: -0.0001127582, z: -9.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8086243748712056112}
-  m_LocalEulerAnglesHint: {x: 0, y: 283.116, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 454.14398, z: 0}
 --- !u!1 &8325093702999402384
 GameObject:
   m_ObjectHideFlags: 0
@@ -3176,6 +3395,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WestGateWall
       objectReference: {fileID: 0}
+    - target: {fileID: 1613572061211404488, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6625729158707372735, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.735886
@@ -3218,31 +3441,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7792326006345981559, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
---- !u!1 &1717664085005783033 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1613572061211404488, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 122390349706913585}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4682922133888973924 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4706197295538068309, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 122390349706913585}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6503620964864230798 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6625729158707372735, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 122390349706913585}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7895151444083161414 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7792326006345981559, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
   m_PrefabInstance: {fileID: 122390349706913585}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &259900183825969930
@@ -4376,15 +4584,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.8573017
+      value: -3.8784256
       objectReference: {fileID: 0}
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.17
+      value: 9.27
       objectReference: {fileID: 0}
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.371347
+      value: -8.3721285
       objectReference: {fileID: 0}
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4964,6 +5172,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EastGateWall
       objectReference: {fileID: 0}
+    - target: {fileID: 1613572061211404488, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6625729158707372735, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.361
@@ -5006,7 +5218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7792326006345981559, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5016,21 +5228,6 @@ PrefabInstance:
 --- !u!4 &234300277320439347 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6625729158707372735, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 6391513099262145676}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1872638510208774105 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4706197295538068309, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 6391513099262145676}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3787756514602445563 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7792326006345981559, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 6391513099262145676}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5681212251676515396 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1613572061211404488, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
   m_PrefabInstance: {fileID: 6391513099262145676}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6468978151308040011
@@ -5188,6 +5385,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NorthGateWall
       objectReference: {fileID: 0}
+    - target: {fileID: 1613572061211404488, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6625729158707372735, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.886238
@@ -5230,31 +5431,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7792326006345981559, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
---- !u!1 &895829233707278986 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7792326006345981559, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 6939335394941091069}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2378671669933860776 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4706197295538068309, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 6939335394941091069}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4304923744137207362 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6625729158707372735, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
-  m_PrefabInstance: {fileID: 6939335394941091069}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8514609228210639925 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1613572061211404488, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
   m_PrefabInstance: {fileID: 6939335394941091069}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6965617766752302835
@@ -5887,15 +6073,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.493605
+      value: 15.472481
       objectReference: {fileID: 0}
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.16992
+      value: 9.26992
       objectReference: {fileID: 0}
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.371359
+      value: -8.3721285
       objectReference: {fileID: 0}
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalRotation.w

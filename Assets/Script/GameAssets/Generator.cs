@@ -35,7 +35,7 @@ public class Generator : MonoBehaviour
         {
             level = GameManager.Instance.currentLevel;
         }
-
+        count = level;
         Debug.Log($"[Generator] 開始生成第 {level} 關地圖，目標房間數：{count}");
 
         mapRoot = new GameObject("GeneratedMap").transform;
