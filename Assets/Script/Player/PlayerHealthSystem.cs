@@ -71,7 +71,7 @@ public class PlayerHealthSystem : CharacterHealthBase
         isDead = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        gameObject.layer = LayerMask.NameToLayer("Ground");
+        gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         _animator.Play("Die", 0, 0f);
         foreach (var script in scriptsToDisable)
         {

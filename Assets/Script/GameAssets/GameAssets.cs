@@ -9,6 +9,7 @@ public class GameAssets : SingletonBase<GameAssets>
     [SerializeField] private AudioClip inGameMusicClip;
     [SerializeField] private AudioClip menuMusicClip;
     [SerializeField] private AudioClip bossMusicClip;
+    [SerializeField] private AudioClip eliteFightMusicClip;
     [SerializeField] private AudioClip uiClickSound;
     
     [Header("Hitstop (頓幀)")]
@@ -93,6 +94,15 @@ public class GameAssets : SingletonBase<GameAssets>
         if(bossMusicClip != null)
         {
             bgmAudio.clip = bossMusicClip;
+            bgmAudio.loop = true;
+            bgmAudio.Play();
+        }
+    }
+    public void PlayeliteFightMusic()
+    {
+        if(eliteFightMusicClip != null)
+        {
+            bgmAudio.clip = eliteFightMusicClip;
             bgmAudio.loop = true;
             bgmAudio.Play();
         }

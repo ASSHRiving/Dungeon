@@ -13,7 +13,7 @@ public class Room01 : FightingRoom
         {
             if (!isClear)
             {
-                
+                GameAssets.Instance.PlayeliteFightMusic();
             }
         }
     }

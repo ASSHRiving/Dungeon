@@ -362,7 +362,7 @@ MonoBehaviour:
     - groupName: 1+1
       weight: 1
       waves:
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
@@ -375,7 +375,7 @@ MonoBehaviour:
     - groupName: 2Warrior 1+1
       weight: 1
       waves:
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
@@ -383,7 +383,7 @@ MonoBehaviour:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
           spawnPoint: {fileID: 2877473115766915789}
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
@@ -394,7 +394,7 @@ MonoBehaviour:
     - groupName: 2Orc
       weight: 1
       waves:
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
           spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
@@ -407,12 +407,12 @@ MonoBehaviour:
     - groupName: Orc  2Warrior 1+2
       weight: 1
       waves:
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
           spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
           spawnPoint: {fileID: 1385085247029632797}
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
@@ -420,7 +420,7 @@ MonoBehaviour:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
           spawnPoint: {fileID: 2877473115766915789}
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
@@ -434,7 +434,7 @@ MonoBehaviour:
     - groupName: Golem
       weight: 1
       waves:
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 8368422514923744205, guid: 177795e011e2d4e4da92a8eaa47f0bbd, type: 3}
           spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
@@ -444,7 +444,7 @@ MonoBehaviour:
     - groupName: 1+2 2Warrior Orc+2
       weight: 1
       waves:
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
@@ -455,7 +455,7 @@ MonoBehaviour:
         - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
           spawnPoint: {fileID: 5576592241489310351}
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
           spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
@@ -466,7 +466,7 @@ MonoBehaviour:
         - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
           spawnPoint: {fileID: 5576592241489310351}
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
@@ -477,7 +477,7 @@ MonoBehaviour:
     - groupName: Golem+Archer
       weight: 1
       waves:
-      - waveName: Warning
+      - waveName: Warning!
         spawnConfigs:
         - enemyPrefab: {fileID: 8368422514923744205, guid: 177795e011e2d4e4da92a8eaa47f0bbd, type: 3}
           spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}

@@ -41,7 +41,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
 
     //閃避
     public bool immune { get; protected set; }
-    protected float immuneTime = 0.3f;
+    protected float immuneTime = 0.4f;
 
     [Header("音源設定")]
     [SerializeField] private AudioSource audioSource;
