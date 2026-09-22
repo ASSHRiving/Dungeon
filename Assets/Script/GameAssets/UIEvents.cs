@@ -60,10 +60,10 @@ public static class UIEvents
     //***************************************
     // 事件廣播：顯示資訊框
     //***************************************
-    public static event Action<ShopItem, EquipmentInteract.EquipmentType> OnShowTooltip;
-    public static void ShowTooltip(ShopItem shopItem, EquipmentInteract.EquipmentType type)
+    public static event Action<Equipment, Equipment.EquipmentType> OnShowTooltip;
+    public static void ShowTooltip(Equipment equipment, Equipment.EquipmentType type)
     {
-        OnShowTooltip?.Invoke(shopItem, type);
+        OnShowTooltip?.Invoke(equipment, type);
     }
     //***************************************
     // 事件廣播：關閉資訊框

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1810853907567685096
+--- !u!1 &3846892797333780839
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2245250687949773921}
-  - component: {fileID: 4922721938658864266}
-  - component: {fileID: 6622019068901043659}
-  - component: {fileID: 6162329833623561363}
-  - component: {fileID: 4400405443662156386}
-  - component: {fileID: -2524260156181965417}
-  - component: {fileID: 3593345979808222288}
-  m_Layer: 0
-  m_Name: SaintKnightArm
+  - component: {fileID: 196984371576018444}
+  - component: {fileID: 2635635234198642748}
+  - component: {fileID: 6858945241629758532}
+  - component: {fileID: 6690837501528916709}
+  - component: {fileID: 3531556269173483879}
+  - component: {fileID: 5276741673218595376}
+  - component: {fileID: -5738476992907272484}
+  m_Layer: 14
+  m_Name: Potion_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2245250687949773921
+--- !u!4 &196984371576018444
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810853907567685096}
+  m_GameObject: {fileID: 3846892797333780839}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.287752, y: -4.367609, z: -2.244442}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4922721938658864266
+--- !u!33 &2635635234198642748
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810853907567685096}
-  m_Mesh: {fileID: -6047057747852897639, guid: 00e9584fd0198534886358b5d02653de, type: 3}
---- !u!23 &6622019068901043659
+  m_GameObject: {fileID: 3846892797333780839}
+  m_Mesh: {fileID: -7631008195387563993, guid: edcc86a903182d0429c0d7b2c727fec0, type: 3}
+--- !u!23 &6858945241629758532
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810853907567685096}
+  m_GameObject: {fileID: 3846892797333780839}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9845b38987b69224ca6524623f877af8, type: 2}
+  - {fileID: 2100000, guid: ca32cada060cf774dbd29b2f3410086a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,13 +94,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6162329833623561363
-BoxCollider:
+--- !u!64 &6690837501528916709
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810853907567685096}
+  m_GameObject: {fileID: 3846892797333780839}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -112,60 +112,46 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6595138, y: 0.20140895, z: 0.54085386}
-  m_Center: {x: -0.014575869, y: -0.0012156218, z: -0.042664528}
---- !u!114 &4400405443662156386
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7631008195387563993, guid: edcc86a903182d0429c0d7b2c727fec0, type: 3}
+--- !u!114 &3531556269173483879
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810853907567685096}
+  m_GameObject: {fileID: 3846892797333780839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
+  m_Script: {fileID: 11500000, guid: 99e9f0785425d60499be4d8de0b5a5ca, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
-  interactableName: "\u88DD\u5099 \u8056\u9A0E\u58EB\u8B77\u624B"
-  equipmentDataList:
-  - equipmentName: "\u521D\u7D1A\u8056\u9A0E\u58EB\u8B77\u624B"
-    mesh: {fileID: 3390027128253250263, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    prefabMesh: {fileID: -6047057747852897639, guid: 00e9584fd0198534886358b5d02653de, type: 3}
-    price: 0
-    damage: 0
-    shield: 0
-    health: 0
-    critRate: 0
-    itemIcon: {fileID: 0}
-  - equipmentName: "\u4E2D\u7D1A\u8056\u9A0E\u58EB\u8B77\u624B"
-    mesh: {fileID: -6650198067682971855, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    prefabMesh: {fileID: -8589466159031896858, guid: 086dc3faf3cf2524cbee87fde6ca0f26, type: 3}
-    price: 0
-    damage: 0
-    shield: 0
-    health: 0
-    critRate: 0
-    itemIcon: {fileID: 0}
-  - equipmentName: "\u9AD8\u7D1A\u8056\u9A0E\u58EB\u8B77\u624B"
-    mesh: {fileID: -8056588769129496622, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
-    prefabMesh: {fileID: 8307703174970341373, guid: a50dee6b9ac419044963d6607c7121ad, type: 3}
-    price: 0
-    damage: 0
-    shield: 0
-    health: 0
-    critRate: 0
-    itemIcon: {fileID: 0}
-  equipmentType: 2
-  currentEquipmentIndex: 0
-  prefabRenderer: {fileID: 0}
---- !u!54 &-2524260156181965417
+  m_EditorClassIdentifier: Assembly-CSharp::ShopPotion
+  itemName: 
+  price: 0
+--- !u!114 &5276741673218595376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3846892797333780839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0280881ea065cb142a5e54927a1276d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Potion
+  itemName: "\u8840\u74F6"
+  heal: 50
+  price: 100
+--- !u!54 &-5738476992907272484
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810853907567685096}
+  m_GameObject: {fileID: 3846892797333780839}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
@@ -186,17 +172,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3593345979808222288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810853907567685096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4816b4bf782caf64bb4d6d41606aebd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShopEquipment
-  equipmentName: 
-  price: 0

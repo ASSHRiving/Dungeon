@@ -37,7 +37,7 @@ public class StartRoom : Room
                 foreach(var item in initEquipment)
                 {
                     GameObject itemGo = Instantiate(item);
-                    itemGo.GetComponent<ShopItem>().SetIndex(0);
+                    itemGo.GetComponent<Equipment>().SetIndex(0);
                     equipment.EquipItem(itemGo);
                 }
             }

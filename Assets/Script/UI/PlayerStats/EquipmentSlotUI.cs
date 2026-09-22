@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Slot Settings")]
-    public EquipmentInteract.EquipmentType slotType;
+    public Equipment.EquipmentType slotType;
 
     [Header("UI Component References")]
     public Image iconImage;            // 裝備圖案 (Image)
@@ -23,8 +23,8 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (item != null)
         {
             // 抓取裝備上的 ShopItem 或 EquipmentInteract 取得 Icon
-            ShopItem shopItem = item.GetComponent<ShopItem>();
-            Sprite itemIcon = (shopItem != null) ? shopItem.itemIcon : null;
+            Equipment equipment = item.GetComponent<Equipment>();
+            Sprite itemIcon = (equipment != null) ? equipment.itemIcon : null;
 
             if (itemIcon != null && iconImage != null)
             {
@@ -61,8 +61,8 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if(currentItem != null)
         {
-            ShopItem shopItem = currentItem.GetComponent<ShopItem>();
-            UIEvents.ShowTooltip(shopItem, slotType);
+            Equipment equipment = currentItem.GetComponent<Equipment>();
+            UIEvents.ShowTooltip(equipment, slotType);
         }
     }
     public void OnPointerExit(PointerEventData eventData)

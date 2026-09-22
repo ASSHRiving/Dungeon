@@ -170,7 +170,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
   interactableName: "\u88DD\u5099 \u8056\u9A0E\u58EB\u8B77\u817F"
+  equipmentDataList:
+  - equipmentName: "\u521D\u7D1A\u8056\u9A0E\u58EB\u8B77\u817F"
+    mesh: {fileID: -2035403855210090885, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -679941090199688871, guid: fd3388c1ff4b25841b401efaafd44151, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+    critRate: 0
+    itemIcon: {fileID: 0}
+  - equipmentName: "\u4E2D\u7D1A\u8056\u9A0E\u58EB\u8B77\u817F"
+    mesh: {fileID: 2834847736197715925, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -3849592972002017713, guid: 21fda12d3fdb5fb4795c2e35201f6714, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+    critRate: 0
+    itemIcon: {fileID: 0}
+  - equipmentName: "\u9AD8\u7D1A\u8056\u9A0E\u58EB\u8B77\u817F"
+    mesh: {fileID: 161158466591583863, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+    prefabMesh: {fileID: -411516648025879581, guid: 0817ddfe5514bd2498e88559f4024a84, type: 3}
+    price: 0
+    damage: 0
+    shield: 0
+    health: 0
+    critRate: 0
+    itemIcon: {fileID: 0}
   equipmentType: 4
+  currentEquipmentIndex: 0
+  prefabRenderer: {fileID: 0}
 --- !u!54 &-5848329130876704757
 Rigidbody:
   m_ObjectHideFlags: 0

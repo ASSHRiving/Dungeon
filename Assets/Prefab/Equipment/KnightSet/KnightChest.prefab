@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8524984732702712686}
   - component: {fileID: 775530138984478677}
   - component: {fileID: 7938389547441146179}
-  - component: {fileID: 8382085551557152486}
+  - component: {fileID: -6610489085625307036}
   - component: {fileID: 1870175793590881749}
   - component: {fileID: -6836364363080455162}
   - component: {fileID: 1524886688335132365}
@@ -94,7 +94,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8382085551557152486
+--- !u!114 &-6610489085625307036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,9 +103,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1098363305182194362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14209d4d46e62e24c983af003be8c560, type: 3}
+  m_Script: {fileID: 11500000, guid: 4816b4bf782caf64bb4d6d41606aebd6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShopItem
+  m_EditorClassIdentifier: Assembly-CSharp::ShopEquipment
+  equipmentName: 
+  price: 0
+--- !u!114 &1870175793590881749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098363305182194362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
+  interactableName: "\u88DD\u5099 \u9A0E\u58EB\u80F8\u7532"
   equipmentDataList:
   - equipmentName: "\u521D\u7D1A\u9A0E\u58EB\u80F8\u7532"
     mesh: {fileID: 7487524454677423182, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
@@ -134,22 +149,9 @@ MonoBehaviour:
     health: 85
     critRate: 3
     itemIcon: {fileID: 21300000, guid: 0053da9f6aee6254ba62310b3c03d1b9, type: 3}
-  prefabRenderer: {fileID: 775530138984478677}
-  currentEquipmentIndex: 0
---- !u!114 &1870175793590881749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1098363305182194362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
-  interactableName: "\u88DD\u5099 \u9A0E\u58EB\u80F8\u7532"
   equipmentType: 1
+  currentEquipmentIndex: 0
+  prefabRenderer: {fileID: 775530138984478677}
 --- !u!65 &-6836364363080455162
 BoxCollider:
   m_ObjectHideFlags: 0

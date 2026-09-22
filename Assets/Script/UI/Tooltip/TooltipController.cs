@@ -60,19 +60,19 @@ public class TooltipController : MonoBehaviour
     /// <summary>
     /// 顯示並填入裝備詳細屬性
     /// </summary>
-    public void ShowTooltip(ShopItem shopItem, EquipmentInteract.EquipmentType equipmentType)
+    public void ShowTooltip(Equipment equipment, Equipment.EquipmentType equipmentType)
     {
-        if (shopItem == null) return;
+        if (equipment == null) return;
 
         // 設定裝備名稱與部位
-        nameText.text = shopItem.equipmentName;
+        nameText.text = equipment.equipmentName;
 
         // 組合屬性字串 (只顯示 > 0 的屬性，以四捨五入整數呈現)
         string stats = "";
-        if (shopItem.damage > 0) stats += $"攻擊力: +{Mathf.RoundToInt(shopItem.damage)}\n";
-        if (shopItem.critRate > 0) stats += $"暴擊率: +{Mathf.RoundToInt(shopItem.critRate)}%\n";
-        if (shopItem.health > 0) stats += $"最大生命: +{Mathf.RoundToInt(shopItem.health)}\n";
-        if (shopItem.shield > 0) stats += $"護甲: +{Mathf.RoundToInt(shopItem.shield)}\n";
+        if (equipment.damage > 0) stats += $"攻擊力: +{Mathf.RoundToInt(equipment.damage)}\n";
+        if (equipment.critRate > 0) stats += $"暴擊率: +{Mathf.RoundToInt(equipment.critRate)}%\n";
+        if (equipment.health > 0) stats += $"最大生命: +{Mathf.RoundToInt(equipment.health)}\n";
+        if (equipment.shield > 0) stats += $"護甲: +{Mathf.RoundToInt(equipment.shield)}\n";
 
         statsText.text = string.IsNullOrEmpty(stats) ? "無附加屬性" : stats.TrimEnd();
 

@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
-public class PotionInteract : MonoBehaviour, IInteractable
+public class Potion : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string itemName;
+    [SerializeField] public string itemName;
     [SerializeField] private float heal;
+    [SerializeField] private int price;
     public string interactableName => itemName;
 
     public void Interact(Transform player)
@@ -15,4 +17,5 @@ public class PotionInteract : MonoBehaviour, IInteractable
             Destroy(gameObject);
         }
     }
+    public int Price => price;
 }
