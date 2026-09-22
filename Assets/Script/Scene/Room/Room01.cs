@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class Room01 : FightingRoom
 {
-    [SerializeField] private GameObject reward;
+    [SerializeField] private List<GameObject> rewards;
+    private int level;
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
@@ -19,13 +20,17 @@ public class Room01 : FightingRoom
     public override void Init()
     {
         base.Init();
-        reward.SetActive(false);
+        level = GameManager.Instance.currentLevel;
+        foreach(var reward in rewards)
+        {
+            reward.SetActive(false);
+        }
     }
     void Update()
     {
-        if (isClear && !reward.activeSelf)
+        if (isClear && !rewards[level-1].activeSelf)
         {
-            reward.SetActive(true);
+            rewards[level-1].SetActive(true);
         }
     }
 }
