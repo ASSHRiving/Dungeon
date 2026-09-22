@@ -120,7 +120,6 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     {
         throw new System.NotImplementedException("TakeDamage method must be implemented by subclasses.");
     }
-
     public virtual void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
         _animator.Play(attackData.hitAnimationName,0,0f);
@@ -132,6 +131,11 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         float healthRatio = currentHealth / maxHealth;
         maxHealth = newMaxHealth;
         currentHealth = Mathf.Clamp(maxHealth * healthRatio, 1f, maxHealth);
+        UpdateHealthBar(currentHealth / maxHealth);
+    }
+    public void Recover(float amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount, 1f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
     }
     #endregion

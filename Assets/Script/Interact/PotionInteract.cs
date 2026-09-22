@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public class PotionInteract : MonoBehaviour
+public class PotionInteract : MonoBehaviour, IInteractable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private string itemName;
+    [SerializeField] private float heal;
+    public string interactableName => itemName;
 
-    // Update is called once per frame
-    void Update()
+    public void Interact(Transform player)
     {
-        
+        CharacterHealthBase health = player.GetComponent<CharacterHealthBase>();
+        if(health != null)
+        {
+            health.Recover(heal);
+            Destroy(gameObject);
+        }
     }
 }
