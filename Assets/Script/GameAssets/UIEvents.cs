@@ -36,10 +36,10 @@ public static class UIEvents
     //***************************************
     // 事件廣播：確認對話框
     //***************************************
-    public static event Action<string, Action> OnConfirmDialogRequested;
-    public static void ConfirmDialogRequested(string message, Action onConfirm)
+    public static event Action<GameObject, Action> OnConfirmDialogRequested;
+    public static void ConfirmDialogRequested(GameObject item, Action onConfirm)
     {
-        OnConfirmDialogRequested?.Invoke(message, onConfirm);
+        OnConfirmDialogRequested?.Invoke(item, onConfirm);
     }
     //***************************************
     // 事件廣播：關卡資訊
@@ -60,10 +60,10 @@ public static class UIEvents
     //***************************************
     // 事件廣播：顯示資訊框
     //***************************************
-    public static event Action<Equipment, Equipment.EquipmentType> OnShowTooltip;
-    public static void ShowTooltip(Equipment equipment, Equipment.EquipmentType type)
+    public static event Action<Equipment> OnShowTooltip;
+    public static void ShowTooltip(Equipment equipment)
     {
-        OnShowTooltip?.Invoke(equipment, type);
+        OnShowTooltip?.Invoke(equipment);
     }
     //***************************************
     // 事件廣播：關閉資訊框

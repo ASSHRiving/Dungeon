@@ -31,12 +31,10 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 iconImage.sprite = itemIcon;
                 iconImage.gameObject.SetActive(true);
             }
-            else if (iconImage != null)
+            else
             {
-                // 若無圖示，依然讓 Icon 顯示預設樣式
-                iconImage.gameObject.SetActive(true);
+                ClearSlot();
             }
-
             //if (emptyPlaceholder != null) emptyPlaceholder.SetActive(false);
         }
         else
@@ -62,7 +60,7 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if(currentItem != null)
         {
             Equipment equipment = currentItem.GetComponent<Equipment>();
-            UIEvents.ShowTooltip(equipment, slotType);
+            UIEvents.ShowTooltip(equipment);
         }
     }
     public void OnPointerExit(PointerEventData eventData)

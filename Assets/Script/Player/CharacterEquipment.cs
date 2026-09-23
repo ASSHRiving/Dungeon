@@ -62,7 +62,7 @@ public class CharacterEquipment : MonoBehaviour
         if(item != null)
         {
             UnequipStatsUpdate(item);
-            item.GetComponent<Rigidbody>().AddForce(Vector3.forward * 5f, ForceMode.Impulse); // 給予一個向上的力，讓物品掉落
+            item.GetComponent<Rigidbody>().AddForce(Vector3.forward * 10f, ForceMode.Impulse); // 給予一個向上的力，讓物品掉落
             item.transform.SetParent(null);
             item.gameObject.SetActive(true);
             SceneManager.MoveGameObjectToScene(item.gameObject, SceneManager.GetActiveScene());   //移除Dont Destory

@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +10,12 @@ public class ConfirmDialogController : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text messageText;
     [SerializeField] private UnityEngine.UI.Button confirmButton;
     [SerializeField] private UnityEngine.UI.Button cancelButton;
+    [SerializeField] private EquipmentSlotUI slot;
 
+    private void Awake()
+    {
+        CloseDialog();
+    }
 
     private void OnEnable()
     {
@@ -21,10 +27,12 @@ public class ConfirmDialogController : MonoBehaviour
         UIEvents.OnConfirmDialogRequested -= ShowConfirmDialog;
     }
 
-    private void ShowConfirmDialog(string message, System.Action onConfirm)
+    private void ShowConfirmDialog(GameObject item, System.Action onConfirm)
     {
         OpenDialog();
-        messageText.text = message;
+        ShopItem shopItem = item.GetComponent<ShopItem>();
+        messageText.text = shopItem.message;
+        slot.DisplayItem(item);
 
         confirmButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(() =>

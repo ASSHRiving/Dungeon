@@ -60,7 +60,7 @@ public class TooltipController : MonoBehaviour
     /// <summary>
     /// 顯示並填入裝備詳細屬性
     /// </summary>
-    public void ShowTooltip(Equipment equipment, Equipment.EquipmentType equipmentType)
+    public void ShowTooltip(Equipment equipment)
     {
         if (equipment == null) return;
 

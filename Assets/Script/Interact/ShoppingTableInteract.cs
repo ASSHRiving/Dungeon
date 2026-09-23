@@ -41,7 +41,7 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
     public void Interact(Transform player)
     {
         // 觸發確認對話框事件
-        UIEvents.ConfirmDialogRequested($"你要購買這個物品嗎？\n{item.itemName} \n{item.price} 金幣", () =>
+        UIEvents.ConfirmDialogRequested(itemGO, () =>
         {
             PlayerBalanceSystem playerBalance = player.GetComponent<PlayerBalanceSystem>();
             if (playerBalance != null)
@@ -63,6 +63,7 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
                 }
                 else
                 {
+                    UIEvents.LevelChanged("金幣不足");
                     Debug.Log("金幣不足，無法購買！");
                 }
             }
