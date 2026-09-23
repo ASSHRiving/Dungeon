@@ -2132,7 +2132,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u96E2\u958B"
+  m_text: "\u524D\u5F80\u7D50\u7B97"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0d85f68df7e2da84488763b3d2362bb7, type: 2}
   m_sharedMaterial: {fileID: -8258195363984795596, guid: 0d85f68df7e2da84488763b3d2362bb7, type: 2}
@@ -2159,10 +2159,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 20.85
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -4157,7 +4157,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.7264151, g: 0.26383942, b: 0.26383942, a: 1}
+    m_NormalColor: {r: 0.9811321, g: 0.1064436, b: 0.1064436, a: 1}
     m_HighlightedColor: {r: 0.9339623, g: 0.066082224, b: 0.066082224, a: 1}
     m_PressedColor: {r: 0.9333334, g: 0.06666667, b: 0.06666667, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -8658,7 +8658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1394571031
 RectTransform:
   m_ObjectHideFlags: 0

@@ -5,8 +5,13 @@ public class GameManager : SingletonBase<GameManager>
 {
     [Header("遊戲進度")]
     public int currentLevel = 1;
-    public int deathCount {get; private set;}
     public Transform player;
+
+    [Header("統計資料")]
+    public int deathCount {get; private set;}
+    public float totalPlayTime;
+    public int killCount;
+
     private void OnEnable()
     {
         GameEvent.OnPlayerSpawn += SetPlayer;
@@ -16,6 +21,11 @@ public class GameManager : SingletonBase<GameManager>
     {
         base.Awake();
         deathCount = PlayerPrefs.GetInt("DeathCount", 0);
+        totalPlayTime = PlayerPrefs.GetFloat("TotalPlayTime", 0f);
+    }
+    private void Update()
+    {
+        totalPlayTime += Time.unscaledDeltaTime;
     }
     public void init()
     {
@@ -83,20 +93,55 @@ public class GameManager : SingletonBase<GameManager>
         }
         GameAssets.Instance.PlayMenuMusic();
     }
+
+
     #region 統計資料
+    public void StartStats()
+    {
+        deathCount = 0;
+    }
     public void AddDeath()
     {
         deathCount += 1;
         PlayerPrefs.SetInt("DeathCount", deathCount);
         PlayerPrefs.Save();
     }
+    public void AddKill()
+    {
+        killCount += 1;
+    }
     public void ResetStats()
     {
         deathCount = 0;
+        totalPlayTime = 0;
 
         PlayerPrefs.DeleteKey("DeathCount");
+        PlayerPrefs.DeleteKey("TotalPlayTime");
 
         PlayerPrefs.Save();
+    }
+    public void OnApplicationQuit()
+    {
+        PlayerPrefs.SetFloat("TotalPlayTime", totalPlayTime);
+        PlayerPrefs.Save();
+    }
+    public void OApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            PlayerPrefs.SetFloat("TotalPlayTime", totalPlayTime);
+            PlayerPrefs.Save();
+        }
+    }
+    public string GetFormattedPlayTime()
+    {
+        int totalSeconds = Mathf.FloorToInt(totalPlayTime);
+
+        int hours = totalSeconds / 3600;
+        int minutes = (totalSeconds % 3600) / 60;
+        int seconds = totalSeconds % 60;
+
+        return $"{hours:00}:{minutes:00}:{seconds:00}";
     }
     #endregion
 }

@@ -116,6 +116,7 @@ public abstract class FightingRoom : Room
     
     public void OnEnemyDeath()
     {
+        GameManager.Instance.AddKill();
         remainingEnemyCount--;
 
         // 只有當數量歸零時，才進行波次切換邏輯！

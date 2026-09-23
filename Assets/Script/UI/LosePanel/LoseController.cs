@@ -3,6 +3,10 @@ using UnityEngine;
 public class LoseController : MonoBehaviour
 {
     [SerializeField] private GameObject losePanel;
+    private void Awake()
+    {
+        losePanel.SetActive(false);
+    }
     private void OnEnable()
     {
         UIEvents.OnPlayerDied += HandlePlayerDied;
