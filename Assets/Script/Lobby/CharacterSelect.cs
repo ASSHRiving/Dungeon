@@ -4,6 +4,7 @@ public class CharacterSelect : MonoBehaviour
 {
     [SerializeField] private string characterName;
     [SerializeField] private Transform cameraTarget;
+    public int id = 0;
 
     public Transform CameraTarget => cameraTarget;
 

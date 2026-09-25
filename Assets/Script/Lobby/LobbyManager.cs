@@ -26,6 +26,7 @@ public class LobbyManager : MonoBehaviour
         backButton.SetActive(true);
         exitButton.SetActive(false);
         currentCharacter = character;
+        GameManager.Instance.characterID = character.id;
 
         characterCamera.Target.TrackingTarget =
             character.CameraTarget;

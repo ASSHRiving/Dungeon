@@ -13,4 +13,13 @@ public class LobbyController : MonoBehaviour
     {
         titleText.text = text;
     }
+    public void StartGame()
+    {
+        LoadingController.Instance.LoadLevel("GameScene");
+        GameAssets.Instance.PlayInGameMusic();
+    }
+    public void ExitGame()
+    {
+        LoadingController.Instance.LoadLevel("MainMenu");
+    }
 }

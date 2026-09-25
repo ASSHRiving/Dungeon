@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : SingletonBase<GameManager>
 {
     [Header("遊戲進度")]
+    public int characterID = 0;
     public int currentLevel = 1;
     public Transform player;
 
