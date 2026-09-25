@@ -10,10 +10,11 @@ public class CharacterSelect : MonoBehaviour
     public void Select()
     {
         LobbyManager.Instance.SelectCharacter(this);
+        UIEvents.ChangeTitle(characterName);
     }
 
     public void Deselect()
     {
-        // 移除高亮
+        UIEvents.ChangeTitle("選擇角色");
     }
 }

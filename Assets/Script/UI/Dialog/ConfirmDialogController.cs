@@ -1,15 +1,14 @@
-using System;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
 public class ConfirmDialogController : MonoBehaviour
 {
     [SerializeField] private UIController uiController;
     [Header("UI Elements")]
     [SerializeField] private GameObject dialogPanel;
-    [SerializeField] private TMPro.TMP_Text messageText;
-    [SerializeField] private UnityEngine.UI.Button confirmButton;
-    [SerializeField] private UnityEngine.UI.Button cancelButton;
+    [SerializeField] private TMP_Text messageText;
+    [SerializeField] private Button confirmButton;
+    [SerializeField] private Button cancelButton;
     [SerializeField] private EquipmentSlotUI slot;
 
     private void Awake()

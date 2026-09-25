@@ -73,4 +73,12 @@ public static class UIEvents
     {
         OnHideTooltip?.Invoke();
     }
+    //***************************************
+    // 事件廣播：標題字幕
+    //***************************************
+    public static event Action<string> OnChangeTitle;
+    public static void ChangeTitle(string text)
+    {
+        OnChangeTitle?.Invoke(text);
+    }
 }
