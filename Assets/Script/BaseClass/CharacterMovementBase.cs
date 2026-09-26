@@ -33,6 +33,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
     protected int verticalID = Animator.StringToHash("Vertical");
     protected int runID = Animator.StringToHash("Run");
     protected int rollId = Animator.StringToHash("Roll");
+    protected int isGroundID = Animator.StringToHash("IsGround");
 
 
     //移動向量
@@ -80,7 +81,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundDetectionOffset, transform.position.z);
         isOnGround = Physics.CheckSphere(spherePosition, groundDetectionRang, whatIsGround, QueryTriggerInteraction.Ignore);
-        
+        animator.SetBool(isGroundID, isOnGround);
     }
     private void PlayFootstepSound()
     {

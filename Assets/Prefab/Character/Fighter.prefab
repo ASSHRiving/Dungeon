@@ -633,13 +633,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.8
+  m_Height: 2
   m_Radius: 0.35
   m_SlopeLimit: 60
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.95, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &4199189281554686236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,7 +738,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 28736
   groundDetectionOffset: -0.3
-  groundDetectionRang: 0.4
+  groundDetectionRang: 0.5
   whatIsObs:
     serializedVersion: 2
     m_Bits: 1088
@@ -1095,6 +1095,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7438975341950709959}
     m_Modifications:
+    - target: {fileID: 4378503768501593681, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378503768501593681, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4378503768501593681, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
