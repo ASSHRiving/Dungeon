@@ -19,21 +19,23 @@ public class StateMachineSystem : MonoBehaviour
     [HideInInspector] public float attackTimer = 0f;
 
     //外部腳本
-    [HideInInspector] public Animator animator;
-    [HideInInspector] public EnemyCombatSystem combat;
-    [HideInInspector] public EnemyMovementSystem movement;
-    [HideInInspector] public CharacterHealthBase health;
-    [HideInInspector] public NavMeshAgent agent;
+        [HideInInspector] public Animator animator;
+        [HideInInspector] public EnemyCombatSystem combat;
+        [HideInInspector] public EnemyMovementSystem movement;
+        [HideInInspector] public CharacterHealthBase health;
+        [HideInInspector] public NavMeshAgent agent;
+        [HideInInspector] public CharacterController characterController;
 
     private void Awake()
-    {
-        animator = GetComponentInChildren<Animator>();
-        combat = GetComponentInChildren<EnemyCombatSystem>();
-        movement = GetComponent<EnemyMovementSystem>();
-        health = GetComponent<EnemyHealthSystem>();
-        agent = GetComponent<NavMeshAgent>();
+        {
+            animator = GetComponentInChildren<Animator>();
+            combat = GetComponentInChildren<EnemyCombatSystem>();
+            movement = GetComponent<EnemyMovementSystem>();
+            health = GetComponent<EnemyHealthSystem>();
+            agent = GetComponent<NavMeshAgent>();
+            characterController = GetComponent<CharacterController>();
 
-        // 初始化每個技能的 CD 時間
+            // 初始化每個技能的 CD 時間
         foreach (var skill in allEnemySkills)
         {
             if (skill != null && !skillCooldowns.ContainsKey(skill))
