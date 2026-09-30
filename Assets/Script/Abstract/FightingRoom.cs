@@ -4,6 +4,7 @@ using System.Collections;
 
 public abstract class FightingRoom : Room
 {
+    #region wave configs
     [System.Serializable]
     public class LevelWaveGroups
     {
@@ -31,7 +32,8 @@ public abstract class FightingRoom : Room
         public GameObject spawnEffectPrefab; //生成特效
         public Transform spawnPoint;    // 生成點 Transform
     }
-
+    #endregion
+    
     [Header("波次設定")]
     [Header("各關卡的敵人波次組合")]
     [SerializeField] protected List<LevelWaveGroups> levelWaveGroups = new List<LevelWaveGroups>();
@@ -130,10 +132,7 @@ public abstract class FightingRoom : Room
             }
             else
             {
-                isClear = true;
-                OpenGate();
-                isBattleStarted = false;
-                GameAssets.Instance.PlayInGameMusic();
+                OnRoomCleared();
             }
         }
     }
@@ -222,4 +221,12 @@ public abstract class FightingRoom : Room
             }
         }
     }
+    protected virtual void OnRoomCleared()
+    {
+        isClear = true;
+        OpenGate();
+        isBattleStarted = false;
+        GameAssets.Instance.PlayInGameMusic();
+    }
 }
+
