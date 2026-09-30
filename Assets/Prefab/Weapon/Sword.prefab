@@ -111,11 +111,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword
   weaponName: Sword
-  damage: 10
+  damage: 100
   weaponType: 0
   combo: 0
-  runSpeed: 7
-  walkSpeed: 3
+  runSpeed: 20
+  walkSpeed: 10
   attackPoint: {fileID: 7815031596438956368}
   attackRadius: 0.55
   weaponSoundType: 1

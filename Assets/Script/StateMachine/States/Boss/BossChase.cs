@@ -1,200 +1,174 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "BossChase", menuName = "StateMachine/States/Boss/BossChase")]
 public class BossChase : StateActionSO
 {
-    [Header("距離設定")]
-    [SerializeField] private float minDistance = 2.4f;      // 太近界線 (低於此距離後退)
-    [SerializeField] private float maxDistance = 6.6f;      // 太遠界線 (高於此距離追擊)
+    [Header("戰鬥距離判定")]
+    [SerializeField] private float minDistance = 2.4f;      // 太近界線 (後退)
+    [SerializeField] private float maxDistance = 6.6f;      // 太遠界線 (追擊)
 
     [Header("移動速度")]
-    [SerializeField] private float moveSpeed = 1.4f;
-    [SerializeField] private float strafeSpeed = 1.4f;
+    [SerializeField] private float chaseSpeed = 3.5f;
+    [SerializeField] private float strafeSpeed = 1.6f;
+    [SerializeField] private float retreatSpeed = 1.8f;
 
-    [Header("計時設定")]
-        [SerializeField] private float strafeChangeInterval = 1.5f; // 每 1.5 秒換一次左右方向
+    [Header("徘徊計時")]
+    [SerializeField] private float strafeChangeInterval = 2.0f;
 
-        [Header("路徑計算")]
-        [SerializeField] private float pathRecalcInterval = 0.5f; // 路徑重算間隔
-
-        private NavMeshPath _cachedPath;
-        private float _pathRecalcTimer;
-        private Vector3 _currentDestination;
-        private bool _hasValidPath;
-
-        public override void OnEnter(StateMachineSystem stateMachineSystem)
+    public override void OnEnter(StateMachineSystem stateMachineSystem)
+    {
+        Animator animator = stateMachineSystem.animator;
+        if (animator != null)
         {
-            Animator animator = stateMachineSystem.animator;
-            CharacterController controller = stateMachineSystem.characterController;
-        
-            if (animator != null)
-            {
-                animator.SetFloat(lockOnID, 1);
-                animator.Play("Ready");
-            }
-
-            _cachedPath = new NavMeshPath();
-            _pathRecalcTimer = 0f;
-            _hasValidPath = false;
-
-            stateMachineSystem.strafeTimer = 0f;
-            stateMachineSystem.attackTimer = 0f;
-            stateMachineSystem.UpdateRandomHorizontal();
+            animator.SetFloat(lockOnID, 1);
+            animator.Play("Ready");
         }
+
+        stateMachineSystem.strafeTimer = 0f;
+        stateMachineSystem.attackTimer = 0f;
+        stateMachineSystem.UpdateRandomHorizontal();
+
+        // 確保 Agent 啟用並重置
+        if (stateMachineSystem.agent != null)
+        {
+            stateMachineSystem.agent.isStopped = false;
+        }
+    }
+
     public override void OnUpdate(StateMachineSystem stateMachineSystem)
+    {
+        EnemyCombatSystem combat = stateMachineSystem.combat;
+        Animator animator = stateMachineSystem.animator;
+        EnemyMovementSystem movement = stateMachineSystem.movement;
+        NavMeshAgent agent = stateMachineSystem.agent;
+
+        if (combat == null || animator == null || movement == null || agent == null || combat.GetCurrentTarget() == null) 
+            return;
+
+        Transform targetTransform = combat.GetCurrentTarget();
+        Transform selfTransform = stateMachineSystem.transform;
+        float distance = combat.GetCurrentTargetDistance();
+
+        stateMachineSystem.strafeTimer += Time.deltaTime;
+        stateMachineSystem.attackTimer += Time.deltaTime;
+
+        // 1. 面向鎖定目標 (在可旋轉的狀態下)
+        if (animator.CheckAnimationTag("Motion") || 
+           (animator.CheckAnimationTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.4f) || 
+            animator.CheckAnimationTag("Aim"))
         {
-            EnemyCombatSystem combat = stateMachineSystem.combat;
-            Animator animator = stateMachineSystem.animator;
-            CharacterController controller = stateMachineSystem.characterController;
-            EnemyMovementSystem movement = stateMachineSystem.movement;
+            selfTransform.rotation = stateMachineSystem.transform.LockOnTarget(targetTransform, selfTransform, 10f);
+        }
 
-            if (combat == null || animator == null || controller == null || movement == null || combat.GetCurrentTarget() == null) return;
-
-            Transform targetTransform = combat.GetCurrentTarget();
-            Transform selfTransform = stateMachineSystem.transform;
-            float distance = combat.GetCurrentTargetDistance();
-
-            stateMachineSystem.strafeTimer += Time.deltaTime;
-            stateMachineSystem.attackTimer += Time.deltaTime;
-            _pathRecalcTimer += Time.deltaTime;
-
-            // 旋轉朝向目標
-            if (animator.CheckAnimationTag("Motion"))
+        // 2. 優先檢查技能施放
+        if (animator.CheckAnimationTag("Motion"))
+        {
+            AbilityBase readySkill = stateMachineSystem.SelectReadySkill(distance);
+            if (readySkill != null)
             {
-                selfTransform.rotation = stateMachineSystem.transform.LockOnTarget(targetTransform, selfTransform, 10f);
+                agent.ResetPath();
+                stateMachineSystem.UseSkill(readySkill);
+                return;
             }
-            else if ((animator.CheckAnimationTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.4f) || animator.CheckAnimationTag("Aim"))
+        }
+
+        // 3. 移動決策處理
+        if (animator.CheckAnimationTag("Motion"))
+        {
+            HandleTacticalMovement(stateMachineSystem, targetTransform, distance);
+        }
+        else
+        {
+            // 處於攻擊後搖或不能移動的狀態，停止 NavMesh 移動
+            agent.ResetPath();
+            animator.SetFloat(verticalID, 0f, 0.1f, Time.deltaTime);
+            animator.SetFloat(horizontalID, 0f, 0.1f, Time.deltaTime);
+        }
+    }
+
+    private void HandleTacticalMovement(StateMachineSystem sm, Transform target, float distance)
+    {
+        NavMeshAgent agent = sm.agent;
+        Animator animator = sm.animator;
+        Transform self = sm.transform;
+
+        // A. 距離太近：拉開距離 (Retreat)
+        if (distance < minDistance)
+        {
+            agent.speed = retreatSpeed;
+            Vector3 retreatDir = (self.position - target.position).normalized;
+            Vector3 rawTargetPos = self.position + retreatDir * 2f;
+
+            // 安全取點：防止退入牆體
+            if (TryGetValidNavMeshPoint(rawTargetPos, out Vector3 validPos))
             {
-                selfTransform.rotation = stateMachineSystem.transform.LockOnTarget(targetTransform, selfTransform, 10f);
+                agent.SetDestination(validPos);
             }
 
-            // 嘗試使用技能
-            if (animator.CheckAnimationTag("Motion"))
+            animator.SetFloat(verticalID, -1f, 0.2f, Time.deltaTime);
+            animator.SetFloat(horizontalID, 0f, 0.2f, Time.deltaTime);
+        }
+        // B. 戰鬥優勢距離：左右側移徘徊 (Strafe)
+        else if (distance >= minDistance && distance <= maxDistance)
+        {
+            agent.speed = strafeSpeed;
+
+            if (sm.strafeTimer >= strafeChangeInterval)
             {
-                AbilityBase readySkill = stateMachineSystem.SelectReadySkill(distance);
-                if (readySkill != null)
-                {
-                    stateMachineSystem.UseSkill(readySkill);
-                    return;
-                }
+                sm.UpdateRandomHorizontal();
+                sm.strafeTimer = 0f;
             }
 
-            if (animator.CheckAnimationTag("Motion"))
+            Vector3 strafeDir = self.right * sm.randomHorizontal;
+            Vector3 rawTargetPos = self.position + strafeDir * 2.5f;
+
+            // 安全取點：若側邊有障礙，自動轉向另一側
+            if (TryGetValidNavMeshPoint(rawTargetPos, out Vector3 validPos))
             {
-                float currentSpeed = moveSpeed;
-                bool shouldMove = true;
-
-                // 近距離後退
-                if (distance < minDistance)
-                {
-                    currentSpeed = moveSpeed;
-                    Vector3 retreatDir = (selfTransform.position - targetTransform.position).normalized;
-                    _currentDestination = selfTransform.position + retreatDir * 2f;
-                
-                    animator.SetFloat(verticalID, -1f, 0.25f, Time.deltaTime);
-                    animator.SetFloat(horizontalID, 0f, 0.25f, Time.deltaTime);
-                }
-                // 中距離徘徊
-                else if (distance >= minDistance && distance <= maxDistance)
-                {
-                    currentSpeed = strafeSpeed;
-                
-                    if (stateMachineSystem.strafeTimer >= strafeChangeInterval)
-                    {
-                        stateMachineSystem.UpdateRandomHorizontal();
-                        stateMachineSystem.strafeTimer = 0f;
-                    }
-
-                    Vector3 strafeDir = selfTransform.right * stateMachineSystem.randomHorizontal;
-                    _currentDestination = selfTransform.position + strafeDir * 2f;
-                
-                    animator.SetFloat(verticalID, 0f, 0.25f, Time.deltaTime);
-                    animator.SetFloat(horizontalID, stateMachineSystem.randomHorizontal, 0.25f, Time.deltaTime);
-                }
-                // 遠距離追擊
-                else if (distance > maxDistance + 0.1f)
-                {
-                    currentSpeed = moveSpeed;
-                    _currentDestination = targetTransform.position;
-
-                    animator.SetFloat(verticalID, 1f, 0.25f, Time.deltaTime);
-                    animator.SetFloat(horizontalID, 0f, 0.25f, Time.deltaTime);
-
-                    stateMachineSystem.strafeTimer = 0f;
-                }
-
-                // 計算路徑並移動
-                if (shouldMove)
-                {
-                    UpdatePathAndMove(stateMachineSystem, currentSpeed);
-                }
+                agent.SetDestination(validPos);
             }
             else
             {
-                // 停止移動
-                movement.CharacterMoveInterface(Vector3.zero, 0f, false);
-            
-                animator.SetFloat(verticalID, 0f);
-                animator.SetFloat(horizontalID, 0f);
-                animator.SetFloat(runID, 0f);
+                sm.randomHorizontal *= -1; // 撞牆時立即反向
             }
-        }
 
-        private void UpdatePathAndMove(StateMachineSystem stateMachineSystem, float currentSpeed)
+            animator.SetFloat(verticalID, 0f, 0.2f, Time.deltaTime);
+            animator.SetFloat(horizontalID, sm.randomHorizontal, 0.2f, Time.deltaTime);
+        }
+        // C. 距離太遠：快速追擊 (Chase)
+        else
         {
-            CharacterController controller = stateMachineSystem.characterController;
-            EnemyMovementSystem movement = stateMachineSystem.movement;
-            Transform selfTransform = stateMachineSystem.transform;
+            agent.speed = chaseSpeed;
+            agent.SetDestination(target.position);
 
-            // 定期重算路徑
-            if (_pathRecalcTimer >= pathRecalcInterval || !_hasValidPath)
-            {
-                _hasValidPath = NavMesh.CalculatePath(selfTransform.position, _currentDestination, NavMesh.AllAreas, _cachedPath);
-                _pathRecalcTimer = 0f;
-            }
+            animator.SetFloat(verticalID, 1f, 0.2f, Time.deltaTime);
+            animator.SetFloat(horizontalID, 0f, 0.2f, Time.deltaTime);
 
-            if (_hasValidPath && _cachedPath.corners.Length > 0)
-            {
-                // 取得下一個路徑點
-                Vector3 nextCorner = _cachedPath.corners[0];
-            
-                // 如果第一個點太近，取第二個點
-                if (_cachedPath.corners.Length > 1 && Vector3.Distance(selfTransform.position, nextCorner) < 0.5f)
-                {
-                    nextCorner = _cachedPath.corners[1];
-                }
-
-                Vector3 moveDir = (nextCorner - selfTransform.position).normalized;
-                moveDir.y = 0; // 確保水平移動
-            
-                if (moveDir != Vector3.zero)
-                {
-                    // 使用 CharacterMovementBase 的移動介面
-                    movement.CharacterMoveInterface(moveDir, currentSpeed, true);
-                }
-            }
-            else
-            {
-                // 沒有有效路徑時直接朝目標方向移動
-                Vector3 directDir = (_currentDestination - selfTransform.position).normalized;
-                directDir.y = 0;
-            
-                if (directDir != Vector3.zero)
-                {
-                    movement.CharacterMoveInterface(directDir, currentSpeed, true);
-                }
-            }
+            sm.strafeTimer = 0f;
         }
+    }
 
-        public override void OnExit(StateMachineSystem stateMachineSystem)
+    /// <summary>
+    /// 確保目標點位於合法的 NavMesh 上，避免撞牆發呆
+    /// </summary>
+    private bool TryGetValidNavMeshPoint(Vector3 targetPos, out Vector3 result)
+    {
+        if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 1.5f, NavMesh.AllAreas))
         {
-            // 離開狀態時停止移動
-            EnemyMovementSystem movement = stateMachineSystem.movement;
-            if (movement != null)
-            {
-                movement.CharacterMoveInterface(Vector3.zero, 0f, false);
-            }
+            result = hit.position;
+            return true;
         }
+
+        result = targetPos;
+        return false;
+    }
+
+    public override void OnExit(StateMachineSystem stateMachineSystem)
+    {
+        if (stateMachineSystem.agent != null && stateMachineSystem.agent.hasPath)
+        {
+            stateMachineSystem.agent.ResetPath();
+        }
+    }
 }
