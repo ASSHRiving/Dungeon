@@ -7,6 +7,7 @@ public class EndPortal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameManager.Instance.GameOver();
+            GameManager.Instance.isWin = true;
         }
     }
 }
