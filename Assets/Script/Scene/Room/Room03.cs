@@ -22,6 +22,7 @@ public class Room03 : FightingRoom
         base.Init();
         reward.SetActive(false);
     }
+
     void Update()
     {
         if (isClear && !reward.activeSelf)

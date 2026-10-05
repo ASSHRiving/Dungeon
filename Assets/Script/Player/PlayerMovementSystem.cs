@@ -39,7 +39,7 @@ public class PlayerMovementSystem : CharacterMovementBase
     private bool CanMoveControl()
     {
         return isOnGround && (animator.CheckAnimationTag("Motion") ||(animator.CheckAnimationTag("Attack") && _combat.canAttack)
-            || animator.CheckAnimationTag("Roll"));
+            );
     }
 
     private bool CanRunControl()
@@ -105,7 +105,6 @@ public class PlayerMovementSystem : CharacterMovementBase
                 * movementDirection.normalized + Time.deltaTime
                 * new Vector3(0.0f, verticalSpeed, 0.0f));
         }
-        
     }
 
     private void UpdateMotionAnimation()
@@ -131,18 +130,58 @@ public class PlayerMovementSystem : CharacterMovementBase
     }
     private void UpdateRollAnimation()
     {
+        // 按下翻滾鍵，且當前不在翻滾中
         if (_inputSystem.playerRoll && !animator.CheckAnimationTag("Roll"))
         {
+            // 1. 決定這次翻滾的精確方向與目標角度
+            if (_inputSystem.playerMovement != Vector2.zero)
+            {
+                Vector3 camForward = characterCamera.forward;
+                Vector3 camRight = characterCamera.right;
+                camForward.y = 0f;
+                camRight.y = 0f;
+                camForward.Normalize();
+                camRight.Normalize();
+
+                // 根據玩家當前的搖桿輸入決定翻滾方向
+                rollDirection = (camForward * _inputSystem.playerMovement.y + camRight * _inputSystem.playerMovement.x).normalized;
+                targetRotation = Mathf.Atan2(rollDirection.x, rollDirection.z) * Mathf.Rad2Deg;
+            }
+            else
+            {
+                // 沒推搖桿時，朝角色當前正前方翻滾
+                rollDirection = transform.forward;
+                targetRotation = transform.eulerAngles.y;
+            }
+
+            // 2. 觸發動畫與無敵幀
             animator.SetTrigger(rollId);
+            /*
             StartCoroutine(RollRoutine());
             _combat.inAttack = false;
             _combat.canAttack = true;
+            */
         }
-        if(animator.CheckAnimationTag("Roll"))
+
+        // 翻滾動畫播放期間
+        if (animator.CheckAnimationTag("Roll"))
         {
             animator.ResetTrigger(rollId);
+
+            //強制轉向
+            transform.eulerAngles = targetRotation * Vector3.up;
+
+            // 執行翻滾位移
             CharacterMoveInterface(rollDirection, animator.GetFloat(animationMoveID), true);
         }
+    }
+    /// <summary>
+    /// 當動畫正式進入翻滾（Roll）狀態時由 StateMachineBehaviour 調用
+    /// </summary>
+    public void OnRollEnter()
+    {
+        // 2. 開啟無敵幀協程
+        StartCoroutine(RollRoutine());
     }
     private IEnumerator RollRoutine()
     {

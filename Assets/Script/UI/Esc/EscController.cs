@@ -122,7 +122,7 @@ public class EscController : MonoBehaviour
         }
         escPanel.SetActive(false);
         GameManager.Instance.AddDeath();
-        GameManager.Instance.QuitGame();
+        GameManager.Instance.GameOver();
     }
 }
 

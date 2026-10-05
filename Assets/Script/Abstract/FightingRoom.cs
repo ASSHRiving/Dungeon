@@ -144,7 +144,7 @@ public abstract class FightingRoom : Room
         isClear = false;
         currentWaveIndex = 0;
     }
-    private void SelectWaves()
+    protected virtual void SelectWaves()
     {
         int currentLevel = GameManager.Instance.currentLevel;
 

@@ -11,7 +11,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
 
     [SerializeField] protected float characterGravity = -9.8f;
     [SerializeField] protected float characterCurrentMoveSpeed;
-    protected float characterFallTime = 0.15f;
+    protected float characterFallTime = 0.1f;
     protected float characterFallOutDeltaTime;
     protected float verticalSpeed; 
     protected float maxVerticalSpeed = 53f;
@@ -81,7 +81,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundDetectionOffset, transform.position.z);
         isOnGround = Physics.CheckSphere(spherePosition, groundDetectionRang, whatIsGround, QueryTriggerInteraction.Ignore);
-        animator.SetBool(isGroundID, isOnGround);
+        //animator.SetBool(isGroundID, isOnGround);
     }
     private void PlayFootstepSound()
     {
@@ -103,13 +103,18 @@ public abstract class CharacterMovementBase : MonoBehaviour
             {
                 verticalSpeed = -2f;
             }
+            animator.SetBool(isGroundID, true);
         }
         else
         {
-            if (characterFallOutDeltaTime >= 0.0f)  //土狼時間
+            if (characterFallOutDeltaTime > 0.0f)  //土狼時間
             {
                 characterFallOutDeltaTime -= Time.deltaTime;
                 characterFallOutDeltaTime = Mathf.Clamp(characterFallOutDeltaTime, 0, characterFallTime);
+            }
+            else
+            {
+                animator.SetBool(isGroundID, false);
             }
         }
 
