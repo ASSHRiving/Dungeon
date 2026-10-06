@@ -609,7 +609,7 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 5250711190620361687}
   healthUI: {fileID: 5876056188109063208}
   healthText: {fileID: 2969352558920347622}
-  maxHealth: 500
+  maxHealth: 450
   shield: 20
   maxPoise: 100
   currentPoise: 100
@@ -649,6 +649,7 @@ MonoBehaviour:
     m_Bits: 192
   isOnGround: 0
   audioSource: {fileID: 2317734575424310546}
+  rotationSpeed: 10
 --- !u!114 &1912787846649832373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +679,7 @@ MonoBehaviour:
   movement: {fileID: 0}
   health: {fileID: 0}
   agent: {fileID: 0}
+  characterController: {fileID: 0}
 --- !u!114 &2255588579060146370
 MonoBehaviour:
   m_ObjectHideFlags: 0
