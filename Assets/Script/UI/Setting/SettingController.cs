@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 using UnityEngine.Audio;
+using DG.Tweening;
 
 public class SettingsController : MonoBehaviour
 {
@@ -35,7 +36,23 @@ public class SettingsController : MonoBehaviour
     [SerializeField] public AudioMixer mainMixer;
 
     private bool isSettingsOpen;
+    private CanvasGroup canvasGroup;
+    private RectTransform rectTransform;
+    [Header("動態參數設定")]
+    [SerializeField] private float duration = 0.25f;           // 動態時間（現代風格偏好短促俐落，建議 0.2s~0.3s）
+    [SerializeField] private Vector3 initialScale = new Vector3(0.88f, 0.88f, 1f); // 初始微縮大小
+    Sequence sequence;
 
+    private void Awake()
+    {
+        if(settingsPanel == null)
+        {
+            Debug.LogWarning($"{nameof(SettingsController)} 缺少 Settings Panel 參照。", this);
+            return;
+        }
+        canvasGroup = settingsPanel.GetComponent<CanvasGroup>();
+        rectTransform = settingsPanel.GetComponent<RectTransform>();
+    }
     private void Start()
     {
         LoadMinimap();      //初始化小地圖
@@ -65,10 +82,19 @@ public class SettingsController : MonoBehaviour
         }
 
         isSettingsOpen = true;
-        settingsPanel.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         //Cursor.visible = true;
+
+        //DOTween
+        KillCurrentTween();
+        settingsPanel.SetActive(true);
+        ResetToHiddenState();
+        sequence = DOTween.Sequence();
+        sequence.Append(canvasGroup.DOFade(1f, duration * 0.7f).SetEase(Ease.Linear));
+        sequence.Join(rectTransform.DOScale(Vector3.one, duration).SetEase(Ease.OutCubic));
+        sequence.SetUpdate(true);
+
     }
 
     public void CloseSettings()
@@ -80,11 +106,35 @@ public class SettingsController : MonoBehaviour
         }
 
         isSettingsOpen = false;
-        settingsPanel.SetActive(false);
         Time.timeScale = 1f;
         PlayerPrefs.Save();
         Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
+
+        //DOTween
+        KillCurrentTween();
+        sequence = DOTween.Sequence();
+        float closeDuration = duration * 0.8f;
+        sequence.Append(canvasGroup.DOFade(0f, closeDuration).SetEase(Ease.Linear));
+        sequence.Join(rectTransform.DOScale(initialScale, closeDuration).SetEase(Ease.InCubic));
+        sequence.OnComplete(() =>
+        {
+            settingsPanel.SetActive(false);
+        });
+        sequence.SetUpdate(true);
+    }
+    private void ResetToHiddenState()
+    {
+        if (canvasGroup != null) canvasGroup.alpha = 0f;
+        if (rectTransform != null) rectTransform.localScale = initialScale;
+    }
+
+    private void KillCurrentTween()
+    {
+        if (sequence != null && sequence.IsActive())
+        {
+            sequence.Kill();
+        }
     }
 
     

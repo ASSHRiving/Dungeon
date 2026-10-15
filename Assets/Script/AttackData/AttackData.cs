@@ -8,13 +8,12 @@ public class AttackData : ScriptableObject
     public float damageMultiplier = 1.0f;       // 傷害倍率
     public float poiseDamage = 25f;             // 削韌值
 
-    public SoundAssetsType weaponSound;
-    public SoundAssetsType hitSound;
-
+    public SoundAssetsType weaponSound;         // 攻擊音效
+    public SoundAssetsType hitSound;            //受擊音效
+    
     [Tooltip("打擊鏡頭抖動(輕:0.3 重:1.2)")]
     public float shakeForce = 0.5f;
     public float hitStopTime = 0.05f;
-    
     [Tooltip("需要開啟的hitbox(1.右手主武器)")]
     public List<int> hitboxes = new List<int> { 0 };
 }

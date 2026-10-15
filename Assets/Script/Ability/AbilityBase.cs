@@ -12,5 +12,4 @@ public abstract class AbilityBase : ScriptableObject
 
     // 執行技能
     public abstract void ExecuteSkill(StateMachineSystem system);
-
 }

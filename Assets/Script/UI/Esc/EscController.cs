@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,14 @@ public class EscController : MonoBehaviour
     [SerializeField] private UIController uiController;
     [Header("UI 面板綁定")]
     [SerializeField] private GameObject escPanel;
+    [SerializeField] private CanvasGroup windowCanvasGroup;
+    [SerializeField] private RectTransform windowRect;
+    [Header("動態參數設定")]
+    [SerializeField] private float duration = 0.25f;           // 動態時間（現代風格偏好短促俐落，建議 0.2s~0.3s）
+    [SerializeField] private Vector3 initialScale = new Vector3(0.88f, 0.88f, 1f); // 初始微縮大小
+    Sequence sequence;
+
+    [Header("外部UI連結")]
     [SerializeField] private SettingsController settingsPanel;
     private bool isEscOpen;
 
@@ -24,6 +33,7 @@ public class EscController : MonoBehaviour
         }
 
         isEscOpen = false;
+        ResetToHiddenState();
         escPanel.SetActive(false);
     }
 
@@ -59,11 +69,19 @@ public class EscController : MonoBehaviour
             return;
         }
 
-        escPanel.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         //Cursor.visible = true;
         isEscOpen = true;
+
+        //DOTween
+        KillCurrentTween();
+        escPanel.SetActive(true);
+        ResetToHiddenState();
+        sequence = DOTween.Sequence();
+        sequence.Append(windowCanvasGroup.DOFade(1f, duration * 0.7f).SetEase(Ease.Linear));
+        sequence.Join(windowRect.DOScale(Vector3.one, duration).SetEase(Ease.OutCubic));
+        sequence.SetUpdate(true);
     }
 
     public void CloseEsc()
@@ -78,11 +96,22 @@ public class EscController : MonoBehaviour
             return;
         }
 
-        escPanel.SetActive(false);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
         isEscOpen = false;
+
+        //DOTween
+        KillCurrentTween();
+        sequence = DOTween.Sequence();
+        float closeDuration = duration * 0.8f;
+        sequence.Append(windowCanvasGroup.DOFade(0f, closeDuration).SetEase(Ease.Linear));
+        sequence.Join(windowRect.DOScale(initialScale, closeDuration).SetEase(Ease.InCubic));
+        sequence.OnComplete(() =>
+        {
+            escPanel.SetActive(false);
+        });
+        sequence.SetUpdate(true);
     }
 
     /// <summary>
@@ -123,6 +152,19 @@ public class EscController : MonoBehaviour
         escPanel.SetActive(false);
         GameManager.Instance.AddDeath();
         GameManager.Instance.GameOver();
+    }
+
+    private void ResetToHiddenState()
+    {
+        if (windowCanvasGroup != null) windowCanvasGroup.alpha = 0f;
+        if (windowRect != null) windowRect.localScale = initialScale;
+    }
+    private void KillCurrentTween()
+    {
+        if (sequence != null && sequence.IsActive())
+        {
+            sequence.Kill();
+        }
     }
 }
 

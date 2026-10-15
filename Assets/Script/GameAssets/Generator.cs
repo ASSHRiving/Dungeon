@@ -5,11 +5,17 @@ using Unity.AI.Navigation;
 public class Generator : MonoBehaviour
 {
     [Header("Room Prefabs")]
+    [Header("起始房間(出生點)")]
     [SerializeField] private GameObject startRoomPrefab;
+    [Header("終點房間(前往下一關的傳送門房)")]
     [SerializeField] private GameObject endRoomPrefab;
+    [Header("Boss房間(遊戲最終關卡)")]
     [SerializeField] private GameObject bossRoomPrefab;
+    [Header("一般房間(隨機選取)")]
     [SerializeField] private List<GameObject> roomPrefabs;
+    [Header("特殊房間(隨機選取)")]
     [SerializeField] private List<GameObject> extraRoomPrefabs;
+    [Header("通道 Prefab(連接房間之間的通道)")]
     [SerializeField] private GameObject tunnelPrefab;
     private int count;
     private int level = 1;
@@ -149,7 +155,7 @@ public class Generator : MonoBehaviour
     }
     private void GenerateExtraRooms()
     {
-        int extraCount = Random.Range(1, 3);
+        int extraCount = Random.Range(1, 5);
         int trys = 0;
         for(int i = 0; i < extraCount; i++)
         {

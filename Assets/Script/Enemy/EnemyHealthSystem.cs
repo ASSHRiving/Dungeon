@@ -6,7 +6,7 @@ public class EnemyHealthSystem : CharacterHealthBase
 {
     [SerializeField] private GameObject lootPrefab;
     [SerializeField] private int gold = 5;
-    private NavMeshAgent _navMeshAgent;
+    private NavMeshAgent navMeshAgent;
     
     public System.Action OnDeath;           //死亡廣播
 
@@ -20,7 +20,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         currentHealth = maxHealth;
         healthBar.fillAmount = currentHealth / maxHealth;
         healthText.text = $"{currentHealth}/{maxHealth}";
-        _navMeshAgent = GetComponentInParent<NavMeshAgent>();
+        navMeshAgent = GetComponentInParent<NavMeshAgent>();
     }
     public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
@@ -49,11 +49,11 @@ public class EnemyHealthSystem : CharacterHealthBase
         Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");
 
         // 扣除韌性與判斷是否被打斷/播放受擊動畫
-        if(finaldamage/maxHealth > 0.05f)
+        if(finaldamage/maxHealth > 0.05f) // 如果這次攻擊造成的傷害超過最大血量的5%，則扣除韌性
         {
             currentPoise -= attackData.poiseDamage;
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
-            if(currentPoise <= 0)
+            if(currentPoise <= 0) // 如果韌性破除，則打斷當前動作並播放受擊動畫並重置韌性
             {
                 _animator.CrossFade(attackData.hitAnimationName, 0.1f);
                 _combat.canAttack = true;
@@ -72,7 +72,7 @@ public class EnemyHealthSystem : CharacterHealthBase
     {
         OnDeath?.Invoke();
         isDead = true;
-        _navMeshAgent.enabled = false;
+        navMeshAgent.enabled = false;
         gameObject.layer = LayerMask.NameToLayer("UnInteractable");
         _animator.CrossFade("Die", 0.1f);
         

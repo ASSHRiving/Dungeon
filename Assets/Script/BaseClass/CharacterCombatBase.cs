@@ -101,8 +101,8 @@ public abstract class CharacterCombatBase : MonoBehaviour
     #region 動畫事件
     public void OnAttackHitboxStart(AttackData attackData)
     {
-        isHitboxActive = true;
-        currentAttackData = attackData;
+        isHitboxActive = true; // 開啟hitbox，在Update()開始攻擊檢測
+        currentAttackData = attackData; // 紀錄當前的attack data 在攻擊檢測中使用
         hitTargets.Clear(); // 每次開啟新招式時，清空歷史命中紀錄
         if(weaponTrail != null)
         {
@@ -147,34 +147,35 @@ public abstract class CharacterCombatBase : MonoBehaviour
     }
     #endregion
 
-    private void CheckAttackHitbox()
+    private void CheckAttackHitbox() // 當開啟isHitboxActive = true時，每一幀都會檢查攻擊範圍內的敵人
     {
-        foreach(int index in currentAttackData.hitboxes)
+        foreach(int index in currentAttackData.hitboxes) // attack data裡面有指定要開啟的hitbox，可能是右手武器、左手武器、或是其他hitbox
         {
             if(index > hitboxes.Length - 1) continue;
+
+            // 使用 OverlapSphereNonAlloc 來檢測指定 hitbox 的範圍內的敵人，存入 attackHits 陣列，並返回命中的數量
             int count = Physics.OverlapSphereNonAlloc(hitboxes[index].center.position, hitboxes[index].radius, attackHits, whatIsEnemy);
             for (int i = 0; i < count; i++)
             {
                 IDamageable damageable = attackHits[i].GetComponentInParent<IDamageable>();
                 
-                // 關鍵：只有「有 IDamageable」且「這次揮刀還沒打過」的目標才造成傷害
+                // 如果該物體有 IDamageable 接口，且尚未被命中過，則進行傷害計算
                 if (damageable != null && !hitTargets.Contains(damageable))
                 {
-                    hitTargets.Add(damageable); // 標記為已命中
+                    hitTargets.Add(damageable); // 標記為已命中，避免在同一招式中重複造成傷害
 
                     bool isCritical = Random.value < (critRate / 100f); // 判斷是否暴擊
                     float attackDamage = Mathf.Clamp(currentWeapon.damage + damage, 0f, float.MaxValue);
-                    float finalDamage = attackDamage * currentAttackData.damageMultiplier;
+                    float finalDamage = attackDamage * currentAttackData.damageMultiplier; // 解析attack data中的傷害倍率，計算最終傷害
                     if(isCritical) finalDamage *= 1.5f; // 暴擊傷害加成
 
-                    Debug.Log($"[命中新目標] {attackHits[i].name} | 傷害: {finalDamage} | 削韌: {currentAttackData.poiseDamage}"); 
+                    Debug.Log($"[命中新目標] {attackHits[i].name} | 傷害: {finalDamage}");
+                    // 呼叫攻擊目標的 TakeDamage 方法，傳入攻擊者、最終傷害值、attack data和是否暴擊，交由目標自己處理傷害邏輯
                     damageable.TakeDamage(transform.root, finalDamage, currentAttackData, isCritical);
                 }
             }
         }
-        
     }
-
     protected virtual void OnAnimationAttackEvent(string hitName)
     {
         Debug.LogWarning("Legacy Attack Event");

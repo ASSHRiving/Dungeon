@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 public class ConfirmDialogController : MonoBehaviour
 {
     [SerializeField] private UIController uiController;
@@ -10,9 +11,18 @@ public class ConfirmDialogController : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
     [SerializeField] private EquipmentSlotUI slot;
+    
+    private CanvasGroup canvasGroup;
+    private RectTransform rectTransform;
+    [Header("動態參數設定")]
+    [SerializeField] private float duration = 0.25f;           // 動態時間（現代風格偏好短促俐落，建議 0.2s~0.3s）
+    [SerializeField] private Vector3 initialScale = new Vector3(0.88f, 0.88f, 1f); // 初始微縮大小
+    private Sequence sequence;
 
     private void Awake()
     {
+        canvasGroup = dialogPanel.GetComponent<CanvasGroup>();
+        rectTransform = dialogPanel.GetComponent<RectTransform>();
         CloseDialog();
     }
 
@@ -57,8 +67,19 @@ public class ConfirmDialogController : MonoBehaviour
             uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
         }
 
-        dialogPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+
+        //DOTween
+        KillCurrentTween();
+        sequence = DOTween.Sequence();
+        float closeDuration = duration * 0.8f;
+        sequence.Append(canvasGroup.DOFade(0f, closeDuration).SetEase(Ease.Linear));
+        sequence.Join(rectTransform.DOScale(initialScale, closeDuration).SetEase(Ease.InCubic));
+        sequence.OnComplete(() =>
+        {
+            dialogPanel.SetActive(false);
+        });
+        sequence.SetUpdate(true);
     }
     private void OpenDialog()
     {
@@ -68,8 +89,28 @@ public class ConfirmDialogController : MonoBehaviour
         {
             uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
         }
-
-        dialogPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+
+        //DOTween
+        KillCurrentTween();
+        dialogPanel.SetActive(true);
+        ResetToHiddenState();
+        sequence = DOTween.Sequence();
+        sequence.Append(canvasGroup.DOFade(1f, duration * 0.7f).SetEase(Ease.Linear));
+        sequence.Join(rectTransform.DOScale(Vector3.one, duration).SetEase(Ease.OutCubic));
+        sequence.SetUpdate(true);
+    }
+    private void ResetToHiddenState()
+    {
+        if (canvasGroup != null) canvasGroup.alpha = 0f;
+        if (rectTransform != null) rectTransform.localScale = initialScale;
+    }
+
+    private void KillCurrentTween()
+    {
+        if (sequence != null && sequence.IsActive())
+        {
+            sequence.Kill();
+        }
     }
 }
