@@ -1,30 +1,21 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-public class ConfirmDialogController : MonoBehaviour
+
+public class ConfirmDialogController : UIPanelBase
 {
-    [SerializeField] private UIController uiController;
     [Header("UI Elements")]
     [SerializeField] private GameObject dialogPanel;
     [SerializeField] private TMP_Text messageText;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
     [SerializeField] private EquipmentSlotUI slot;
-    
-    private CanvasGroup canvasGroup;
-    private RectTransform rectTransform;
-    [Header("動態參數設定")]
-    [SerializeField] private float duration = 0.25f;           // 動態時間（現代風格偏好短促俐落，建議 0.2s~0.3s）
-    [SerializeField] private Vector3 initialScale = new Vector3(0.88f, 0.88f, 1f); // 初始微縮大小
-    private Sequence sequence;
 
-    private void Awake()
-    {
-        canvasGroup = dialogPanel.GetComponent<CanvasGroup>();
-        rectTransform = dialogPanel.GetComponent<RectTransform>();
-        CloseDialog();
-    }
+    protected override GameObject PanelRoot => dialogPanel;
+
+    // 商店確認框維持原本設定（開啟時不強制暫停時間）
+    public override bool PauseGameWhenOpen => false;
 
     private void OnEnable()
     {
@@ -36,81 +27,71 @@ public class ConfirmDialogController : MonoBehaviour
         UIEvents.OnConfirmDialogRequested -= ShowConfirmDialog;
     }
 
-    private void ShowConfirmDialog(GameObject item, System.Action onConfirm)
+    /// <summary>
+    /// 顯示商品購買確認彈窗（相容既有 UIEvents.OnConfirmDialogRequested 事件）。
+    /// </summary>
+    private void ShowConfirmDialog(GameObject item, Action onConfirm)
     {
-        OpenDialog();
-        ShopItem shopItem = item.GetComponent<ShopItem>();
-        messageText.text = shopItem.message;
-        slot.DisplayItem(item);
-
-        confirmButton.onClick.RemoveAllListeners();
-        confirmButton.onClick.AddListener(() =>
+        string msg = string.Empty;
+        if (item != null && item.TryGetComponent(out ShopItem shopItem))
         {
-            onConfirm?.Invoke();
-            CloseDialog();
-            GameAssets.Instance.PlayUIClickSound();
-        });
-
-        cancelButton.onClick.RemoveAllListeners();
-        cancelButton.onClick.AddListener(() =>
-        {
-            CloseDialog();
-            GameAssets.Instance.PlayUIClickSound();
-        });
-    }
-    private void CloseDialog()
-    {
-        if(dialogPanel == null) return;
-
-        if(uiController.GetPlayerInput() != null)
-        {
-            uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
+            msg = shopItem.message;
         }
 
-        Cursor.lockState = CursorLockMode.Locked;
-
-        //DOTween
-        KillCurrentTween();
-        sequence = DOTween.Sequence();
-        float closeDuration = duration * 0.8f;
-        sequence.Append(canvasGroup.DOFade(0f, closeDuration).SetEase(Ease.Linear));
-        sequence.Join(rectTransform.DOScale(initialScale, closeDuration).SetEase(Ease.InCubic));
-        sequence.OnComplete(() =>
-        {
-            dialogPanel.SetActive(false);
-        });
-        sequence.SetUpdate(true);
+        ShowConfirmDialog(msg, onConfirm, null, item);
     }
-    private void OpenDialog()
+
+    /// <summary>
+    /// 通用確認彈窗接口，支援自訂訊息、確認/取消回呼與選填的物品圖示展示。
+    /// </summary>
+    public void ShowConfirmDialog(string message, Action onConfirm, Action onCancel = null, GameObject item = null)
     {
-        if(dialogPanel == null) return;
-        
-        if(uiController.GetPlayerInput() != null)
+        Open();
+
+        if (messageText != null)
         {
-            uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
+            messageText.text = message;
         }
-        Cursor.lockState = CursorLockMode.None;
 
-        //DOTween
-        KillCurrentTween();
-        dialogPanel.SetActive(true);
-        ResetToHiddenState();
-        sequence = DOTween.Sequence();
-        sequence.Append(canvasGroup.DOFade(1f, duration * 0.7f).SetEase(Ease.Linear));
-        sequence.Join(rectTransform.DOScale(Vector3.one, duration).SetEase(Ease.OutCubic));
-        sequence.SetUpdate(true);
-    }
-    private void ResetToHiddenState()
-    {
-        if (canvasGroup != null) canvasGroup.alpha = 0f;
-        if (rectTransform != null) rectTransform.localScale = initialScale;
-    }
-
-    private void KillCurrentTween()
-    {
-        if (sequence != null && sequence.IsActive())
+        if (slot != null)
         {
-            sequence.Kill();
+            if (item != null)
+            {
+                slot.gameObject.SetActive(true);
+                slot.DisplayItem(item);
+            }
+            else
+            {
+                slot.ClearSlot();
+                slot.gameObject.SetActive(false);
+            }
+        }
+
+        if (confirmButton != null)
+        {
+            confirmButton.onClick.RemoveAllListeners();
+            confirmButton.onClick.AddListener(() =>
+            {
+                if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
+                CloseDialog();
+                onConfirm?.Invoke();
+            });
+        }
+
+        if (cancelButton != null)
+        {
+            cancelButton.onClick.RemoveAllListeners();
+            cancelButton.onClick.AddListener(() =>
+            {
+                if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
+                CloseDialog();
+                onCancel?.Invoke();
+            });
         }
     }
+
+    public void OpenDialog() => Open();
+
+    public void CloseDialog() => Close();
 }
+

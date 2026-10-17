@@ -1,4 +1,7 @@
+using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class TooltipController : MonoBehaviour
@@ -13,11 +16,14 @@ public class TooltipController : MonoBehaviour
     public Vector2 offset = new Vector2(15f, -15f); // 懸浮框相對於滑鼠游標的偏移量
 
     private Canvas parentCanvas;
+    private readonly StringBuilder statsBuilder = new StringBuilder(128);
+
     private void OnEnable()
     {
         UIEvents.OnShowTooltip += ShowTooltip;
         UIEvents.OnHideTooltip += HideTooltip;
     }
+
     private void OnDisable()
     {
         UIEvents.OnShowTooltip -= ShowTooltip;
@@ -26,7 +32,14 @@ public class TooltipController : MonoBehaviour
 
     private void Awake()
     {
-        if (tooltipRect == null) tooltipRect = GetComponent<RectTransform>();
+        if (tooltipRect == null && tooltipPanel != null)
+        {
+            tooltipRect = tooltipPanel.GetComponent<RectTransform>();
+        }
+        if (tooltipRect == null)
+        {
+            tooltipRect = GetComponent<RectTransform>();
+        }
         parentCanvas = GetComponentInParent<Canvas>();
 
         // 預設隱藏
@@ -35,7 +48,8 @@ public class TooltipController : MonoBehaviour
 
     private void Update()
     {
-        if (gameObject.activeSelf)
+        // 僅在 tooltipPanel 實際顯示時才每幀更新座標
+        if (tooltipPanel != null && tooltipPanel.activeSelf)
         {
             UpdatePosition();
         }
@@ -46,15 +60,24 @@ public class TooltipController : MonoBehaviour
     /// </summary>
     private void UpdatePosition()
     {
-        Vector2 mousePosition = Input.mousePosition;
-        Vector2 targetPos = mousePosition + offset;
+        if (tooltipRect == null) return;
+
+        Vector2 mousePosition = Pointer.current != null
+            ? Pointer.current.position.ReadValue()
+            : (Vector2)Input.mousePosition;
 
         // 防止懸浮框超出螢幕右方與下方
-        float pivotX = (mousePosition.x + tooltipRect.rect.width > Screen.width) ? 1f : 0f;
-        float pivotY = (mousePosition.y - tooltipRect.rect.height < 0) ? 0f : 1f;
+        float width = tooltipRect.rect.width * (parentCanvas != null ? parentCanvas.scaleFactor : 1f);
+        float height = tooltipRect.rect.height * (parentCanvas != null ? parentCanvas.scaleFactor : 1f);
+
+        float pivotX = (mousePosition.x + offset.x + width > Screen.width) ? 1f : 0f;
+        float pivotY = (mousePosition.y + offset.y - height < 0f) ? 0f : 1f;
 
         tooltipRect.pivot = new Vector2(pivotX, pivotY);
-        transform.position = mousePosition + new Vector2(pivotX == 1f ? -offset.x : offset.x, pivotY == 0f ? -offset.y : offset.y);
+        tooltipRect.position = mousePosition + new Vector2(
+            pivotX == 1f ? -offset.x : offset.x,
+            pivotY == 0f ? -offset.y : offset.y
+        );
     }
 
     /// <summary>
@@ -62,26 +85,41 @@ public class TooltipController : MonoBehaviour
     /// </summary>
     public void ShowTooltip(Equipment equipment)
     {
-        if (equipment == null) return;
+        if (equipment == null || tooltipPanel == null) return;
 
         // 設定裝備名稱與部位
-        nameText.text = equipment.equipmentName;
+        if (nameText != null)
+        {
+            nameText.text = equipment.equipmentName;
+        }
 
         // 組合屬性字串 (只顯示 > 0 的屬性，以四捨五入整數呈現)
-        string stats = "";
-        if (equipment.damage > 0) stats += $"攻擊力: +{Mathf.RoundToInt(equipment.damage)}\n";
-        if (equipment.critRate > 0) stats += $"暴擊率: +{Mathf.RoundToInt(equipment.critRate)}%\n";
-        if (equipment.health > 0) stats += $"最大生命: +{Mathf.RoundToInt(equipment.health)}\n";
-        if (equipment.shield > 0) stats += $"護甲: +{Mathf.RoundToInt(equipment.shield)}\n";
+        statsBuilder.Clear();
+        if (equipment.damage > 0) statsBuilder.AppendLine($"攻擊力: +{Mathf.RoundToInt(equipment.damage)}");
+        if (equipment.critRate > 0) statsBuilder.AppendLine($"暴擊率: +{Mathf.RoundToInt(equipment.critRate)}%");
+        if (equipment.health > 0) statsBuilder.AppendLine($"最大生命: +{Mathf.RoundToInt(equipment.health)}");
+        if (equipment.shield > 0) statsBuilder.AppendLine($"護甲: +{Mathf.RoundToInt(equipment.shield)}");
 
-        statsText.text = string.IsNullOrEmpty(stats) ? "無附加屬性" : stats.TrimEnd();
+        if (statsText != null)
+        {
+            statsText.text = statsBuilder.Length == 0 ? "無附加屬性" : statsBuilder.ToString().TrimEnd();
+        }
 
         tooltipPanel.SetActive(true);
+
+        if (tooltipRect != null)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
+        }
+
         UpdatePosition(); // 立即更新一次位置防止閃爍
     }
 
     public void HideTooltip()
     {
-        tooltipPanel.SetActive(false);
+        if (tooltipPanel != null)
+        {
+            tooltipPanel.SetActive(false);
+        }
     }
-}
+}

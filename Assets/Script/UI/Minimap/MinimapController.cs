@@ -5,14 +5,19 @@ using TMPro;
 
 public class MinimapController : MonoBehaviour
 {
+    public const string MinimapModePrefKey = "MinimapModeSetting";
+
     [SerializeField] private UIController uiController;
+
     public enum MinimapMode
     {
         RotateMap, // 旋轉地圖（以玩家視角為前方）
         FixedMap   // 固定地圖（以正北北方為上方，旋轉指針）
     }
+
     [Header("模式設定")]
     public MinimapMode currentMode = MinimapMode.RotateMap; // 預設模式
+
     [Header("UI 相關繫結")]
     public RectTransform mapContainer;       // 負責「旋轉」的容器 (MapContainer)
     public RectTransform mapContent;         // 負責「位移」的容器 (MapContent)
@@ -31,10 +36,8 @@ public class MinimapController : MonoBehaviour
     public Color visitedRoomColor = Color.white;                           // 已探索過的房間 (白色)
     public Color unvisitedRoomColor = new Color(0.3f, 0.3f, 0.3f, 1f);   // 尚未探索
 
-    // 紀錄實體 Room 對應的 UI 座標與 Image 組件
-    private Dictionary<Room, Vector2> roomUIPositions = new Dictionary<Room, Vector2>();
-    private Dictionary<Room, GameObject> roomUINodes = new Dictionary<Room, GameObject>();
-    private Dictionary<Room, Image> roomUIImages = new Dictionary<Room, Image>();
+    // 單一字典統一管理實體 Room 與 RoomNodeUI 的映射
+    private readonly Dictionary<Room, RoomNodeUI> roomNodes = new Dictionary<Room, RoomNodeUI>();
 
     // 核心數據：紀錄每一條 UI 通道連接著哪兩個 Room，以及對應的通道 GameObject
     private class UIConnection
@@ -43,19 +46,18 @@ public class MinimapController : MonoBehaviour
         public Room roomB;
         public GameObject lineGO;
     }
-    private List<UIConnection> allConnections = new List<UIConnection>();  // 紀錄所有的 UI 通道連接資訊
 
-    // 目標 UI 偏移量與角度
+    private readonly List<UIConnection> allConnections = new List<UIConnection>();
+
+    // 目標 UI 偏移量
     private Vector2 targetMapPosition = Vector2.zero;
 
-    // 打開面板時收聽廣播
     private void OnEnable()
     {
         UIEvents.OnRoomSpawned += HandleRoomSpawned;
         UIEvents.OnRoomEntered += HandlePlayerEnteredRoom;
     }
 
-    // 關閉面板時取消收聽
     private void OnDisable()
     {
         UIEvents.OnRoomSpawned -= HandleRoomSpawned;
@@ -64,50 +66,55 @@ public class MinimapController : MonoBehaviour
 
     private void Start()
     {
-        // 讀取玩家先前的設定紀錄 (預設為 0: RotateMap)
-        int savedMode = PlayerPrefs.GetInt("MinimapModeSetting", (int)MinimapMode.RotateMap);
+        int savedMode = PlayerPrefs.GetInt(MinimapModePrefKey, (int)MinimapMode.RotateMap);
         SetMinimapMode((MinimapMode)savedMode);
+
         if (modeDropdown != null)
         {
-            modeDropdown.value = savedMode;
-            modeDropdown.RefreshShownValue(); // 刷新顯示文字
+            modeDropdown.SetValueWithoutNotify(savedMode);
+            modeDropdown.RefreshShownValue();
         }
     }
 
     private void Update()
     {
-        // 1. 平滑移動 mapContent，讓當前房間推到 (0,0) 正中央
-        mapContent.anchoredPosition = Vector2.Lerp(
-            mapContent.anchoredPosition, 
-            targetMapPosition, 
-            Time.deltaTime * moveSmoothSpeed
-        );
+        if (mapContent != null)
+        {
+            // 1. 平滑移動 mapContent，讓當前房間推到 (0,0) 正中央
+            mapContent.anchoredPosition = Vector2.Lerp(
+                mapContent.anchoredPosition,
+                targetMapPosition,
+                Time.deltaTime * moveSmoothSpeed
+            );
+        }
 
         UpdateMapRotation();
     }
+
     private void UpdateMapRotation()
     {
-        if (uiController.GetCameraTransform() == null) return;
+        if (uiController == null || mapContainer == null) return;
 
-        float playerYRotation = uiController.GetCameraTransform().eulerAngles.y;
+        Transform camTransform = uiController.GetCameraTransform();
+        if (camTransform == null) return;
+
+        float playerYRotation = camTransform.eulerAngles.y;
 
         if (currentMode == MinimapMode.RotateMap)
         {
             // 【方案 A：轉地圖】
-            // 1. 地圖容器往反方向旋轉
             Quaternion targetMapRot = Quaternion.Euler(0f, 0f, playerYRotation);
             mapContainer.rotation = Quaternion.Slerp(
-                mapContainer.rotation, 
-                targetMapRot, 
+                mapContainer.rotation,
+                targetMapRot,
                 Time.deltaTime * rotateSmoothSpeed
             );
 
-            // 2. 玩家指針歸零，永遠朝正上方 (0 度)
             if (playerIcon != null)
             {
                 playerIcon.localRotation = Quaternion.Slerp(
-                    playerIcon.localRotation, 
-                    Quaternion.identity, 
+                    playerIcon.localRotation,
+                    Quaternion.identity,
                     Time.deltaTime * rotateSmoothSpeed
                 );
             }
@@ -115,33 +122,31 @@ public class MinimapController : MonoBehaviour
         else if (currentMode == MinimapMode.FixedMap)
         {
             // 【方案 B：固定地圖轉指針】
-            // 1. 地圖容器角度歸零 (正北向上)
             mapContainer.rotation = Quaternion.Slerp(
-                mapContainer.rotation, 
-                Quaternion.identity, 
+                mapContainer.rotation,
+                Quaternion.identity,
                 Time.deltaTime * rotateSmoothSpeed
             );
 
-            // 2. 玩家指針跟隨玩家 Y 軸轉動 (UI 的 Z 軸旋轉要加負號，因為 UI 旋轉方向相反)
             if (playerIcon != null)
             {
                 Quaternion targetIconRot = Quaternion.Euler(0f, 0f, -playerYRotation);
                 playerIcon.localRotation = Quaternion.Slerp(
-                    playerIcon.localRotation, 
-                    targetIconRot, 
+                    playerIcon.localRotation,
+                    targetIconRot,
                     Time.deltaTime * rotateSmoothSpeed
                 );
             }
         }
     }
+
     /// <summary>
     /// 提供給 UI 設定面板或外部呼叫的動態切換接口
     /// </summary>
     public void SetMinimapMode(MinimapMode newMode)
     {
         currentMode = newMode;
-        // 儲存設定到本地檔案
-        PlayerPrefs.SetInt("MinimapModeSetting", (int)newMode);
+        PlayerPrefs.SetInt(MinimapModePrefKey, (int)newMode);
         PlayerPrefs.Save();
     }
 
@@ -153,105 +158,121 @@ public class MinimapController : MonoBehaviour
         SetMinimapMode((MinimapMode)modeIndex);
     }
 
+    /// <summary>
+    /// 清空小地圖上的所有房間節點與連線（可用於重置關卡時呼叫）
+    /// </summary>
+    public void ClearMinimap()
+    {
+        foreach (var kvp in roomNodes)
+        {
+            if (kvp.Value != null)
+            {
+                Destroy(kvp.Value.gameObject);
+            }
+        }
+        roomNodes.Clear();
+
+        foreach (var conn in allConnections)
+        {
+            if (conn.lineGO != null)
+            {
+                Destroy(conn.lineGO);
+            }
+        }
+        allConnections.Clear();
+        targetMapPosition = Vector2.zero;
+    }
+
     // 收到「房間生成」時執行
     private void HandleRoomSpawned(Room newRoom, Room fromRoom, Room.Direction dir)
     {
+        if (newRoom == null || roomNodePrefab == null || mapContent == null) return;
+
         Vector2 newUIPos = Vector2.zero;
 
-        if (fromRoom == null)
+        if (fromRoom != null && roomNodes.TryGetValue(fromRoom, out RoomNodeUI fromNode))
         {
-            // 起始房間放正中央 (0,0)
-            newUIPos = Vector2.zero;
-        }
-        else
-        {
-            // 根據來源房間座標 + 方向偏移，算出新房間座標
-            Vector2 fromUIPos = roomUIPositions[fromRoom];
+            Vector2 fromUIPos = fromNode.UIPosition;
             Vector2 offset = GetDirectionOffset(dir) * roomGridDistance;
             newUIPos = fromUIPos + offset;
 
             // 繪製兩房間之間的通道線段
             GameObject connectionGO = DrawConnection(fromUIPos, newUIPos);
-            allConnections.Add(new UIConnection { roomA = fromRoom, roomB = newRoom, lineGO = connectionGO });
-            connectionGO.SetActive(false);
+            if (connectionGO != null)
+            {
+                allConnections.Add(new UIConnection { roomA = fromRoom, roomB = newRoom, lineGO = connectionGO });
+                connectionGO.SetActive(false);
+            }
         }
 
-        // 生成房間 UI Icon
+        // 生成房間 UI 節點並初始化
         GameObject nodeGO = Instantiate(roomNodePrefab, mapContent);
-        RectTransform rect = nodeGO.GetComponent<RectTransform>();
-        rect.anchoredPosition = newUIPos;
-
-        Image img = nodeGO.GetComponent<Image>();
-        Sprite roomUI = newRoom.RoomImage;
-        if(roomUI != null)
+        if (!nodeGO.TryGetComponent(out RoomNodeUI nodeUI))
         {
-            nodeGO.GetComponent<RoomNodeUI>().roomSprite.sprite = roomUI;
+            nodeUI = nodeGO.AddComponent<RoomNodeUI>();
         }
-        img.color = unvisitedRoomColor; // 初始設為未探索顏色
 
-        // 保存映射
-        roomUIPositions.Add(newRoom, newUIPos);
-        roomUINodes.Add(newRoom, nodeGO);
-        roomUIImages.Add(newRoom, img);
+        nodeUI.Initialize(newUIPos, newRoom.RoomImage, unvisitedRoomColor);
+        nodeUI.SetVisible(false);
 
-        nodeGO.SetActive(false);
+        roomNodes[newRoom] = nodeUI;
     }
 
     // 收到「玩家切換房間」時執行
     private void HandlePlayerEnteredRoom(Room currentActiveRoom)
     {
-        if (roomUIPositions.TryGetValue(currentActiveRoom, out Vector2 currentRoomUIPos))
+        if (currentActiveRoom == null) return;
+
+        if (roomNodes.TryGetValue(currentActiveRoom, out RoomNodeUI currentNode))
         {
-            targetMapPosition = -currentRoomUIPos;
+            targetMapPosition = -currentNode.UIPosition;
         }
 
         RevealRoomAndConnectedEdges(currentActiveRoom);
 
-        foreach (var pair in roomUIImages)
+        foreach (var pair in roomNodes)
         {
             Room room = pair.Key;
-            Image uiImage = pair.Value;
+            RoomNodeUI nodeUI = pair.Value;
+            if (room == null || nodeUI == null) continue;
 
             if (room == currentActiveRoom)
             {
-                uiImage.color = currentRoomColor;
+                nodeUI.SetColor(currentRoomColor);
             }
             else if (room.isVisited)
             {
-                uiImage.color = visitedRoomColor;
+                nodeUI.SetColor(visitedRoomColor);
             }
             else
             {
-                uiImage.color = unvisitedRoomColor;
+                nodeUI.SetColor(unvisitedRoomColor);
             }
         }
     }
+
     private void RevealRoomAndConnectedEdges(Room currentRoom)
     {
         // A. 先將當前房間 UI 顯示出來
-        if (roomUINodes.TryGetValue(currentRoom, out GameObject currentUI))
+        if (roomNodes.TryGetValue(currentRoom, out RoomNodeUI currentNode))
         {
-            currentUI.SetActive(true);
+            currentNode.SetVisible(true);
         }
 
         // B. 遍歷所有的通道紀錄，找出跟 currentRoom 連接的線段
         foreach (var conn in allConnections)
         {
-            // 如果這條通道的起點或終點包含當前房間
             if (conn.roomA == currentRoom || conn.roomB == currentRoom)
             {
-                // 1. 顯示這條通道線段
                 if (conn.lineGO != null)
                 {
                     conn.lineGO.SetActive(true);
                 }
 
-                // 2. 順藤摸瓜找到「另一端的鄰居房間」，並將其 UI 顯示出來
                 Room neighborRoom = (conn.roomA == currentRoom) ? conn.roomB : conn.roomA;
-
-                if (neighborRoom != null && roomUINodes.TryGetValue(neighborRoom, out GameObject neighborUI))
+                if (neighborRoom != null && roomNodes.TryGetValue(neighborRoom, out RoomNodeUI neighborNode))
                 {
-                    neighborUI.SetActive(true);
+                    neighborNode.SetVisible(true);
                 }
             }
         }
@@ -273,17 +294,22 @@ public class MinimapController : MonoBehaviour
     // 繪製 UI 通道線段
     private GameObject DrawConnection(Vector2 posA, Vector2 posB)
     {
+        if (connectionLinePrefab == null || mapContent == null) return null;
+
         GameObject lineGO = Instantiate(connectionLinePrefab, mapContent);
         lineGO.transform.SetAsFirstSibling();
 
         RectTransform rect = lineGO.GetComponent<RectTransform>();
-        Vector2 dir = (posB - posA).normalized;
-        float distance = Vector2.Distance(posA, posB);
+        if (rect != null)
+        {
+            Vector2 dir = (posB - posA).normalized;
+            float distance = Vector2.Distance(posA, posB);
 
-        rect.anchoredPosition = posA;
-        rect.sizeDelta = new Vector2(distance, 4f);
-        rect.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+            rect.anchoredPosition = posA;
+            rect.sizeDelta = new Vector2(distance, 4f);
+            rect.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+        }
 
         return lineGO;
     }
-}
+}

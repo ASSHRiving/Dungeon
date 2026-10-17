@@ -3,10 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
+    private void Start()
+    {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     public void StartGame()
     {
-        GameAssets.Instance.PlayUIClickSound();
-        GameManager.Instance.init(); // 初始化遊戲進度
+        if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
+        if (GameManager.Instance != null) GameManager.Instance.init(); // 初始化遊戲進度
+
         if (LoadingController.Instance != null)
         {
             LoadingController.Instance.LoadLevel("LobbyScene");
@@ -18,9 +26,11 @@ public class MainMenuController : MonoBehaviour
             SceneManager.LoadScene("LobbyScene");
         }
     }
+
     public void QuitGame()
     {
-        GameAssets.Instance.PlayUIClickSound();
+        if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
         Application.Quit();
     }
 }
+

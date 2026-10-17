@@ -1,12 +1,15 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
+using DG.Tweening;
 
 public class TitleController : MonoBehaviour
 {
     [SerializeField] private CanvasGroup fadeCanvasGroup;
     [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float displayDuration = 1f;
     [SerializeField] private TMP_Text titleText;
+
+    private Sequence titleSequence;
 
     private void Awake()
     {
@@ -16,40 +19,39 @@ public class TitleController : MonoBehaviour
             fadeCanvasGroup.blocksRaycasts = false;
         }
     }
+
     private void OnEnable()
     {
         UIEvents.OnLevelChanged += UpdateTitleText;
     }
+
     private void OnDisable()
     {
         UIEvents.OnLevelChanged -= UpdateTitleText;
     }
+
+    private void OnDestroy()
+    {
+        titleSequence?.Kill();
+    }
+
     private void UpdateTitleText(string titleString)
     {
-        titleText.text = titleString;
-        StartCoroutine(ShowTitleRoutine());
-    }
-    private IEnumerator ShowTitleRoutine()
-    {
-        // 顯示標題
-        yield return StartCoroutine(Fade(1f));
-        yield return new WaitForSeconds(1f); // 顯示 1 秒
-        yield return StartCoroutine(Fade(0f));
-    }
-    private IEnumerator Fade(float targetAlpha)
-    {
-        if (fadeCanvasGroup == null) yield break;
-
-        float startAlpha = fadeCanvasGroup.alpha;
-        float time = 0f;
-
-        while (time < fadeDuration)
+        if (titleText != null)
         {
-            time += Time.unscaledDeltaTime;
-            fadeCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, time / fadeDuration);
-            yield return null;
+            titleText.text = titleString;
         }
 
-        fadeCanvasGroup.alpha = targetAlpha;
+        if (fadeCanvasGroup == null) return;
+
+        titleSequence?.Kill();
+        fadeCanvasGroup.alpha = 0f;
+
+        titleSequence = DOTween.Sequence();
+        titleSequence.Append(fadeCanvasGroup.DOFade(1f, fadeDuration).SetEase(Ease.OutQuad));
+        titleSequence.AppendInterval(displayDuration);
+        titleSequence.Append(fadeCanvasGroup.DOFade(0f, fadeDuration).SetEase(Ease.InQuad));
+        titleSequence.SetUpdate(true);
     }
 }
+

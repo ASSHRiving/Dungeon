@@ -1,13 +1,26 @@
-﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 using UnityEngine.Audio;
 using DG.Tweening;
 
-public class SettingsController : MonoBehaviour
+public class SettingsController : UIPanelBase
 {
+    private const string BgmVolumePrefKey = "BGMVolume";
+    private const string EffectVolumePrefKey = "EffectVolume";
+    private const string HorizontalSensPrefKey = "HorizontalSensitivity";
+    private const string VerticalSensPrefKey = "VerticalSensitivity";
+    private const string RebindsPrefKey = "Rebinds";
+
+    private const string ActionLeftAttack = "Player/LAtk";
+    private const string ActionRightAttack = "Player/RAtk";
+    private const string ActionRun = "Player/Run";
+    private const string ActionInteract = "Player/Interact";
+
     [Header("UI 面板綁定")]
     [SerializeField] private GameObject settingsPanel;
 
@@ -38,35 +51,32 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private TMP_Text interactText;
 
     [Header("其他控制器參照")]
-    [SerializeField] private UIController uiController;
     [SerializeField] private MinimapController minimapController;
     [SerializeField] private CinemachineInputAxisController cameraInput;
     [SerializeField] public AudioMixer mainMixer;
 
-    [Header("DOTween 動態參數設定")]
-    [SerializeField] private float duration = 0.22f;                                // 開關面板時間
-    [SerializeField] private Vector3 initialScale = new Vector3(0.92f, 0.92f, 1f); // 初始微縮大小
+    [Header("分頁切換動態設定")]
     [SerializeField] private float tabSwitchDuration = 0.18f;                       // 分頁切換淡入時間
     [SerializeField] private float tabSlideOffset = 12f;                            // 分頁切換微上浮距離(px)
 
-    private bool isSettingsOpen;
-    private CanvasGroup canvasGroup;
-    private RectTransform rectTransform;
-    private Sequence panelSequence;
     private Sequence tabSequence;
     private Tweener rebindBlinkTween;
     private InputActionRebindingExtensions.RebindingOperation currentRebindOp;
 
-    private void Awake()
+    // 快取各分頁的初始座標，防止快速切換或中途關閉視窗導致分頁位置偏移
+    private readonly Dictionary<RectTransform, Vector2> initialTabPositions = new Dictionary<RectTransform, Vector2>();
+
+    protected override GameObject PanelRoot => settingsPanel;
+    protected override bool HideOnAwake => false;
+
+    protected override void Awake()
     {
         if (settingsPanel == null)
         {
             Debug.LogWarning($"{nameof(SettingsController)} 缺少 Settings Panel 參照。", this);
             return;
         }
-        canvasGroup = settingsPanel.GetComponent<CanvasGroup>();
-        if (canvasGroup == null) canvasGroup = settingsPanel.AddComponent<CanvasGroup>();
-        rectTransform = settingsPanel.GetComponent<RectTransform>();
+        base.Awake();
     }
 
     private void Start()
@@ -77,104 +87,44 @@ public class SettingsController : MonoBehaviour
         LoadRebinds();      // 初始化按鍵綁定
         InitType();         // 初始化頁面
 
-        settingsPanel.SetActive(false);
+        HideImmediate();
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
-        panelSequence?.Kill();
+        base.OnDestroy();
         tabSequence?.Kill();
         rebindBlinkTween?.Kill();
         currentRebindOp?.Dispose();
     }
 
-    private void Update()
-    {
-        if (uiController != null && uiController.GetPlayerInput() != null && uiController.GetPlayerInput().actions["Esc"].triggered)
-        {
-            if (isSettingsOpen)
-            {
-                CloseSettings();
-            }
-        }
-    }
-
-    public void OpenSettings()
-    {
-        if (uiController != null && uiController.GetPlayerInput() != null)
-        {
-            uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
-        }
-
-        isSettingsOpen = true;
-        Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        // DOTween 開場動畫
-        KillCurrentTween();
-        settingsPanel.SetActive(true);
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
-        ResetToHiddenState();
-
-        panelSequence = DOTween.Sequence();
-        panelSequence.Append(canvasGroup.DOFade(1f, duration * 0.75f).SetEase(Ease.OutQuad));
-        panelSequence.Join(rectTransform.DOScale(Vector3.one, duration).SetEase(Ease.OutCubic));
-        panelSequence.SetUpdate(true);
-    }
+    public void OpenSettings() => Open();
 
     public void CloseSettings()
     {
+        if (GameAssets.Instance != null)
+        {
+            GameAssets.Instance.PlayUIClickSound();
+        }
+        Close();
+    }
+
+    protected override void OnBeforeClose()
+    {
         // 若正在等待按鍵綁定，先取消綁定操作
         currentRebindOp?.Cancel();
-
-        if (GameAssets.Instance != null)
-            GameAssets.Instance.PlayUIClickSound();
-
-        if (uiController != null && uiController.GetPlayerInput() != null)
-        {
-            uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
-        }
-
-        isSettingsOpen = false;
-        Time.timeScale = 1f;
         PlayerPrefs.Save();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        // 關閉期間禁止重複點擊
-        if (canvasGroup != null)
-        {
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-        }
-
-        // DOTween 退場動畫
-        KillCurrentTween();
-        panelSequence = DOTween.Sequence();
-        float closeDuration = duration * 0.75f;
-        panelSequence.Append(canvasGroup.DOFade(0f, closeDuration).SetEase(Ease.InQuad));
-        panelSequence.Join(rectTransform.DOScale(initialScale, closeDuration).SetEase(Ease.InCubic));
-        panelSequence.OnComplete(() =>
-        {
-            settingsPanel.SetActive(false);
-        });
-        panelSequence.SetUpdate(true);
     }
 
-    private void ResetToHiddenState()
+    public override void OnEscPressed()
     {
-        if (canvasGroup != null) canvasGroup.alpha = 0f;
-        if (rectTransform != null) rectTransform.localScale = initialScale;
-    }
-
-    private void KillCurrentTween()
-    {
-        if (panelSequence != null && panelSequence.IsActive())
+        // 若正在進行按鍵重綁，按 Esc 優先取消重綁，避免直接關閉整個設定視窗
+        if (currentRebindOp != null)
         {
-            panelSequence.Kill();
+            currentRebindOp.Cancel();
+            return;
         }
+        CloseSettings();
     }
 
     #region 分頁與 DOTween 轉場
@@ -206,9 +156,9 @@ public class SettingsController : MonoBehaviour
         // 如果已經在當前分頁則不重複播放動畫
         if (playAnim && targetPage != null && targetPage.activeSelf) return;
 
-        soundType.SetActive(targetPage == soundType);
-        imageType.SetActive(targetPage == imageType);
-        preferType.SetActive(targetPage == preferType);
+        if (soundType != null) soundType.SetActive(targetPage == soundType);
+        if (imageType != null) imageType.SetActive(targetPage == imageType);
+        if (preferType != null) preferType.SetActive(targetPage == preferType);
 
         // 更新三個分頁按鈕的底圖與文字顏色
         UpdateTabButtonVisual(soundTabBtnImage, activeBtnImg == soundTabBtnImage);
@@ -217,27 +167,27 @@ public class SettingsController : MonoBehaviour
 
         if (!playAnim || targetPage == null) return;
 
-        // 為目標分頁自動取得或掛載 CanvasGroup 進行淡入與微上浮動畫
-        CanvasGroup pageCG = targetPage.GetComponent<CanvasGroup>();
-        if (pageCG == null) pageCG = targetPage.AddComponent<CanvasGroup>();
+        if (!targetPage.TryGetComponent(out CanvasGroup pageCG))
+        {
+            pageCG = targetPage.AddComponent<CanvasGroup>();
+        }
+
         RectTransform pageRT = targetPage.GetComponent<RectTransform>();
+        if (pageRT == null) return;
 
-        tabSequence?.Kill(complete: true);
+        if (!initialTabPositions.TryGetValue(pageRT, out Vector2 targetPos))
+        {
+            targetPos = pageRT.anchoredPosition;
+            initialTabPositions[pageRT] = targetPos;
+        }
+
+        tabSequence?.Kill();
         pageCG.alpha = 0f;
-
-        Vector2 targetPos = pageRT.anchoredPosition;
         pageRT.anchoredPosition = targetPos - new Vector2(0f, tabSlideOffset);
 
         tabSequence = DOTween.Sequence();
         tabSequence.Append(pageCG.DOFade(1f, tabSwitchDuration).SetEase(Ease.OutQuad));
         tabSequence.Join(pageRT.DOAnchorPos(targetPos, tabSwitchDuration).SetEase(Ease.OutCubic));
-        /*
-        if (activeBtnImg != null)
-        {
-            activeBtnImg.transform.localScale = Vector3.one;
-            tabSequence.Join(activeBtnImg.transform.DOPunchScale(new Vector3(0.05f, 0.05f, 0f), 0.15f, 6, 0.5f));
-        }
-        */
         tabSequence.SetUpdate(true);
     }
 
@@ -260,11 +210,12 @@ public class SettingsController : MonoBehaviour
     #region 小地圖
     private void LoadMinimap()
     {
-        int savedMinimapMode = PlayerPrefs.GetInt("MinimapModeSetting", 0);
+        int savedMinimapMode = PlayerPrefs.GetInt(MinimapController.MinimapModePrefKey, 0);
         if (minimapDropdown != null)
         {
             minimapDropdown.SetValueWithoutNotify(savedMinimapMode);
             minimapDropdown.RefreshShownValue();
+            minimapDropdown.onValueChanged.RemoveListener(OnMinimapModeChanged);
             minimapDropdown.onValueChanged.AddListener(OnMinimapModeChanged);
         }
     }
@@ -276,26 +227,21 @@ public class SettingsController : MonoBehaviour
         {
             minimapController.SetMinimapMode((MinimapController.MinimapMode)modeIndex);
         }
-        PlayerPrefs.SetInt("MinimapModeSetting", modeIndex);
+        else
+        {
+            PlayerPrefs.SetInt(MinimapController.MinimapModePrefKey, modeIndex);
+        }
     }
     #endregion
 
     #region 音效
     private void LoadVolume()
     {
-        float bgmVal = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
-        float effectVal = PlayerPrefs.GetFloat("EffectVolume", 0.5f);
+        float bgmVal = PlayerPrefs.GetFloat(BgmVolumePrefKey, 0.5f);
+        float effectVal = PlayerPrefs.GetFloat(EffectVolumePrefKey, 0.5f);
 
-        if (bgmSlider != null)
-        {
-            bgmSlider.SetValueWithoutNotify(bgmVal);
-            bgmSlider.onValueChanged.AddListener(SetBGMVolume);
-        }
-        if (effectSlider != null)
-        {
-            effectSlider.SetValueWithoutNotify(effectVal);
-            effectSlider.onValueChanged.AddListener(SetEffectVolume);
-        }
+        BindSlider(bgmSlider, bgmVal, SetBGMVolume);
+        BindSlider(effectSlider, effectVal, SetEffectVolume);
 
         SetBGMVolume(bgmVal);
         SetEffectVolume(effectVal);
@@ -303,42 +249,39 @@ public class SettingsController : MonoBehaviour
 
     public void SetBGMVolume(float value)
     {
-        // 避免 value 為 0 時 Log10(0) 產生 -Infinity 導致混音器異常
-        float safeValue = Mathf.Max(value, 0.0001f);
-        float adjustedValue = Mathf.Pow(safeValue, 2f);
-        float dB = Mathf.Log10(adjustedValue) * 20f;
-        if (mainMixer != null) mainMixer.SetFloat("BGMVolume", dB);
-        PlayerPrefs.SetFloat("BGMVolume", value);
+        ApplyMixerVolume(BgmVolumePrefKey, value);
     }
 
     public void SetEffectVolume(float value)
     {
-        float safeValue = Mathf.Max(value, 0.0001f);
+        ApplyMixerVolume(EffectVolumePrefKey, value);
+    }
+
+    private void ApplyMixerVolume(string parameterName, float linearValue)
+    {
+        // 避免 linearValue 為 0 時 Log10(0) 產生 -Infinity 導致混音器異常
+        float safeValue = Mathf.Max(linearValue, 0.0001f);
         float adjustedValue = Mathf.Pow(safeValue, 2f);
         float dB = Mathf.Log10(adjustedValue) * 20f;
-        if (mainMixer != null) mainMixer.SetFloat("EffectVolume", dB);
-        PlayerPrefs.SetFloat("EffectVolume", value);
+
+        if (mainMixer != null)
+        {
+            mainMixer.SetFloat(parameterName, dB);
+        }
+        PlayerPrefs.SetFloat(parameterName, linearValue);
     }
     #endregion
 
     #region 靈敏度
     private void LoadSensitivity()
     {
-        float savedHorizontalSensitivity = PlayerPrefs.GetFloat("HorizontalSensitivity", 6f);
-        float savedVerticalSensitivity = PlayerPrefs.GetFloat("VerticalSensitivity", 6f);
+        float savedHorizontalSensitivity = PlayerPrefs.GetFloat(HorizontalSensPrefKey, 6f);
+        float savedVerticalSensitivity = PlayerPrefs.GetFloat(VerticalSensPrefKey, 6f);
 
-        if (horizontalSlider != null)
-        {
-            horizontalSlider.SetValueWithoutNotify(savedHorizontalSensitivity);
-            horizontalSlider.onValueChanged.AddListener(ChangeHorizontalSensitivity);
-        }
+        BindSlider(horizontalSlider, savedHorizontalSensitivity, ChangeHorizontalSensitivity);
+        BindSlider(verticalSlider, savedVerticalSensitivity, ChangeVerticalSensitivity);
+
         ChangeHorizontalSensitivity(savedHorizontalSensitivity);
-
-        if (verticalSlider != null)
-        {
-            verticalSlider.SetValueWithoutNotify(savedVerticalSensitivity);
-            verticalSlider.onValueChanged.AddListener(ChangeVerticalSensitivity);
-        }
         ChangeVerticalSensitivity(savedVerticalSensitivity);
     }
 
@@ -346,14 +289,22 @@ public class SettingsController : MonoBehaviour
     {
         if (cameraInput == null || cameraInput.Controllers.Count < 1) return;
         cameraInput.Controllers[0].Input.Gain = value;
-        PlayerPrefs.SetFloat("HorizontalSensitivity", value);
+        PlayerPrefs.SetFloat(HorizontalSensPrefKey, value);
     }
 
     public void ChangeVerticalSensitivity(float value)
     {
         if (cameraInput == null || cameraInput.Controllers.Count < 2) return;
         cameraInput.Controllers[1].Input.Gain = -value;
-        PlayerPrefs.SetFloat("VerticalSensitivity", value);
+        PlayerPrefs.SetFloat(VerticalSensPrefKey, value);
+    }
+
+    private void BindSlider(Slider slider, float initialValue, UnityAction<float> callback)
+    {
+        if (slider == null) return;
+        slider.SetValueWithoutNotify(initialValue);
+        slider.onValueChanged.RemoveListener(callback);
+        slider.onValueChanged.AddListener(callback);
     }
     #endregion
 
@@ -361,29 +312,31 @@ public class SettingsController : MonoBehaviour
     public void RebindLAtk()
     {
         if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
-        StartRebind("Player/LAtk", 0, lAtkText);
+        StartRebind(ActionLeftAttack, 0, lAtkText);
     }
 
     public void RebindRAtk()
     {
         if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
-        StartRebind("Player/RAtk", 0, rAtkText);
+        StartRebind(ActionRightAttack, 0, rAtkText);
     }
 
     public void RebindRun()
     {
         if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
-        StartRebind("Player/Run", 0, runText);
+        StartRebind(ActionRun, 0, runText);
     }
 
     public void RebindInteract()
     {
         if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
-        StartRebind("Player/Interact", 0, interactText);
+        StartRebind(ActionInteract, 0, interactText);
     }
 
     private void StartRebind(string actionName, int bindingIndex, TMP_Text keyText)
     {
+        if (inputActions == null) return;
+
         InputAction action = inputActions.FindAction(actionName);
         if (action == null)
         {
@@ -441,7 +394,7 @@ public class SettingsController : MonoBehaviour
 
     private void UpdateKeyText(InputAction action, int bindingIndex, TMP_Text keyText)
     {
-        if (action == null || keyText == null) return;
+        if (action == null || keyText == null || bindingIndex < 0 || bindingIndex >= action.bindings.Count) return;
         keyText.text = InputControlPath.ToHumanReadableString(
             action.bindings[bindingIndex].effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice
@@ -450,22 +403,28 @@ public class SettingsController : MonoBehaviour
 
     private void SaveRebinds()
     {
+        if (inputActions == null) return;
         string json = inputActions.SaveBindingOverridesAsJson();
-        PlayerPrefs.SetString("Rebinds", json);
+        PlayerPrefs.SetString(RebindsPrefKey, json);
         PlayerPrefs.Save();
     }
 
     private void LoadRebinds()
     {
-        if (PlayerPrefs.HasKey("Rebinds"))
+        if (inputActions == null) return;
+
+        if (PlayerPrefs.HasKey(RebindsPrefKey))
         {
-            string json = PlayerPrefs.GetString("Rebinds");
-            inputActions.LoadBindingOverridesFromJson(json);
+            string json = PlayerPrefs.GetString(RebindsPrefKey);
+            if (!string.IsNullOrEmpty(json))
+            {
+                inputActions.LoadBindingOverridesFromJson(json);
+            }
         }
-        UpdateKeyText(inputActions.FindAction("Player/LAtk"), 0, lAtkText);
-        UpdateKeyText(inputActions.FindAction("Player/RAtk"), 0, rAtkText);
-        UpdateKeyText(inputActions.FindAction("Player/Run"), 0, runText);
-        UpdateKeyText(inputActions.FindAction("Player/Interact"), 0, interactText);
+        UpdateKeyText(inputActions.FindAction(ActionLeftAttack), 0, lAtkText);
+        UpdateKeyText(inputActions.FindAction(ActionRightAttack), 0, rAtkText);
+        UpdateKeyText(inputActions.FindAction(ActionRun), 0, runText);
+        UpdateKeyText(inputActions.FindAction(ActionInteract), 0, interactText);
     }
     #endregion
 }

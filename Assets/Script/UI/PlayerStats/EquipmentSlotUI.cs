@@ -12,34 +12,33 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public GameObject emptyPlaceholder; // 未裝備時顯示的預設圖樣/文字
 
     private GameObject currentItem;
+    private Equipment currentEquipment;
 
     /// <summary>
-    /// 更新槽位顯示
+    /// 更新槽位顯示（傳入場景或 Prefab GameObject）
     /// </summary>
     public void DisplayItem(GameObject item)
     {
         currentItem = item;
+        Equipment equipment = item != null ? item.GetComponent<Equipment>() : null;
+        DisplayItem(equipment);
+    }
 
-        if (item != null)
+    /// <summary>
+    /// 更新槽位顯示（直接傳入 Equipment 組件，避免重複 GetComponent）
+    /// </summary>
+    public void DisplayItem(Equipment equipment)
+    {
+        currentEquipment = equipment;
+
+        if (currentEquipment != null && currentEquipment.itemIcon != null && iconImage != null)
         {
-            // 抓取裝備上的 ShopItem 或 EquipmentInteract 取得 Icon
-            Equipment equipment = item.GetComponent<Equipment>();
-            Sprite itemIcon = (equipment != null) ? equipment.itemIcon : null;
-
-            if (itemIcon != null && iconImage != null)
-            {
-                iconImage.sprite = itemIcon;
-                iconImage.gameObject.SetActive(true);
-            }
-            else
-            {
-                ClearSlot();
-            }
-            //if (emptyPlaceholder != null) emptyPlaceholder.SetActive(false);
+            iconImage.sprite = currentEquipment.itemIcon;
+            iconImage.gameObject.SetActive(true);
+            // 保留深色背景，不關閉 emptyPlaceholder
         }
         else
         {
-            // 槽位為空
             ClearSlot();
         }
     }
@@ -50,25 +49,28 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void ClearSlot()
     {
         currentItem = null;
+        currentEquipment = null;
         if (iconImage != null) iconImage.gameObject.SetActive(false);
         if (emptyPlaceholder != null) emptyPlaceholder.SetActive(true);
     }
 
-    //滑鼠懸停
+    // 滑鼠懸停
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(currentItem != null)
+        if (currentEquipment != null)
         {
-            Equipment equipment = currentItem.GetComponent<Equipment>();
-            UIEvents.ShowTooltip(equipment);
+            UIEvents.ShowTooltip(currentEquipment);
         }
     }
+
     public void OnPointerExit(PointerEventData eventData)
     {
         UIEvents.HideTooltip();
     }
+
     private void OnDisable()
     {
         UIEvents.HideTooltip();
     }
 }
+

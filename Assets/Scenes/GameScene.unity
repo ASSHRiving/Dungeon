@@ -279,6 +279,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452bc1c9dca8ac44289e4433233af2bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsManager
+  uiController: {fileID: 1626766618}
+  duration: 0.25
+  initialScale: {x: 0.88, y: 0.88, z: 1}
   settingsPanel: {fileID: 1859642902}
   inputActions: {fileID: -944628639613478452, guid: e4c71c08a01ea6944aed90557440eb8a, type: 3}
   soundType: {fileID: 1279337186}
@@ -300,12 +303,9 @@ MonoBehaviour:
   rAtkText: {fileID: 1861019183}
   runText: {fileID: 1203820307}
   interactText: {fileID: 939317347}
-  uiController: {fileID: 1626766618}
   minimapController: {fileID: 97654458}
   cameraInput: {fileID: 1952407188}
   mainMixer: {fileID: 24100000, guid: 7f4f7b30c445f5d4ea8aeccf44cb8a1f, type: 2}
-  duration: 0.25
-  initialScale: {x: 0.88, y: 0.88, z: 1}
   tabSwitchDuration: 0.18
   tabSlideOffset: 12
 --- !u!1 &68152821
@@ -1012,6 +1012,7 @@ GameObject:
   - component: {fileID: 185406464}
   - component: {fileID: 185406463}
   - component: {fileID: 185406462}
+  - component: {fileID: 185406465}
   m_Layer: 5
   m_Name: Cancle
   m_TagString: Untagged
@@ -1121,6 +1122,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 185406460}
   m_CullTransparentMesh: 1
+--- !u!114 &185406465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185406460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a7af73e861b464cbe9c439efde1a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonTween
+  hoverScale: 1.05
+  pressScale: 0.95
+  animDuration: 0.14
+  tintOnHover: 0
+  hoverTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &207025700
 GameObject:
   m_ObjectHideFlags: 0
@@ -3012,9 +3030,9 @@ RectTransform:
   - {fileID: 1749971193}
   m_Father: {fileID: 641193873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -395}
   m_SizeDelta: {x: 800, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &433234240
@@ -3930,6 +3948,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsController
   uiController: {fileID: 1626766618}
+  duration: 0.25
+  initialScale: {x: 0.88, y: 0.88, z: 1}
   playerStatsPanel: {fileID: 1486392415}
   healthText: {fileID: 1841958204}
   shieldText: {fileID: 1565705943}
@@ -4194,6 +4214,7 @@ GameObject:
   - component: {fileID: 640694963}
   - component: {fileID: 640694962}
   - component: {fileID: 640694961}
+  - component: {fileID: 640694964}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -4315,6 +4336,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640694959}
   m_CullTransparentMesh: 1
+--- !u!114 &640694964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640694959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a7af73e861b464cbe9c439efde1a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonTween
+  hoverScale: 1.05
+  pressScale: 0.95
+  animDuration: 0.14
+  tintOnHover: 0
+  hoverTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &641193872
 GameObject:
   m_ObjectHideFlags: 0
@@ -5180,9 +5218,9 @@ RectTransform:
   - {fileID: 380512323}
   m_Father: {fileID: 641193873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -305}
   m_SizeDelta: {x: 800, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &802544787
@@ -5823,23 +5861,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 883667017}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ceba58b5b647f24299c820f3f421448, type: 3}
+  m_Script: {fileID: 11500000, guid: 84a7af73e861b464cbe9c439efde1a9f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonAnim
-  buttonRoot: {fileID: 883667018}
-  backgroundImage: {fileID: 0}
-  borderImage: {fileID: 0}
-  accentIndicator: {fileID: 0}
-  labelText: {fileID: 0}
-  normalBorderColor: {r: 1, g: 1, b: 1, a: 0.15}
-  hoverBorderColor: {r: 0, g: 0.94, b: 1, a: 0.85}
-  normalTextColor: {r: 0.85, g: 0.85, b: 0.88, a: 1}
-  hoverTextColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverDuration: 0.15
-  clickDuration: 0.08
-  hoverScale: 1.03
-  clickScale: 0.96
-  hoverShiftX: 4
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonTween
+  hoverScale: 1.05
+  pressScale: 0.95
+  animDuration: 0.14
+  tintOnHover: 0
+  hoverTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &884879954
 GameObject:
   m_ObjectHideFlags: 0
@@ -6542,12 +6571,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2aea87517ac7f499b35a3e3541e5ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialController
+  uiController: {fileID: 1626766618}
+  duration: 0.25
+  initialScale: {x: 0.88, y: 0.88, z: 1}
   overlayCanvasGroup: {fileID: 963501230}
   windowRect: {fileID: 665386482}
   windowCanvasGroup: {fileID: 665386485}
-  duration: 0.25
-  initialScale: {x: 0.88, y: 0.88, z: 1}
-  uiController: {fileID: 1626766618}
   tutorialPanel: {fileID: 665386481}
 --- !u!225 &963501230
 CanvasGroup:
@@ -6648,6 +6677,7 @@ GameObject:
   - component: {fileID: 1007032618}
   - component: {fileID: 1007032617}
   - component: {fileID: 1007032616}
+  - component: {fileID: 1007032619}
   m_Layer: 5
   m_Name: Confirm
   m_TagString: Untagged
@@ -6757,6 +6787,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007032614}
   m_CullTransparentMesh: 1
+--- !u!114 &1007032619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007032614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a7af73e861b464cbe9c439efde1a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonTween
+  hoverScale: 1.05
+  pressScale: 0.95
+  animDuration: 0.14
+  tintOnHover: 0
+  hoverTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1010441711
 GameObject:
   m_ObjectHideFlags: 0
@@ -9102,11 +9149,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EscController
   uiController: {fileID: 1626766618}
+  duration: 0.25
+  initialScale: {x: 0.88, y: 0.88, z: 1}
   escPanel: {fileID: 1654744513}
   windowCanvasGroup: {fileID: 1654744517}
   windowRect: {fileID: 1654744514}
-  duration: 0.25
-  initialScale: {x: 0.88, y: 0.88, z: 1}
   settingsPanel: {fileID: 56985695}
 --- !u!1 &1427750879
 GameObject:
@@ -9452,9 +9499,9 @@ RectTransform:
   - {fileID: 157757324}
   m_Father: {fileID: 641193873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -215}
   m_SizeDelta: {x: 800, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1466356446
@@ -9512,7 +9559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1486392416
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9666,13 +9713,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConfirmDialogController
   uiController: {fileID: 1626766618}
+  duration: 0.25
+  initialScale: {x: 0.88, y: 0.88, z: 1}
   dialogPanel: {fileID: 1394571030}
   messageText: {fileID: 812519446}
   confirmButton: {fileID: 1007032616}
   cancelButton: {fileID: 185406462}
   slot: {fileID: 860392367}
-  duration: 0.25
-  initialScale: {x: 0.88, y: 0.88, z: 1}
 --- !u!1 &1536573588
 GameObject:
   m_ObjectHideFlags: 0
@@ -9724,6 +9771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleController
   fadeCanvasGroup: {fileID: 1858315789}
   fadeDuration: 0.5
+  displayDuration: 1
   titleText: {fileID: 1683380293}
 --- !u!1 &1540777172
 GameObject:
@@ -10810,23 +10858,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1593697484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ceba58b5b647f24299c820f3f421448, type: 3}
+  m_Script: {fileID: 11500000, guid: 84a7af73e861b464cbe9c439efde1a9f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonAnim
-  buttonRoot: {fileID: 1593697485}
-  backgroundImage: {fileID: 0}
-  borderImage: {fileID: 0}
-  accentIndicator: {fileID: 0}
-  labelText: {fileID: 0}
-  normalBorderColor: {r: 1, g: 1, b: 1, a: 0.15}
-  hoverBorderColor: {r: 0, g: 0.94, b: 1, a: 0.85}
-  normalTextColor: {r: 0.85, g: 0.85, b: 0.88, a: 1}
-  hoverTextColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverDuration: 0.15
-  clickDuration: 0.08
-  hoverScale: 1.03
-  clickScale: 0.96
-  hoverShiftX: 4
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonTween
+  hoverScale: 1.05
+  pressScale: 0.95
+  animDuration: 0.14
+  tintOnHover: 0
+  hoverTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1596111699
 GameObject:
   m_ObjectHideFlags: 0
@@ -11344,6 +11383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0ebbf7880afcc4684c84688e163b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIController
+  escController: {fileID: 0}
+  playerStatsController: {fileID: 0}
 --- !u!1 &1628961634
 GameObject:
   m_ObjectHideFlags: 0
@@ -13021,9 +13062,9 @@ RectTransform:
   - {fileID: 1855583393}
   m_Father: {fileID: 641193873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -125}
   m_SizeDelta: {x: 800, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1817425877
@@ -13550,7 +13591,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1859642903
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14032,6 +14073,7 @@ GameObject:
   - component: {fileID: 1911420629}
   - component: {fileID: 1911420628}
   - component: {fileID: 1911420627}
+  - component: {fileID: 1911420630}
   m_Layer: 5
   m_Name: Confirm
   m_TagString: Untagged
@@ -14153,6 +14195,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911420625}
   m_CullTransparentMesh: 1
+--- !u!114 &1911420630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911420625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a7af73e861b464cbe9c439efde1a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonTween
+  hoverScale: 1.05
+  pressScale: 0.95
+  animDuration: 0.14
+  tintOnHover: 0
+  hoverTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1943700597
 GameObject:
   m_ObjectHideFlags: 0
@@ -15157,6 +15216,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 568aa562fc198f6418ee8949bb0a9ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoseController
+  uiController: {fileID: 0}
+  duration: 0.25
+  initialScale: {x: 0.88, y: 0.88, z: 1}
   losePanel: {fileID: 1792941510}
 --- !u!1 &2053036562
 GameObject:
@@ -15301,23 +15363,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2053036562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ceba58b5b647f24299c820f3f421448, type: 3}
+  m_Script: {fileID: 11500000, guid: 84a7af73e861b464cbe9c439efde1a9f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonAnim
-  buttonRoot: {fileID: 2053036563}
-  backgroundImage: {fileID: 0}
-  borderImage: {fileID: 0}
-  accentIndicator: {fileID: 0}
-  labelText: {fileID: 0}
-  normalBorderColor: {r: 1, g: 1, b: 1, a: 0.15}
-  hoverBorderColor: {r: 0, g: 0.94, b: 1, a: 0.85}
-  normalTextColor: {r: 0.85, g: 0.85, b: 0.88, a: 1}
-  hoverTextColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverDuration: 0.15
-  clickDuration: 0.08
-  hoverScale: 1.03
-  clickScale: 0.96
-  hoverShiftX: 4
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonTween
+  hoverScale: 1.05
+  pressScale: 0.95
+  animDuration: 0.14
+  tintOnHover: 0
+  hoverTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2076859390
 GameObject:
   m_ObjectHideFlags: 0
@@ -15671,9 +15724,9 @@ RectTransform:
   - {fileID: 1284301059}
   m_Father: {fileID: 641193873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -35}
   m_SizeDelta: {x: 800, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2124723582

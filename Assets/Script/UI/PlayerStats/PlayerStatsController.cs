@@ -1,11 +1,9 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
-public class PlayerStatsController : MonoBehaviour
+public class PlayerStatsController : UIPanelBase
 {
-    [SerializeField] private UIController uiController;
     private CharacterStats playerStats;
     private CharacterEquipment playerEquipment;
 
@@ -15,97 +13,65 @@ public class PlayerStatsController : MonoBehaviour
     public TMP_Text shieldText;
     public TMP_Text attackText;
     public TMP_Text critRateText;
-    
+
     [Header("Equipment Slots")]
     public List<EquipmentSlotUI> equipmentSlots = new List<EquipmentSlotUI>();
 
-    private bool isPanelOpen = false;
+    protected override GameObject PanelRoot => playerStatsPanel;
+    protected override bool HideOnAwake => false;
 
     private void Start()
     {
-        if(playerStatsPanel != null)
+        if (playerStatsPanel != null)
         {
-            playerStatsPanel.SetActive(false);
-            isPanelOpen = false;
+            HideImmediate();
         }
     }
 
-    private void Update()
-    {
-        if(uiController.GetPlayerInput() != null && uiController.GetPlayerInput().actions["Character"].triggered)
-        {
-            TogglePanel();
-        }
-        else if(uiController.GetPlayerInput() != null && uiController.GetPlayerInput().actions["Esc"].triggered && isPanelOpen)
-        {
-            TogglePanel();
-        }
-    }
+    public void TogglePanel() => Toggle();
 
-    public void TogglePanel()
-    {
-        if (isPanelOpen)
-        {
-            ClosePanel();
-        }
-        else
-        {
-            OpenPanel();
-        }
-    }
-    public void OpenPanel()
-    {
-        isPanelOpen = true;
-        if (playerStatsPanel == null) return;
-        playerStatsPanel.SetActive(true);
-        if(uiController.GetPlayerInput() != null)
-        {
-            uiController.GetPlayerInput().SwitchCurrentActionMap("UI");
-        }
-        Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.None;
+    public void OpenPanel() => Open();
 
+    public void ClosePanel() => Close();
+
+    protected override void OnBeforeOpen()
+    {
         UpdatePlayerStatsUI();
-    }
-    public void ClosePanel()
-    {
-        isPanelOpen = false;
-        if (playerStatsPanel == null) return;
-        playerStatsPanel.SetActive(false);
-        if(uiController.GetPlayerInput() != null)
-        {
-            uiController.GetPlayerInput().SwitchCurrentActionMap("Player");
-        }
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-
     }
 
     private void UpdatePlayerStatsUI()
     {
+        if (uiController == null) return;
+
+        Transform playerTransform = uiController.GetPlayer();
+        if (playerTransform == null) return;
+
         if (playerStats == null)
         {
-            playerStats = uiController.GetPlayer().GetComponent<CharacterStats>();
+            playerStats = playerTransform.GetComponent<CharacterStats>();
         }
         if (playerEquipment == null)
         {
-            playerEquipment = uiController.GetPlayer().GetComponent<CharacterEquipment>();
+            playerEquipment = playerTransform.GetComponent<CharacterEquipment>();
         }
 
-        healthText.text = $"生命值: {playerStats.maxHealth}";
-        shieldText.text = $"護甲: {playerStats.shield}";
-        attackText.text = $"攻擊力: {playerStats.damage}";
-        critRateText.text = $"暴擊率: {playerStats.critRate}%";
-
-        if(equipmentSlots != null)
+        if (playerStats != null)
         {
-            foreach(var slot in equipmentSlots)
+            if (healthText != null) healthText.text = $"生命值: {playerStats.maxHealth}";
+            if (shieldText != null) shieldText.text = $"護甲: {playerStats.shield}";
+            if (attackText != null) attackText.text = $"攻擊力: {playerStats.damage}";
+            if (critRateText != null) critRateText.text = $"暴擊率: {playerStats.critRate}%";
+        }
+
+        if (equipmentSlots != null && playerEquipment != null)
+        {
+            foreach (var slot in equipmentSlots)
             {
-                if(slot == null) continue;
+                if (slot == null) continue;
                 GameObject equipment = playerEquipment.GetEquippedItem(slot.slotType);
                 slot.DisplayItem(equipment);
             }
         }
     }
-
 }
+
