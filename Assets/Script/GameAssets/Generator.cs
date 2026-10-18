@@ -34,9 +34,6 @@ public class Generator : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
-
         if(GameManager.Instance != null)
         {
             level = GameManager.Instance.currentLevel;

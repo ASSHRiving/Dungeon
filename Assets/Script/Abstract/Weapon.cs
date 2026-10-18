@@ -19,7 +19,7 @@ public abstract class Weapon : MonoBehaviour
     public SoundAssetsType weaponSoundType = SoundAssetsType.Sword;
     public AnimatorOverrideController overrideController;
 
-    public TrailRenderer weaponTrail;
+    public TrailRenderer[] weaponTrails;
     public ParticleSystem weaponEffect;
 
     protected virtual void Start()

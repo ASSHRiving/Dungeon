@@ -34,7 +34,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
     public float critRate = 0f;
     public float totalDamage => currentWeapon.damage + damage;
     protected SoundAssetsType weaponSoundType;
-    protected TrailRenderer weaponTrail;
+    protected TrailRenderer[] weaponTrails;
     protected ParticleSystem weaponEffect;
     [SerializeField] protected GameObject arrowPrefab;
 
@@ -104,11 +104,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
         isHitboxActive = true; // 開啟hitbox，在Update()開始攻擊檢測
         currentAttackData = attackData; // 紀錄當前的attack data 在攻擊檢測中使用
         hitTargets.Clear(); // 每次開啟新招式時，清空歷史命中紀錄
-        if(weaponTrail != null)
-        {
-            weaponTrail.Clear();
-            weaponTrail.emitting = true;
-        }
+        EnableWeaponTrails();
         if(weaponEffect != null)
         {
             weaponEffect.Clear(); // 清空舊粒子
@@ -123,10 +119,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
         isHitboxActive = false;
         currentAttackData = null;
         hitTargets.Clear();
-        if(weaponTrail != null)
-        {
-            weaponTrail.emitting = false;
-        }
+        DisableWeaponTrails();
         if(weaponEffect != null)
         {
             var emission = weaponEffect.emission;
@@ -213,6 +206,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     protected virtual void InitWeapon()
     {
+        //更改Hitbox的中心點與半徑，對應武器的攻擊範圍
         if(currentWeapon.attackPoint != null && currentWeapon.attackRadius != 0)
         {
             if(hitboxes != null && hitboxes.Length > 0){
@@ -233,15 +227,41 @@ public abstract class CharacterCombatBase : MonoBehaviour
         {
             col.enabled = false;
         }
-        if(currentWeapon.weaponTrail != null)
+        if(currentWeapon.weaponTrails != null)
         {
-            weaponTrail = currentWeapon.weaponTrail;
-            weaponTrail.emitting = false;
+            weaponTrails = currentWeapon.weaponTrails;
+        }
+        else
+        {
+            weaponTrails = null;
         }
         if(currentWeapon.weaponEffect != null)
         {
             weaponEffect = currentWeapon.weaponEffect;
             weaponEffect.Stop();
+        }
+    }
+    private void DisableWeaponTrails()
+    {
+        if(weaponTrails == null) return;
+        for(int i = 0; i < weaponTrails.Length; i++)
+        {
+            if(weaponTrails[i] != null)
+            {
+                weaponTrails[i].emitting = false;
+            }
+        }
+    }
+    private void EnableWeaponTrails()
+    {
+        if(weaponTrails == null) return;
+        for(int i = 0; i < weaponTrails.Length; i++)
+        {
+            if(weaponTrails[i] != null)
+            {
+                weaponTrails[i].Clear();
+                weaponTrails[i].emitting = true;
+            }
         }
     }
     #if UNITY_EDITOR

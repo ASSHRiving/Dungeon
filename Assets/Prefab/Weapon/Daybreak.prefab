@@ -5060,7 +5060,8 @@ MonoBehaviour:
   attackRadius: 0.55
   weaponSoundType: 1
   overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
-  weaponTrail: {fileID: 2579060852178125568}
+  weaponTrails:
+  - {fileID: 2579060852178125568}
   weaponEffect: {fileID: 361073911710502492}
   totalComboSteps: 5
   comboResetTime: 2

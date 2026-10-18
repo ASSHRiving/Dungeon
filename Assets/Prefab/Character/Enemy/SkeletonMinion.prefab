@@ -2250,6 +2250,7 @@ MonoBehaviour:
     m_Bits: 192
   isOnGround: 0
   audioSource: {fileID: 0}
+  rotationSpeed: 10
 --- !u!114 &8785560115094777324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2274,6 +2275,7 @@ MonoBehaviour:
   movement: {fileID: 0}
   health: {fileID: 0}
   agent: {fileID: 0}
+  characterController: {fileID: 0}
 --- !u!195 &6074247963108559312
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class TutorialController : UIPanelBase
     protected override CanvasGroup OverlayCanvasGroup => overlayCanvasGroup;
     protected override bool HideOnAwake => false;
 
-    public override bool PauseGameWhenOpen => false;
+    public override bool PauseGameWhenOpen => true;
 
     private void Start()
     {

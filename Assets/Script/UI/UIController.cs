@@ -37,10 +37,44 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        GameEvent.OnPlayerSpawn += HandlePlayerSpawned;
+    }
+
+    private void OnDisable()
+    {
+        GameEvent.OnPlayerSpawn -= HandlePlayerSpawned;
+    }
+
+    /// <summary>
+    /// 當 StartRoom.Init() 動態生成或傳送 Player 時觸發，重新綁定 PlayerInput 並立即同步 UI 狀態。
+    /// </summary>
+    private void HandlePlayerSpawned(Transform spawnedPlayer)
+    {
+        player = spawnedPlayer;
+        inputSystem = spawnedPlayer != null ? spawnedPlayer.GetComponent<PlayerInput>() : null;
+        RefreshUIState();
+    }
+
     private void Update()
     {
         PlayerInput input = GetPlayerInput();
         if (input == null || input.actions == null) return;
+
+        // 守護狀態：若目前有面板開啟（例如剛進關卡時 TutorialPanel 比 Player 早執行 Start），確保 ActionMap 與游標維持在 UI 模式
+        if (activePanels.Count > 0)
+        {
+            if (input.currentActionMap == null || input.currentActionMap.name != "UI")
+            {
+                input.SwitchCurrentActionMap("UI");
+            }
+            if (Cursor.lockState != CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+        }
 
         // 1. 統一處理 Esc 鍵：優先關閉最上層面板；若無開啟面板則打開 Esc 選單
         InputAction escAction = input.actions.FindAction("Esc");
