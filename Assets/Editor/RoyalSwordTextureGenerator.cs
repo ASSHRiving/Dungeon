@@ -262,6 +262,155 @@ public static class RoyalSwordTextureGenerator
         EditorUtility.SetDirty(psObj);
         Debug.Log("<color=#FFD700>[RoyalSword VFX]</color> PS_Slash_Sparks 揮砍星芒粒子已自動建立並配置完成！");
     }
+    [MenuItem("Tools/Royal Sword VFX/5. 一鍵生成神聖受擊爆破 Prefab (VFX_HolyHitImpact)")]
+    public static void CreateHolyHitImpactPrefab()
+    {
+        if (!Directory.Exists(OutputFolder))
+        {
+            GenerateURPMaterials();
+        }
+
+        Material starMat = AssetDatabase.LoadAssetAtPath<Material>($"{OutputFolder}/Mat_VFX_HolyStar.mat");
+        Material diamondMat = AssetDatabase.LoadAssetAtPath<Material>($"{OutputFolder}/Mat_VFX_DiamondFacet.mat");
+
+        GameObject rootObj = new GameObject("VFX_HolyHitImpact");
+
+        Color goldColor = new Color(1.0f, 0.843f, 0.0f, 1.0f); // #FFD700
+        Color cyanColor = new Color(0.0f, 0.898f, 1.0f, 1.0f); // #00E5FF
+
+        // =====================================================================
+        // 第 1 層：中心神聖十字瞬間閃光 (Root Particle System)
+        // =====================================================================
+        ParticleSystem flashPS = rootObj.AddComponent<ParticleSystem>();
+        flashPS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        var mainFlash = flashPS.main;
+        mainFlash.duration = 0.5f;
+        mainFlash.loop = false;
+        mainFlash.playOnAwake = true;
+        mainFlash.startLifetime = new ParticleSystem.MinMaxCurve(0.10f, 0.16f);
+        mainFlash.startSpeed = 0f;
+        mainFlash.startSize = new ParticleSystem.MinMaxCurve(0.45f, 0.70f);
+        mainFlash.startRotation = new ParticleSystem.MinMaxCurve(0f, 360f * Mathf.Deg2Rad);
+        mainFlash.startColor = new ParticleSystem.MinMaxGradient(Color.white, cyanColor);
+        mainFlash.stopAction = ParticleSystemStopAction.Destroy; // 播放完畢自動銷毀 (若使用物件池可改為 Disable)
+
+        var emFlash = flashPS.emission;
+        emFlash.rateOverTime = 0f;
+        emFlash.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, 2, 3) });
+
+        var shapeFlash = flashPS.shape;
+        shapeFlash.enabled = false;
+
+        var sizeFlash = flashPS.sizeOverLifetime;
+        sizeFlash.enabled = true;
+        AnimationCurve flashCurve = new AnimationCurve(
+            new Keyframe(0.0f, 0.2f),
+            new Keyframe(0.2f, 1.0f),
+            new Keyframe(1.0f, 0.0f)
+        );
+        sizeFlash.size = new ParticleSystem.MinMaxCurve(1f, flashCurve);
+
+        var renFlash = rootObj.GetComponent<ParticleSystemRenderer>();
+        if (starMat != null) renFlash.sharedMaterial = starMat;
+        renFlash.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+        // =====================================================================
+        // 第 2 層：菱形符文結晶迸裂碎屑 (Sub_DiamondShatter)
+        // =====================================================================
+        GameObject diamondObj = new GameObject("Sub_DiamondShatter");
+        diamondObj.transform.SetParent(rootObj.transform, false);
+        ParticleSystem diamondPS = diamondObj.AddComponent<ParticleSystem>();
+        diamondPS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        var mainDia = diamondPS.main;
+        mainDia.duration = 0.5f;
+        mainDia.loop = false;
+        mainDia.playOnAwake = true;
+        mainDia.simulationSpace = ParticleSystemSimulationSpace.World;
+        mainDia.startLifetime = new ParticleSystem.MinMaxCurve(0.20f, 0.38f);
+        mainDia.startSpeed = new ParticleSystem.MinMaxCurve(2.2f, 5.5f); // 高速向外炸開
+        mainDia.startSize = new ParticleSystem.MinMaxCurve(0.04f, 0.09f);
+        mainDia.startRotation = new ParticleSystem.MinMaxCurve(0f, 360f * Mathf.Deg2Rad);
+        mainDia.gravityModifier = 1.2f; // 帶有結晶碎屑下墜感
+        mainDia.startColor = new ParticleSystem.MinMaxGradient(goldColor, cyanColor);
+
+        var emDia = diamondPS.emission;
+        emDia.rateOverTime = 0f;
+        emDia.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, 12, 18) });
+
+        var shapeDia = diamondPS.shape;
+        shapeDia.enabled = true;
+        shapeDia.shapeType = ParticleSystemShapeType.Cone; // 沿受擊法線向外噴濺
+        shapeDia.angle = 55f;
+        shapeDia.radius = 0.05f;
+
+        var limitDia = diamondPS.limitVelocityOverLifetime;
+        limitDia.enabled = true;
+        limitDia.limit = 0.4f;
+        limitDia.dampen = 0.22f; // 瞬間炸開後急煞
+
+        var sizeDia = diamondPS.sizeOverLifetime;
+        sizeDia.enabled = true;
+        sizeDia.size = new ParticleSystem.MinMaxCurve(1f, AnimationCurve.EaseInOut(0f, 1f, 1f, 0f));
+
+        var rotDia = diamondPS.rotationOverLifetime;
+        rotDia.enabled = true;
+        rotDia.z = new ParticleSystem.MinMaxCurve(-360f * Mathf.Deg2Rad, 360f * Mathf.Deg2Rad);
+
+        var renDia = diamondObj.GetComponent<ParticleSystemRenderer>();
+        if (diamondMat != null) renDia.sharedMaterial = diamondMat;
+        renDia.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+        // =====================================================================
+        // 第 3 層：高速拉伸斬擊光針 (Sub_StarStreaks)
+        // =====================================================================
+        GameObject streakObj = new GameObject("Sub_StarStreaks");
+        streakObj.transform.SetParent(rootObj.transform, false);
+        ParticleSystem streakPS = streakObj.AddComponent<ParticleSystem>();
+        streakPS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        var mainStr = streakPS.main;
+        mainStr.duration = 0.5f;
+        mainStr.loop = false;
+        mainStr.playOnAwake = true;
+        mainStr.simulationSpace = ParticleSystemSimulationSpace.World;
+        mainStr.startLifetime = new ParticleSystem.MinMaxCurve(0.12f, 0.25f);
+        mainStr.startSpeed = new ParticleSystem.MinMaxCurve(3.5f, 7.5f);
+        mainStr.startSize = new ParticleSystem.MinMaxCurve(0.03f, 0.06f);
+        mainStr.startColor = new ParticleSystem.MinMaxGradient(Color.white, goldColor);
+
+        var emStr = streakPS.emission;
+        emStr.rateOverTime = 0f;
+        emStr.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, 8, 12) });
+
+        var shapeStr = streakPS.shape;
+        shapeStr.shapeType = ParticleSystemShapeType.Sphere;
+        shapeStr.radius = 0.05f;
+
+        var limitStr = streakPS.limitVelocityOverLifetime;
+        limitStr.enabled = true;
+        limitStr.limit = 0.2f;
+        limitStr.dampen = 0.3f;
+
+        var renStr = streakObj.GetComponent<ParticleSystemRenderer>();
+        if (starMat != null) renStr.sharedMaterial = starMat;
+        // 關鍵：使用 Stretched Billboard 把星芒拉成銳利的火星速度線！
+        renStr.renderMode = ParticleSystemRenderMode.Stretch;
+        renStr.velocityScale = 0.08f;
+        renStr.lengthScale = 2.2f;
+        renStr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+        // =====================================================================
+        // 儲存為 Prefab 並清理場景暫存物件
+        // =====================================================================
+        string prefabPath = $"{OutputFolder}/VFX_HolyHitImpact.prefab";
+        GameObject prefab = PrefabUtility.SaveAsPrefabAsset(rootObj, prefabPath);
+        Object.DestroyImmediate(rootObj);
+
+        Selection.activeObject = prefab;
+        Debug.Log($"<color=#00E5FF>[RoyalSword VFX]</color> 神聖受擊爆破 Prefab 已成功建立於：{prefabPath}");
+    }
 
     // =========================================================================
     // 貼圖 1：四角星芒聖光貼圖

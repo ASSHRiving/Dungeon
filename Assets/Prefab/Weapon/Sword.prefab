@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword
-  weaponName: Sword
+  weaponName: "\u528D"
   damage: 10
   weaponType: 0
   combo: 0
@@ -125,8 +125,13 @@ MonoBehaviour:
   attackRadius: 0.55
   weaponSoundType: 1
   overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
-  weaponTrail: {fileID: 0}
+  weaponTrails: []
   weaponEffect: {fileID: 0}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
   totalComboSteps: 5
   comboResetTime: 2
 --- !u!1 &5733534103951911731
@@ -476,6 +481,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoyalSword__anim3
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cc8589bcb1b9dd8409e4b64c3242ba63, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -556,7 +565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4277362f69c12a44690fb9df0dcfae39, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -27,6 +27,7 @@ public class PlayerBalanceSystem : MonoBehaviour
     {
         balance += amount;
         UIEvents.GoldChanged(balance);
+        GameManager.Instance.AddGold(amount);
         Debug.Log($"玩家獲得 {amount} 金幣，當前金幣數量: {balance}");
     }
     public void SpendCoin(int amount)

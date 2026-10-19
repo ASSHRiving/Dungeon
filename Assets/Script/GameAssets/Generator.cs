@@ -109,7 +109,7 @@ public class Generator : MonoBehaviour
         }
 
         //生成終點房間
-        if(level < 5)
+        if(level < 4)
         {
             while (true)
             {
@@ -152,7 +152,7 @@ public class Generator : MonoBehaviour
     }
     private void GenerateExtraRooms()
     {
-        int extraCount = Random.Range(1, 5);
+        int extraCount = Random.Range(2, 4);
         int trys = 0;
         for(int i = 0; i < extraCount; i++)
         {

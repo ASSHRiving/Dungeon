@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16908f0bca4c32459926722cf755ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Katana
-  weaponName: Katana
+  weaponName: "\u592A\u5200"
   damage: 20
   weaponType: 1
   combo: 0
@@ -201,6 +201,11 @@ MonoBehaviour:
   weaponTrails:
   - {fileID: 3048609546431090379}
   weaponEffect: {fileID: 35073345575339700}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
   totalComboSteps: 4
   comboResetTime: 2
 --- !u!114 &-8497712865708952325

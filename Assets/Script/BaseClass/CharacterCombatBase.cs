@@ -165,6 +165,8 @@ public abstract class CharacterCombatBase : MonoBehaviour
                     Debug.Log($"[命中新目標] {attackHits[i].name} | 傷害: {finalDamage}");
                     // 呼叫攻擊目標的 TakeDamage 方法，傳入攻擊者、最終傷害值、attack data和是否暴擊，交由目標自己處理傷害邏輯
                     damageable.TakeDamage(transform.root, finalDamage, currentAttackData, isCritical);
+                    // 觸發受擊特效
+                    currentWeapon.SpawnHitImpact(attackHits[i]);
                 }
             }
         }

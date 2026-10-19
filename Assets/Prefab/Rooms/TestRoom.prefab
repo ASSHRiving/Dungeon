@@ -208,12 +208,9 @@ MonoBehaviour:
       waves:
       - waveName: wave1
         spawnConfigs:
-        - enemyPrefab: {fileID: 8368422514923744205, guid: 177795e011e2d4e4da92a8eaa47f0bbd, type: 3}
+        - enemyPrefab: {fileID: 2666423795277257771, guid: bdf311e8cfc8a0a489a0b8972d3a41bf, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
           spawnPoint: {fileID: 3949069269230352584}
-        - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
-          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
-          spawnPoint: {fileID: 1551412055808265734}
   spawnDelay: 1.5
 --- !u!1 &3695354559823909943
 GameObject:
@@ -239,13 +236,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3695354559823909943}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.69245005, z: -0, w: 0.7214659}
   m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9038887382160786023}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 87.649, z: 0}
 --- !u!1 &5154822517958636793
 GameObject:
   m_ObjectHideFlags: 0
@@ -5060,6 +5057,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9038887382160786023}
     m_Modifications:
+    - target: {fileID: 593312897400430891, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.07
+      objectReference: {fileID: 0}
     - target: {fileID: 688442632121694570, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_Name
       value: SouthGateWall
@@ -5067,6 +5068,10 @@ PrefabInstance:
     - target: {fileID: 1613572061211404488, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201936969070753480, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6625729158707372735, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5108,8 +5113,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6726799481236581490, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7792326006345981559, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115242089043683115, guid: 370b4f47350577a4ab4949a2a49762c5, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

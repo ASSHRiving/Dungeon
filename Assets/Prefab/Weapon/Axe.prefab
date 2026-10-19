@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05291e7137b49ab4ca409aa599e2df13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Axe
-  weaponName: Axe
+  weaponName: "\u65A7\u982D"
   damage: 20
   weaponType: 2
   combo: 0
@@ -107,8 +107,13 @@ MonoBehaviour:
   attackRadius: 0.5
   weaponSoundType: 2
   overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
-  weaponTrail: {fileID: 0}
+  weaponTrails: []
   weaponEffect: {fileID: 0}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
   totalComboSteps: 3
   comboResetTime: 2
 --- !u!114 &8997176540131332733

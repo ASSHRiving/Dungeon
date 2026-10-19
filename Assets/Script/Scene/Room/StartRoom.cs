@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 
 public class StartRoom : Room
 {
@@ -36,6 +37,7 @@ public class StartRoom : Room
             {
                 foreach(var item in initEquipment)
                 {
+                    if(item == null) continue;
                     GameObject itemGo = Instantiate(item);
                     itemGo.GetComponent<Equipment>().SetIndex(0);
                     equipment.EquipItem(itemGo);
