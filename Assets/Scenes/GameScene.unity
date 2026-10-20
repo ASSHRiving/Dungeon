@@ -12325,7 +12325,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7078665548527523251, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1899189471}
   m_SourcePrefab: {fileID: 100100000, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
 --- !u!1 &1749971192
 GameObject:
@@ -13949,12 +13952,32 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8358728005158142763, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
   m_PrefabInstance: {fileID: 1717661132}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1899189468}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf44125e340f22345a8305477cb99ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameAssets
+--- !u!1 &1899189468 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7078665548527523251, guid: 8d753be57f8604747b7f2b4e87ad8893, type: 3}
+  m_PrefabInstance: {fileID: 1717661132}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1899189471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899189468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dbd8dcb84e56e540835b4678777e32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FPSCounter
+  updateInterval: 0.2
+  fontSize: 22
+  textColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &1910876528
 GameObject:
   m_ObjectHideFlags: 0
