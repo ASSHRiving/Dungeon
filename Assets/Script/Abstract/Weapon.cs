@@ -67,6 +67,7 @@ public abstract class Weapon : MonoBehaviour
         // 生成 VFX_HolyHitImpact 特效
         if (hitImpactPrefab != null)
         {
+            //Instantiate(hitImpactPrefab, hitPoint, Quaternion.LookRotation(hitNormal));
             ObjectPoolManager.Instance.SpawnVFX(hitImpactPrefab, hitPoint, Quaternion.LookRotation(hitNormal));
         }
 

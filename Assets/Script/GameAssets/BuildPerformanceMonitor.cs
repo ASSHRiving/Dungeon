@@ -80,6 +80,6 @@ public class BuildPerformanceMonitor : MonoBehaviour
             $"Unity 總顯存/記憶體: <color=#FFD700>{totalAllocMB} MB</color>", _textStyle);
 
         GUI.Label(new Rect(25, 100, 290, 22),
-            "<color=#AAAAAA>[按 F3 隱藏面板 | 觀察數值是否隨時間只增不減]</color>", _textStyle);
+            "<color=#AAAAAA>[按 F3 隱藏面板]</color>", _textStyle);
     }
 }

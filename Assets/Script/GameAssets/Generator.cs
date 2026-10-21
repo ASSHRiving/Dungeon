@@ -152,11 +152,29 @@ public class Generator : MonoBehaviour
     }
     private void GenerateExtraRooms()
     {
-        int extraCount = Random.Range(2, 4);
+        int extraCount = level;
+
+        if(level == 3)              //1-3強制生成商店
+        {
+            while (true)
+            {
+                Room randomRoom = spawnedRooms[Random.Range(1, spawnedRooms.Count)];
+                Room.Direction dir = (Room.Direction)Random.Range(0, 4);
+                
+                GameObject prefab = extraRoomPrefabs[0];
+                Room newRoom = SpawnExtraRoom(prefab, dir, randomRoom);
+                if(newRoom != null)
+                {
+                    extraRooms.Add(newRoom);
+                    extraCount--;
+                    break;
+                }
+            }
+        }
         int trys = 0;
         for(int i = 0; i < extraCount; i++)
         {
-            if(trys > 5)
+            if(trys > 10)
             {
                 Debug.Log("嘗試次數過多，停止生成...");
                 return;

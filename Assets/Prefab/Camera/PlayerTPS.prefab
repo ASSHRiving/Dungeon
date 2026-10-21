@@ -14,9 +14,12 @@ GameObject:
   - component: {fileID: 2183493639342311271}
   - component: {fileID: 4179057956181714890}
   - component: {fileID: 4169655869234218568}
+  - component: {fileID: 3644944874900247059}
+  - component: {fileID: 4718252813466589969}
+  - component: {fileID: -5582619892196456746}
   m_Layer: 0
   m_Name: PlayerTPS
-  m_TagString: Untagged
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,13 +32,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041050314575096760}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.24186462, y: 0, z: 0, w: 0.97031003}
+  m_LocalRotation: {x: 0.24186255, y: 0, z: 0, w: 0.9703105}
   m_LocalPosition: {x: 0.185, y: 2.1111293, z: -3.7259471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 27.993, y: 0, z: 0}
 --- !u!114 &8773310936694302779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,8 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 0
-    m_Value: 0
+    Enabled: 1
+    m_Value: 10
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -91,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineOrbitalFollow
-  TargetOffset: {x: 0, y: 0.33, z: 0}
+  TargetOffset: {x: 0, y: 1, z: 0}
   TrackerSettings:
     BindingMode: 4
     PositionDamping: {x: 0, y: 0, z: 0}
@@ -99,7 +102,7 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 1.6
+  Radius: 4
   Orbits:
     Top:
       Radius: 2
@@ -125,7 +128,7 @@ MonoBehaviour:
   VerticalAxis:
     Value: 17.5
     Center: 17.5
-    Range: {x: -10, y: 45}
+    Range: {x: -45, y: 75}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -154,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineHardLookAt
-  LookAtOffset: {x: 0, y: 0, z: 0}
+  LookAtOffset: {x: 0, y: 1, z: 0}
 --- !u!114 &4179057956181714890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,16 +170,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7de3aefa901374ba29464584a3109a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDecollider
-  CameraRadius: 0.8
+  CameraRadius: 0.1
   Decollision:
     Enabled: 1
     ObstacleLayers:
       serializedVersion: 2
-      m_Bits: 1217
+      m_Bits: 65
     UseFollowTarget:
       Enabled: 1
-      YOffset: 0.3
-    Damping: 0.51
+      YOffset: 0.5
+    Damping: 0.2
     SmoothingTime: 0
   TerrainResolution:
     Enabled: 0
@@ -243,3 +246,89 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
+--- !u!114 &3644944874900247059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041050314575096760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &4718252813466589969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041050314575096760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe43d662878a7c43bcd44d43c9e2094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDeoccluder
+  CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 65
+  IgnoreTag: 
+  TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  MinimumDistanceFromTarget: 0.1
+  AvoidObstacles:
+    Enabled: 1
+    DistanceLimit: 0
+    MinimumOcclusionTime: 0
+    CameraRadius: 0.2
+    UseFollowTarget:
+      Enabled: 1
+      YOffset: 1
+    Strategy: 0
+    MaximumEffort: 4
+    SmoothingTime: 0
+    Damping: 0.2
+    DampingWhenOccluded: 0.2
+  ShotQualityEvaluation:
+    Enabled: 0
+    OptimalDistance: 10
+    NearLimit: 5
+    FarLimit: 30
+    MaxQualityBoost: 0.2
+--- !u!114 &-5582619892196456746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041050314575096760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8b9a2c1409d9a40b7b09aa70777701, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dungeon.CameraControl.CinemachineCameraZoom
+  zoomMode: 0
+  cinemachineCamera: {fileID: 8773310936694302779}
+  orbitalFollow: {fileID: 3426146304949186138}
+  thirdPersonFollow: {fileID: 0}
+  follow: {fileID: 0}
+  minDistance: 1
+  maxDistance: 6
+  zoomStep: 0.4
+  smoothSpeed: 12
+  invertScroll: 0
+  ignoreWhenPointerOverUI: 1
