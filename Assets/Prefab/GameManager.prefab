@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3757002298708156095}
   - component: {fileID: 7618377405658379701}
   - component: {fileID: -8299418376152217181}
+  - component: {fileID: -747678929590698351}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -75,6 +76,8 @@ MonoBehaviour:
   damageTextPrefab: {fileID: 6218494515443344597, guid: c48abdf81ae443a459d259424c9bc850, type: 3}
   defaultDamagePoolSize: 20
   maxDamagePoolSize: 50
+  defaultVFXPoolSize: 10
+  maxVFXPoolSize: 30
 --- !u!114 &258616125387801724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +300,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7078665548527523251}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dbd8dcb84e56e540835b4678777e32c, type: 3}
   m_Name: 
@@ -305,3 +308,17 @@ MonoBehaviour:
   updateInterval: 0.2
   fontSize: 22
   textColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &-747678929590698351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7078665548527523251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d9076f26ad3d134a998ce46cba06f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildPerformanceMonitor
+  toggleKey: 284
+  showOnStart: 1

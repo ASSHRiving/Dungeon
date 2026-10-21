@@ -29,7 +29,7 @@ public abstract class Weapon : MonoBehaviour
 
     public abstract void Attack(Animator anim);
 
-    [Header("=== 神聖受擊反饋 (Hit Impact & Hit Stop) ===")]
+    [Header("=== 打擊反饋 (Hit Impact & Hit Stop) ===")]
     [SerializeField] private GameObject hitImpactPrefab;     // 拖入剛生成的 VFX_HolyHitImpact.prefab
     [SerializeField] private Transform bladeStartRef;        // 劍顎起點 (0.213m)
     [SerializeField] private Transform bladeTipRef;          // 劍尖頂點 (0.965m)
@@ -67,7 +67,7 @@ public abstract class Weapon : MonoBehaviour
         // 生成 VFX_HolyHitImpact 特效
         if (hitImpactPrefab != null)
         {
-            Instantiate(hitImpactPrefab, hitPoint, Quaternion.LookRotation(hitNormal));
+            ObjectPoolManager.Instance.SpawnVFX(hitImpactPrefab, hitPoint, Quaternion.LookRotation(hitNormal));
         }
 
         // 觸發微頓幀 (Hit Stop)

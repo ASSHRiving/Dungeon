@@ -92,6 +92,9 @@ public class EnemyHealthSystem : CharacterHealthBase
             // (可選) 給金幣一個微小的向外爆發力
             if (coin != null && coin.TryGetComponent<Rigidbody>(out Rigidbody rb))
             {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                
                 Vector3 force = new Vector3(Random.Range(-2f, 2f), 4f, Random.Range(-2f, 2f));
                 rb.AddForce(force, ForceMode.Impulse);
             }

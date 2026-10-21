@@ -37,7 +37,7 @@ public class GameManager : SingletonBase<GameManager>
         totalPlayTime = PlayerPrefs.GetFloat("TotalPlayTime", 0f);
 
         QualitySettings.vSyncCount = 0;         //垂直同步
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
     }
     private void Update()
     {

@@ -76,7 +76,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     protected void UpdateHealthBar(float targetFill)
     {
         healthBar.fillAmount = targetFill;
-        healthText.text = $"{currentHealth:F0}/{maxHealth:F0}";
+        healthText.SetText("{0:0}/{1:0}", currentHealth, maxHealth);
         if(bufferCoroutine != null)
         {
             StopCoroutine(bufferCoroutine);
