@@ -109,6 +109,7 @@ MonoBehaviour:
   pickupRadius: 2
   flySpeed: 8
   accel: 15
+  clip: {fileID: 8300000, guid: 671fb50eb4e695d44972ebab0dc22e6e, type: 3}
 --- !u!65 &5577094271373709256
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -128,7 +129,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.39999983, y: 0.4, z: 0.13915539}
+  m_Size: {x: 0.39999983, y: 0.4, z: 0.025}
   m_Center: {x: 0.00062239665, y: 0.011320263, z: -0.0039076805}
 --- !u!54 &7507673962117188699
 Rigidbody:

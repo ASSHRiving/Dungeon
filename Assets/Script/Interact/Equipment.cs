@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class Equipment : MonoBehaviour, IInteractable
 {
@@ -22,6 +23,8 @@ public class Equipment : MonoBehaviour, IInteractable
     [SerializeField] public EquipmentType equipmentType;
     [SerializeField] public int currentEquipmentIndex = 0;
     [SerializeField] public MeshFilter prefabRenderer;
+    [Header("音效")]
+    [SerializeField] private AudioClip audioClip;
 
     public string equipmentName => equipmentDataList[currentEquipmentIndex].equipmentName;
     public Mesh mesh => equipmentDataList[currentEquipmentIndex].mesh;
@@ -41,7 +44,14 @@ public class Equipment : MonoBehaviour, IInteractable
         CharacterEquipment characterEquipment = player.GetComponentInChildren<CharacterEquipment>();
         if (characterEquipment != null)
         {
+            AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
             //Debug.Log($"Equipping {item.equipmentName} to {equipmentType}");
+            if(audioSource != null && audioClip != null)
+            {
+                audioSource.PlayOneShot(audioClip, 10f);
+                Debug.Log("s");
+            }
+
             characterEquipment.EquipItem(this.gameObject);
         }
         else

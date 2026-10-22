@@ -1,20 +1,24 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
     private Animator animator;
     private bool isOpen = true;
-    private int openID = Animator.StringToHash("IsOpen"); 
+    private int openID = Animator.StringToHash("IsOpen");
+    [Header("音效")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip audioClip;
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
     }
-    private void Update()
-    {
-        
-    }
     public void CloseGate()
     {
+        if(audioSource != null && audioClip != null)
+        {
+            audioSource.PlayOneShot(audioClip);
+        }
         if (isOpen)
         {
             isOpen = false;

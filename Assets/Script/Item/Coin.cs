@@ -6,6 +6,7 @@ public class Coin : MonoBehaviour
     [SerializeField, Header("靠近多少距離開始吸附")] private float pickupRadius = 4f;
     [SerializeField, Header("吸附飛行的基本速度")] private float flySpeed = 8f;
     [SerializeField, Header("飛行加速度")] private float accel = 15f;
+    [SerializeField, Header("拾取音效")] private AudioClip clip;
 
     private Transform _playerTransform;
     private bool _isFlying = false;
@@ -74,6 +75,11 @@ public class Coin : MonoBehaviour
 
     private void CollectCoin(GameObject player)
     {
+        AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+        if(audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip, 5f);
+        }
         if (player.TryGetComponent<PlayerBalanceSystem>(out PlayerBalanceSystem playerBalance))
         {
             playerBalance.AddCoin(1);

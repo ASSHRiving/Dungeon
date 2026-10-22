@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4816b4bf782caf64bb4d6d41606aebd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopEquipment
-  equipmentName: 
+  itemName: 
   price: 0
 --- !u!114 &8306514674536301932
 MonoBehaviour:
@@ -120,7 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57496932e32aeb48b1ad2a640961716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInteract
-  interactableName: "\u88DD\u5099 \u9A0E\u58EB\u982D\u76D4"
   equipmentDataList:
   - equipmentName: "\u521D\u7D1A\u9A0E\u58EB\u982D\u76D4"
     mesh: {fileID: -5919393615871578326, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
@@ -152,6 +151,7 @@ MonoBehaviour:
   equipmentType: 0
   currentEquipmentIndex: 0
   prefabRenderer: {fileID: 4881154513282627957}
+  audioClip: {fileID: 8300000, guid: 572d13df883d41344a367c669e5ef834, type: 3}
 --- !u!65 &-2186514502656312851
 BoxCollider:
   m_ObjectHideFlags: 0

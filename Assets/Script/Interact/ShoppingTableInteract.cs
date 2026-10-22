@@ -6,8 +6,11 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
 
     [SerializeField] private List<GameObject> itemList;
     private GameObject itemGO;
-    [SerializeField] Transform itemPoint;
-    ShopItem item;
+    [SerializeField] private Transform itemPoint;
+    [Header("音效")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip clip;
+    private ShopItem item;
 
     public string interactableName
     {
@@ -49,6 +52,10 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
                 int itemCost = item.price;
                 if (playerBalance.GetCoin() >= itemCost)
                 {
+                    if(audioSource != null && clip != null)
+                    {
+                        audioSource.PlayOneShot(clip, 2f);
+                    }
                     playerBalance.SpendCoin(itemCost);
                     Debug.Log($"購買成功！花費 {itemCost} 金幣。");
                     // 在這裡可以添加購買成功後的邏輯，例如給玩家物品等
