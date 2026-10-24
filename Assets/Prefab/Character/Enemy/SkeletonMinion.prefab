@@ -2242,12 +2242,12 @@ MonoBehaviour:
   soundAssets: {fileID: 11400000, guid: 001acfc9deccc224599c0e7821b09576, type: 2}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2112
   groundDetectionOffset: 0
   groundDetectionRang: 0.25
   whatIsObs:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 2240
   isOnGround: 0
   audioSource: {fileID: 0}
   rotationSpeed: 10
@@ -2529,8 +2529,13 @@ MonoBehaviour:
   attackRadius: 0.3
   weaponSoundType: 1
   overrideController: {fileID: 0}
-  weaponTrail: {fileID: 0}
+  weaponTrails: []
   weaponEffect: {fileID: 0}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
 --- !u!1 &6979499797611291038
 GameObject:
   m_ObjectHideFlags: 0

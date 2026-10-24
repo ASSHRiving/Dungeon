@@ -736,12 +736,12 @@ MonoBehaviour:
   soundAssets: {fileID: 11400000, guid: 001acfc9deccc224599c0e7821b09576, type: 2}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 28736
+    m_Bits: 30784
   groundDetectionOffset: -0.2
   groundDetectionRang: 0.6
   whatIsObs:
     serializedVersion: 2
-    m_Bits: 1088
+    m_Bits: 3136
   isOnGround: 0
   audioSource: {fileID: 5910682669041207671}
   walkSpeed: 3

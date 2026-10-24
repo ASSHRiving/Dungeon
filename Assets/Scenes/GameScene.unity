@@ -7137,7 +7137,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2048
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -7167,6 +7167,8 @@ MonoBehaviour:
   bossRoomPrefab: {fileID: 8102599031060572500, guid: c2e89f5a03927a647a6f8c9e98d2639d, type: 3}
   roomPrefabs:
   - {fileID: 5747814024907236583, guid: 74340f58c56315c419f4d7a1049f93c7, type: 3}
+  - {fileID: 100000000000000000, guid: be90d168e0119d24b962d8ebe30ce3bf, type: 3}
+  - {fileID: 200000000000000000, guid: dc6ed6723df10bc4f8f1aecb61859744, type: 3}
   extraRoomPrefabs:
   - {fileID: 3477438163347099500, guid: 105924fc30d484a40a7c8e9bd60bdf48, type: 3}
   - {fileID: 796204459928682492, guid: 8af1a4eafcc11ba4d841a11c2697f4fe, type: 3}
@@ -7213,7 +7215,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2048
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -7245,7 +7247,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2048
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0

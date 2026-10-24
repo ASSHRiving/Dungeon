@@ -153,8 +153,7 @@ public class Generator : MonoBehaviour
     private void GenerateExtraRooms()
     {
         int extraCount = level;
-
-        if(level == 3)              //1-3強制生成商店
+        if(level > 1)
         {
             while (true)
             {
