@@ -143,10 +143,10 @@ MonoBehaviour:
     mesh: {fileID: -5768876020731055324, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
     prefabMesh: {fileID: -913217735617071115, guid: b1a52cf77a8652d4887018795cf3084f, type: 3}
     price: 30
-    damage: 30
-    shield: 5
-    health: 13
-    critRate: 25
+    damage: 45
+    shield: 10
+    health: 20
+    critRate: 30
     itemIcon: {fileID: 21300000, guid: 4aded793746f1734eaaf17c2e12f1ae4, type: 3}
   equipmentType: 2
   currentEquipmentIndex: 0
