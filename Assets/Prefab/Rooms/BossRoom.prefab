@@ -1099,6 +1099,16 @@ MonoBehaviour:
         - enemyPrefab: {fileID: 7623786144896459871, guid: 5e42c46b442349b41a338d7e72e57bbf, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
           spawnPoint: {fileID: 6102595468893266159}
+  - level: 1
+    waveGroups:
+    - groupName: TEST
+      weight: 1
+      waves:
+      - waveName: 
+        spawnConfigs:
+        - enemyPrefab: {fileID: 6577592684631747148, guid: dbd19255c80ad7c44aaa9c72aae17c0f, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 5496891572411800139}
   spawnDelay: 2
   reward: {fileID: 1242599117299817303}
 --- !u!1 &8206845525875644541
