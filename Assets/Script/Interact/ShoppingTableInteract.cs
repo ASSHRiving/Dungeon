@@ -67,6 +67,13 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
                     itemGO.layer = LayerMask.NameToLayer("Interactable");
                     gameObject.layer = LayerMask.NameToLayer("UnInteractable");
 
+                    //直接使用商品
+                    IInteractable itemInteract = itemGO.GetComponent<IInteractable>();
+                    if(itemInteract != null)
+                    {
+                        itemInteract.Interact(player);
+                    }
+
                 }
                 else
                 {

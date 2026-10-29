@@ -1414,6 +1414,7 @@ GameObject:
   - component: {fileID: 8046751739406781857}
   - component: {fileID: 8285613119541454601}
   - component: {fileID: 143891261475800524}
+  - component: {fileID: 5517699595673121618}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -1504,6 +1505,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5517699595673121618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4288985796791376906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96f4140a52bc71428f0990e095257d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CanvasBillboard
 --- !u!1 &4319554561557647845
 GameObject:
   m_ObjectHideFlags: 0
@@ -2165,8 +2178,8 @@ Transform:
   - {fileID: 2199628841774520173}
   - {fileID: 8892428528030753854}
   - {fileID: 5044610085686842716}
-  - {fileID: 1150183570203429782}
   - {fileID: 415817621321374357}
+  - {fileID: 1150183570203429782}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &6389995006084835313

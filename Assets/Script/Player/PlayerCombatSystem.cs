@@ -10,6 +10,7 @@ public class PlayerCombatSystem : CharacterCombatBase
     [Header("索敵設定")]
     [SerializeField] private Transform enemyDetectionCenter;
     [SerializeField] private float enemyDetectionRadius;
+    [SerializeField] private float attackLockRange = 3f;
     [SerializeField] private LayerMask whatIsObs;
     private Collider[] detectedEnemies = new Collider[10];
 
@@ -97,7 +98,10 @@ public class PlayerCombatSystem : CharacterCombatBase
         
         if (count > 0)
         {
-            Transform bestTarget = null;
+            Transform closestTarget = null;
+            float minDistance = attackLockRange; // 只記錄攻擊範圍 (預設 3m) 內的最近距離
+
+            Transform bestCameraTarget = null;
             float highestDot = -1f; // 點積最低是 -1，所以從 -1 開始比
 
             // 取得鏡頭正前方的平面方向
@@ -121,26 +125,44 @@ public class PlayerCombatSystem : CharacterCombatBase
                 float distanceToEnemy = directionToEnemy.magnitude;
                 directionToEnemy.Normalize();
 
-                // 計算平面方向內積（畫面中央優先度）
-                Vector3 flatDir = (enemyRoot.position - transform.position);
-                flatDir.y = 0;
-                flatDir.Normalize();
-
-                float dot = Vector3.Dot(cameraForward, flatDir);
-
-                // 條件 A：必須在鏡頭視野範圍內 (例如 Dot > 0.3)
-                if (dot > highestDot)
+                // 優先判斷：是否在攻擊範圍 (3m) 內且比目前最近目標更近
+                if (distanceToEnemy <= minDistance)
                 {
-                    // 🔑 條件 B：Raycast 視線遮擋檢查
-                    // 射線從玩家發射到敵人，長度為實際距離 distanceToEnemy
-                    // 如果沒有打到 whatIsObs，代表視線完全無遮擋！
+                    // Raycast 視線遮擋檢查
                     if (!Physics.Raycast(origin, directionToEnemy, out RaycastHit hit, distanceToEnemy, whatIsObs))
                     {
-                        highestDot = dot;
-                        bestTarget = enemyRoot;
+                        minDistance = distanceToEnemy;
+                        closestTarget = enemyRoot;
+                    }
+                }
+                // 次要判斷：若尚未找到攻擊範圍內的目標，才根據鏡頭朝向索敵
+                else if (closestTarget == null)
+                {
+                    // 計算平面方向內積（畫面中央優先度）
+                    Vector3 flatDir = (enemyRoot.position - transform.position);
+                    flatDir.y = 0;
+                    flatDir.Normalize();
+
+                    float dot = Vector3.Dot(cameraForward, flatDir);
+
+                    // 條件 A：必須在鏡頭視野範圍內 (例如 Dot > 0.3)
+                    if (dot > highestDot)
+                    {
+                        // 🔑 條件 B：Raycast 視線遮擋檢查
+                        // 射線從玩家發射到敵人，長度為實際距離 distanceToEnemy
+                        // 如果沒有打到 whatIsObs，代表視線完全無遮擋！
+                        if (!Physics.Raycast(origin, directionToEnemy, out RaycastHit hit, distanceToEnemy, whatIsObs))
+                        {
+                            highestDot = dot;
+                            bestCameraTarget = enemyRoot;
+                        }
                     }
                 }
             }
+
+            // 優先鎖定攻擊範圍內最近的目標，若無則使用鏡頭朝向目標
+            Transform bestTarget = closestTarget != null ? closestTarget : bestCameraTarget;
+
             // 如果有找到適合的目標，設定為 Target
             if (bestTarget != null)
             {
@@ -221,4 +243,3 @@ public class PlayerCombatSystem : CharacterCombatBase
         InitWeapon();
     }
 }
-

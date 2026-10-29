@@ -49,7 +49,6 @@ public class Equipment : MonoBehaviour, IInteractable
             if(audioSource != null && audioClip != null)
             {
                 audioSource.PlayOneShot(audioClip, 10f);
-                Debug.Log("s");
             }
 
             characterEquipment.EquipItem(this.gameObject);
