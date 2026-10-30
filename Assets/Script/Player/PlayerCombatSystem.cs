@@ -114,7 +114,7 @@ public class PlayerCombatSystem : CharacterCombatBase
                 if (detectedEnemies[i] == null) continue;
 
                 // 1. 取得敵人的根物件，避免同一個敵人因為有多個 Collider 而被重複或算錯位置
-                Transform enemyRoot = detectedEnemies[i].transform.root;
+                Transform enemyRoot = detectedEnemies[i].transform;
                 if (enemyRoot == transform.root) continue;
 
                 // 計算玩家到敵人的方向與距離

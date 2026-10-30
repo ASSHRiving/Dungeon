@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3922560829240549381}
   - component: {fileID: 206882775303981387}
   - component: {fileID: -1300868471997070199}
-  m_Layer: 6
+  - component: {fileID: 8411405339399489381}
+  m_Layer: 16
   m_Name: Barrel_C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,6 +111,25 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5282377409767143930, guid: edcc86a903182d0429c0d7b2c727fec0, type: 3}
+--- !u!114 &8411405339399489381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4377933626515690895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f93231ef2e14af42a1688ba689a437b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableProp
+  brokenPrefab: {fileID: 5237055556476612712, guid: 77d7aaaf3b002e545bda79804eb54556, type: 3}
+  breakVFX: {fileID: 0}
+  breakSFX: {fileID: 0}
+  explosionForce: 300
+  explosionRadius: 2
+  shardLifeTime: 3.5
+  dropCoinCount: 2
