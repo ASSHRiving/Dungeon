@@ -10,7 +10,7 @@ public class PlayerCombatSystem : CharacterCombatBase
     [Header("索敵設定")]
     [SerializeField] private Transform enemyDetectionCenter;
     [SerializeField] private float enemyDetectionRadius;
-    [SerializeField] private float attackLockRange = 3f;
+    [SerializeField] private float attackLockRange = 1.5f;
     [SerializeField] private LayerMask whatIsObs;
     private Collider[] detectedEnemies = new Collider[10];
 

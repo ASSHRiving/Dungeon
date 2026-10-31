@@ -41,8 +41,11 @@ public class SettingsController : UIPanelBase
 
     [Header("設定 UI 元件")]
     [SerializeField] private TMP_Dropdown minimapDropdown;
+    [SerializeField] private Image rotateMapBtnImage; // 「旋轉」按鈕的 Image
+    [SerializeField] private Image fixedMapBtnImage;  // 「固定」按鈕的 Image
     [SerializeField] private Slider horizontalSlider;
     [SerializeField] private Slider verticalSlider;
+    [SerializeField] private TMP_Dropdown fpsDropdown; // 新增：FPS 設定下拉選單 (選項 0: 60, 選項 1: 120)
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Slider effectSlider;
     [SerializeField] private TMP_Text lAtkText;
@@ -83,6 +86,7 @@ public class SettingsController : UIPanelBase
     {
         LoadMinimap();      // 初始化小地圖
         LoadSensitivity();  // 初始化靈敏度
+        LoadFPS();          // 初始化 FPS 上限
         LoadVolume();       // 初始化音效
         LoadRebinds();      // 初始化按鍵綁定
         InitType();         // 初始化頁面
@@ -207,7 +211,8 @@ public class SettingsController : UIPanelBase
     }
     #endregion
 
-    #region 小地圖
+    #region 小地圖 (二選一切換：0 = 旋轉, 1 = 固定)
+    /*
     private void LoadMinimap()
     {
         int savedMinimapMode = PlayerPrefs.GetInt(MinimapController.MinimapModePrefKey, 0);
@@ -231,6 +236,49 @@ public class SettingsController : UIPanelBase
         {
             PlayerPrefs.SetInt(MinimapController.MinimapModePrefKey, modeIndex);
         }
+    }
+    */
+
+    private void LoadMinimap()
+    {
+        int savedMinimapMode = PlayerPrefs.GetInt("MinimapModeSetting", 0);
+        ApplyMinimapMode(savedMinimapMode, playSound: false);
+    }
+
+    /// <summary>
+    /// 綁定至「旋轉」按鈕的 OnClick 事件 (對應 modeIndex = 0)
+    /// </summary>
+    public void SelectRotateMinimap()
+    {
+        ApplyMinimapMode(0, playSound: true);
+    }
+
+    /// <summary>
+    /// 綁定至「固定」按鈕的 OnClick 事件 (對應 modeIndex = 1)
+    /// </summary>
+    public void SelectFixedMinimap()
+    {
+        ApplyMinimapMode(1, playSound: true);
+    }
+
+    private void ApplyMinimapMode(int modeIndex, bool playSound)
+    {
+        if (playSound && GameAssets.Instance != null)
+        {
+            GameAssets.Instance.PlayUIClickSound();
+        }
+
+        // 通知小地圖控制器切換模式
+        if (minimapController != null)
+        {
+            minimapController.SetMinimapMode((MinimapController.MinimapMode)modeIndex);
+        }
+
+        // 直接複用頂部分頁的視覺切換方法，讓選中的按鈕亮起 ⌜ ⌝ 括號與亮白字、未選中的變暗灰字
+        UpdateTabButtonVisual(rotateMapBtnImage, isSelected: modeIndex == 0);
+        UpdateTabButtonVisual(fixedMapBtnImage,  isSelected: modeIndex == 1);
+
+        PlayerPrefs.SetInt("MinimapModeSetting", modeIndex);
     }
     #endregion
 
@@ -272,7 +320,7 @@ public class SettingsController : UIPanelBase
     }
     #endregion
 
-    #region 靈敏度
+    #region 影像
     private void LoadSensitivity()
     {
         float savedHorizontalSensitivity = PlayerPrefs.GetFloat(HorizontalSensPrefKey, 6f);
@@ -305,6 +353,59 @@ public class SettingsController : UIPanelBase
         slider.SetValueWithoutNotify(initialValue);
         slider.onValueChanged.RemoveListener(callback);
         slider.onValueChanged.AddListener(callback);
+    }
+    #endregion
+   
+    #region FPS 設定
+    private void LoadFPS()
+    {
+        // 預設值設為 0 (對應 60 FPS)，若希望預設 120 可將第二個參數改為 1
+        int savedFpsIndex = PlayerPrefs.GetInt("FPSSetting", 0);
+
+        if (fpsDropdown != null)
+        {
+            fpsDropdown.SetValueWithoutNotify(savedFpsIndex);
+            fpsDropdown.RefreshShownValue();
+            fpsDropdown.onValueChanged.AddListener(OnFPSChanged);
+        }
+
+        ApplyFPS(savedFpsIndex);
+    }
+
+    private void OnFPSChanged(int index)
+    {
+        if (GameAssets.Instance != null) GameAssets.Instance.PlayUIClickSound();
+
+        ApplyFPS(index);
+        PlayerPrefs.SetInt("FPSSetting", index);
+    }
+
+    private void ApplyFPS(int index)
+    {
+        int targetFps = (index == 0) ? 60 : 120;
+        //取得螢幕刷新率
+        int screenHz = Mathf.RoundToInt((float)Screen.currentResolution.refreshRateRatio.value);
+
+        if (targetFps == screenHz)
+        {
+            // 當目標幀率 (60) 等於螢幕更新率 (60Hz) 時：
+            // 開啟垂直同步 (vSyncCount = 1)，既能精準鎖在 60 FPS，又能 100% 消除畫面中央的撕裂線！
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = 60;
+        }
+        else if (screenHz == targetFps * 2)
+        {
+            // 若未來在 120Hz 螢幕上選 60 FPS，使用半刷新率同步 (120 / 2 = 60)，同樣零撕裂
+            QualitySettings.vSyncCount = 2;
+            Application.targetFrameRate = 60;
+        }
+        else
+        {
+            // 當目標幀率高於螢幕更新率 (例如在 60Hz 螢幕上強制跑 120 FPS 降低輸入延遲)：
+            // 必須關閉垂直同步才能突破 60Hz 硬體上限跑到 120 FPS
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = targetFps;
+        }
     }
     #endregion
 

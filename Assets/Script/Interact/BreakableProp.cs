@@ -11,9 +11,12 @@ public class BreakableProp : MonoBehaviour, IDamageable
     [SerializeField] private float explosionForce = 300f;
     [SerializeField] private float explosionRadius = 2f;
     [SerializeField] private float shardLifeTime = 3.5f;
+    [SerializeField] private float explosionCenterOffset  = 0.5f;
+
 
     [Header("掉落設定")]
     [SerializeField] private int dropCoinCount = 2;
+    [SerializeField] private GameObject loot;
 
     private bool isBroken = false;
 
@@ -36,7 +39,7 @@ public class BreakableProp : MonoBehaviour, IDamageable
     {
         if (isBroken) return;
         isBroken = true;
-        Vector3 hitPoint = transform.position + new Vector3(0, 0.5f, 0);
+        Vector3 hitPoint = transform.position + new Vector3(0, explosionCenterOffset, 0);
 
         ObjectPoolManager.Instance.SpawnDebris(
             brokenPrefab,
@@ -50,7 +53,19 @@ public class BreakableProp : MonoBehaviour, IDamageable
 
         for (int i = 0; i < dropCoinCount; i++)
         {
-            ObjectPoolManager.Instance.GetCoin(transform.position + Vector3.up * 0.5f, Quaternion.identity);
+            Coin coin = ObjectPoolManager.Instance.GetCoin(transform.position + Vector3.up * 0.5f, Quaternion.identity).GetComponent<Coin>();
+            coin.DropCoin();
+        }
+        if(loot != null)
+        {
+            GameObject lootGB = Instantiate(loot, transform.position, transform.rotation);
+            Rigidbody lootRB = lootGB.GetComponent<Rigidbody>();
+            if (lootRB != null)
+            {
+                Vector3 force = new Vector3(Random.Range(-2f, 2f), 4f, Random.Range(-2f, 2f));
+                lootRB.AddForce(force, ForceMode.Impulse);
+            }
+
         }
         Destroy(gameObject);
     }

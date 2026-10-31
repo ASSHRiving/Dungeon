@@ -95,9 +95,20 @@ public class Coin : MonoBehaviour
         }
     }
 
+    public void DropCoin()
+    {
+        if (transform.TryGetComponent<Rigidbody>(out Rigidbody coinRb))
+        {
+            Vector3 force = new Vector3(Random.Range(-2f, 2f), 4f, Random.Range(-2f, 2f));
+            coinRb.AddForce(force, ForceMode.Impulse);
+        }
+    }
+
+    /*
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, pickupRadius);
     }
+    */
 }

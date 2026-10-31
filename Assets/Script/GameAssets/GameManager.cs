@@ -36,8 +36,8 @@ public class GameManager : SingletonBase<GameManager>
         deathCount = PlayerPrefs.GetInt("DeathCount", 0);
         totalPlayTime = PlayerPrefs.GetFloat("TotalPlayTime", 0f);
 
-        QualitySettings.vSyncCount = 0;         //垂直同步
-        Application.targetFrameRate = 120;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = (PlayerPrefs.GetInt("FPSSetting", 0) == 0) ? 60 : 120;
     }
     private void Update()
     {
