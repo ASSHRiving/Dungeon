@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8911190696469547184}
   - component: {fileID: 6871136811682351245}
   - component: {fileID: 5993175073647905508}
+  - component: {fileID: -9043484944191866893}
   m_Layer: 12
   m_Name: TitansTooth
   m_TagString: Untagged
@@ -124,8 +125,27 @@ MonoBehaviour:
   weaponTrails:
   - {fileID: 371910734220017827}
   weaponEffect: {fileID: 1591383976834806949}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
   totalComboSteps: 3
   comboResetTime: 2
+--- !u!114 &-9043484944191866893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2491513048122870044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1089fa64b577645a9717f3952584cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
+  itemName: 
+  price: 10
 --- !u!1 &3124977615342603206
 GameObject:
   m_ObjectHideFlags: 0

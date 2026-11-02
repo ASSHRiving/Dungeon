@@ -5000,6 +5000,7 @@ GameObject:
   - component: {fileID: 4290679663006816982}
   - component: {fileID: 707196905503767497}
   - component: {fileID: 6147839197508986491}
+  - component: {fileID: -8327386823170074037}
   m_Layer: 12
   m_Name: Crag
   m_TagString: Untagged
@@ -5098,6 +5099,11 @@ MonoBehaviour:
   weaponTrails:
   - {fileID: 8589625807567686133}
   weaponEffect: {fileID: 398583311771153887}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
   totalComboSteps: 3
   comboResetTime: 2
 --- !u!114 &6147839197508986491
@@ -5113,6 +5119,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropsInteract
   interactableName: "\u5CA9\u5CF0"
+--- !u!114 &-8327386823170074037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4327998379376985708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1089fa64b577645a9717f3952584cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
+  itemName: 
+  price: 10
 --- !u!1001 &5943346967215799641
 PrefabInstance:
   m_ObjectHideFlags: 0

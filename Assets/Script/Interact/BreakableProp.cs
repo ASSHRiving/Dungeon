@@ -17,6 +17,7 @@ public class BreakableProp : MonoBehaviour, IDamageable
     [Header("掉落設定")]
     [SerializeField] private int dropCoinCount = 2;
     [SerializeField] private GameObject loot;
+    [SerializeField, Range(0f, 1f)] private float lootDropRate = 0.1f;
 
     private bool isBroken = false;
 
@@ -56,7 +57,7 @@ public class BreakableProp : MonoBehaviour, IDamageable
             Coin coin = ObjectPoolManager.Instance.GetCoin(transform.position + Vector3.up * 0.5f, Quaternion.identity).GetComponent<Coin>();
             coin.DropCoin();
         }
-        if(loot != null)
+        if (loot != null && Random.value < lootDropRate)
         {
             GameObject lootGB = Instantiate(loot, transform.position, transform.rotation);
             Rigidbody lootRB = lootGB.GetComponent<Rigidbody>();

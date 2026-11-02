@@ -130,7 +130,9 @@ MonoBehaviour:
   breakVFX: {fileID: 0}
   breakSFX: {fileID: 0}
   explosionForce: 100
-  explosionRadius: 1
+  explosionRadius: 0.5
   shardLifeTime: 3.5
   explosionCenterOffset: 0.35
-  dropCoinCount: 2
+  dropCoinCount: 0
+  loot: {fileID: 0}
+  lootDropRate: 0.1

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShopPotion : ShopItem
 {
-    Potion potion;
+    private Potion potion;
     public override void initItem()
     {
         potion = GetComponent<Potion>();

@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 7085901924266915493}
   - component: {fileID: -1487884536949310058}
   - component: {fileID: -8497712865708952325}
+  - component: {fileID: 5986542275822651035}
   m_Layer: 12
   m_Name: Katana
   m_TagString: Untagged
@@ -221,6 +222,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropsInteract
   interactableName: "\u592A\u5200"
+--- !u!114 &5986542275822651035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4170710271409233420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1089fa64b577645a9717f3952584cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
+  itemName: 
+  price: 10
 --- !u!1 &7370536282192782428
 GameObject:
   m_ObjectHideFlags: 0

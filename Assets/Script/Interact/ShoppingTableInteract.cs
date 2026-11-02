@@ -5,11 +5,13 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
 {
 
     [SerializeField] private List<GameObject> itemList;
-    private GameObject itemGO;
     [SerializeField] private Transform itemPoint;
+
     [Header("音效")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip clip;
+
+    private GameObject itemGO;
     private ShopItem item;
 
     public string interactableName
@@ -28,17 +30,62 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
         }
     }
 
-
     private void Start()
     {
         init();
     }
     public void init()
     {
-        itemGO = Instantiate(itemList[Random.Range(0, itemList.Count)], itemPoint);
+        GameObject selectedPrefab = GetWeightedRandomItem();
+        if (selectedPrefab == null) return;
+
+        itemGO = Instantiate(selectedPrefab, itemPoint);
         itemGO.layer = LayerMask.NameToLayer("UnInteractable");
         item = itemGO.GetComponent<ShopItem>();
-        item.initItem();
+        if (item != null)
+        {
+            item.initItem();
+        }
+    }
+
+    private GameObject GetWeightedRandomItem()
+    {
+        if (itemList == null || itemList.Count == 0) return null;
+
+        float totalWeight = 0f;
+        foreach (GameObject prefab in itemList)
+        {
+            if (prefab == null) continue;
+            ShopItem shopItem = prefab.GetComponent<ShopItem>();
+            float w = (shopItem != null) ? shopItem.weight : 1f;
+            if (w > 0f)
+            {
+                totalWeight += w;
+            }
+        }
+
+        if (totalWeight <= 0f)
+        {
+            Debug.LogWarning("商店所有商品的權重總和為 0，改用等機率隨機選擇！");
+            return itemList[Random.Range(0, itemList.Count)];
+        }
+
+        float randomValue = Random.Range(0f, totalWeight);
+        foreach (GameObject prefab in itemList)
+        {
+            if (prefab == null) continue;
+            ShopItem shopItem = prefab.GetComponent<ShopItem>();
+            float w = (shopItem != null) ? shopItem.weight : 1f;
+            if (w <= 0f) continue;
+
+            randomValue -= w;
+            if (randomValue <= 0f)
+            {
+                return prefab;
+            }
+        }
+
+        return itemList[itemList.Count - 1];
     }
 
     public void Interact(Transform player)

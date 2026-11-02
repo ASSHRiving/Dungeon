@@ -129,7 +129,10 @@ MonoBehaviour:
   brokenPrefab: {fileID: 5237055556476612712, guid: 77d7aaaf3b002e545bda79804eb54556, type: 3}
   breakVFX: {fileID: 0}
   breakSFX: {fileID: 0}
-  explosionForce: 300
-  explosionRadius: 2
+  explosionForce: 200
+  explosionRadius: 1.5
   shardLifeTime: 3.5
-  dropCoinCount: 2
+  explosionCenterOffset: 0.5
+  dropCoinCount: 3
+  loot: {fileID: 0}
+  lootDropRate: 0.1

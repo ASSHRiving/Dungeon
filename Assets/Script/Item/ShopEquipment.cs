@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShopEquipment : ShopItem
 {
-    Equipment equipment;
+    private Equipment equipment;
     public override void initItem()
     {
         equipment = GetComponent<Equipment>();

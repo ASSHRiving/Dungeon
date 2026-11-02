@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1810835281741932290}
   - component: {fileID: 2758771242735464110}
   - component: {fileID: 1431829045131785834}
+  - component: {fileID: -2768120432930805820}
   m_Layer: 12
   m_Name: StarEater
   m_TagString: Untagged
@@ -124,8 +125,27 @@ MonoBehaviour:
   weaponTrails:
   - {fileID: 4056426498342952243}
   weaponEffect: {fileID: 5968932415203279815}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
   totalComboSteps: 5
   comboResetTime: 2
+--- !u!114 &-2768120432930805820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540466111648545420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1089fa64b577645a9717f3952584cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
+  itemName: 
+  price: 10
 --- !u!1 &1710426857426298349
 GameObject:
   m_ObjectHideFlags: 0

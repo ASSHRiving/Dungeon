@@ -636,7 +636,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.35
   m_SlopeLimit: 60
-  m_StepOffset: 0.3
+  m_StepOffset: 0.2
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   weaponHolder: {fileID: 7625551209400036020}
   enemyDetectionCenter: {fileID: 3815702584121428951}
   enemyDetectionRadius: 7
-  attackLockRange: 3
+  attackLockRange: 1.5
   whatIsObs:
     serializedVersion: 2
     m_Bits: 2113

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5034570172128092915}
   - component: {fileID: 1782410763795014568}
   - component: {fileID: 8997176540131332733}
+  - component: {fileID: 7510758440356129574}
   m_Layer: 12
   m_Name: Axe
   m_TagString: Untagged
@@ -129,6 +130,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropsInteract
   interactableName: "\u65A7\u982D"
+--- !u!114 &7510758440356129574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457791777380979166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1089fa64b577645a9717f3952584cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
+  itemName: 
+  price: 0
 --- !u!1 &5830537185590514205
 GameObject:
   m_ObjectHideFlags: 0

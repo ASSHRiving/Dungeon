@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8186286263188415259}
   - component: {fileID: 5300873291845164455}
   - component: {fileID: 393641489355340520}
+  - component: {fileID: -7249766839606088578}
   m_Layer: 12
   m_Name: Sword
   m_TagString: Untagged
@@ -134,6 +135,20 @@ MonoBehaviour:
   hitStopDuration: 0.045
   totalComboSteps: 5
   comboResetTime: 2
+--- !u!114 &-7249766839606088578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437377769245150018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1089fa64b577645a9717f3952584cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
+  itemName: 
+  price: 0
 --- !u!1 &5733534103951911731
 GameObject:
   m_ObjectHideFlags: 0
