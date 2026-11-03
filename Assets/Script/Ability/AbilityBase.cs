@@ -54,7 +54,7 @@ public abstract class AbilityBase : ScriptableObject
             system.movement.ChaseTarget(target, chaseSpeed);
         }
         // 2. 距離太近：呼叫移動系統後退（若背後貼牆無路可退，直接釋放技能避免卡死）
-        else if (distance < minDistance)
+        else if (distance < minDistance - 0.1f)
         {
             if (!system.movement.TryRetreatFromTarget(target, retreatSpeed))
             {

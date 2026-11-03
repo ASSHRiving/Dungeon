@@ -584,10 +584,10 @@ MonoBehaviour:
   canAttack: 1
   inAttack: 0
   detectionCenter: {fileID: 5044610085686842716}
-  detectionRange: 20
+  detectionRange: 10
   whatisObs:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2113
   spawnPoint: {fileID: 0}
 --- !u!1 &1576138468227602216
 GameObject:
@@ -2263,7 +2263,9 @@ MonoBehaviour:
     m_Bits: 2240
   isOnGround: 0
   audioSource: {fileID: 0}
-  rotationSpeed: 10
+  navSampleRadius: 1.5
+  minValidMoveDistance: 0.3
+  animDampTime: 0.2
 --- !u!114 &8785560115094777324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2280,6 +2282,8 @@ MonoBehaviour:
   currrentState: {fileID: 11400000, guid: c1b5d07eb9068c84ab5f50b63222a829, type: 2}
   allEnemySkills:
   - {fileID: 11400000, guid: 7263a18cbe9940f4b860a56cea2d3775, type: 2}
+  currentSkill: {fileID: 0}
+  skillAdjustTimer: 0
   randomHorizontal: 1
   strafeTimer: 0
   attackTimer: 0

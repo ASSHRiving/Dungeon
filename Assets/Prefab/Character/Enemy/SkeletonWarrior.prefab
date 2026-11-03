@@ -218,7 +218,9 @@ MonoBehaviour:
     m_Bits: 2240
   isOnGround: 0
   audioSource: {fileID: 8055200997371709879}
-  rotationSpeed: 10
+  navSampleRadius: 1.5
+  minValidMoveDistance: 0.3
+  animDampTime: 0.2
 --- !u!114 &3708943995513545798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +240,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a6e5ba8cc743f24aac7316306489657, type: 2}
   - {fileID: 11400000, guid: c906db324623e884dae4170f159d012c, type: 2}
   - {fileID: 11400000, guid: f5fffb57cbdaffa4db08a6d999657b32, type: 2}
+  currentSkill: {fileID: 0}
+  skillAdjustTimer: 0
   randomHorizontal: 1
   strafeTimer: 0
   attackTimer: 0
@@ -979,7 +983,7 @@ MonoBehaviour:
   detectionRange: 10
   whatisObs:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 2113
   spawnPoint: {fileID: 0}
 --- !u!114 &815857884480404842
 MonoBehaviour:

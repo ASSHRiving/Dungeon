@@ -135,12 +135,9 @@ MonoBehaviour:
       waves:
       - waveName: wave1
         spawnConfigs:
-        - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+        - enemyPrefab: {fileID: 8189983362293444178, guid: bd02e00326b35f349bbf6e000bef8949, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
           spawnPoint: {fileID: 3949069269230352584}
-        - enemyPrefab: {fileID: 7595568703277535000, guid: 3834e2e5ac1bdd94db85abc5a24bb2e4, type: 3}
-          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
-          spawnPoint: {fileID: 1551412055808265734}
   spawnDelay: 1.5
 --- !u!1 &3695354559823909943
 GameObject:

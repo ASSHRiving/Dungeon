@@ -490,7 +490,10 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: Motion
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'B_Spine1' has translation animation that
+      will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -529,9 +532,9 @@ ModelImporter:
       curves: []
       events:
       - time: 0.4195652
-        functionName: Hit
+        functionName: OnAnimationShoot
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11400000, guid: d3e8e60187c1c9d4e92d82d882cb4c0c, type: 2}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
