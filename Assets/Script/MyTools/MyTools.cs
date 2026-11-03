@@ -19,6 +19,9 @@ public static class MyTools
         Vector3 targetDirection = target.position - self.position;
         targetDirection.y = 0f;
 
+        if (targetDirection.sqrMagnitude < 0.0001f)
+            return self.rotation;
+
         Quaternion newRotation = Quaternion.LookRotation(targetDirection.normalized);
         
         return  Quaternion.Lerp(self.rotation,newRotation,lerpTime * Time.deltaTime);

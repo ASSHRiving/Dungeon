@@ -11,6 +11,10 @@ public class StateMachineSystem : MonoBehaviour
     public List<AbilityBase> allEnemySkills; // 拖入這隻 Boss 擁有的所有技能 SO
     // 儲存每個技能對應的剩餘 CD 時間 Dictionary
     private Dictionary<AbilityBase, float> skillCooldowns = new Dictionary<AbilityBase, float>();
+    // 目前已選定、正在調整距離準備施放的技能
+    public AbilityBase currentSkill;
+    // 記錄當前技能調整距離花了多少時間（防止地形卡死無限追退）
+    [HideInInspector] public float skillAdjustTimer = 0f;
 
     [HideInInspector] public int randomHorizontal = 1;
 
@@ -53,19 +57,24 @@ public class StateMachineSystem : MonoBehaviour
         StateMachineTick();
 
         // 倒數所有技能的 CD 時間
-        List<AbilityBase> keys = new List<AbilityBase>(skillCooldowns.Keys);
-        foreach (var skill in keys)
-        {
-            if (skillCooldowns[skill] > 0f)
-            {
-                skillCooldowns[skill] -= Time.deltaTime;
-            }
-        }
+        UpdateSkillCooldowns();
     }
     private void StateMachineTick()
     {
         transition?.TryGetApplyCondition(this);
         currrentState.OnUpdate(this);
+    }
+
+    private void UpdateSkillCooldowns()
+    {
+        for (int i = 0; i < allEnemySkills.Count; i++)
+        {
+            AbilityBase skill = allEnemySkills[i];
+            if (skill != null && skillCooldowns.TryGetValue(skill, out float cd) && cd > 0f)
+            {
+                skillCooldowns[skill] = cd - Time.deltaTime;
+            }
+        }
     }
 
     /// <summary>
@@ -81,7 +90,7 @@ public class StateMachineSystem : MonoBehaviour
     /// </summary>
     public bool IsSkillReady(AbilityBase skill)
     {
-        if (skillCooldowns.TryGetValue(skill, out float remainingCD))
+        if (skill != null && skillCooldowns.TryGetValue(skill, out float remainingCD))
         {
             return remainingCD <= 0f;
         }
@@ -93,7 +102,7 @@ public class StateMachineSystem : MonoBehaviour
     /// </summary>
     public void ResetSkillCooldown(AbilityBase skill)
     {
-        if (skillCooldowns.ContainsKey(skill))
+        if (skill != null && skillCooldowns.ContainsKey(skill))
         {
             skillCooldowns[skill] = skill.cooldown;
         }
@@ -109,7 +118,7 @@ public class StateMachineSystem : MonoBehaviour
         foreach(var skill in allEnemySkills)
         {
             //檢查CD
-            if(!IsSkillReady(skill)) continue;
+            if(skill == null || !IsSkillReady(skill)) continue;
             //檢查距離
             if(distance < skill.minDistance || distance > skill.maxDistance) continue;
             candidates.Add(skill);
@@ -137,10 +146,6 @@ public class StateMachineSystem : MonoBehaviour
         if(skill == null) return;
 
         skill.ExecuteSkill(this);
-        if (skillCooldowns.ContainsKey(skill))
-        {
-            skillCooldowns[skill] = skill.cooldown;
-        }
     }
 
 }

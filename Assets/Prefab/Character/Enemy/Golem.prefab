@@ -940,7 +940,9 @@ MonoBehaviour:
     m_Bits: 2240
   isOnGround: 0
   audioSource: {fileID: 828876732644070618}
-  rotationSpeed: 10
+  navSampleRadius: 1.5
+  minValidMoveDistance: 0.3
+  animDampTime: 0.2
 --- !u!114 &3764410466006088352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,10 +958,12 @@ MonoBehaviour:
   transition: {fileID: 11400000, guid: fae173cd2df4a214aa4a48f1a802ee18, type: 2}
   currrentState: {fileID: 11400000, guid: 8a9c1493f35485e49846f9111d990a3a, type: 2}
   allEnemySkills:
-  - {fileID: 11400000, guid: bcf61e00bb70d944d96156912f0b66dd, type: 2}
-  - {fileID: 11400000, guid: c6abd56809c502947908c310512367d4, type: 2}
-  - {fileID: 11400000, guid: cc145fbff6ea1534b9b7f81164294946, type: 2}
-  - {fileID: 11400000, guid: d9a7eda1d5535924baddb16d95340728, type: 2}
+  - {fileID: 11400000, guid: 6325753875899354faa9ebec6fd3b991, type: 2}
+  - {fileID: 11400000, guid: a4208767749117844a47f82cdba9da2e, type: 2}
+  - {fileID: 11400000, guid: f25e1ebc6ec18764e8f8a9ff95b224ef, type: 2}
+  - {fileID: 11400000, guid: 2d27a8f018b504c48b3df6bcaf90c97f, type: 2}
+  currentSkill: {fileID: 0}
+  skillAdjustTimer: 0
   randomHorizontal: 1
   strafeTimer: 0
   attackTimer: 0

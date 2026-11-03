@@ -118,7 +118,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
             }
         }
 
-        if (verticalSpeed < maxVerticalSpeed)
+        if (verticalSpeed > -maxVerticalSpeed)
         {
             verticalSpeed += characterGravity * Time.deltaTime;
         }
