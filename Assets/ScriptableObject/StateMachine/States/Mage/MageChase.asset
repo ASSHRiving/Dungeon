@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MageChase
   m_EditorClassIdentifier: Assembly-CSharp::BossChase
   priority: 0
-  minDistance: 7
-  maxDistance: 18
+  minDistance: 5
+  maxDistance: 12
   chaseSpeed: 3.5
   strafeSpeed: 1.6
   retreatSpeed: 2.5
