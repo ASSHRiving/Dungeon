@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7358916708932083813}
   - component: {fileID: 9118708492287326264}
   - component: {fileID: -3185712928625305912}
+  - component: {fileID: 6432476436180163866}
   m_Layer: 6
   m_Name: Book_Holy_C
   m_TagString: Untagged
@@ -108,8 +109,29 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5372754187281975438, guid: edcc86a903182d0429c0d7b2c727fec0, type: 3}
+--- !u!65 &6432476436180163866
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212807089758395303}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51880556, y: 0.07094217, z: 0.3629354}
+  m_Center: {x: 0, y: 0.01936495, z: 0}

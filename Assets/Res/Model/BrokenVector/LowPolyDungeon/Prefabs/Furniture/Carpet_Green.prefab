@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5786272363910925909}
   - component: {fileID: 5786272363909958805}
   - component: {fileID: 324539211475530278}
+  - component: {fileID: 333379071852471435}
   m_Layer: 11
   m_Name: Carpet_Green
   m_TagString: Untagged
@@ -108,8 +109,29 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 2db4b38c5968c334ba9ebd8d33dda174, type: 3}
+--- !u!65 &333379071852471435
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5786272363911959125}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.337869, y: 0.019616403, z: 3.0000002}
+  m_Center: {x: 0.00000023841858, y: 0.009808136, z: 0}
