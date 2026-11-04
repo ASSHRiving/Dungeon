@@ -150,6 +150,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
 
     public virtual void CharacterMoveInterface(Vector3 moveDirection, float moveSpeed, bool useGravity)
     {
+        if (control == null || !control.enabled) return;
         if (!CanAnimationMotion(moveDirection))
         {
             movementDirection = moveDirection.normalized;

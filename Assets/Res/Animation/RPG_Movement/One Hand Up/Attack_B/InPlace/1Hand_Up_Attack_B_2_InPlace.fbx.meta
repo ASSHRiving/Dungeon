@@ -41,7 +41,7 @@ ModelImporter:
       name: 1Hand_Up_Attack_B_2_InPlace
       takeName: 1Hand_Up_Attack_B_2_InPlace
       internalID: -5239087387508573575
-      firstFrame: 0
+      firstFrame: 5
       lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
@@ -132,22 +132,22 @@ ModelImporter:
           postInfinity: 3
           rotationOrder: 4
       events:
-      - time: 0.5800604
-        functionName: OnAnimationFinishEvent
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.31722054
+      - time: 0.2276683
         functionName: OnAttackHitboxStart
         data: 
         objectReferenceParameter: {fileID: 11400000, guid: 1af589eaad90a1c48822fc3ce7980ff1, type: 2}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.35514018
+      - time: 0.31969243
         functionName: OnAttackHitboxEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5166276
+        functionName: OnAnimationFinishEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

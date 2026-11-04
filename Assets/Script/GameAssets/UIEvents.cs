@@ -81,4 +81,23 @@ public static class UIEvents
     {
         OnChangeTitle?.Invoke(text);
     }
+    //***************************************
+    // 事件廣播：Boss 螢幕血條
+    //***************************************
+    public static event Action<string, float> OnBossFightStart;
+    public static event Action<float, float> OnBossHealthChanged;
+    public static event Action OnBossDefeated;
+
+    public static void BossFightStart(string bossName, float maxHP)
+    {
+        OnBossFightStart?.Invoke(bossName, maxHP);
+    }
+    public static void BossHealthChanged(float currentHP, float maxHP)
+    {
+        OnBossHealthChanged?.Invoke(currentHP, maxHP);
+    }
+    public static void BossDefeated()
+    {
+        OnBossDefeated?.Invoke();
+    }
 }

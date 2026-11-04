@@ -67,19 +67,10 @@ ModelImporter:
           curve:
           - serializedVersion: 3
             time: 0
-            value: 0
+            value: 0.5
             inSlope: 0
             outSlope: 0
             tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 0.12608697
-            value: 0.5
-            inSlope: Infinity
-            outSlope: 0
-            tangentMode: 7
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -141,21 +132,21 @@ ModelImporter:
           postInfinity: 3
           rotationOrder: 4
       events:
-      - time: 0.2583533
+      - time: 0.25275627
         functionName: OnAttackHitboxStart
         data: 
         objectReferenceParameter: {fileID: 11400000, guid: 7afec09376653484bb691b3663927e32, type: 2}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.32415634
+      - time: 0.32788768
         functionName: OnAttackHitboxEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.37850374
+      - time: 0.42887688
         functionName: OnAnimationFinishEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
