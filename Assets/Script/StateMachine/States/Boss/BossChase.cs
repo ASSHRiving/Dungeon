@@ -25,6 +25,7 @@ public class BossChase : StateActionSO
             animator.Play("Ready");
         }
 
+        stateMachineSystem.EnsureMinSkillCooldown(1f);
         stateMachineSystem.strafeTimer = 0f;
         stateMachineSystem.attackTimer = 0f;
         stateMachineSystem.skillAdjustTimer = 0f;
@@ -57,7 +58,7 @@ public class BossChase : StateActionSO
         }
 
         // 2. 優先檢查技能施放
-        if (animator.CheckAnimationTag("Motion"))
+        if (!animator.IsInTransition(0) && animator.CheckAnimationTag("Motion"))
         {
             // 若目前尚未鎖定要放的技能，先從 CD 轉好的技能中選一個）
             if (stateMachineSystem.currentSkill == null)
@@ -85,7 +86,6 @@ public class BossChase : StateActionSO
 
     private void HandleTacticalMovement(StateMachineSystem sm, Transform target, float distance)
     {
-        //Debug.Log("HandleTacticalMovement: distance = " + distance);
         EnemyMovementSystem movement = sm.movement;
 
        // A. 距離太近：拉開距離 (若背後貼牆無法後退，自動轉為側移脫困)

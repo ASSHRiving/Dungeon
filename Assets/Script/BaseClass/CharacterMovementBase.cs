@@ -87,7 +87,15 @@ public abstract class CharacterMovementBase : MonoBehaviour
     {
         if(audioSource != null )
         {
-            audioSource.PlayOneShot(soundAssets.GetClipAssets(footstepSoundType), 2f);
+            AudioClip clip = soundAssets.GetClipAssets(footstepSoundType);
+            if(clip != null)
+            {
+                audioSource.PlayOneShot(clip, 2f);
+            }
+            else
+            {
+                Debug.LogWarning($"Footstep sound clip for {footstepSoundType} is not assigned in SoundAssets.");
+            }
             //GameAssets.Instance.PlaySoundEffect(audioSource, footstepSoundType);
         }
     }

@@ -5432,7 +5432,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.35
+  m_Radius: 0.7
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8782902744594068808
 Rigidbody:
@@ -5473,19 +5473,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ade39d961972ff41aaeadf91ac1f64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkeletonMageProjectile3D
-  autoLaunchOnStart: 1
-  testShootDistance: 15
+  speed: 15
   damage: 25
-  useAreaDamage: 0
-  explosionRadius: 3.2
-  hitLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  targetTag: Player
-  projectileSpeed: 16
-  arcHeight: 2.8
-  helixSpinSpeed: 1260
-  helixRadius: 0.55
+  lifeTime: 5
+  audioSource: {fileID: 0}
+  sound: {fileID: 0}
+  arcHeight: 1.5
+  sideCurveOffset: 0
+  helixSpinSpeed: 2160
+  helixRadius: 0.2
   helixSpinnerPivot: {fileID: 5316253057175265975}
   trailHelixA: {fileID: 1329592781342678435}
   trailHelixB: {fileID: 8264114331181702224}

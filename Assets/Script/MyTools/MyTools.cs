@@ -4,6 +4,10 @@ public static class MyTools
 {
     public static bool CheckAnimationTag(this Animator animator, string tagName, int animationIndex = 0)
     {
+        if (animator.IsInTransition(animationIndex))
+        {
+            return animator.GetNextAnimatorStateInfo(animationIndex).IsTag(tagName);
+        }
         return animator.GetCurrentAnimatorStateInfo(animationIndex).IsTag(tagName);
     }
 

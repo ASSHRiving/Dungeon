@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossChase
   priority: 0
   minDistance: 7
-  maxDistance: 12
-  moveSpeed: 2
+  maxDistance: 18
+  chaseSpeed: 3.5
   strafeSpeed: 1.5
+  retreatSpeed: 2.5
   strafeChangeInterval: 1.5

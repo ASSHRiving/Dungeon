@@ -44,7 +44,7 @@ public class StateMachineSystem : MonoBehaviour
         {
             if (skill != null && !skillCooldowns.ContainsKey(skill))
             {
-                skillCooldowns.Add(skill, 0f);
+                skillCooldowns.Add(skill, 1f);
             }
         }
     }
@@ -100,6 +100,18 @@ public class StateMachineSystem : MonoBehaviour
     /// <summary>
     /// 重置該技能的 CD 時間
     /// </summary>
+    public void EnsureMinSkillCooldown(float minCooldown = 1f)
+    {
+        for (int i = 0; i < allEnemySkills.Count; i++)
+        {
+            AbilityBase skill = allEnemySkills[i];
+            if (skill != null && skillCooldowns.TryGetValue(skill, out float cd) && cd < minCooldown)
+            {
+                skillCooldowns[skill] = minCooldown;
+            }
+        }
+    }
+
     public void ResetSkillCooldown(AbilityBase skill)
     {
         if (skill != null && skillCooldowns.ContainsKey(skill))

@@ -36,7 +36,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
     protected SoundAssetsType weaponSoundType;
     protected TrailRenderer[] weaponTrails;
     protected ParticleSystem weaponEffect;
-    [SerializeField] protected GameObject arrowPrefab;
+    [SerializeField] protected GameObject projectilePrefab;
 
     [SerializeField] protected Transform currentTarget;
 
@@ -129,13 +129,13 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     public void OnAnimationShoot(AttackData attackData)
     {
-        if(arrowPrefab == null) return;
+        if(projectilePrefab == null) return;
         Transform shootPoint = hitboxes[attackData.hitboxes[0]].center;
-        GameObject arrowGO = Instantiate(arrowPrefab, shootPoint.position, shootPoint.rotation);
-        Arrow arrow = arrowGO.GetComponent<Arrow>();
-        if(arrow != null)
+        GameObject projectileGO = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
+        Projectile  projectile = projectileGO.GetComponent<Projectile>();
+        if(projectile != null)
         {
-            arrow.Setup(this.transform, currentTarget, attackData);
+            projectile.Setup(this.transform, currentTarget, attackData);
         }
     }
     #endregion

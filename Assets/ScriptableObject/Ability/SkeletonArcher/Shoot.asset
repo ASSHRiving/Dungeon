@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NormalAttack
   skillName: 
   animTriggerName: Shoot
-  minDistance: 0
-  maxDistance: 12
+  minDistance: 1
+  maxDistance: 20
   cooldown: 3
   weight: 1
+  chaseSpeed: 3.5
+  retreatSpeed: 1.8
+  maxAdjustDuration: 4

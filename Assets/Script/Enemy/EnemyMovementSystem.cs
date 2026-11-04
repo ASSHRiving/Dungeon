@@ -73,7 +73,6 @@ public class EnemyMovementSystem : CharacterMovementBase
     /// </summary>
     public bool TryRetreatFromTarget(Transform target, float speed, float retreatStepDistance = 2.0f)
     {
-        Debug.Log("TryRetreatFromTarget: target = " + target.name);
         if (agent == null || target == null) return false;
 
         Vector3 retreatDir = (transform.position - target.position).normalized;
@@ -85,7 +84,6 @@ public class EnemyMovementSystem : CharacterMovementBase
             agent.isStopped = false;
             agent.speed = speed;
             agent.SetDestination(validPos);
-            Debug.Log("TryRetreatFromTarget: Retreating to valid position = " + validPos);
             return true;
         }
 
