@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4614123417177015048}
   - component: {fileID: 5638177129053749230}
   - component: {fileID: 8696853700204580801}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 9162587082512834091}
   - component: {fileID: 5419344271202527676}
   - component: {fileID: 7451009859806606588}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +516,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6545519285295004606}
   - {fileID: 8446439508976939988}
   - {fileID: 7803065898943638799}
   - {fileID: 8348589831749022774}
@@ -757,7 +756,7 @@ GameObject:
   - component: {fileID: 5020858407519241904}
   - component: {fileID: 7183815773700277631}
   - component: {fileID: 7258887406420935603}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -870,7 +869,7 @@ GameObject:
   - component: {fileID: 6583586054817934828}
   - component: {fileID: 9025845728510242339}
   - component: {fileID: 8812571536290638063}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -980,7 +979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8601781360220053632}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1099,7 +1098,7 @@ GameObject:
   - component: {fileID: 8210308306117110695}
   - component: {fileID: 7643742252832554453}
   - component: {fileID: 5855384314186090782}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1212,7 +1211,7 @@ GameObject:
   - component: {fileID: 7527285840072228091}
   - component: {fileID: 5650307705074761524}
   - component: {fileID: 5289294327105993208}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1325,7 +1324,7 @@ GameObject:
   - component: {fileID: 728636003746990739}
   - component: {fileID: 820631813601222573}
   - component: {fileID: 3635203766381162655}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1435,7 +1434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4433354087184847362}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1473,7 +1472,7 @@ GameObject:
   - component: {fileID: 7099242502765526189}
   - component: {fileID: 4943321873414274914}
   - component: {fileID: 4869658714585479598}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1586,7 +1585,7 @@ GameObject:
   - component: {fileID: 3889378766120730848}
   - component: {fileID: 3896779490173903954}
   - component: {fileID: 2638577324128886187}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1699,7 +1698,7 @@ GameObject:
   - component: {fileID: 7358035337155398818}
   - component: {fileID: 6239175742770913198}
   - component: {fileID: 1041516427874662044}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1812,7 +1811,7 @@ GameObject:
   - component: {fileID: 7248440909361616459}
   - component: {fileID: 4794087191995192708}
   - component: {fileID: 5009886420082987848}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1925,7 +1924,7 @@ GameObject:
   - component: {fileID: 8820183487060131095}
   - component: {fileID: 6663128814535261912}
   - component: {fileID: 6590602009027360788}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2038,7 +2037,7 @@ GameObject:
   - component: {fileID: 1789529762209665981}
   - component: {fileID: 2318639066901497496}
   - component: {fileID: 7791079407876734388}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2151,7 +2150,7 @@ GameObject:
   - component: {fileID: 8968258733392336881}
   - component: {fileID: 6515021673170867262}
   - component: {fileID: 6729702140124861170}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2261,7 +2260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2555305368468683102}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2394,7 +2393,7 @@ GameObject:
   - component: {fileID: 8540652466943924135}
   - component: {fileID: 5807911066247009384}
   - component: {fileID: 6311633896508265124}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2507,7 +2506,7 @@ GameObject:
   - component: {fileID: 862432917283709060}
   - component: {fileID: 3307995459091145547}
   - component: {fileID: 3091415026951366023}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2682,7 +2681,7 @@ GameObject:
   - component: {fileID: 1468686970399357373}
   - component: {fileID: 3638474708964538994}
   - component: {fileID: 3850789582724725950}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2795,7 +2794,7 @@ GameObject:
   - component: {fileID: 3146865210647511578}
   - component: {fileID: 987501357556105685}
   - component: {fileID: 773205721350080281}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2908,7 +2907,7 @@ GameObject:
   - component: {fileID: 3233519956902206105}
   - component: {fileID: 774728228508916054}
   - component: {fileID: 994968934488465306}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3049,7 +3048,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8348589831749022774}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3142,7 +3141,7 @@ GameObject:
   - component: {fileID: 2750604957054819023}
   - component: {fileID: 14560687973554432}
   - component: {fileID: 521589758424473548}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3255,7 +3254,7 @@ GameObject:
   - component: {fileID: 3311956554486815382}
   - component: {fileID: 6666193357933463222}
   - component: {fileID: 2390899436674704071}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3399,7 +3398,7 @@ GameObject:
   - component: {fileID: 4159696085788853238}
   - component: {fileID: 2280391452916711481}
   - component: {fileID: 1777556468564100853}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3509,7 +3508,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7803065898943638799}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3547,7 +3546,7 @@ GameObject:
   - component: {fileID: 3695744914829837216}
   - component: {fileID: 1537497787587133551}
   - component: {fileID: 1322087789366511267}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3657,7 +3656,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5493266009954458868}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3695,7 +3694,7 @@ GameObject:
   - component: {fileID: 3764376055230978851}
   - component: {fileID: 1306719469521885420}
   - component: {fileID: 1525827119642730016}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9053,96 +9052,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5736108613033120894, guid: cf649c8eabe447c4da2a6e3b26aea664, type: 3}
   m_PrefabInstance: {fileID: 4718389047509688511}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &4737816434078693600
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 8086243748712056112}
-    m_Modifications:
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.8784256
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 9.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -8.3721285
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2468350650952568165, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      propertyPath: m_Name
-      value: Floor4_4 (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2468350650952568165, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8623870322766467310}
-  m_SourcePrefab: {fileID: 100100000, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
---- !u!4 &6545519285295004606 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-  m_PrefabInstance: {fileID: 4737816434078693600}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7170096911907911045 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2468350650952568165, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
-  m_PrefabInstance: {fileID: 4737816434078693600}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8623870322766467310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7170096911907911045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
-  m_SerializedVersion: 0
-  m_OverrideArea: 0
-  m_Area: 0
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 1
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1001 &4771740499237476920
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11733,12 +11642,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 8086243748712056112}
     m_Modifications:
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.472481
+      value: 5.83
       objectReference: {fileID: 0}
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.26992
+      value: 9.24
       objectReference: {fileID: 0}
     - target: {fileID: 1951819978470490974, guid: feb024616ecdf634c913ada9ff8a327a, type: 3}
       propertyPath: m_LocalPosition.z

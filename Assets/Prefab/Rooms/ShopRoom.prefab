@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6408243428486754695}
   - component: {fileID: 3063657563712981022}
   - component: {fileID: 6049994057710196090}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 1465596794495438370}
   - component: {fileID: 4851571228064933542}
   - component: {fileID: 7052800503560027568}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 7881568752931867666}
   - component: {fileID: 2559183290131887863}
   - component: {fileID: 4706039794505224293}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 2398686217385481429}
   - component: {fileID: 8358479286699239781}
   - component: {fileID: 2688168110182737767}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 1650987605018185952}
   - component: {fileID: 7852331280949098259}
   - component: {fileID: 1044584082503086863}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -577,7 +577,7 @@ GameObject:
   - component: {fileID: 3665569111786360965}
   - component: {fileID: 8106995068067196396}
   - component: {fileID: 889910574980075077}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -690,7 +690,7 @@ GameObject:
   - component: {fileID: 2934915778899513690}
   - component: {fileID: 812740441172668762}
   - component: {fileID: 8477809110081409496}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -989,7 +989,7 @@ GameObject:
   - component: {fileID: 5843642541340599986}
   - component: {fileID: 679332760157179077}
   - component: {fileID: 6500026029806277886}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1153,7 +1153,7 @@ GameObject:
   - component: {fileID: 5886466193783710350}
   - component: {fileID: 6181632329728662980}
   - component: {fileID: 9152628669907988660}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1301,7 +1301,7 @@ GameObject:
   - component: {fileID: 8524806352341439679}
   - component: {fileID: 7291710459325683979}
   - component: {fileID: 1316130933628392199}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Wall_Chiseled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1414,7 +1414,7 @@ GameObject:
   - component: {fileID: 6875596683426134863}
   - component: {fileID: 2491151837437991036}
   - component: {fileID: 5140810262031099284}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1527,7 +1527,7 @@ GameObject:
   - component: {fileID: 5502949282829375984}
   - component: {fileID: 3556261679991922341}
   - component: {fileID: 5447166170338848479}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Wall_DoorStand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1641,7 +1641,7 @@ GameObject:
   - component: {fileID: 869324142024015409}
   - component: {fileID: 4065442816975072228}
   - component: {fileID: 6864648792455999195}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1754,7 +1754,7 @@ GameObject:
   - component: {fileID: 2423427489024644673}
   - component: {fileID: 8547363787940235170}
   - component: {fileID: 7406541892701575450}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1898,7 +1898,7 @@ GameObject:
   - component: {fileID: 5599026711653882539}
   - component: {fileID: 4484725513949064511}
   - component: {fileID: 6204344456044499651}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2012,7 +2012,7 @@ GameObject:
   - component: {fileID: 6119100046106351855}
   - component: {fileID: 9201303490220792698}
   - component: {fileID: 1909600135807899947}
-  m_Layer: 6
+  m_Layer: 14
   m_Name: Door_Middle Variant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2147,7 +2147,7 @@ GameObject:
   - component: {fileID: 8388614389382888398}
   - component: {fileID: 2021762942094686193}
   - component: {fileID: 4113049479490734994}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2260,7 +2260,7 @@ GameObject:
   - component: {fileID: 965803717193653199}
   - component: {fileID: 7017151357404561719}
   - component: {fileID: 2100569256928232148}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_Chiseled (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

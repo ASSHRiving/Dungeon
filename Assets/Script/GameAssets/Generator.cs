@@ -77,7 +77,7 @@ public class Generator : MonoBehaviour
         UIEvents.RoomSpawned(currentRoom, null, Room.Direction.North);
         spawnedRooms.Add(currentRoom);
         //生成第一個房間
-        GameObject prefab = roomPrefabs[0];
+        GameObject prefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
         Room nextRoom = SpawnRoom(prefab, Room.Direction.North, currentRoom);
         Room prevRoom = currentRoom;
         currentRoom = nextRoom;
