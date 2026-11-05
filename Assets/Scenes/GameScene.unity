@@ -4578,7 +4578,7 @@ GameObject:
   - component: {fileID: 595996542}
   - component: {fileID: 595996541}
   m_Layer: 0
-  m_Name: BossHealthHUD_TopCenter
+  m_Name: BossHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6539,7 +6539,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<color=#E09F3E>\u25C6</color> \u6DF1\u6DF5\u5B88\u885B\u30FB\u963F\u65AF\u5854"
+  m_text: "<color=#E09F3E>\u25C6</color> Boss"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0d85f68df7e2da84488763b3d2362bb7, type: 2}
   m_sharedMaterial: {fileID: -8258195363984795596, guid: 0d85f68df7e2da84488763b3d2362bb7, type: 2}
@@ -16150,7 +16150,7 @@ RectTransform:
   m_GameObject: {fileID: 1859094928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 899661050}
@@ -16160,7 +16160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -14}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 880, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1859094930

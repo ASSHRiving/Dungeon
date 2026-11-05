@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
 using System;
 using Unity.Cinemachine;
+using DG.Tweening;
 
 public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 {
@@ -13,6 +13,12 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     public Image healthUI;
     public TMP_Text healthText;
 
+    [Header("血條 DOTween 動態參數")]
+    [SerializeField] protected float mainBarDuration = 0.05f;   // 主血條瞬扣時間
+    [SerializeField] protected float bufferHoldDelay = 0.25f;   // 連擊時殘影停滯延遲 (Combo Hold)
+    [SerializeField] protected float bufferCatchUpTime = 0.35f; // 殘影追趕時間
+
+    [Header("基礎數值")]
     [SerializeField] public float maxHealth = 100;
     [SerializeField] public float shield = 10;
 
@@ -25,75 +31,111 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 
     public bool isDead { get; protected set; } = false;
     [SerializeField] protected float currentHealth;
-    protected Coroutine bufferCoroutine;
     [SerializeField] protected MonoBehaviour[] scriptsToDisable;
 
+    protected Tweener healthBarTween;
+    protected Tweener bufferBarTween;
 
-    protected Animator _animator;
-    protected CharacterMovementBase _movement;
-    protected CharacterCombatBase _combat; 
-    protected Transform _attacker;
-    protected AudioSource _audio;
+    protected Animator animator;
+    protected CharacterMovementBase movement;
+    protected CharacterCombatBase combat;
+    protected Transform attacker;
+    protected AudioSource audioSource;
     protected CinemachineImpulseSource impulseSource;
 
-    //AnimationID
+    // AnimationID
     protected int animationMovementID = Animator.StringToHash("AnimationMove");
 
     protected abstract void Die();
 
     protected virtual void Awake()
     {
-        _animator = GetComponentInChildren<Animator>();
-        _movement = GetComponent<CharacterMovementBase>();
-        _combat = GetComponentInChildren<CharacterCombatBase>();
-        _audio = _movement.GetComponentInChildren<AudioSource>();
+        animator = GetComponentInChildren<Animator>();
+        movement = GetComponent<CharacterMovementBase>();
+        combat = GetComponentInChildren<CharacterCombatBase>();
+        if (movement != null)
+            audioSource = movement.GetComponentInChildren<AudioSource>();
         impulseSource = GetComponent<CinemachineImpulseSource>();
     }
+    protected virtual void Start()
+    {
+        currentHealth = maxHealth;
+        if (healthBar != null) healthBar.fillAmount = currentHealth / maxHealth;
+        if (healthText != null) healthText.text = $"{currentHealth}/{maxHealth}";
+        UpdateHealthBar(healthBar.fillAmount);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        healthBarTween?.Kill();
+        bufferBarTween?.Kill();
+    }
+
     private void Update()
     {
+        if (isDead) return;
         RecoverPoise();
     }
 
     private void LateUpdate()
     {
+        if (isDead) return;
         OnHitLookTarget();
         HitAnimationMotion();
     }
 
     private void HitAnimationMotion()
     {
-        if (_animator.CheckAnimationTag("Hit"))
+        if (animator != null && movement != null && animator.CheckAnimationTag("Hit"))
         {
-            _movement.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMovementID), true);
+            movement.CharacterMoveInterface(transform.forward, animator.GetFloat(animationMovementID), true);
         }
-    }
-    private void OnHitLookTarget()
-    {
-        if(_animator.CheckAnimationTag("Hit"))
-            transform.rotation = transform.LockOnTarget(_attacker,transform,50f);
     }
 
-    protected void UpdateHealthBar(float targetFill)
+    private void OnHitLookTarget()
     {
-        healthBar.fillAmount = targetFill;
-        healthText.SetText("{0:0}/{1:0}", currentHealth, maxHealth);
-        if(bufferCoroutine != null)
+        if (animator != null && attacker != null && animator.CheckAnimationTag("Hit"))
         {
-            StopCoroutine(bufferCoroutine);
+            transform.rotation = transform.LockOnTarget(attacker, transform, 50f);
         }
-        bufferCoroutine = StartCoroutine(UpdateHealthBarBuffer(targetFill));
     }
-    IEnumerator UpdateHealthBarBuffer(float targetFill)
+
+    protected virtual void UpdateHealthBar(float targetFill)
     {
-        yield return new WaitForSeconds(0.2f);
-        float startFill = healthBarBuffer.fillAmount;
-        for(float t = 0; t < 0.25f; t += Time.deltaTime)
+        targetFill = Mathf.Clamp01(targetFill);
+
+        if (healthText != null)
         {
-            healthBarBuffer.fillAmount = Mathf.Lerp(startFill, targetFill, t / 0.25f);
-            yield return null;
+            healthText.SetText("{0:0}/{1:0}", currentHealth, maxHealth);
         }
-        healthBarBuffer.fillAmount = targetFill;
+
+        // 1. 主血條更新 (微幅平滑瞬扣)
+        if (healthBar != null)
+        {
+            healthBarTween?.Kill();
+            healthBarTween = healthBar.DOFillAmount(targetFill, mainBarDuration).SetEase(Ease.OutQuad);
+        }
+
+        // 2. 緩衝殘影條更新 (DOTween Combo Hold 延遲追趕)
+        if (healthBarBuffer != null)
+        {
+            bufferBarTween?.Kill();
+
+            if (targetFill < healthBarBuffer.fillAmount)
+            {
+                // 受傷扣血：每次受擊重置延遲，停手後以 OutQuad 平滑追上紅條
+                bufferBarTween = healthBarBuffer.DOFillAmount(targetFill, bufferCatchUpTime)
+                    .SetDelay(bufferHoldDelay)
+                    .SetEase(Ease.OutQuad);
+            }
+            else
+            {
+                // 回血或提升上限：直接同步跟上，不延遲
+                healthBarBuffer.fillAmount = targetFill;
+            }
+        }
     }
+
     private void RecoverPoise()
     {
         if (currentPoise < maxPoise)
@@ -109,23 +151,25 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         }
     }
 
-
     #region 外部方法
-    public virtual void SetAttacker(Transform attacker)
+    public virtual void SetAttacker(Transform _attacker)
     {
-        if (_attacker != attacker || _attacker == null)
-            _attacker = attacker;
+        if (attacker != _attacker || attacker == null)
+            attacker = _attacker;
     }
+
     public virtual void TakeDamage(int amount)
     {
         throw new System.NotImplementedException("TakeDamage method must be implemented by subclasses.");
     }
+
     public virtual void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
-        _animator.Play(attackData.hitAnimationName,0,0f);
+        animator.Play(attackData.hitAnimationName, 0, 0f);
         SetAttacker(attacker);
-        GameAssets.Instance.PlaySoundEffect(_audio, attackData.hitSound);
+        GameAssets.Instance.PlaySoundEffect(audioSource, attackData.hitSound);
     }
+
     public void ModifyMaxHealth(float newMaxHealth)
     {
         float healthRatio = currentHealth / maxHealth;
@@ -133,11 +177,11 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         currentHealth = Mathf.Clamp(maxHealth * healthRatio, 1f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
     }
+
     public void Recover(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, 1f, maxHealth);
         UpdateHealthBar(currentHealth / maxHealth);
     }
     #endregion
-
 }

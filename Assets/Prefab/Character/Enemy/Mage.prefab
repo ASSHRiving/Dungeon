@@ -755,6 +755,9 @@ MonoBehaviour:
   - {fileID: 3428748231820417666}
   lootPrefab: {fileID: 0}
   gold: 5
+  isBoss: 1
+  bossName: "\u6DF1\u6DF5\u6CD5\u5E2B"
+  showBossBarOnStart: 1
 --- !u!114 &1922482677057653861
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,19 +7,13 @@ public class PlayerHealthSystem : CharacterHealthBase
     [SerializeField] private AudioClip missSound;
     [SerializeField] private AudioClip deathSound;
 
-    void Start()
-    {
-        currentHealth = maxHealth;
-        healthBar.fillAmount = currentHealth / maxHealth;
-        healthText.text = $"{currentHealth}/{maxHealth}";
-    }
     public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
-        if (_movement.immune)
+        if (movement.immune)
         {
             Debug.Log("閃避");
             GameAssets.Instance.DoHitstop(0.25f, 0.1f);
-            _audio.PlayOneShot(missSound, 3f);
+            audioSource.PlayOneShot(missSound, 3f);
             return;
         }else if(isDead)
         {
@@ -36,7 +30,7 @@ public class PlayerHealthSystem : CharacterHealthBase
         
 
         //受擊反饋
-        GameAssets.Instance.PlaySoundEffect(_audio, attackData.hitSound);
+        GameAssets.Instance.PlaySoundEffect(audioSource, attackData.hitSound);
         if(impulseSource != null)
         {
             impulseSource.GenerateImpulseWithForce(attackData.shakeForce);
@@ -52,7 +46,7 @@ public class PlayerHealthSystem : CharacterHealthBase
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
             if(currentPoise <= 0)
             {
-                _animator.CrossFade(attackData.hitAnimationName, 0.1f);
+                animator.CrossFade(attackData.hitAnimationName, 0.1f);
                 currentPoise = maxPoise;
             }     
         }
@@ -66,13 +60,13 @@ public class PlayerHealthSystem : CharacterHealthBase
     {
         UIEvents.PlayerDied();
         GameManager.Instance.AddDeath();
-        _audio.PlayOneShot(deathSound, 2f);
-        //GameAssets.Instance.PlaySoundEffect(_audio, SoundAssetsType.Death);
+        audioSource.PlayOneShot(deathSound, 2f);
+        //GameAssets.Instance.PlaySoundEffect(audioSource, SoundAssetsType.Death);
         isDead = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-        _animator.Play("Die", 0, 0f);
+        animator.Play("Die", 0, 0f);
         foreach (var script in scriptsToDisable)
         {
             script.enabled = false;

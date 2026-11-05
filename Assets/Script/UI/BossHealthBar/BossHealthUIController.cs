@@ -169,17 +169,4 @@ public class BossHealthUIController : MonoBehaviour
         chipFillTween?.Kill();
         shakeTween?.Kill();
     }
-
-    // =====================================================================
-    // 編輯器 Play 模式快速測試按鈕 (在 Inspector 對腳本按右鍵即可點選測試)
-    // =====================================================================
-    private float debugHP = 1000f;
-    [ContextMenu("🎬 測試 1：Boss 登場充能")]
-    private void TestStart() { debugHP = 1000f; HandleBossFightStart("深淵守衛・阿斯塔", 1000f); }
-
-    [ContextMenu("🗡️ 測試 2：普通揮砍 (-8%)")]
-    private void TestLightHit() { debugHP = Mathf.Max(0f, debugHP - 80f); HandleBossHealthChanged(debugHP, 1000f); }
-
-    [ContextMenu("🔨 測試 3：重擊震動 (-20%)")]
-    private void TestHeavyHit() { debugHP = Mathf.Max(0f, debugHP - 200f); HandleBossHealthChanged(debugHP, 1000f); }
 }
