@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Giant@UnarmedAttack01
+  m_Name: Stamp
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -71860,7 +71860,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: rootSkeleton/pelvis_joint/L_thigh_joint/L_knee_joint/L_ankle_joint/Golem_GroundStomp_VFX
+    path: VFX_GolemStamp
     classID: 1
     script: {fileID: 0}
     flags: 0
@@ -72989,7 +72989,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1210578652
+      path: 2241490181
       attribute: 2086281974
       script: {fileID: 0}
       typeID: 1
@@ -144925,7 +144925,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: rootSkeleton/pelvis_joint/L_thigh_joint/L_knee_joint/L_ankle_joint/Golem_GroundStomp_VFX
+    path: VFX_GolemStamp
     classID: 1
     script: {fileID: 0}
     flags: 0
