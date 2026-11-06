@@ -5,7 +5,6 @@ namespace Game.VFX
 {
     /// <summary>
     /// 專供 Unity Animation 視窗直接 K 幀 (開關 GameObject Active) 使用的特效控制器。
-    /// 無須物件池與程式碼呼叫，啟用瞬間即自動清空殘留並爆發所有特效層級。
     /// </summary>
     [ExecuteAlways]
     public class StoneGiantSlamVfxController : MonoBehaviour
@@ -19,13 +18,12 @@ namespace Game.VFX
         [Header("Camera Shake (Cinemachine Impulse)")]
         [SerializeField] private float impulseForce = 1.8f;
 
-        private ParticleSystem[] _particleSystems;
-        private TrailRenderer[] _trailRenderers;
-        private float _elapsedTime;
+        private ParticleSystem[] particleSystems;
+        private float elapsedTime;
 
         // 透過反射快取 CinemachineImpulseSource，避免無套件時報錯
-        private Component _impulseSource;
-        private MethodInfo _generateImpulseMethod;
+        private Component impulseSource;
+        private MethodInfo generateImpulseMethod;
 
         private void Awake()
         {
@@ -34,21 +32,19 @@ namespace Game.VFX
 
         private void CacheComponents()
         {
-            if (_particleSystems == null || _particleSystems.Length == 0)
-                _particleSystems = GetComponentsInChildren<ParticleSystem>(true);
+            if (particleSystems == null || particleSystems.Length == 0)
+                particleSystems = GetComponentsInChildren<ParticleSystem>(true);
 
-            if (_trailRenderers == null || _trailRenderers.Length == 0)
-                _trailRenderers = GetComponentsInChildren<TrailRenderer>(true);
 
             if (impactLight == null)
                 impactLight = GetComponentInChildren<Light>(true);
 
-            if (_impulseSource == null)
+            if (impulseSource == null)
             {
-                _impulseSource = GetComponent("CinemachineImpulseSource");
-                if (_impulseSource != null)
+                impulseSource = GetComponent("CinemachineImpulseSource");
+                if (impulseSource != null)
                 {
-                    _generateImpulseMethod = _impulseSource.GetType().GetMethod(
+                    generateImpulseMethod = impulseSource.GetType().GetMethod(
                         "GenerateImpulseWithForce",
                         new[] { typeof(float) }
                     );
@@ -59,27 +55,17 @@ namespace Game.VFX
         private void OnEnable()
         {
             CacheComponents();
-            _elapsedTime = 0f;
-
-            // 1. 清除所有 TrailRenderer 殘影
-            if (_trailRenderers != null)
-            {
-                for (int i = 0; i < _trailRenderers.Length; i++)
-                {
-                    if (_trailRenderers[i] != null)
-                        _trailRenderers[i].Clear();
-                }
-            }
+            elapsedTime = 0f;
 
             // 2. 重置並立即播放所有子粒子系統 (支援 Animation 視窗時間軸預覽)
-            if (_particleSystems != null)
+            if (particleSystems != null)
             {
-                for (int i = 0; i < _particleSystems.Length; i++)
+                for (int i = 0; i < particleSystems.Length; i++)
                 {
-                    if (_particleSystems[i] != null)
+                    if (particleSystems[i] != null)
                     {
-                        _particleSystems[i].Clear(true);
-                        _particleSystems[i].Play(true);
+                        particleSystems[i].Clear(true);
+                        particleSystems[i].Play(true);
                     }
                 }
             }
@@ -92,30 +78,21 @@ namespace Game.VFX
             }
 
             // 4. 在 Play 模式下觸發 Cinemachine 震屏
-            if (Application.isPlaying && _impulseSource != null && _generateImpulseMethod != null)
+            if (Application.isPlaying && impulseSource != null && generateImpulseMethod != null)
             {
-                _generateImpulseMethod.Invoke(_impulseSource, new object[] { impulseForce });
+                generateImpulseMethod.Invoke(impulseSource, new object[] { impulseForce });
             }
         }
 
         private void OnDisable()
         {
             // 當動畫切換或關鍵影格關閉物件時，清空所有殘留粒子與光源
-            if (_particleSystems != null)
+            if (particleSystems != null)
             {
-                for (int i = 0; i < _particleSystems.Length; i++)
+                for (int i = 0; i < particleSystems.Length; i++)
                 {
-                    if (_particleSystems[i] != null)
-                        _particleSystems[i].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-                }
-            }
-
-            if (_trailRenderers != null)
-            {
-                for (int i = 0; i < _trailRenderers.Length; i++)
-                {
-                    if (_trailRenderers[i] != null)
-                        _trailRenderers[i].Clear();
+                    if (particleSystems[i] != null)
+                        particleSystems[i].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                 }
             }
 
@@ -128,14 +105,14 @@ namespace Game.VFX
 
         private void Update()
         {
-            _elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime;
 
             // 平滑衰減點光源亮度
             if (impactLight != null && impactLight.enabled)
             {
-                if (_elapsedTime < lightDuration)
+                if (elapsedTime < lightDuration)
                 {
-                    float t = Mathf.Clamp01(_elapsedTime / Mathf.Max(0.001f, lightDuration));
+                    float t = Mathf.Clamp01(elapsedTime / Mathf.Max(0.001f, lightDuration));
                     impactLight.intensity = maxLightIntensity * lightFalloff.Evaluate(t);
                 }
                 else
