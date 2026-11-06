@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword
   weaponName: "\u528D"
+  itemIcon: {fileID: 21300000, guid: 017df93d820a3dc4cb6bb9f8f537721a, type: 3}
   damage: 10
   weaponType: 0
   combo: 0
@@ -149,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
   itemName: 
   price: 0
+  weight: 1
 --- !u!1 &5733534103951911731
 GameObject:
   m_ObjectHideFlags: 0

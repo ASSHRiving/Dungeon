@@ -11,29 +11,31 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public Image iconImage;            // 裝備圖案 (Image)
     public GameObject emptyPlaceholder; // 未裝備時顯示的預設圖樣/文字
 
-    private GameObject currentItem;
-    private Equipment currentEquipment;
+    private GameObject currentItemGO;
+    private IItem currentItem;
 
     /// <summary>
     /// 更新槽位顯示（傳入場景或 Prefab GameObject）
     /// </summary>
-    public void DisplayItem(GameObject item)
+    public void DisplayItem(GameObject itemGO)
     {
-        currentItem = item;
-        Equipment equipment = item != null ? item.GetComponent<Equipment>() : null;
-        DisplayItem(equipment);
+        currentItemGO = itemGO;
+        IItem item = itemGO != null
+            ? (itemGO.GetComponent<IItem>() ?? itemGO.GetComponentInChildren<IItem>())
+            : null;
+        DisplayItem(item);
     }
 
     /// <summary>
-    /// 更新槽位顯示（直接傳入 Equipment 組件，避免重複 GetComponent）
+    /// 更新槽位顯示（直接傳入實作 IItem 的組件或資料，避免重複 GetComponent）
     /// </summary>
-    public void DisplayItem(Equipment equipment)
+    public void DisplayItem(IItem item)
     {
-        currentEquipment = equipment;
+        currentItem = item;
 
-        if (currentEquipment != null && currentEquipment.itemIcon != null && iconImage != null)
+        if (currentItem != null && currentItem.ItemIcon != null && iconImage != null)
         {
-            iconImage.sprite = currentEquipment.itemIcon;
+            iconImage.sprite = currentItem.ItemIcon;
             iconImage.gameObject.SetActive(true);
             // 保留深色背景，不關閉 emptyPlaceholder
         }
@@ -48,8 +50,8 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     /// </summary>
     public void ClearSlot()
     {
+        currentItemGO = null;
         currentItem = null;
-        currentEquipment = null;
         if (iconImage != null) iconImage.gameObject.SetActive(false);
         if (emptyPlaceholder != null) emptyPlaceholder.SetActive(true);
     }
@@ -57,9 +59,9 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     // 滑鼠懸停
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (currentEquipment != null)
+        if (currentItem != null)
         {
-            UIEvents.ShowTooltip(currentEquipment);
+            UIEvents.ShowTooltip(currentItem);
         }
     }
 

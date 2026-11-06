@@ -44,7 +44,7 @@ public class StateMachineSystem : MonoBehaviour
         {
             if (skill != null && !skillCooldowns.ContainsKey(skill))
             {
-                skillCooldowns.Add(skill, 1f);
+                skillCooldowns.Add(skill, 0.3f);
             }
         }
     }

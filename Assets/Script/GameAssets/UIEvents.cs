@@ -60,10 +60,10 @@ public static class UIEvents
     //***************************************
     // 事件廣播：顯示資訊框
     //***************************************
-    public static event Action<Equipment> OnShowTooltip;
-    public static void ShowTooltip(Equipment equipment)
+    public static event Action<IItem> OnShowTooltip;
+    public static void ShowTooltip(IItem item)
     {
-        OnShowTooltip?.Invoke(equipment);
+        OnShowTooltip?.Invoke(item);
     }
     //***************************************
     // 事件廣播：關閉資訊框

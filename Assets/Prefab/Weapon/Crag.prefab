@@ -4998,9 +4998,9 @@ GameObject:
   - component: {fileID: 532526916094645834}
   - component: {fileID: 2167970114318831837}
   - component: {fileID: 4290679663006816982}
-  - component: {fileID: 707196905503767497}
   - component: {fileID: 6147839197508986491}
   - component: {fileID: -8327386823170074037}
+  - component: {fileID: 718421523943839970}
   m_Layer: 12
   m_Name: Crag
   m_TagString: Untagged
@@ -5074,38 +5074,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3217704, y: 0.7920599, z: 0.41826737}
   m_Center: {x: -0.4872564, y: 0.008860216, z: 0.0617882}
---- !u!114 &707196905503767497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4327998379376985708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05291e7137b49ab4ca409aa599e2df13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Axe
-  weaponName: "\u5CA9\u5CF0"
-  damage: 50
-  weaponType: 2
-  combo: 0
-  runSpeed: 4
-  walkSpeed: 2
-  attackPoint: {fileID: 3155614208965671647}
-  attackRadius: 0.75
-  weaponSoundType: 2
-  overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
-  weaponTrails:
-  - {fileID: 8589625807567686133}
-  weaponEffect: {fileID: 398583311771153887}
-  hitImpactPrefab: {fileID: 0}
-  bladeStartRef: {fileID: 0}
-  bladeTipRef: {fileID: 0}
-  gemPointLight: {fileID: 0}
-  hitStopDuration: 0.045
-  totalComboSteps: 3
-  comboResetTime: 2
 --- !u!114 &6147839197508986491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5133,6 +5101,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
   itemName: 
   price: 10
+  weight: 1
+--- !u!114 &718421523943839970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4327998379376985708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sword
+  weaponName: "\u5CA9\u5CF0"
+  itemIcon: {fileID: 21300000, guid: acd7349727d2b9f42b021e6087369725, type: 3}
+  damage: 50
+  weaponType: 2
+  combo: 0
+  runSpeed: 4
+  walkSpeed: 2
+  attackPoint: {fileID: 3155614208965671647}
+  attackRadius: 0.75
+  weaponSoundType: 2
+  overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
+  weaponTrails:
+  - {fileID: 8589625807567686133}
+  weaponEffect: {fileID: 398583311771153887}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
+  totalComboSteps: 3
+  comboResetTime: 2
 --- !u!1001 &5943346967215799641
 PrefabInstance:
   m_ObjectHideFlags: 0

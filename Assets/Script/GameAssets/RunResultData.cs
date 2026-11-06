@@ -2,12 +2,16 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class EquipmentSlotData
+public class EquipmentSlotData : IItem
 {
     public string slotCategory; // 例如："頭盔"、"胸甲"、"主武器"
     public string itemName;     // 例如："噬星者"、"岩峰重鎧"
     public string subInfo;      // 例如："攻擊 +42"
     public Sprite icon;         // 裝備圖示 (若無圖示可為 null)
+
+    public string ItemName => itemName;
+    public Sprite ItemIcon => icon;
+    public string GetTooltipStatsText() => subInfo;
 }
 
 [Serializable]

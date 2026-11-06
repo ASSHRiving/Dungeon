@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Text;
 using System;
 
-public class Equipment : MonoBehaviour, IInteractable
+public class Equipment : MonoBehaviour, IInteractable, IItem
 {
     public string interactableName => "裝備\n" + equipmentName;
     public enum EquipmentType { Head, Chest, Arm, Belt, Leg, Feet }
@@ -35,6 +36,19 @@ public class Equipment : MonoBehaviour, IInteractable
     public float health => equipmentDataList[currentEquipmentIndex].health;
     public float critRate => equipmentDataList[currentEquipmentIndex].critRate;
     public Sprite itemIcon => equipmentDataList[currentEquipmentIndex].itemIcon;
+
+    public string ItemName => equipmentName;
+    public Sprite ItemIcon => itemIcon;
+
+    public string GetTooltipStatsText()
+    {
+        StringBuilder sb = new StringBuilder(64);
+        if (damage > 0) sb.AppendLine($"攻擊力: +{Mathf.RoundToInt(damage)}");
+        if (critRate > 0) sb.AppendLine($"暴擊率: +{Mathf.RoundToInt(critRate)}%");
+        if (health > 0) sb.AppendLine($"最大生命: +{Mathf.RoundToInt(health)}");
+        if (shield > 0) sb.AppendLine($"護甲: +{Mathf.RoundToInt(shield)}");
+        return sb.Length == 0 ? "無附加屬性" : sb.ToString().TrimEnd();
+    }
     private void Awake()
     {
         //item = GetComponent<ShopItem>();

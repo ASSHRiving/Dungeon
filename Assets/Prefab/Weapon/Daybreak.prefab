@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 361073911710502492}
   - component: {fileID: 4334757865686767424}
   m_Layer: 12
-  m_Name: TrailPoint
+  m_Name: vfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4997,10 +4997,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1043820894932809370}
   - component: {fileID: 7207326196137840289}
-  - component: {fileID: 2888042538812779933}
   - component: {fileID: 9146197163057497190}
   - component: {fileID: 9096777334395678550}
   - component: {fileID: 4192188720159789536}
+  - component: {fileID: -2286593451556349}
   m_Layer: 12
   m_Name: Daybreak
   m_TagString: Untagged
@@ -5039,38 +5039,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropsInteract
   interactableName: "\u7834\u66C9"
---- !u!114 &2888042538812779933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3410085851281049475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da491b4b094cab4e89c5dea04700bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThunderSword
-  weaponName: "\u7834\u66C9"
-  damage: 30
-  weaponType: 0
-  combo: 0
-  runSpeed: 10
-  walkSpeed: 5
-  attackPoint: {fileID: 4776135752183393532}
-  attackRadius: 0.55
-  weaponSoundType: 1
-  overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
-  weaponTrails:
-  - {fileID: 2579060852178125568}
-  weaponEffect: {fileID: 361073911710502492}
-  hitImpactPrefab: {fileID: 0}
-  bladeStartRef: {fileID: 0}
-  bladeTipRef: {fileID: 0}
-  gemPointLight: {fileID: 0}
-  hitStopDuration: 0.045
-  totalComboSteps: 5
-  comboResetTime: 2
 --- !u!65 &9146197163057497190
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5133,6 +5101,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
   itemName: 
   price: 10
+  weight: 1
+--- !u!114 &-2286593451556349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3410085851281049475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sword
+  weaponName: "\u7834\u66C9"
+  itemIcon: {fileID: 21300000, guid: df2f58996a393bb40a200bafafbd3818, type: 3}
+  damage: 30
+  weaponType: 0
+  combo: 0
+  runSpeed: 10
+  walkSpeed: 5
+  attackPoint: {fileID: 4776135752183393532}
+  attackRadius: 0.55
+  weaponSoundType: 1
+  overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
+  weaponTrails:
+  - {fileID: 2579060852178125568}
+  weaponEffect: {fileID: 361073911710502492}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
+  totalComboSteps: 5
+  comboResetTime: 2
 --- !u!1001 &5772592469348748348
 PrefabInstance:
   m_ObjectHideFlags: 0

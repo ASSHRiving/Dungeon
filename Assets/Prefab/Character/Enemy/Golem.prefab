@@ -900,6 +900,9 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 2693099489413561318}
   healthUI: {fileID: 4487243819961881374}
   healthText: {fileID: 6234274595060731125}
+  mainBarDuration: 0.05
+  bufferHoldDelay: 0.25
+  bufferCatchUpTime: 0.35
   maxHealth: 700
   shield: 100
   maxPoise: 1000
@@ -1029,6 +1032,80 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!1001 &1279437284810429788
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4834578413066844968}
+    m_Modifications:
+    - target: {fileID: 837129127195576109, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_Name
+      value: VFX_StoneGiantGroundSlam
+      objectReference: {fileID: 0}
+    - target: {fileID: 837129127195576109, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044488660908982108, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044488660908982108, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_Intensity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+--- !u!4 &925973555038580431 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2096638263308516243, guid: ca8818f98fec8c24a9c2d0eb7c238756, type: 3}
+  m_PrefabInstance: {fileID: 1279437284810429788}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1458316790960130634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1186,6 +1263,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6988248857270708769, guid: 25871f0e0039b9f4ea25f369273d4b09, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 925973555038580431}
     - targetCorrespondingSourceObject: {fileID: 8454234386618202681, guid: 25871f0e0039b9f4ea25f369273d4b09, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2413149641862413398}
@@ -1305,6 +1385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
   weaponName: "\u53F3\u624B"
+  itemIcon: {fileID: 0}
   damage: 30
   weaponType: 0
   combo: 0

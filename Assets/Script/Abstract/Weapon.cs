@@ -1,13 +1,22 @@
 using UnityEngine;
 
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviour, IItem
 {
     [Header("基礎設定")]
     public string weaponName = "武器名稱";
+    public Sprite itemIcon;
     public float damage = 0f;
     public int weaponType = 0;
     public int combo = 0;
+
+    public string ItemName => weaponName;
+    public Sprite ItemIcon => itemIcon;
+
+    public virtual string GetTooltipStatsText()
+    {
+        return damage > 0 ? $"攻擊力: +{Mathf.RoundToInt(damage)}" : "無附加屬性";
+    }
     [Header("移動速度")]
     public float runSpeed = 7;
     public float walkSpeed = 3;

@@ -154,7 +154,8 @@ public class GameManager : SingletonBase<GameManager>
             {
                 slotCategory = "主武器",
                 itemName = combat.currentWeapon.weaponName,
-                subInfo = $"單手劍 | 攻擊 +{combat.currentWeapon.damage}"
+                subInfo = $"單手劍 | 攻擊 +{combat.currentWeapon.damage}",
+                icon = combat.currentWeapon.itemIcon
             };
 
             string[] slotNames = { "頭盔", "胸甲", "護腿", "手套", "腰帶", "戰靴" };

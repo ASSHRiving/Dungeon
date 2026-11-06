@@ -6,6 +6,7 @@ public class PlayerStatsController : UIPanelBase
 {
     private CharacterStats playerStats;
     private CharacterEquipment playerEquipment;
+    private CharacterCombatBase playerCombat;
 
     [Header("玩家狀態UI")]
     public GameObject playerStatsPanel;
@@ -14,7 +15,8 @@ public class PlayerStatsController : UIPanelBase
     public TMP_Text attackText;
     public TMP_Text critRateText;
 
-    [Header("Equipment Slots")]
+    [Header("Weapon & Equipment Slots")]
+    public EquipmentSlotUI weaponSlot;
     public List<EquipmentSlotUI> equipmentSlots = new List<EquipmentSlotUI>();
 
     protected override GameObject PanelRoot => playerStatsPanel;
@@ -48,11 +50,15 @@ public class PlayerStatsController : UIPanelBase
 
         if (playerStats == null)
         {
-            playerStats = playerTransform.GetComponent<CharacterStats>();
+            playerStats = playerTransform.GetComponent<CharacterStats>() ?? playerTransform.GetComponentInChildren<CharacterStats>();
         }
         if (playerEquipment == null)
         {
-            playerEquipment = playerTransform.GetComponent<CharacterEquipment>();
+            playerEquipment = playerTransform.GetComponent<CharacterEquipment>() ?? playerTransform.GetComponentInChildren<CharacterEquipment>();
+        }
+        if (playerCombat == null)
+        {
+            playerCombat = playerTransform.GetComponentInChildren<CharacterCombatBase>();
         }
 
         if (playerStats != null)
@@ -61,6 +67,12 @@ public class PlayerStatsController : UIPanelBase
             if (shieldText != null) shieldText.text = $"護甲: {playerStats.shield}";
             if (attackText != null) attackText.text = $"攻擊力: {playerStats.damage}";
             if (critRateText != null) critRateText.text = $"暴擊率: {playerStats.critRate}%";
+        }
+
+        if (weaponSlot != null)
+        {
+            IItem currentWeapon = playerCombat != null ? playerCombat.currentWeapon : null;
+            weaponSlot.DisplayItem(currentWeapon);
         }
 
         if (equipmentSlots != null && playerEquipment != null)

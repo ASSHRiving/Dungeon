@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5911616715936334981}
   - component: {fileID: 5115928050514995119}
   - component: {fileID: 5034570172128092915}
-  - component: {fileID: 1782410763795014568}
   - component: {fileID: 8997176540131332733}
   - component: {fileID: 7510758440356129574}
+  - component: {fileID: 8026895832273668775}
   m_Layer: 12
   m_Name: Axe
   m_TagString: Untagged
@@ -86,37 +86,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3715789, y: 0.515246, z: 0.38299805}
   m_Center: {x: -0.05661595, y: -0.08154547, z: 0.027502537}
---- !u!114 &1782410763795014568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4457791777380979166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05291e7137b49ab4ca409aa599e2df13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Axe
-  weaponName: "\u65A7\u982D"
-  damage: 20
-  weaponType: 2
-  combo: 0
-  runSpeed: 6
-  walkSpeed: 3
-  attackPoint: {fileID: 643936859160606776}
-  attackRadius: 0.5
-  weaponSoundType: 2
-  overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
-  weaponTrails: []
-  weaponEffect: {fileID: 0}
-  hitImpactPrefab: {fileID: 0}
-  bladeStartRef: {fileID: 0}
-  bladeTipRef: {fileID: 0}
-  gemPointLight: {fileID: 0}
-  hitStopDuration: 0.045
-  totalComboSteps: 3
-  comboResetTime: 2
 --- !u!114 &8997176540131332733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +113,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
   itemName: 
   price: 0
+  weight: 1
+--- !u!114 &8026895832273668775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457791777380979166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sword
+  weaponName: "\u65A7\u982D"
+  itemIcon: {fileID: 21300000, guid: 63c7d8e1f5509304fb44269ee0f23d83, type: 3}
+  damage: 20
+  weaponType: 2
+  combo: 0
+  runSpeed: 6
+  walkSpeed: 3
+  attackPoint: {fileID: 643936859160606776}
+  attackRadius: 0.5
+  weaponSoundType: 2
+  overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
+  weaponTrails: []
+  weaponEffect: {fileID: 0}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
+  totalComboSteps: 3
+  comboResetTime: 2
 --- !u!1 &5830537185590514205
 GameObject:
   m_ObjectHideFlags: 0

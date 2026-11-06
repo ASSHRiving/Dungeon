@@ -16,7 +16,6 @@ public class TooltipController : MonoBehaviour
     public Vector2 offset = new Vector2(15f, -15f); // 懸浮框相對於滑鼠游標的偏移量
 
     private Canvas parentCanvas;
-    private readonly StringBuilder statsBuilder = new StringBuilder(128);
 
     private void OnEnable()
     {
@@ -81,28 +80,23 @@ public class TooltipController : MonoBehaviour
     }
 
     /// <summary>
-    /// 顯示並填入裝備詳細屬性
+    /// 顯示並填入物品詳細屬性
     /// </summary>
-    public void ShowTooltip(Equipment equipment)
+    public void ShowTooltip(IItem item)
     {
-        if (equipment == null || tooltipPanel == null) return;
+        if (item == null || tooltipPanel == null) return;
 
-        // 設定裝備名稱與部位
+        // 設定物品名稱
         if (nameText != null)
         {
-            nameText.text = equipment.equipmentName;
+            nameText.text = item.ItemName;
         }
 
-        // 組合屬性字串 (只顯示 > 0 的屬性，以四捨五入整數呈現)
-        statsBuilder.Clear();
-        if (equipment.damage > 0) statsBuilder.AppendLine($"攻擊力: +{Mathf.RoundToInt(equipment.damage)}");
-        if (equipment.critRate > 0) statsBuilder.AppendLine($"暴擊率: +{Mathf.RoundToInt(equipment.critRate)}%");
-        if (equipment.health > 0) statsBuilder.AppendLine($"最大生命: +{Mathf.RoundToInt(equipment.health)}");
-        if (equipment.shield > 0) statsBuilder.AppendLine($"護甲: +{Mathf.RoundToInt(equipment.shield)}");
-
+        // 設定物品詳細屬性描述
         if (statsText != null)
         {
-            statsText.text = statsBuilder.Length == 0 ? "無附加屬性" : statsBuilder.ToString().TrimEnd();
+            string stats = item.GetTooltipStatsText();
+            statsText.text = string.IsNullOrEmpty(stats) ? "無附加屬性" : stats;
         }
 
         tooltipPanel.SetActive(true);

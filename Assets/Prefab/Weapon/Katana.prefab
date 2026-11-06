@@ -101,9 +101,9 @@ GameObject:
   - component: {fileID: 1207596022057821167}
   - component: {fileID: 64344067653466187}
   - component: {fileID: 7085901924266915493}
-  - component: {fileID: -1487884536949310058}
   - component: {fileID: -8497712865708952325}
   - component: {fileID: 5986542275822651035}
+  - component: {fileID: -6373782432321367204}
   m_Layer: 12
   m_Name: Katana
   m_TagString: Untagged
@@ -177,38 +177,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5215901, y: 0.23704508, z: 0.23352736}
   m_Center: {x: -0.4952591, y: 0.019329816, z: -0.005153898}
---- !u!114 &-1487884536949310058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4170710271409233420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a16908f0bca4c32459926722cf755ab5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Katana
-  weaponName: "\u592A\u5200"
-  damage: 20
-  weaponType: 1
-  combo: 0
-  runSpeed: 10
-  walkSpeed: 4
-  attackPoint: {fileID: 8983519927041261147}
-  attackRadius: 0.6
-  weaponSoundType: 1
-  overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
-  weaponTrails:
-  - {fileID: 3048609546431090379}
-  weaponEffect: {fileID: 35073345575339700}
-  hitImpactPrefab: {fileID: 0}
-  bladeStartRef: {fileID: 0}
-  bladeTipRef: {fileID: 0}
-  gemPointLight: {fileID: 0}
-  hitStopDuration: 0.045
-  totalComboSteps: 4
-  comboResetTime: 2
 --- !u!114 &-8497712865708952325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +204,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopWeapon
   itemName: 
   price: 10
+  weight: 1
+--- !u!114 &-6373782432321367204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4170710271409233420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sword
+  weaponName: "\u592A\u5200"
+  itemIcon: {fileID: 21300000, guid: c3a59449219096246bc1463bc6e41bca, type: 3}
+  damage: 20
+  weaponType: 1
+  combo: 0
+  runSpeed: 10
+  walkSpeed: 4
+  attackPoint: {fileID: 8983519927041261147}
+  attackRadius: 0.6
+  weaponSoundType: 1
+  overrideController: {fileID: 22100000, guid: b3cf2998262d882478fe843ccd26d35f, type: 2}
+  weaponTrails:
+  - {fileID: 3048609546431090379}
+  weaponEffect: {fileID: 35073345575339700}
+  hitImpactPrefab: {fileID: 0}
+  bladeStartRef: {fileID: 0}
+  bladeTipRef: {fileID: 0}
+  gemPointLight: {fileID: 0}
+  hitStopDuration: 0.045
+  totalComboSteps: 4
+  comboResetTime: 2
 --- !u!1 &7370536282192782428
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +251,7 @@ GameObject:
   - component: {fileID: 35073345575339700}
   - component: {fileID: 4947932398339230149}
   m_Layer: 12
-  m_Name: TrailStart
+  m_Name: vfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
