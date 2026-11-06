@@ -23,7 +23,7 @@ public class EnemyCombatSystem : CharacterCombatBase
     }
     private void AIView() //檢查範圍內是否有目標 並且該目標在面前的扇形範圍內
     {
-        if(_health.isDead)
+        if(health.isDead)
         {
             currentTarget = null;
             return;
@@ -58,28 +58,28 @@ public class EnemyCombatSystem : CharacterCombatBase
 
     public void LockOnCurrentTarget()
     {
-        if(_animator.CheckAnimationTag("Motion") || _animator.CheckAnimationTag("Attack"))
+        if(animator.CheckAnimationTag("Motion") || animator.CheckAnimationTag("Attack"))
         {
             if(currentTarget != null)
             {
-                _animator.SetFloat(lockOnID, 1);
+                animator.SetFloat(lockOnID, 1);
                 transform.root.rotation = transform.LockOnTarget(currentTarget,transform.root.transform,50f);
             }
         }
         else
         {
-            _animator.SetFloat(lockOnID, 0);
+            animator.SetFloat(lockOnID, 0);
         }
     }
 
     private void UpdateAnimationMove()
     {
-        if (_animator.CheckAnimationTag("Roll"))
+        if (animator.CheckAnimationTag("Roll"))
         {
-            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID), true);
-        }else if(_animator.CheckAnimationTag("Attack"))
+            movement.CharacterMoveInterface(transform.root.forward, animator.GetFloat(animationMoveID), true);
+        }else if(animator.CheckAnimationTag("Attack"))
         {
-            _movement.CharacterMoveInterface(transform.root.forward, _animator.GetFloat(animationMoveID) * 6f, true);
+            movement.CharacterMoveInterface(transform.root.forward, animator.GetFloat(animationMoveID) * 6f, true);
         }
     }
 

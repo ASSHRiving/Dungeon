@@ -39,27 +39,27 @@ public class PlayerCombatSystem : CharacterCombatBase
     }
     private void PlayerAttackAction()   //執行攻擊
     {
-        if (_inputSystem.playerLAtk && canAttack && !_animator.CheckAnimationTag("Hit"))
+        if (inputSystem.playerLAtk && canAttack && !animator.CheckAnimationTag("Hit"))
         {
             canAttack = false;
-            currentWeapon.Attack(_animator);
+            currentWeapon.Attack(animator);
             inAttack = true;
         }
     }
     private void ActionMotion()         //攻擊時AnimationMove參數
     {
-        if (_animator.CheckAnimationTag("Attack"))
+        if (animator.CheckAnimationTag("Attack"))
         {
-            _movement.CharacterMoveInterface(transform.forward, _animator.GetFloat(animationMoveID)*4f, true);
+            movement.CharacterMoveInterface(transform.forward, animator.GetFloat(animationMoveID) * 5f, true);
         }
     }
     private void CancelAttackMove()     //取消後搖
     {
-        if(inAttack && canAttack && _inputSystem.playerMovement != Vector2.zero)
+        if(inAttack && canAttack && inputSystem.playerMovement != Vector2.zero)
         {
             inAttack = false;
             canAttack = true;
-            _animator.CrossFade("Motion", 0.1f);
+            animator.CrossFade("Motion", 0.1f);
         }
     }
 
@@ -75,9 +75,9 @@ public class PlayerCombatSystem : CharacterCombatBase
 
     private bool CanAttackLockOn()
         {
-            if (_animator.CheckAnimationTag("Attack"))
+            if (animator.CheckAnimationTag("Attack"))
             {
-                if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.15f)
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.15f)
                 {
                     return true;
                 }
@@ -192,9 +192,9 @@ public class PlayerCombatSystem : CharacterCombatBase
 
     private void updateTarget()
     {
-        if (_animator.CheckAnimationTag("Motion"))
+        if (animator.CheckAnimationTag("Motion"))
         {
-            if(_inputSystem.playerMovement.sqrMagnitude > 0.1f)
+            if(inputSystem.playerMovement.sqrMagnitude > 0.1f)
             {
                 currentTarget = null;
             }
@@ -206,9 +206,9 @@ public class PlayerCombatSystem : CharacterCombatBase
         weaponType = currentWeapon.weaponType;
         if(currentWeapon.overrideController != null)
         {
-            _animator.runtimeAnimatorController = currentWeapon.overrideController;
+            animator.runtimeAnimatorController = currentWeapon.overrideController;
         }
-        _animator.SetInteger("WeaponType", weaponType);
+        animator.SetInteger("WeaponType", weaponType);
         currentWeapon.GetComponent<DropsInteract>().enabled = false;
 
         PlayerMovementSystem playerMovement = GetComponentInParent<PlayerMovementSystem>();
@@ -218,7 +218,7 @@ public class PlayerCombatSystem : CharacterCombatBase
     }
     public void ChangeWeapon(GameObject newWeapon)
     {
-        _animator.Play("Crouch", 0, 0f);
+        animator.Play("Crouch", 0, 0f);
         StartCoroutine(WaitAndChangeWeapon(newWeapon));
         
     }

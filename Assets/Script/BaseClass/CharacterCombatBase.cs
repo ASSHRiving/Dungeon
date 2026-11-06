@@ -11,12 +11,12 @@ public abstract class CharacterCombatBase : MonoBehaviour
         public Transform center;
         public float radius;
     }
-    protected Animator _animator;
-    protected CharacterInputSystem _inputSystem;
-    protected CharacterMovementBase _movement;
-    protected CharacterHealthBase _health;
-    [SerializeField]protected AudioSource _audio;
-    private AnimationEventHelper _animationEvent;
+    protected Animator animator;
+    protected CharacterInputSystem inputSystem;
+    protected CharacterMovementBase movement;
+    protected CharacterHealthBase health;
+    [SerializeField]protected AudioSource audioSource;
+    private AnimationEventHelper animationEvent;
     
     //===================================================================
     [Header("攻擊設定")]
@@ -70,25 +70,25 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _inputSystem = GetComponentInParent<CharacterInputSystem>();
-        _movement = GetComponentInParent<CharacterMovementBase>();
-        _audio = _movement.GetComponentInChildren<AudioSource>();
-        _animationEvent = GetComponent<AnimationEventHelper>();
-        _health = GetComponentInParent<CharacterHealthBase>();
+        animator = GetComponent<Animator>();
+        inputSystem = GetComponentInParent<CharacterInputSystem>();
+        movement = GetComponentInParent<CharacterMovementBase>();
+        audioSource  = movement.GetComponentInChildren<AudioSource>();
+        animationEvent = GetComponent<AnimationEventHelper>();
+        health = GetComponentInParent<CharacterHealthBase>();
         currentWeapon = GetComponentInChildren<Weapon>();
         InitWeapon();
     }
 
     void OnEnable()
     {
-        _animationEvent.OnAnimationFinish += AttackFinish;
+        animationEvent.OnAnimationFinish += AttackFinish;
     }
 
     protected virtual void Update()
     {
         // 只要 Hitbox 處於開啟狀態，每一幀都進行重疊檢測
-        if (isHitboxActive && _animator.CheckAnimationTag("Attack"))
+        if (isHitboxActive && animator.CheckAnimationTag("Attack"))
         {
             CheckAttackHitbox();
         }
@@ -195,9 +195,9 @@ public abstract class CharacterCombatBase : MonoBehaviour
     }
     private void PlayWeaponEffect()
     {
-        if (_animator.CheckAnimationTag("Attack"))
+        if (animator.CheckAnimationTag("Attack"))
         {
-            GameAssets.Instance.PlaySoundEffect(_audio, currentAttackData.weaponSound);
+            GameAssets.Instance.PlaySoundEffect(audioSource, currentAttackData.weaponSound);
         }
     }
 

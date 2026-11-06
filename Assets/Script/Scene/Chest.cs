@@ -16,6 +16,10 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField] private float forwardForce;
     private bool isOpen = false;
     private Animator animator;
+    [Header("音效設定")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip openSound;
+
     
     private void Awake()
     {
@@ -24,6 +28,7 @@ public class Chest : MonoBehaviour, IInteractable
             itemPrefab = itemList[Random.Range(0, itemList.Count)];
         }
         animator = GetComponentInChildren<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
     public void Interact(Transform player)
     {
@@ -31,6 +36,10 @@ public class Chest : MonoBehaviour, IInteractable
         {
             isOpen = true;
             animator.SetBool("IsOpen", true);
+            if(openSound != null)
+            {
+                audioSource.PlayOneShot(openSound, 3f);
+            }
             StartCoroutine(Wait());
             foreach (Transform child in transform)
             {

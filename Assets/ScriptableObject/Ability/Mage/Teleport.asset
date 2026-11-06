@@ -15,8 +15,8 @@ MonoBehaviour:
   skillName: "\u9806\u79FB"
   animTriggerName: Teleport
   minDistance: 0
-  maxDistance: 10
-  cooldown: 5
+  maxDistance: 3
+  cooldown: 20
   weight: 10
   chaseSpeed: 3.5
   retreatSpeed: 1.8
