@@ -741,8 +741,11 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 6931619239240851243}
   healthUI: {fileID: 2609130172587674979}
   healthText: {fileID: 805895813845703031}
-  maxHealth: 100
-  shield: 10
+  mainBarDuration: 0.05
+  bufferHoldDelay: 0.25
+  bufferCatchUpTime: 0.35
+  maxHealth: 300
+  shield: 50
   maxPoise: 100
   currentPoise: 100
   poiseRecoveryRate: 20
@@ -1148,7 +1151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9f8b4193ab1dc46bf3509b3d265cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatSystem
-  _audio: {fileID: 7120709179581413796}
+  audioSource: {fileID: 0}
   hitboxes:
   - hitboxName: "\u6CD5\u6756"
     center: {fileID: 113582339082520969}
@@ -1194,6 +1197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
   weaponName: "\u6CD5\u6756"
+  itemIcon: {fileID: 0}
   damage: 10
   weaponType: 0
   combo: 0

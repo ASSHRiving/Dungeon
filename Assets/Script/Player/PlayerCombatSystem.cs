@@ -11,6 +11,7 @@ public class PlayerCombatSystem : CharacterCombatBase
     [SerializeField] private Transform enemyDetectionCenter;
     [SerializeField] private float enemyDetectionRadius;
     [SerializeField] private float attackLockRange = 1.5f;
+    [SerializeField] private LayerMask lockLayer;
     [SerializeField] private LayerMask whatIsObs;
     private Collider[] detectedEnemies = new Collider[10];
 
@@ -94,7 +95,7 @@ public class PlayerCombatSystem : CharacterCombatBase
             else return;
         }
 
-        int count = Physics.OverlapSphereNonAlloc(enemyDetectionCenter.position, enemyDetectionRadius, detectedEnemies, whatIsEnemy);
+        int count = Physics.OverlapSphereNonAlloc(enemyDetectionCenter.position, enemyDetectionRadius, detectedEnemies, lockLayer);
         
         if (count > 0)
         {

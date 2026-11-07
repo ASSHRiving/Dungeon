@@ -645,6 +645,14 @@ MonoBehaviour:
         - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
           spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
           spawnPoint: {fileID: 3527367586847526322}
+    - groupName: Mage
+      weight: 2
+      waves:
+      - waveName: Wave1
+        spawnConfigs:
+        - enemyPrefab: {fileID: 8189983362293444178, guid: bd02e00326b35f349bbf6e000bef8949, type: 3}
+          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+          spawnPoint: {fileID: 8134426999047015764}
   spawnDelay: 1.5
 --- !u!65 &1494042882385531179
 BoxCollider:

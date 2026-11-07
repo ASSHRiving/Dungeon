@@ -778,6 +778,9 @@ MonoBehaviour:
   healthBarBuffer: {fileID: 867374025076862527}
   healthUI: {fileID: 0}
   healthText: {fileID: 7306819253640484099}
+  mainBarDuration: 0.05
+  bufferHoldDelay: 0.25
+  bufferCatchUpTime: 0.35
   maxHealth: 100
   shield: 0
   maxPoise: 0
@@ -1244,7 +1247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4226905d1480e654096d2f490e4f0428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
-  _audio: {fileID: 0}
+  audioSource: {fileID: 0}
   hitboxes:
   - hitboxName: "\u4E3B\u6B66\u5668"
     center: {fileID: 0}
@@ -1263,6 +1266,9 @@ MonoBehaviour:
   enemyDetectionCenter: {fileID: 3815702584121428951}
   enemyDetectionRadius: 7
   attackLockRange: 1.5
+  lockLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   whatIsObs:
     serializedVersion: 2
     m_Bits: 2113
