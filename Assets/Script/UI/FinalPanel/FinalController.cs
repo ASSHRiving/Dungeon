@@ -8,6 +8,7 @@ public class FinalController : MonoBehaviour
     [SerializeField] private TMP_Text deathText;
     [SerializeField] private TMP_Text timeText;
     [SerializeField] private TMP_Text killText;
+    [SerializeField] private TMP_Text soulText;
 
     private void OnEnable()
     {
@@ -29,6 +30,10 @@ public class FinalController : MonoBehaviour
         if (deathText != null) deathText.text = $"死亡次數: {GameManager.Instance.deathCount}";
         if (killText != null) killText.text = $"殺敵數: {GameManager.Instance.killCount}";
         if (timeText != null) timeText.text = $"遊戲用時: {GameManager.Instance.GetFormattedPlayTime()}";
+        if (soulText != null && GameManager.Instance.LastRunResult != null)
+        {
+            soulText.text = $"獲得靈魂: +{GameManager.Instance.LastRunResult.earnedSoul} (持有: {GameManager.Instance.LastRunResult.totalSoul})";
+        }
     }
 
     public void Exit()
@@ -50,4 +55,3 @@ public class FinalController : MonoBehaviour
         }
     }
 }
-

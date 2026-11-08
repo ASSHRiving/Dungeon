@@ -43,6 +43,13 @@ public class StartRoom : Room
                     equipment.EquipItem(itemGo);
                 }
             }
+
+            // 套用局外養成屬性加成 (生命、防禦、攻擊)
+            int charId = GameManager.Instance != null ? GameManager.Instance.characterID : 0;
+            if (CharacterUpgradeManager.Instance != null)
+            {
+                CharacterUpgradeManager.Instance.ApplyUpgradesToPlayer(playerGo, charId);
+            }
         }
         DontDestroyOnLoad(playerGo);
 

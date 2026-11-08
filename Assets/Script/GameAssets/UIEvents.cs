@@ -25,6 +25,16 @@ public static class UIEvents
     {
         OnGoldChanged?.Invoke(newGoldAmount);
     }
+
+    //***************************************
+    // 事件廣播：局外貨幣 (靈魂)
+    //***************************************
+    public static event Action<int> OnMetaCurrencyChanged;
+    public static void MetaCurrencyChanged(int newCurrencyAmount)
+    {
+        OnMetaCurrencyChanged?.Invoke(newCurrencyAmount);
+    }
+
     //***************************************
     // 事件廣播：交互
     //***************************************

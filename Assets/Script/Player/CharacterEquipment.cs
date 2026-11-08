@@ -2,12 +2,15 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System;
+
 public class CharacterEquipment : MonoBehaviour
 {
     private Dictionary<Equipment.EquipmentType, GameObject> equippedItems = new Dictionary<Equipment.EquipmentType, GameObject>();
     private CharacterCombatBase combat;
     private CharacterHealthBase health;
-    [SerializeField]private Transform equipmentHolder;
+    private CharacterStats stats;
+
+    [SerializeField] private Transform equipmentHolder;
 
     [Header("角色部位SkinnedMeshRenderer")]
     [SerializeField] private SkinnedMeshRenderer HeadSkinnedMeshRenderer;
@@ -17,25 +20,32 @@ public class CharacterEquipment : MonoBehaviour
     [SerializeField] private SkinnedMeshRenderer LegSkinnedMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer FeetSkinnedMeshRenderer;
 
-    [SerializeField] private GameObject hair;         //頭髮在戴頭盔時不顯示
+    [SerializeField] private GameObject hair;         // 頭髮在戴頭盔時不顯示
     [SerializeField] private GameObject ear;
+
     private void Awake()
     {
         combat = GetComponentInChildren<CharacterCombatBase>();
         health = GetComponentInChildren<CharacterHealthBase>();
+        stats = GetComponent<CharacterStats>() ?? GetComponentInParent<CharacterStats>() ?? GetComponentInChildren<CharacterStats>();
+
         // 初始化字典，確保每個裝備類型都有一個對應的值
         foreach (Equipment.EquipmentType type in System.Enum.GetValues(typeof(Equipment.EquipmentType)))
         {
             equippedItems[type] = null;
         }
     }
+
     public void EquipItem(GameObject item)
     {
         if (item == null) return;
-        //Debug.Log($"Equipping item: {item.name}");
 
-        Equipment.EquipmentType type = item.GetComponent<Equipment>().equipmentType;
-        UpdateRenderer(type, item.GetComponent<Equipment>().mesh);
+        Equipment equipment = item.GetComponent<Equipment>();
+        if (equipment == null) return;
+
+        Equipment.EquipmentType type = equipment.equipmentType;
+        UpdateRenderer(type, equipment.mesh);
+
         // 如果已經裝備了相同類型的裝備，先卸下它
         if (equippedItems[type] != null)
         {
@@ -49,26 +59,30 @@ public class CharacterEquipment : MonoBehaviour
         item.transform.localPosition = Vector3.zero;
         item.gameObject.SetActive(false);
 
-        if(type == Equipment.EquipmentType.Head)    //頭髮在戴頭盔時不顯示
+        if (type == Equipment.EquipmentType.Head)    // 頭髮在戴頭盔時不顯示
         {
-            hair.SetActive(false);
-            ear.SetActive(false);
+            if (hair != null) hair.SetActive(false);
+            if (ear != null) ear.SetActive(false);
         }
     }
 
     public void UnequipItem(Equipment.EquipmentType type)
     {
         GameObject item = equippedItems[type];
-        if(item != null)
+        if (item != null)
         {
             UnequipStatsUpdate(item);
-            item.GetComponent<Rigidbody>().AddForce(Vector3.forward * 10f, ForceMode.Impulse); // 給予一個向上的力，讓物品掉落
+            if (item.TryGetComponent<Rigidbody>(out var rb))
+            {
+                rb.AddForce(Vector3.forward * 10f, ForceMode.Impulse); // 給予一個力讓物品掉落
+            }
             item.transform.SetParent(null);
             item.gameObject.SetActive(true);
-            SceneManager.MoveGameObjectToScene(item.gameObject, SceneManager.GetActiveScene());   //移除Dont Destory
+            SceneManager.MoveGameObjectToScene(item.gameObject, SceneManager.GetActiveScene()); // 移除 DontDestroy
             equippedItems[type] = null;
         }
     }
+
     /// <summary>
     /// 取得特定部位目前穿戴的裝備物件
     /// </summary>
@@ -80,28 +94,62 @@ public class CharacterEquipment : MonoBehaviour
         }
         return null;
     }
-    private void UnequipStatsUpdate(GameObject item)
-    {
-        Equipment equipment = item.GetComponent<Equipment>();
-        if (equipment != null)
-        {
-            combat.damage -= equipment.damage;
-            health.shield -= equipment.shield;
-            health.ModifyMaxHealth(health.maxHealth - equipment.health);
-            combat.critRate -= equipment.critRate;
-        }
-    }
+
     private void EquipStatsUpdate(GameObject item)
     {
         Equipment equipment = item.GetComponent<Equipment>();
-        if (equipment != null)
+        if (equipment == null) return;
+
+        if (stats != null)
         {
-            combat.damage += equipment.damage;
-            health.shield += equipment.shield;
-            health.ModifyMaxHealth(health.maxHealth + equipment.health);
-            combat.critRate += equipment.critRate;
+            // 透過 CharacterStats 註冊屬性修正器，綁定來源為此裝備物件
+            if (equipment.health > 0)
+                stats.AddModifier(new StatModifier(StatType.MaxHealth, StatModType.Flat, equipment.health, item));
+            if (equipment.shield > 0)
+                stats.AddModifier(new StatModifier(StatType.Shield, StatModType.Flat, equipment.shield, item));
+            if (equipment.damage > 0)
+                stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, equipment.damage, item));
+            if (equipment.critRate > 0)
+                stats.AddModifier(new StatModifier(StatType.CritRate, StatModType.Flat, equipment.critRate, item));
+        }
+        else
+        {
+            // 若無 stats 組件則安全 fallback
+            if (combat != null) combat.damage += equipment.damage;
+            if (health != null)
+            {
+                health.shield += equipment.shield;
+                health.ModifyMaxHealth(health.maxHealth + equipment.health);
+            }
+            if (combat != null) combat.critRate += equipment.critRate;
         }
     }
+
+    private void UnequipStatsUpdate(GameObject item)
+    {
+        if (item == null) return;
+
+        if (stats != null)
+        {
+            // 直接以該裝備實體為 source，一鍵清空其所有加成，徹底消除數值殘留或浮點數漂移！
+            stats.RemoveAllModifiersFromSource(item);
+        }
+        else
+        {
+            Equipment equipment = item.GetComponent<Equipment>();
+            if (equipment != null)
+            {
+                if (combat != null) combat.damage -= equipment.damage;
+                if (health != null)
+                {
+                    health.shield -= equipment.shield;
+                    health.ModifyMaxHealth(health.maxHealth - equipment.health);
+                }
+                if (combat != null) combat.critRate -= equipment.critRate;
+            }
+        }
+    }
+
     private void UpdateRenderer(Equipment.EquipmentType type, Mesh newMesh)
     {
         switch (type)

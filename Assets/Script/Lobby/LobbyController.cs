@@ -9,12 +9,20 @@ public class LobbyController : MonoBehaviour
     {
         UIEvents.OnChangeTitle += ChangeTitle;
     }
+    private void OnDisable()
+    {
+        UIEvents.OnChangeTitle -= ChangeTitle;
+    }
     private void ChangeTitle(string text)
     {
         titleText.text = text;
     }
     public void StartGame()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.init();
+        }
         LoadingController.Instance.LoadLevel("GameScene");
         GameAssets.Instance.PlayInGameMusic();
     }

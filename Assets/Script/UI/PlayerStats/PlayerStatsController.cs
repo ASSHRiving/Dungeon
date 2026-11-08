@@ -38,13 +38,25 @@ public class PlayerStatsController : UIPanelBase
 
     protected override void OnBeforeOpen()
     {
+        HookPlayer();
         UpdatePlayerStatsUI();
+        if (playerStats != null)
+        {
+            playerStats.OnStatsChanged += UpdatePlayerStatsUI;
+        }
     }
 
-    private void UpdatePlayerStatsUI()
+    protected override void OnAfterClose()
+    {
+        if (playerStats != null)
+        {
+            playerStats.OnStatsChanged -= UpdatePlayerStatsUI;
+        }
+    }
+
+    private void HookPlayer()
     {
         if (uiController == null) return;
-
         Transform playerTransform = uiController.GetPlayer();
         if (playerTransform == null) return;
 
@@ -60,13 +72,18 @@ public class PlayerStatsController : UIPanelBase
         {
             playerCombat = playerTransform.GetComponentInChildren<CharacterCombatBase>();
         }
+    }
+
+    private void UpdatePlayerStatsUI()
+    {
+        HookPlayer();
 
         if (playerStats != null)
         {
-            if (healthText != null) healthText.text = $"生命值: {playerStats.maxHealth}";
-            if (shieldText != null) shieldText.text = $"護甲: {playerStats.shield}";
-            if (attackText != null) attackText.text = $"攻擊力: {playerStats.damage}";
-            if (critRateText != null) critRateText.text = $"暴擊率: {playerStats.critRate}%";
+            if (healthText != null) healthText.text = $"生命值: {Mathf.RoundToInt(playerStats.MaxHealth)}";
+            if (shieldText != null) shieldText.text = $"護甲: {Mathf.RoundToInt(playerStats.Shield)}";
+            if (attackText != null) attackText.text = $"攻擊力: {Mathf.RoundToInt(playerStats.AttackDamage)}";
+            if (critRateText != null) critRateText.text = $"暴擊率: {playerStats.CritRate:0.#}%";
         }
 
         if (weaponSlot != null)
@@ -86,4 +103,3 @@ public class PlayerStatsController : UIPanelBase
         }
     }
 }
-

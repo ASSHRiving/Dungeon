@@ -28,9 +28,11 @@ public abstract class FightingRoom : Room
     [System.Serializable]
     public class SpawnConfig
     {
-        public GameObject enemyPrefab;  // 該位置要刷出的敵人 Prefab
-        public GameObject spawnEffectPrefab; //生成特效
-        public Transform spawnPoint;    // 生成點 Transform
+        public GameObject enemyPrefab;        // 該位置要刷出的敵人 Prefab
+        public EnemyDataSO enemyData;         // (可選) 怪物數值配置資產，若為空則依 Prefab 原有基礎值動態成長
+        public bool canBeElite = true;        // 此位置是否可隨機生成菁英怪
+        public GameObject spawnEffectPrefab;   // 生成特效
+        public Transform spawnPoint;          // 生成點 Transform
     }
     #endregion
     
@@ -39,6 +41,7 @@ public abstract class FightingRoom : Room
     [SerializeField] protected List<LevelWaveGroups> levelWaveGroups = new List<LevelWaveGroups>();
     protected List<EnemyWave> waves;
     [SerializeField] private float spawnDelay = 1.5f;          // 特效出現到敵人刷出的延遲時間 (秒)
+    [SerializeField] protected float eliteSpawnChance = 0.15f; // 菁英怪生成機率 (預設 15%)
 
 
     protected int remainingEnemyCount = 0;
@@ -83,6 +86,7 @@ public abstract class FightingRoom : Room
                 }
 
                 remainingEnemyCount = wave.spawnConfigs.Count; 
+                int currentLevel = GameManager.Instance != null ? GameManager.Instance.currentLevel : 1;
 
                 // 3. 生成敵人並註冊死亡事件
                 foreach (var config in wave.spawnConfigs)
@@ -93,7 +97,24 @@ public abstract class FightingRoom : Room
                         continue;
                     }
 
-                    GameObject enemyGo = Instantiate(config.enemyPrefab, config.spawnPoint.position, config.spawnPoint.rotation);
+                    // 判斷是否生成菁英怪 (第 1 層不生菁英怪，保護新手；第 2 層起依機率決定)
+                    bool isElite = config.canBeElite && (currentLevel > 1) && (Random.value < eliteSpawnChance);
+
+                    // 透過 EnemyFactory 工廠生成並注入數值
+                    GameObject enemyGo = EnemyFactory.SpawnEnemy(
+                        config.enemyPrefab,
+                        config.enemyData,
+                        config.spawnPoint.position,
+                        config.spawnPoint.rotation,
+                        currentLevel,
+                        isElite
+                    );
+
+                    if (enemyGo == null)
+                    {
+                        remainingEnemyCount--;
+                        continue;
+                    }
 
                     EnemyCombatSystem combat = enemyGo.GetComponentInChildren<EnemyCombatSystem>();
                     EnemyHealthSystem health = enemyGo.GetComponentInChildren<EnemyHealthSystem>();
@@ -105,7 +126,7 @@ public abstract class FightingRoom : Room
                             combat.SetCurrentTarget(playerTransform);
                         }
                     }
-                    if(health != null)
+                    if (health != null)
                     {
                         health.OnDeath += OnEnemyDeath;
                     }
@@ -229,4 +250,3 @@ public abstract class FightingRoom : Room
         GameAssets.Instance.PlayInGameMusic();
     }
 }
-

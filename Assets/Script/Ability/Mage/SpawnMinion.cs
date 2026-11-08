@@ -8,6 +8,7 @@ public class SpawnMinion : AbilityBase
 {
     [Header("=== 召喚小骷髏設定 ===")]
     public GameObject minionPrefab;          // 拖入要召喚的小骷髏 Prefab
+    public EnemyDataSO minionData;            // (可選) 骷髏數值配置資產
     public int spawnCount = 3;               // 召喚數量 (預設 3 隻)
     public float spawnDelay = 1.2f;          // 預警法陣出現到小骷髏實體化的詠唱秒數
 
@@ -83,6 +84,7 @@ public class SpawnMinion : AbilityBase
 
         // --- 階段二：在法陣中心噴發爆發粒子，並生成 3 隻小骷髏 ---
         Transform playerTarget = system.combat != null ? system.combat.GetCurrentTarget() : null;
+        int currentLevel = GameManager.Instance != null ? GameManager.Instance.currentLevel : 1;
 
         foreach (Vector3 spawnPos in validSpawnPoints)
         {
@@ -103,7 +105,9 @@ public class SpawnMinion : AbilityBase
                 }
             }
 
-            GameObject minion = Instantiate(minionPrefab, spawnPos, spawnRot);
+            GameObject minion = EnemyFactory.SpawnEnemy(minionPrefab, minionData, spawnPos, spawnRot, currentLevel, false);
+            if (minion == null) continue;
+
             if (minion.TryGetComponent<NavMeshAgent>(out var minionAgent))
             {
                 minionAgent.Warp(spawnPos);

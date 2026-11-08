@@ -15,7 +15,7 @@ public class EnemyHealthSystem : CharacterHealthBase
     private NavMeshAgent navMeshAgent;
     private bool bossBarActivated = false;
 
-    public System.Action OnDeath;           // 死亡廣播
+    public System.Action OnDeath; // 死亡廣播
 
     protected override void Awake()
     {
@@ -25,7 +25,7 @@ public class EnemyHealthSystem : CharacterHealthBase
 
     protected override void Start()
     {
-        currentHealth = maxHealth;
+        base.Start();
 
         if (isBoss)
         { 
@@ -38,11 +38,17 @@ public class EnemyHealthSystem : CharacterHealthBase
                 ActivateBossBar();
             }
         }
-        else
-        {
-            base.Start();
-        }
     }
+
+    /// <summary>
+    /// 動態設定怪物掉落金幣 (供 EnemyFactory 於生成時注入關卡難度加成或菁英怪加成)
+    /// </summary>
+    public void SetGoldDrop(int newGold)
+    {
+        gold = newGold;
+    }
+
+    public int GetGoldDrop() => gold;
 
     /// <summary>
     /// 觸發螢幕頂部 Boss 獨立血條登場（也可由 Boss 房門觸發器手動呼叫）
@@ -78,36 +84,54 @@ public class EnemyHealthSystem : CharacterHealthBase
             return;
         }
 
-        // 減傷公式
-        float armorDR = shield / (shield + 100f);
+        // 減傷公式：優先使用 CharacterStats 的 Shield，若無則 fallback 原有 shield 欄位
+        float effectiveShield = stats != null ? stats.Shield : shield;
+        float armorDR = effectiveShield / (effectiveShield + 100f);
         armorDR = Mathf.Clamp(armorDR, 0f, 0.85f);
         int finaldamage = Mathf.RoundToInt(damageAmount * (1f - armorDR));
 
         ObjectPoolManager.Instance.SpawnDamageText(transform.position, finaldamage, isCritical);
 
-        currentHealth = Mathf.Clamp(currentHealth - finaldamage, 0f, maxHealth);
-        UpdateHealthBar(currentHealth / maxHealth);
+        // 透過 CharacterStats 統一扣血；若無 stats 則手動扣除
+        if (stats != null)
+        {
+            stats.TakeDamage(finaldamage);
+            currentHealth = stats.CurrentHealth;
+        }
+        else
+        {
+            currentHealth = Mathf.Clamp(currentHealth - finaldamage, 0f, maxHealth);
+            UpdateHealthBar(maxHealth > 0 ? currentHealth / maxHealth : 0f);
+        }
+
         SetAttacker(attacker);
 
         // 播放受擊音效、觸發攝影機震動、頓幀
-        GameAssets.Instance.PlaySoundEffect(audioSource, attackData.hitSound);
+        if (audioSource != null)
+        {
+            GameAssets.Instance.PlaySoundEffect(audioSource, attackData.hitSound);
+        }
         if (impulseSource != null)
         {
             impulseSource.GenerateImpulseWithForce(attackData.shakeForce);
         }
         GameAssets.Instance.DoHitstop(attackData.hitStopTime, 0.03f); // 觸發 Hitstop (頓幀)
-        Debug.Log($"敵人受到{damageAmount}點傷害，剩餘血量：{currentHealth}");
+        Debug.Log($"敵人受到 {finaldamage} 點傷害，剩餘血量：{currentHealth}/{maxHealth}");
 
         // 扣除韌性與判斷是否被打斷/播放受擊動畫
-        if (finaldamage / maxHealth > 0.05f) // 如果這次攻擊造成的傷害超過最大血量的5%，則扣除韌性
+        float effectiveMaxHealth = stats != null ? stats.MaxHealth : maxHealth;
+        if (effectiveMaxHealth > 0 && finaldamage / effectiveMaxHealth > 0.05f)
         {
             currentPoise -= attackData.poiseDamage;
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
             if (currentPoise <= 0) // 如果韌性破除，則打斷當前動作並播放受擊動畫並重置韌性
             {
-                animator.CrossFade(attackData.hitAnimationName, 0.1f);
-                combat.canAttack = true;
-                combat.currentWeapon.combo = 0;
+                if (animator != null) animator.CrossFade(attackData.hitAnimationName, 0.1f);
+                if (combat != null)
+                {
+                    combat.canAttack = true;
+                    if (combat.currentWeapon != null) combat.currentWeapon.combo = 0;
+                }
 
                 currentPoise = maxPoise;
             }
@@ -135,7 +159,10 @@ public class EnemyHealthSystem : CharacterHealthBase
             navMeshAgent.enabled = false;
         }
         gameObject.layer = LayerMask.NameToLayer("UnInteractable");
-        animator.CrossFade("Die", 0.1f);
+        if (animator != null)
+        {
+            animator.CrossFade("Die", 0.1f);
+        }
 
         if (lootPrefab != null)
         {
@@ -145,7 +172,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         // 在怪物的位置爆出金幣
         for (int i = 0; i < gold; i++)
         {
-            Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0.5f, Random.Range(-0.5f, 0.5f));
+            Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0.5f, UnityEngine.Random.Range(-0.5f, 0.5f));
             GameObject coin = ObjectPoolManager.Instance.GetCoin(transform.position + randomOffset, Quaternion.identity);
 
             if (coin != null && coin.TryGetComponent<Rigidbody>(out Rigidbody rb))
@@ -153,7 +180,7 @@ public class EnemyHealthSystem : CharacterHealthBase
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
 
-                Vector3 force = new Vector3(Random.Range(-2f, 2f), 4f, Random.Range(-2f, 2f));
+                Vector3 force = new Vector3(UnityEngine.Random.Range(-2f, 2f), 4f, UnityEngine.Random.Range(-2f, 2f));
                 rb.AddForce(force, ForceMode.Impulse);
             }
         }

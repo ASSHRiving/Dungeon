@@ -9,44 +9,60 @@ public class PlayerHealthSystem : CharacterHealthBase
 
     public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
-        if (movement.immune)
+        if (movement != null && movement.immune)
         {
             Debug.Log("閃避");
             GameAssets.Instance.DoHitstop(0.25f, 0.1f);
-            audioSource.PlayOneShot(missSound, 3f);
+            if (audioSource != null && missSound != null)
+            {
+                audioSource.PlayOneShot(missSound, 3f);
+            }
             return;
-        }else if(isDead)
+        }
+        else if (isDead)
         {
             return;
         }
 
-        //減傷公式
-        float armorDR = shield / (shield + 100f);
+        // 減傷公式：優先使用 CharacterStats 的 Shield，若無則 fallback 原有 shield 欄位
+        float effectiveShield = stats != null ? stats.Shield : shield;
+        float armorDR = effectiveShield / (effectiveShield + 100f);
         armorDR = Mathf.Clamp(armorDR, 0f, 0.85f);
         int finalDamage = Mathf.RoundToInt(damageAmount * (1f - armorDR));
 
-        currentHealth = Mathf.Clamp(currentHealth - finalDamage, 0f, maxHealth);
-        UpdateHealthBar(currentHealth / maxHealth);
-        
+        // 透過 CharacterStats 統一扣血；若無 stats 則手動扣除
+        if (stats != null)
+        {
+            stats.TakeDamage(finalDamage);
+            currentHealth = stats.CurrentHealth;
+        }
+        else
+        {
+            currentHealth = Mathf.Clamp(currentHealth - finalDamage, 0f, maxHealth);
+            UpdateHealthBar(maxHealth > 0 ? currentHealth / maxHealth : 0f);
+        }
 
-        //受擊反饋
-        GameAssets.Instance.PlaySoundEffect(audioSource, attackData.hitSound);
-        if(impulseSource != null)
+        // 受擊反饋
+        if (audioSource != null)
+        {
+            GameAssets.Instance.PlaySoundEffect(audioSource, attackData.hitSound);
+        }
+        if (impulseSource != null)
         {
             impulseSource.GenerateImpulseWithForce(attackData.shakeForce);
         }
         GameAssets.Instance.DoHitstop(attackData.hitStopTime, 0.03f); // 觸發 Hitstop (頓幀)
         SetAttacker(attacker);
 
-        //受擊動畫
-        if(finalDamage/maxHealth > 0.05f)
+        // 受擊動畫與韌性判斷
+        float effectiveMaxHealth = stats != null ? stats.MaxHealth : maxHealth;
+        if (effectiveMaxHealth > 0 && finalDamage / effectiveMaxHealth > 0.05f)
         {
-            // 扣除韌性與判斷是否被打斷/播放受擊動畫
             currentPoise -= attackData.poiseDamage;
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
-            if(currentPoise <= 0)
+            if (currentPoise <= 0)
             {
-                animator.CrossFade(attackData.hitAnimationName, 0.1f);
+                if (animator != null) animator.CrossFade(attackData.hitAnimationName, 0.1f);
                 currentPoise = maxPoise;
             }     
         }
@@ -56,20 +72,29 @@ public class PlayerHealthSystem : CharacterHealthBase
             Die();
         }
     }
+
     protected override void Die()
     {
         UIEvents.PlayerDied();
-        GameManager.Instance.AddDeath();
-        audioSource.PlayOneShot(deathSound, 2f);
-        //GameAssets.Instance.PlaySoundEffect(audioSource, SoundAssetsType.Death);
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.AddDeath();
+        }
+        if (audioSource != null && deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound, 2f);
+        }
         isDead = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-        animator.Play("Die", 0, 0f);
+        if (animator != null)
+        {
+            animator.Play("Die", 0, 0f);
+        }
         foreach (var script in scriptsToDisable)
         {
-            script.enabled = false;
+            if (script != null) script.enabled = false;
         }
     }
 }

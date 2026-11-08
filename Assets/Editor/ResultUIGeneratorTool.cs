@@ -12,12 +12,21 @@ public class ResultUIGeneratorTool : EditorWindow
     private TMP_FontAsset customFont;
     private const string ASSET_DIR = "Assets/Sprites/UI_Result";
 
-    [MenuItem("Tools/⚔️ 一鍵生成結算畫面 UI (版本C)")]
+    [MenuItem("Tools/⚔️ 一鍵生成結算畫面 UI (版本C - 含局外貨幣)")]
     public static void ShowWindow()
     {
         var win = GetWindow<ResultUIGeneratorTool>("結算 UI 生成器");
         win.minSize = new Vector2(380, 190);
         win.AutoDetectChineseFont();
+    }
+
+    [MenuItem("Tools/⚔️ 快速自動重建結算 UI (直接執行)")]
+    public static void GenerateDirectly()
+    {
+        var tool = CreateInstance<ResultUIGeneratorTool>();
+        tool.AutoDetectChineseFont();
+        tool.GenerateCompleteResultUI();
+        DestroyImmediate(tool);
     }
 
     private void AutoDetectChineseFont()
@@ -38,11 +47,11 @@ public class ResultUIGeneratorTool : EditorWindow
     private void OnGUI()
     {
         GUILayout.Space(12);
-        EditorGUILayout.LabelField("⚔️ 2D 結算頁面 UI 自動建置工具 (版本 C)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("⚔️ 2D 結算頁面 UI 自動建置工具 (版本 C - 含局外貨幣)", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
             "點擊下方按鈕後，工具將自動：\n" +
-            "1. 生成 14 張高畫質透明 PNG 素材至 Assets/Sprites/UI_Result\n" +
-            "2. 在當前場景建立 1920×1080 Canvas 與版本 C 完整排版\n" +
+            "1. 生成 15 張高畫質透明 PNG 素材至 Assets/Sprites/UI_Result (含靈魂貨幣卡片)\n" +
+            "2. 在當前場景建立 1920×1080 Canvas 與五連卡排版 (進度、時長、殺敵、金幣、靈魂)\n" +
             "3. 自動掛載 ResultUIController 並綁定所有欄位與按鈕事件",
             MessageType.Info);
 
@@ -58,7 +67,7 @@ public class ResultUIGeneratorTool : EditorWindow
         GUI.backgroundColor = Color.white;
     }
 
-    private void GenerateCompleteResultUI()
+    public void GenerateCompleteResultUI()
     {
         if (!Directory.Exists(ASSET_DIR))
         {
@@ -67,7 +76,7 @@ public class ResultUIGeneratorTool : EditorWindow
 
         EditorUtility.DisplayProgressBar("生成結算 UI", "正在繪製並匯入 PNG 材質素材...", 0.25f);
 
-        // 1. 生成全部 14 張 PNG 素材並取得 Sprite
+        // 1. 生成全部 15 張 PNG 素材並取得 Sprite
         Sprite bgDefeat = CreateAndLoadSprite("01_verC_bg_defeat.png", GenerateBgTex(false));
         Sprite bgVictory = CreateAndLoadSprite("02_verC_bg_victory.png", GenerateBgTex(true));
         Sprite headerDefeat = CreateAndLoadSprite("03_verC_header_defeat.png", GenerateHeaderTex(new Color32(220, 38, 38, 255)));
@@ -82,6 +91,7 @@ public class ResultUIGeneratorTool : EditorWindow
         Sprite armorSlot = CreateAndLoadSprite("12_verC_armor_slot.png", GenerateArmorSlotTex(341, 108));
         Sprite btnMenuRed = CreateAndLoadSprite("13_verC_btn_menu_red.png", GenerateButtonTex(330, 82, false));
         Sprite btnRetryGold = CreateAndLoadSprite("14_verC_btn_retry_gold.png", GenerateButtonTex(330, 82, true));
+        Sprite cardSoul = CreateAndLoadSprite("15_verC_stat_card_soul.png", GenerateStatCardTex(new Color32(192, 132, 252, 255)));
 
         EditorUtility.DisplayProgressBar("生成結算 UI", "正在場景中搭建 Canvas 與 UI 階層...", 0.7f);
 
@@ -127,7 +137,7 @@ public class ResultUIGeneratorTool : EditorWindow
         ctrl.mainTitleText = CreateText("MainTitle_Text", headerGO.transform, "殞 命 地 牢", 54, new Color32(252, 165, 165, 255), new Vector2(0, 12), new Vector2(800, 70), FontStyles.Bold);
         ctrl.subTitleText = CreateText("SubTitle_Text", headerGO.transform, "EXPEDITION FAILED", 20, new Color32(156, 163, 175, 255), new Vector2(0, -32), new Vector2(600, 34), FontStyles.Normal);
 
-        // --- C. 頂部四連戰績卡 (遊戲進度、遊玩時間、擊殺敵數、獲得金幣) ---
+        // --- C. 頂部五連戰績卡 (遊戲進度、遊玩時間、擊殺敵數、獲得金幣、獲得靈魂) ---
         GameObject topCardsGO = CreateUIObject("TopCardsGroup", rootGO.transform);
         RectTransform topCardsRT = topCardsGO.GetComponent<RectTransform>();
         topCardsRT.anchoredPosition = new Vector2(0, 248);
@@ -135,16 +145,20 @@ public class ResultUIGeneratorTool : EditorWindow
         ctrl.topCardsGroup = topCardsGO.AddComponent<CanvasGroup>();
 
         HorizontalLayoutGroup topHLG = topCardsGO.AddComponent<HorizontalLayoutGroup>();
-        topHLG.spacing = 34f;
+        topHLG.spacing = 24f;
         topHLG.childAlignment = TextAnchor.MiddleCenter;
         topHLG.childControlWidth = false;
         topHLG.childControlHeight = false;
 
-        ctrl.stageProgressText = BuildStatCard(topCardsGO.transform, "Card_Progress", cardGold, "遊 戲 進 度", "1 - 3", "深淵石牢・第三區", new Color32(224, 159, 62, 255), out ctrl.stageNameText);
+        float cardW = 318f;
+        float cardH = 195f;
+
+        ctrl.stageProgressText = BuildStatCard(topCardsGO.transform, "Card_Progress", cardGold, "遊 戲 進 度", "1 - 3", "深淵石牢・第三區", new Color32(224, 159, 62, 255), out ctrl.stageNameText, cardW, cardH);
         TMP_Text dummy1, dummy2, dummy3;
-        ctrl.playTimeText = BuildStatCard(topCardsGO.transform, "Card_PlayTime", cardNormal, "遊 玩 時 間", "00 : 18 : 42", "TOTAL TIME", new Color32(245, 239, 230, 255), out dummy1);
-        ctrl.killCountText = BuildStatCard(topCardsGO.transform, "Card_Kills", cardNormal, "擊 殺 敵 數", "148", "ENEMIES SLAIN", new Color32(245, 239, 230, 255), out dummy2);
-        ctrl.goldCountText = BuildStatCard(topCardsGO.transform, "Card_Gold", cardNormal, "獲 得 金 幣", "1,260 G", "GOLD COLLECTED", new Color32(245, 239, 230, 255), out dummy3);
+        ctrl.playTimeText = BuildStatCard(topCardsGO.transform, "Card_PlayTime", cardNormal, "遊 玩 時 間", "00 : 18 : 42", "TOTAL TIME", new Color32(245, 239, 230, 255), out dummy1, cardW, cardH);
+        ctrl.killCountText = BuildStatCard(topCardsGO.transform, "Card_Kills", cardNormal, "擊 殺 敵 數", "148", "ENEMIES SLAIN", new Color32(245, 239, 230, 255), out dummy2, cardW, cardH);
+        ctrl.goldCountText = BuildStatCard(topCardsGO.transform, "Card_Gold", cardNormal, "獲 得 金 幣", "1,260 G", "GOLD COLLECTED", new Color32(245, 239, 230, 255), out dummy3, cardW, cardH);
+        ctrl.soulCountText = BuildStatCard(topCardsGO.transform, "Card_Soul", cardSoul, "獲 得 靈 魂", "+185", "持有: 1,420", new Color32(216, 180, 254, 255), out ctrl.totalSoulText, cardW, cardH);
 
         // --- D. 中央魂系長分隔線 ---
         CreateImage("Center_Divider", rootGO.transform, centerDiv, new Vector2(0, 105), new Vector2(1706, 20));
@@ -230,18 +244,18 @@ public class ResultUIGeneratorTool : EditorWindow
         Selection.activeGameObject = rootGO;
         EditorUtility.ClearProgressBar();
 
-        Debug.Log("✅ [ResultUIGeneratorTool] 版本 C 結算畫面與 14 張 PNG 素材已全自動建立並完成綁定！");
+        Debug.Log("✅ [ResultUIGeneratorTool] 版本 C 結算畫面 (含局外靈魂五連戰績卡) 與 15 張 PNG 素材已全自動建立並完成綁定！");
     }
 
     // =========================================================================
     // UI 元件組裝輔助函式
     // =========================================================================
-    private TMP_Text BuildStatCard(Transform parent, string name, Sprite bg, string label, string mainVal, string subVal, Color32 valColor, out TMP_Text subTextOut)
+    private TMP_Text BuildStatCard(Transform parent, string name, Sprite bg, string label, string mainVal, string subVal, Color32 valColor, out TMP_Text subTextOut, float width = 318f, float height = 195f)
     {
-        GameObject card = CreateImage(name, parent, bg, Vector2.zero, new Vector2(400, 195));
-        CreateText("Label", card.transform, label, 24, new Color32(168, 162, 158, 255), new Vector2(0, 56), new Vector2(360, 40), FontStyles.Normal);
-        TMP_Text mainTxt = CreateText("Value", card.transform, mainVal, 50, valColor, new Vector2(0, -2), new Vector2(380, 70), FontStyles.Bold);
-        subTextOut = CreateText("Sub", card.transform, subVal, 20, new Color32(120, 113, 108, 255), new Vector2(0, -58), new Vector2(360, 34), FontStyles.Normal);
+        GameObject card = CreateImage(name, parent, bg, Vector2.zero, new Vector2(width, height));
+        CreateText("Label", card.transform, label, 22, new Color32(168, 162, 158, 255), new Vector2(0, 56), new Vector2(width - 20, 38), FontStyles.Normal);
+        TMP_Text mainTxt = CreateText("Value", card.transform, mainVal, 44, valColor, new Vector2(0, -2), new Vector2(width - 20, 64), FontStyles.Bold);
+        subTextOut = CreateText("Sub", card.transform, subVal, 19, new Color32(120, 113, 108, 255), new Vector2(0, -58), new Vector2(width - 20, 32), FontStyles.Normal);
         return mainTxt;
     }
 

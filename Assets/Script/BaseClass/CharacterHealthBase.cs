@@ -18,7 +18,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     [SerializeField] protected float bufferHoldDelay = 0.25f;   // 連擊時殘影停滯延遲 (Combo Hold)
     [SerializeField] protected float bufferCatchUpTime = 0.35f; // 殘影追趕時間
 
-    [Header("基礎數值")]
+    [Header("基礎數值 (向下相容)")]
     [SerializeField] public float maxHealth = 100;
     [SerializeField] public float shield = 10;
 
@@ -33,6 +33,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     [SerializeField] protected float currentHealth;
     [SerializeField] protected MonoBehaviour[] scriptsToDisable;
 
+    protected CharacterStats stats; // 中央數值大腦
     protected Tweener healthBarTween;
     protected Tweener bufferBarTween;
 
@@ -53,16 +54,67 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         animator = GetComponentInChildren<Animator>();
         movement = GetComponent<CharacterMovementBase>();
         combat = GetComponentInChildren<CharacterCombatBase>();
+        stats = GetComponent<CharacterStats>() ?? GetComponentInParent<CharacterStats>();
+
         if (movement != null)
             audioSource = movement.GetComponentInChildren<AudioSource>();
         impulseSource = GetComponent<CinemachineImpulseSource>();
     }
+
+    protected virtual void OnEnable()
+    {
+        if (stats != null)
+        {
+            stats.OnHealthChanged += HandleStatsHealthChanged;
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (stats != null)
+        {
+            stats.OnHealthChanged -= HandleStatsHealthChanged;
+        }
+    }
+
+    /// <summary>
+    /// 動態綁定/重新綁定中央數值大腦 (供 EnemyFactory 生成怪物時注入)
+    /// </summary>
+    public void BindStats(CharacterStats newStats)
+    {
+        if (stats != null)
+        {
+            stats.OnHealthChanged -= HandleStatsHealthChanged;
+        }
+        stats = newStats;
+        if (stats != null)
+        {
+            stats.OnHealthChanged += HandleStatsHealthChanged;
+            maxHealth = stats.MaxHealth;
+            currentHealth = stats.CurrentHealth;
+            float initialFill = maxHealth > 0 ? currentHealth / maxHealth : 1f;
+            if (healthBar != null) healthBar.fillAmount = initialFill;
+            if (healthText != null) healthText.text = $"{currentHealth}/{maxHealth}";
+            UpdateHealthBar(initialFill);
+        }
+    }
+
     protected virtual void Start()
     {
-        currentHealth = maxHealth;
-        if (healthBar != null) healthBar.fillAmount = currentHealth / maxHealth;
-        if (healthText != null) healthText.text = $"{currentHealth}/{maxHealth}";
-        UpdateHealthBar(healthBar.fillAmount);
+        if (stats != null)
+        {
+            maxHealth = stats.MaxHealth;
+            currentHealth = stats.CurrentHealth;
+        }
+        else
+        {
+            currentHealth = maxHealth;
+        }
+
+        float initialFill = maxHealth > 0 ? currentHealth / maxHealth : 1f;
+        if (healthBar != null) healthBar.fillAmount = initialFill;
+        if (healthText != null) healthText.text = $"{Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
+        UpdateHealthBar(initialFill);
     }
 
     protected virtual void OnDestroy()
@@ -82,6 +134,13 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         if (isDead) return;
         OnHitLookTarget();
         HitAnimationMotion();
+    }
+
+    private void HandleStatsHealthChanged(float current, float max)
+    {
+        currentHealth = current;
+        maxHealth = max;
+        UpdateHealthBar(max > 0 ? current / max : 0f);
     }
 
     private void HitAnimationMotion()
@@ -172,16 +231,30 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 
     public void ModifyMaxHealth(float newMaxHealth)
     {
-        float healthRatio = currentHealth / maxHealth;
-        maxHealth = newMaxHealth;
-        currentHealth = Mathf.Clamp(maxHealth * healthRatio, 1f, maxHealth);
-        UpdateHealthBar(currentHealth / maxHealth);
+        if (stats != null)
+        {
+            stats.GetStatByType(StatType.MaxHealth).BaseValue = newMaxHealth;
+        }
+        else
+        {
+            float healthRatio = maxHealth > 0 ? currentHealth / maxHealth : 1f;
+            maxHealth = newMaxHealth;
+            currentHealth = Mathf.Clamp(maxHealth * healthRatio, 1f, maxHealth);
+            UpdateHealthBar(maxHealth > 0 ? currentHealth / maxHealth : 1f);
+        }
     }
 
     public void Recover(float amount)
     {
-        currentHealth = Mathf.Clamp(currentHealth + amount, 1f, maxHealth);
-        UpdateHealthBar(currentHealth / maxHealth);
+        if (stats != null)
+        {
+            stats.Heal(amount);
+        }
+        else
+        {
+            currentHealth = Mathf.Clamp(currentHealth + amount, 1f, maxHealth);
+            UpdateHealthBar(maxHealth > 0 ? currentHealth / maxHealth : 1f);
+        }
     }
     #endregion
 }

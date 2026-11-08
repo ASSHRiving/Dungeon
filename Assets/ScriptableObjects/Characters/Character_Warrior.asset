@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f78d9c25bf50b47bf24a15828a87e0, type: 3}
+  m_Name: Character_Warrior
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterDataSO
+  characterID: 0
+  characterName: "\u6230\u58EB"
+  description: "\u64C5\u9577\u8FD1\u8EAB\u640F\u6BBA\uFF0C\u64C1\u6709\u6975\u9AD8\u7684\u9632\u79A6\u529B\u8207\u751F\u5B58\u97CC\u6027\uFF0C\u662F\u5730\u7262\u63A2\u7D22\u4E2D\u6700\u7A69\u56FA\u7684\u524D\u6392\u8B77\u76FE\u3002"
+  icon: {fileID: 0}
+  characterPrefab: {fileID: 0}
+  baseMaxHealth: 100
+  baseShield: 0
+  baseAttackDamage: 0
+  baseCritRate: 5
+  baseMoveSpeed: 5.5
+  basePoise: 100

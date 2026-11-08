@@ -27,6 +27,9 @@ public class LobbyManager : MonoBehaviour
     [SerializeField] private TMP_Text atkValueText;         // 攻擊力數值文字
     [SerializeField] private TMP_Text descriptionText;      // 職業介紹文字
 
+    [Header("局外升級介面 (可選)")]
+    [SerializeField] private CharacterUpgradeUIController upgradeUIController;
+
     [Header("屬性滿格基準值 (決定進度條長度比例)")]
     [SerializeField] private float maxHP = 200f;
     [SerializeField] private float maxDEF = 150f;
@@ -45,6 +48,10 @@ public class LobbyManager : MonoBehaviour
     private CanvasGroup startBtnCanvasGroup;
     private RectTransform startBtnRect;
     private Vector2 startBtnOriginPos;
+
+    private CanvasGroup upgradePanelCanvasGroup;
+    private RectTransform upgradePanelRect;
+    private Vector2 upgradePanelOriginPos;
 
     private Sequence uiSequence;
     private Sequence statSequence;
@@ -69,6 +76,35 @@ public class LobbyManager : MonoBehaviour
 
             startBtnRect = startButton.GetComponent<RectTransform>();
             startBtnOriginPos = startBtnRect.anchoredPosition;
+        }
+
+        if (upgradeUIController != null)
+        {
+            upgradePanelCanvasGroup = upgradeUIController.GetComponent<CanvasGroup>();
+            if (upgradePanelCanvasGroup == null)
+                upgradePanelCanvasGroup = upgradeUIController.gameObject.AddComponent<CanvasGroup>();
+
+            upgradePanelRect = upgradeUIController.GetComponent<RectTransform>();
+            if (upgradePanelRect != null)
+                upgradePanelOriginPos = upgradePanelRect.anchoredPosition;
+        }
+    }
+
+    private void OnEnable()
+    {
+        CharacterUpgradeManager.OnAnyUpgradeChanged += HandleUpgradeChanged;
+    }
+
+    private void OnDisable()
+    {
+        CharacterUpgradeManager.OnAnyUpgradeChanged -= HandleUpgradeChanged;
+    }
+
+    private void HandleUpgradeChanged()
+    {
+        if (currentCharacter != null)
+        {
+            UpdateCharacterStatsUI(currentCharacter);
         }
     }
 
@@ -117,7 +153,13 @@ public class LobbyManager : MonoBehaviour
             PlayShowCharacterUIAnim();
         }
 
-        // 5. 更新並播放生命、防禦、攻擊力與介紹動畫
+        // 5. 更新升級介面
+        if (upgradeUIController != null)
+        {
+            upgradeUIController.SetActiveCharacter(character.id);
+        }
+
+        // 6. 更新並播放生命、防禦、攻擊力與介紹動畫
         UpdateCharacterStatsUI(character);
     }
 
@@ -157,10 +199,20 @@ public class LobbyManager : MonoBehaviour
             uiSequence.Join(startBtnRect.DOAnchorPos(startBtnOriginPos - new Vector2(0f, startBtnSlideOffset), 0.18f).SetEase(Ease.InCubic));
         }
 
+        // 右側升級面板向右滑出 + 淡出
+        if (upgradeUIController != null && upgradePanelCanvasGroup != null && upgradePanelRect != null)
+        {
+            upgradePanelCanvasGroup.interactable = false;
+            upgradePanelCanvasGroup.blocksRaycasts = false;
+            uiSequence.Join(upgradePanelCanvasGroup.DOFade(0f, 0.2f).SetEase(Ease.InQuad));
+            uiSequence.Join(upgradePanelRect.DOAnchorPos(upgradePanelOriginPos + new Vector2(panelSlideOffset, 0f), 0.2f).SetEase(Ease.InCubic));
+        }
+
         uiSequence.OnComplete(() =>
         {
             if (leftStatsPanel != null) leftStatsPanel.gameObject.SetActive(false);
             if (startButton != null) startButton.SetActive(false);
+            if (upgradeUIController != null) upgradeUIController.gameObject.SetActive(false);
         });
     }
 
@@ -178,7 +230,28 @@ public class LobbyManager : MonoBehaviour
         if (leftStatsPanel != null)
         {
             leftStatsPanel.alpha = 0f;
+            leftStatsPanel.interactable = false;
+            leftStatsPanel.blocksRaycasts = false;
             leftStatsPanel.gameObject.SetActive(false);
+        }
+
+        if (startBtnCanvasGroup != null)
+        {
+            startBtnCanvasGroup.alpha = 0f;
+            startBtnCanvasGroup.interactable = false;
+            startBtnCanvasGroup.blocksRaycasts = false;
+            if (startButton != null) startButton.SetActive(false);
+        }
+
+        if (upgradeUIController != null)
+        {
+            if (upgradePanelCanvasGroup != null)
+            {
+                upgradePanelCanvasGroup.alpha = 0f;
+                upgradePanelCanvasGroup.interactable = false;
+                upgradePanelCanvasGroup.blocksRaycasts = false;
+            }
+            upgradeUIController.gameObject.SetActive(false);
         }
     }
 
@@ -187,8 +260,8 @@ public class LobbyManager : MonoBehaviour
         uiSequence?.Kill();
         uiSequence = DOTween.Sequence();
 
-        // 1. 左側屬性面板從左向右滑入 + 淡入
-        if (leftStatsPanel != null)
+        // 1. 左側屬性面板從左側滑入 + 淡入
+        if (leftStatsPanel != null && leftPanelRect != null)
         {
             leftStatsPanel.gameObject.SetActive(true);
             leftStatsPanel.interactable = true;
@@ -212,6 +285,19 @@ public class LobbyManager : MonoBehaviour
             uiSequence.Join(startBtnCanvasGroup.DOFade(1f, panelAnimDuration).SetEase(Ease.OutQuad));
             uiSequence.Join(startBtnRect.DOAnchorPos(startBtnOriginPos, panelAnimDuration).SetEase(Ease.OutCubic));
         }
+
+        // 3. 右側升級面板從右側滑入 + 淡入
+        if (upgradeUIController != null && upgradePanelCanvasGroup != null && upgradePanelRect != null)
+        {
+            upgradeUIController.gameObject.SetActive(true);
+            upgradePanelCanvasGroup.interactable = true;
+            upgradePanelCanvasGroup.blocksRaycasts = true;
+            upgradePanelCanvasGroup.alpha = 0f;
+            upgradePanelRect.anchoredPosition = upgradePanelOriginPos + new Vector2(panelSlideOffset, 0f);
+
+            uiSequence.Join(upgradePanelCanvasGroup.DOFade(1f, panelAnimDuration).SetEase(Ease.OutQuad));
+            uiSequence.Join(upgradePanelRect.DOAnchorPos(upgradePanelOriginPos, panelAnimDuration).SetEase(Ease.OutCubic));
+        }
     }
 
     private void UpdateCharacterStatsUI(CharacterSelect data)
@@ -222,9 +308,14 @@ public class LobbyManager : MonoBehaviour
         statSequence?.Kill();
         statSequence = DOTween.Sequence();
 
-        AnimateSingleStat(hpFillImage, hpValueText, data.HP, maxHP);
-        AnimateSingleStat(defFillImage, defValueText, data.DEF, maxDEF);
-        AnimateSingleStat(atkFillImage, atkValueText, data.ATK, maxATK);
+        // 讀取當前角色的局外養成屬性加成
+        float bonusHp = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.id, UpgradeType.Health) : 0f;
+        float bonusDef = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.id, UpgradeType.Defense) : 0f;
+        float bonusAtk = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.id, UpgradeType.Attack) : 0f;
+
+        AnimateSingleStat(hpFillImage, hpValueText, data.HP + bonusHp, maxHP);
+        AnimateSingleStat(defFillImage, defValueText, data.DEF + bonusDef, maxDEF);
+        AnimateSingleStat(atkFillImage, atkValueText, data.ATK + bonusAtk, maxATK);
     }
 
     private void AnimateSingleStat(Image fillImg, TMP_Text valText, float targetVal, float maxVal)

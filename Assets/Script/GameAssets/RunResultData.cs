@@ -27,6 +27,14 @@ public class RunResultData
     public int killCount;
     public int goldCount;
 
+    [Header("局外貨幣 (靈魂) 結算")]
+    public int earnedSoul;          // 本局獲得的局外貨幣總數
+    public int totalSoul;           // 結算後擁有的局外貨幣總存量
+    public int soulFromStage;       // 來自關卡進度的靈魂
+    public int soulFromKills;       // 來自擊殺數的靈魂
+    public int soulFromGold;        // 來自金幣轉換的靈魂
+    public int soulFromVictory;     // 來自通關額外獎勵的靈魂
+
     [Header("角色最終屬性")]
     public string characterName = "戰 士";
     public float hp;

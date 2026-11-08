@@ -10,23 +10,24 @@ public class PlayerMovementSystem : CharacterMovementBase
     private float moveDirctionSlerpTime = 20;
     private Vector3 rollDirection;
 
-    //閃避系統
-    //private bool canRoll = true;
-
+    protected CharacterStats stats; // 中央數值大腦
 
     [SerializeField, Header("行走速度")] public float walkSpeed;
     [SerializeField, Header("奔跑速度")] public float runSpeed;
+
     protected override void Awake()
     {
         base.Awake();
-        characterCamera = Camera.main.transform;
-        
+        stats = GetComponent<CharacterStats>() ?? GetComponentInParent<CharacterStats>();
+        if (Camera.main != null)
+        {
+            characterCamera = Camera.main.transform;
+        }
     }
 
     protected override void Update()
     {
         base.Update();
-
         PlayerMoveDirection();    
     }
 
@@ -38,8 +39,7 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     private bool CanMoveControl()
     {
-        return isOnGround && (animator.CheckAnimationTag("Motion") ||(animator.CheckAnimationTag("Attack") && _combat.canAttack)
-            );
+        return isOnGround && (animator.CheckAnimationTag("Motion") || (animator.CheckAnimationTag("Attack") && _combat.canAttack));
     }
 
     private bool CanRunControl()
@@ -52,9 +52,9 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     private void PlayerMoveDirection()
     {
-        if(characterCamera == null)
+        if (characterCamera == null)
         {
-            if(Camera.main != null)
+            if (Camera.main != null)
             {
                 characterCamera = Camera.main.transform;
             }
@@ -68,9 +68,10 @@ public class PlayerMovementSystem : CharacterMovementBase
         if (isOnGround && _inputSystem.playerMovement == Vector2.zero)
             movementDirection = Vector3.zero;
         
-        if(CanMoveControl()) 
+        if (CanMoveControl()) 
         {
-            if(_inputSystem.playerMovement != Vector2.zero){
+            if (_inputSystem.playerMovement != Vector2.zero)
+            {
                 // 1. 抓取相機在世界座標的正前方與正右方
                 Vector3 camForward = characterCamera.forward;
                 Vector3 camRight = characterCamera.right;
@@ -81,7 +82,7 @@ public class PlayerMovementSystem : CharacterMovementBase
                 camForward.Normalize();
                 camRight.Normalize();
 
-                // 3. 根據玩家的輸入（X 是左右，Y 是前後），直接計算出世界座標的移動方向
+                // 3. 根據玩家的輸入直接計算出世界座標的移動方向
                 Vector3 targetDirection = camForward * _inputSystem.playerMovement.y + camRight * _inputSystem.playerMovement.x;
 
                 // 4. 計算出這個方向對應的 3D 角度（讓角色轉身用）
@@ -99,6 +100,7 @@ public class PlayerMovementSystem : CharacterMovementBase
         {
             movementDirection = Vector3.zero;
         }
+
         if (!animator.CheckAnimationTag("Roll"))
         {  
             control.Move((characterCurrentMoveSpeed * Time.deltaTime)
@@ -114,20 +116,34 @@ public class PlayerMovementSystem : CharacterMovementBase
             float targetSpeed = _inputSystem.playerMovement.magnitude * (_inputSystem.playerRun ? 2f : 1f);
             animator.SetFloat(speedID, targetSpeed, 0.1f, Time.deltaTime);
             
-            characterCurrentMoveSpeed = _inputSystem.playerRun? runSpeed : walkSpeed;
+            float baseMoveSpeed = _inputSystem.playerRun ? runSpeed : walkSpeed;
+
+            // 支援 CharacterStats 移速加成 (例如戰靴裝備、移速藥水、天賦)
+            float speedMultiplier = 1f;
+            if (stats != null)
+            {
+                var moveStat = stats.GetStatByType(StatType.MoveSpeed);
+                if (moveStat != null && moveStat.BaseValue > 0f)
+                {
+                    speedMultiplier = moveStat.Value / moveStat.BaseValue;
+                }
+            }
+
+            characterCurrentMoveSpeed = baseMoveSpeed * speedMultiplier;
         }
         else
         {
             animator.SetFloat(speedID, 0f, 0.1f, Time.deltaTime);
-            if(animator.GetFloat(speedID) < 0.001f)
+            if (animator.GetFloat(speedID) < 0.001f)
             {
                 animator.SetFloat(speedID, 0f);
             }
             characterCurrentMoveSpeed = 0f;
         }
 
-        animator.SetFloat(runID, _inputSystem.playerRun? 1f : 0f);
+        animator.SetFloat(runID, _inputSystem.playerRun ? 1f : 0f);
     }
+
     private void UpdateRollAnimation()
     {
         // 按下翻滾鍵，且當前不在翻滾中
@@ -156,11 +172,6 @@ public class PlayerMovementSystem : CharacterMovementBase
 
             // 2. 觸發動畫與無敵幀
             animator.SetTrigger(rollId);
-            /*
-            StartCoroutine(RollRoutine());
-            _combat.inAttack = false;
-            _combat.canAttack = true;
-            */
         }
 
         // 翻滾動畫播放期間
@@ -168,21 +179,22 @@ public class PlayerMovementSystem : CharacterMovementBase
         {
             animator.ResetTrigger(rollId);
 
-            //強制轉向
+            // 強制轉向
             transform.eulerAngles = targetRotation * Vector3.up;
 
             // 執行翻滾位移
             CharacterMoveInterface(rollDirection, animator.GetFloat(animationMoveID), true);
         }
     }
+
     /// <summary>
     /// 當動畫正式進入翻滾（Roll）狀態時由 StateMachineBehaviour 調用
     /// </summary>
     public void OnRollEnter()
     {
-        // 2. 開啟無敵幀協程
         StartCoroutine(RollRoutine());
     }
+
     private IEnumerator RollRoutine()
     {
         immune = true;
@@ -190,5 +202,3 @@ public class PlayerMovementSystem : CharacterMovementBase
         immune = false;
     }
 }
-//new Vector3(_inputSystem.playerMovement.x, 0, _inputSystem.playerMovement.y)
-

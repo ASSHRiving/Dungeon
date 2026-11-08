@@ -18,17 +18,19 @@ public class ResultUIController : MonoBehaviour
     public Color defeatTitleColor = new Color(0.99f, 0.65f, 0.65f, 1f);
 
     [Header("區塊動態容器 (CanvasGroup)")]
-    public CanvasGroup topCardsGroup;    // 頂部四連戰績卡容器
+    public CanvasGroup topCardsGroup;    // 頂部五連戰績卡容器
     public CanvasGroup leftStatsPanel;   // 左下角色與屬性容器
     public CanvasGroup rightEquipPanel;  // 右下主武器與 6 格防具容器
     public CanvasGroup bottomBtnsGroup;  // 底部雙按鈕容器
 
-    [Header("頂部四連戰績卡文字")]
+    [Header("頂部戰績卡文字")]
     public TMP_Text stageProgressText;   // 顯示 "1 - 3"
     public TMP_Text stageNameText;       // 顯示 "深淵石牢・第三區"
     public TMP_Text playTimeText;        // 顯示 "00 : 18 : 42"
     public TMP_Text killCountText;       // 顯示 "148"
     public TMP_Text goldCountText;       // 顯示 "1,260 G"
+    public TMP_Text soulCountText;       // 顯示 "+185" (本局獲得靈魂/局外貨幣)
+    public TMP_Text totalSoulText;       // 顯示 "持有: 1,420"
 
     [Header("左下角色最終屬性文字")]
     public TMP_Text characterNameText;   // 顯示 "角色：戰士"
@@ -72,6 +74,12 @@ public class ResultUIController : MonoBehaviour
             playTimeText = "00 : 18 : 42",
             killCount = 148,
             goldCount = 1260,
+            earnedSoul = 185,
+            totalSoul = 1420,
+            soulFromStage = 75,
+            soulFromKills = 70,
+            soulFromGold = 40,
+            soulFromVictory = 0,
             characterName = "戰士",
             hp = 160,
             def = 89,
@@ -110,7 +118,7 @@ public class ResultUIController : MonoBehaviour
             subTitleText.text = data.isVictory ? "EXPEDITION COMPLETED" : "EXPEDITION FAILED";
         }
 
-        // 2. 填入四連卡與左下角色文字
+        // 2. 填入戰績卡與左下角色文字
         if (stageProgressText != null) stageProgressText.text = data.stageProgress;
         if (stageNameText != null) stageNameText.text = data.stageName;
         if (playTimeText != null) playTimeText.text = data.playTimeText;
@@ -180,6 +188,15 @@ public class ResultUIController : MonoBehaviour
         {
             goldCountText.text = "0 G";
             resultSequence.Join(DOVirtual.Int(0, data.goldCount, 0.75f, v => goldCountText.text = $"{v:N0} G").SetEase(Ease.OutCubic));
+        }
+        if (soulCountText != null)
+        {
+            soulCountText.text = "+0";
+            resultSequence.Join(DOVirtual.Int(0, data.earnedSoul, 0.85f, v => soulCountText.text = $"+{v:N0}").SetEase(Ease.OutCubic));
+        }
+        if (totalSoulText != null)
+        {
+            totalSoulText.text = $"持有: {data.totalSoul:N0}";
         }
 
         if (bottomBtnsGroup != null)

@@ -20,6 +20,7 @@ public class GameManager : SingletonBase<GameManager>
     // 保存最後一局的結算快照 (Model)，供 FinalScene 讀取
     public RunResultData LastRunResult { get; private set; } = new RunResultData();
     private bool isInGameplay = false;
+    private bool hasSettledThisRun = false;
 
     private void OnEnable()
     {
@@ -59,6 +60,7 @@ public class GameManager : SingletonBase<GameManager>
         currentRunPlayTime = 0f;
         isWin = false;
         isInGameplay = true;
+        hasSettledThisRun = false;
     }
     private void SetPlayer(Transform transform)
     {
@@ -84,7 +86,6 @@ public class GameManager : SingletonBase<GameManager>
     {
         isInGameplay = false;
         Cursor.lockState = CursorLockMode.None;
-
 
         CaptureRunResult(player);
         if (player != null)
@@ -124,10 +125,34 @@ public class GameManager : SingletonBase<GameManager>
     }
 
     /// <summary>
-    /// 將本局進度與角色身上的最終屬性/裝備打包進 LastRunResult
+    /// 將本局進度與角色身上的最終屬性/裝備打包進 LastRunResult，並執行局外貨幣結算發放
     /// </summary>
     private void CaptureRunResult(Transform playerObj)
     {
+        MetaCurrencyRewardBreakdown reward = default;
+        int totalSouls = 0;
+
+        // 結算局外貨幣 (防呆：確保每局只結算入帳一次)
+        if (!hasSettledThisRun)
+        {
+            hasSettledThisRun = true;
+            if (MetaProgressionManager.Instance != null)
+            {
+                reward = MetaProgressionManager.Instance.ProcessRunSettlement(
+                    currentMajorStage,
+                    currentLevel,
+                    this.isWin,
+                    this.killCount,
+                    this.currentGold
+                );
+                totalSouls = MetaProgressionManager.Instance.TotalCurrency;
+            }
+        }
+        else if (MetaProgressionManager.Instance != null)
+        {
+            totalSouls = MetaProgressionManager.Instance.TotalCurrency;
+        }
+
         LastRunResult = new RunResultData
         {
             isVictory = this.isWin,
@@ -136,27 +161,37 @@ public class GameManager : SingletonBase<GameManager>
             playTimeText = FormatTime(currentRunPlayTime),
             killCount = this.killCount,
             goldCount = this.currentGold,
-            characterName = (characterID == 0) ? "戰 士" : "冒險者"
+            characterName = (characterID == 0) ? "戰 士" : "冒險者",
+            earnedSoul = reward.totalReward,
+            totalSoul = totalSouls,
+            soulFromStage = reward.stageReward,
+            soulFromKills = reward.killReward,
+            soulFromGold = reward.goldReward,
+            soulFromVictory = reward.victoryBonus
         };
 
-        // TODO: 若你的 Player 物件上有掛載屬性腳本 (如 CharacterStats) 與裝備腳本 (如 CharacterEquipment)，
-        // 在此處從 playerObj.GetComponent<...>() 讀取實際數值填入：
+        // 若 Player 物件上有掛載屬性腳本 (CharacterStats) 與裝備腳本 (CharacterEquipment)，讀取實際數值填入：
         if (playerObj != null)
         {
             CharacterStats stats = playerObj.GetComponent<CharacterStats>();
-            // 範例預設值（請替換為你實際的角色屬性腳本欄位，例如 stats.MaxHP）
-            LastRunResult.hp = stats.maxHealth;
-            LastRunResult.def = stats.shield;
-            LastRunResult.atk = stats.damage;
+            if (stats != null)
+            {
+                LastRunResult.hp = stats.maxHealth;
+                LastRunResult.def = stats.shield;
+                LastRunResult.atk = stats.damage;
+            }
             
             CharacterCombatBase combat = playerObj.GetComponentInChildren<CharacterCombatBase>();
-            LastRunResult.mainWeapon = new EquipmentSlotData
+            if (combat != null && combat.currentWeapon != null)
             {
-                slotCategory = "主武器",
-                itemName = combat.currentWeapon.weaponName,
-                subInfo = $"單手劍 | 攻擊 +{combat.currentWeapon.damage}",
-                icon = combat.currentWeapon.itemIcon
-            };
+                LastRunResult.mainWeapon = new EquipmentSlotData
+                {
+                    slotCategory = "主武器",
+                    itemName = combat.currentWeapon.weaponName,
+                    subInfo = $"單手劍 | 攻擊 +{combat.currentWeapon.damage}",
+                    icon = combat.currentWeapon.itemIcon
+                };
+            }
 
             string[] slotNames = { "頭盔", "胸甲", "護腿", "手套", "腰帶", "戰靴" };
             Equipment.EquipmentType[] uiSlotOrder = 
@@ -173,7 +208,7 @@ public class GameManager : SingletonBase<GameManager>
                 LastRunResult.armors[i] = new EquipmentSlotData
                 {
                     slotCategory = slotNames[i],
-                    itemName = "未裝備" // 若該部位有穿裝備則填入裝備名稱與 Icon
+                    itemName = "未裝備"
                 };
             }
             CharacterEquipment charEquip = playerObj.GetComponentInChildren<CharacterEquipment>();
@@ -185,7 +220,6 @@ public class GameManager : SingletonBase<GameManager>
                     if (equippedGO != null)
                     {
                         Equipment eq = equippedGO.GetComponent<Equipment>();
-                        // 確保列表有資料且索引合法，防止越界報錯
                         if (eq != null && eq.equipmentDataList != null && 
                             eq.currentEquipmentIndex >= 0 && eq.currentEquipmentIndex < eq.equipmentDataList.Count)
                         {

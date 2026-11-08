@@ -18,13 +18,16 @@ public class GameAssets : SingletonBase<GameAssets>
     protected override void Awake()
     {
         base.Awake();
-        soundAssets.InitAssets();
+        if (soundAssets != null)
+        {
+            soundAssets.InitAssets();
+        }
     }
+
     private void Start()
     {
         PlayMenuMusic();
     }
-
     
     /// <summary>
     /// 觸發 Hitstop (頓幀)
@@ -44,7 +47,6 @@ public class GameAssets : SingletonBase<GameAssets>
 
     private IEnumerator HitstopRoutine(float duration, float timeScale)
     {
-
         // 1. 設定極小時間縮放，達到看似「畫面凍結」的效果
         Time.timeScale = timeScale;
 
@@ -62,54 +64,64 @@ public class GameAssets : SingletonBase<GameAssets>
     private void OnDisable()
     {
         Time.timeScale = 1.0f;
-
     }
 
-    
     #region 音效
-    public void PlaySoundEffect(AudioSource audioSource,SoundAssetsType soundAssetsType)
+    public void PlaySoundEffect(AudioSource audioSource, SoundAssetsType soundAssetsType)
     {
-        audioSource.PlayOneShot(soundAssets.GetClipAssets(soundAssetsType));
+        if (audioSource != null && soundAssets != null)
+        {
+            AudioClip clip = soundAssets.GetClipAssets(soundAssetsType);
+            if (clip != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+        }
     }
+
     public void PlayInGameMusic()
     {
-        if(inGameMusicClip != null)
+        if (inGameMusicClip != null && bgmAudio != null)
         {
             bgmAudio.clip = inGameMusicClip;
             bgmAudio.loop = true;
             bgmAudio.Play();
         }
     }
+
     public void PlayMenuMusic()
     {
-        if(menuMusicClip != null)
+        if (menuMusicClip != null && bgmAudio != null)
         {
             bgmAudio.clip = menuMusicClip;
             bgmAudio.loop = true;
             bgmAudio.Play();
         }
     }
+
     public void PlayBossMusic()
     {
-        if(bossMusicClip != null)
+        if (bossMusicClip != null && bgmAudio != null)
         {
             bgmAudio.clip = bossMusicClip;
             bgmAudio.loop = true;
             bgmAudio.Play();
         }
     }
+
     public void PlayeliteFightMusic()
     {
-        if(eliteFightMusicClip != null)
+        if (eliteFightMusicClip != null && bgmAudio != null)
         {
             bgmAudio.clip = eliteFightMusicClip;
             bgmAudio.loop = true;
             bgmAudio.Play();
         }
     }
+
     public void PlayUIClickSound()
     {
-        if(uiClickSound != null)
+        if (uiClickSound != null && effectAudio != null)
         {
             effectAudio.PlayOneShot(uiClickSound, 3f);
         }
