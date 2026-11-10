@@ -51,6 +51,8 @@ public abstract class FightingRoom : Room
     protected bool isClear = false;
     protected Transform playerTransform;
 
+    private readonly List<GameObject> activeEffects = new List<GameObject>();
+
     /// <summary>
     /// 包含「預警特效」與「延遲刷怪」的波次生成協程
     /// </summary>
@@ -61,29 +63,32 @@ public abstract class FightingRoom : Room
         if (waveIndex < waves.Count)
         {
             EnemyWave wave = waves[waveIndex];
-            List<GameObject> activeEffects = new List<GameObject>();
+            ClearActiveEffects();
 
             if (wave != null && wave.spawnConfigs != null)
             {
                 UIEvents.LevelChanged(wave.waveName);
-                // 1. 生成預警特效
+                // 1. 生成預警特效 (使用物件池)
                 foreach (var config in wave.spawnConfigs)
                 {
                     if (config.spawnPoint == null) continue;
                     if (config.spawnEffectPrefab != null)
                     {
-                        GameObject vfx = Instantiate(config.spawnEffectPrefab, config.spawnPoint.position, config.spawnPoint.rotation);
-                        activeEffects.Add(vfx);
+                        GameObject vfx = ObjectPoolManager.Instance != null
+                            ? ObjectPoolManager.Instance.SpawnVFX(config.spawnEffectPrefab, config.spawnPoint.position, config.spawnPoint.rotation)
+                            : Instantiate(config.spawnEffectPrefab, config.spawnPoint.position, config.spawnPoint.rotation);
+
+                        if (vfx != null)
+                        {
+                            activeEffects.Add(vfx);
+                        }
                     }
                 }
 
                 yield return new WaitForSeconds(spawnDelay);
 
-                // 2. 清除特效
-                foreach (var vfx in activeEffects)
-                {
-                    if (vfx != null) Destroy(vfx);
-                }
+                // 2. 清除 / 回收特效至物件池
+                ClearActiveEffects();
 
                 remainingEnemyCount = wave.spawnConfigs.Count; 
                 int currentLevel = GameManager.Instance != null ? GameManager.Instance.currentLevel : 1;
@@ -159,11 +164,37 @@ public abstract class FightingRoom : Room
     }
     public override void Init()
     {
+        ClearActiveEffects();
         SelectWaves();
         isBattleStarted = false;
         isSpawningWave = false;
         isClear = false;
         currentWaveIndex = 0;
+    }
+
+    protected virtual void OnDisable()
+    {
+        ClearActiveEffects();
+    }
+
+    private void ClearActiveEffects()
+    {
+        for (int i = 0; i < activeEffects.Count; i++)
+        {
+            GameObject vfx = activeEffects[i];
+            if (vfx != null)
+            {
+                if (ObjectPoolManager.Instance != null)
+                {
+                    ObjectPoolManager.Instance.ReleaseVFX(vfx);
+                }
+                else
+                {
+                    Destroy(vfx);
+                }
+            }
+        }
+        activeEffects.Clear();
     }
     protected virtual void SelectWaves()
     {
