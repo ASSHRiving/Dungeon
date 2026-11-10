@@ -65,8 +65,8 @@ public class CharacterStats : MonoBehaviour
     {
         float hp = health != null ? health.maxHealth : 100f;
         float def = health != null ? health.shield : 10f;
-        float atk = combat != null ? (combat.currentWeapon != null ? combat.totalDamage : combat.damage) : 15f;
-        float crit = combat != null ? combat.critRate : 5f;
+        float atk = (combat != null && combat.damage > 0f) ? combat.damage : statDamage.BaseValue;
+        float crit = (combat != null && combat.critRate > 0f) ? combat.critRate : statCritRate.BaseValue;
 
         InitBaseStats(hp, def, atk, crit);
     }

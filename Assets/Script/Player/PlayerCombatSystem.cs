@@ -204,17 +204,23 @@ public class PlayerCombatSystem : CharacterCombatBase
     protected override void InitWeapon()
     {
         base.InitWeapon();
+        if (currentWeapon == null) return;
+
         weaponType = currentWeapon.weaponType;
         if(currentWeapon.overrideController != null)
         {
             animator.runtimeAnimatorController = currentWeapon.overrideController;
         }
         animator.SetInteger("WeaponType", weaponType);
-        currentWeapon.GetComponent<DropsInteract>().enabled = false;
+        DropsInteract dropsInteract = currentWeapon.GetComponent<DropsInteract>();
+        if (dropsInteract != null) dropsInteract.enabled = false;
 
         PlayerMovementSystem playerMovement = GetComponentInParent<PlayerMovementSystem>();
-        playerMovement.runSpeed = currentWeapon.runSpeed;
-        playerMovement.walkSpeed = currentWeapon.walkSpeed;
+        if (playerMovement != null)
+        {
+            playerMovement.runSpeed = currentWeapon.runSpeed;
+            playerMovement.walkSpeed = currentWeapon.walkSpeed;
+        }
 
     }
     public void ChangeWeapon(GameObject newWeapon)
@@ -229,6 +235,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         //丟掉舊武器
         if(currentWeapon != null)
         {
+            ClearWeaponModifier();
             currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
             currentWeapon.GetComponent<Collider>().enabled = true;
             currentWeapon.transform.SetParent(null);

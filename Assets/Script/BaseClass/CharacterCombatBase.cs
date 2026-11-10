@@ -29,6 +29,8 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     //===================================================================
 
+    public const string WEAPON_STAT_SOURCE = "EquippedWeapon";
+
     public Weapon currentWeapon;
     [Header("基礎數值 (向下相容)")]
     public float damage = 0f;
@@ -36,7 +38,12 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     public float EffectiveDamage => stats != null ? stats.AttackDamage : damage;
     public float EffectiveCritRate => stats != null ? stats.CritRate : critRate;
-    public float totalDamage => (currentWeapon != null ? currentWeapon.damage : 0f) + EffectiveDamage;
+
+    /// <summary>
+    /// 總攻擊力：當 stats 存在時，武器傷害已作為 Flat 基質計入 stats.AttackDamage 中，並享受所有百分比 Buff 乘算！
+    /// 僅在 stats 為空時作為相容 fallback 手動加算
+    /// </summary>
+    public float totalDamage => stats != null ? stats.AttackDamage : (damage + (currentWeapon != null ? currentWeapon.damage : 0f));
 
     protected SoundAssetsType weaponSoundType;
     protected TrailRenderer[] weaponTrails;
@@ -70,12 +77,55 @@ public abstract class CharacterCombatBase : MonoBehaviour
         InitWeapon();
     }
 
+    protected virtual void Start()
+    {
+        if (stats == null)
+        {
+            stats = GetComponent<CharacterStats>() ?? GetComponentInParent<CharacterStats>();
+        }
+        UpdateWeaponStatModifier();
+    }
+
+    protected virtual void OnDestroy()
+    {
+        ClearWeaponModifier();
+    }
+
+    /// <summary>
+    /// 將當前裝備的武器攻擊力，以 Flat 基質修正器形式註冊進中央數值大腦 (CharacterStats)
+    /// 使其成為角色的基礎攻擊組成部分，一同參與所有百分比加成 (Buff / 藥水 / 天賦) 乘算！
+    /// </summary>
+    public void UpdateWeaponStatModifier()
+    {
+        if (stats == null) return;
+
+        stats.RemoveAllModifiersFromSource(WEAPON_STAT_SOURCE);
+
+        if (currentWeapon != null && currentWeapon.damage > 0f)
+        {
+            stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, currentWeapon.damage, WEAPON_STAT_SOURCE));
+        }
+    }
+
+    /// <summary>
+    /// 移除武器註冊在 CharacterStats 中的屬性修正器 (例如卸除/丟棄/切換武器時)
+    /// </summary>
+    public void ClearWeaponModifier()
+    {
+        if (stats != null)
+        {
+            stats.RemoveAllModifiersFromSource(WEAPON_STAT_SOURCE);
+        }
+    }
+
     /// <summary>
     /// 動態綁定/重新綁定中央數值大腦 (供 EnemyFactory 生成怪物時注入)
     /// </summary>
     public void BindStats(CharacterStats newStats)
     {
+        ClearWeaponModifier();
         stats = newStats;
+        UpdateWeaponStatModifier();
     }
 
     void OnEnable()
@@ -209,6 +259,8 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     protected virtual void InitWeapon()
     {
+        UpdateWeaponStatModifier();
+
         if (currentWeapon == null) return;
 
         // 更改 Hitbox 的中心點與半徑，對應武器的攻擊範圍

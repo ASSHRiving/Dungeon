@@ -82,7 +82,10 @@ public class PlayerStatsController : UIPanelBase
         {
             if (healthText != null) healthText.text = $"生命值: {Mathf.RoundToInt(playerStats.MaxHealth)}";
             if (shieldText != null) shieldText.text = $"護甲: {Mathf.RoundToInt(playerStats.Shield)}";
-            if (attackText != null) attackText.text = $"攻擊力: {Mathf.RoundToInt(playerStats.AttackDamage)}";
+            
+            float totalAtk = playerCombat != null ? playerCombat.totalDamage : playerStats.AttackDamage;
+            if (attackText != null) attackText.text = $"攻擊力: {Mathf.RoundToInt(totalAtk)}";
+            
             if (critRateText != null) critRateText.text = $"暴擊率: {playerStats.CritRate:0.#}%";
         }
 

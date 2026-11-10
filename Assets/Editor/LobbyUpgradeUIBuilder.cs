@@ -30,15 +30,18 @@ public static class LobbyUpgradeUIBuilder
             EditorSceneManager.OpenScene(LOBBY_SCENE_PATH, OpenSceneMode.Single);
         }
 
-        // 1. 程序化生成高質感暗黑奇幻升級介面專屬 PNG 素材
+        // 1. 載入與程序化生成材質
         Sprite soulBarSprite = CreateAndLoadSprite("upgrade_soul_bar.png", GenerateSoulBarTex(450, 52));
         Sprite soulIconSprite = CreateAndLoadSprite("upgrade_icon_soul.png", GenerateSoulIconTex(64, 64));
-        Sprite slotCardSprite = CreateAndLoadSprite("upgrade_slot_card.png", GenerateSlotCardTex(450, 136));
-        Sprite levelBadgeSprite = CreateAndLoadSprite("upgrade_level_badge.png", GenerateLevelBadgeTex(104, 28));
-        Sprite btnActionSprite = CreateAndLoadSprite("upgrade_btn_action.png", GenerateSplitUpgradeBtnTex(124, 98));
-        Sprite iconHpSprite = CreateAndLoadSprite("upgrade_icon_hp.png", GenerateStatEmblemTex(96, 96, UpgradeType.Health));
-        Sprite iconDefSprite = CreateAndLoadSprite("upgrade_icon_def.png", GenerateStatEmblemTex(96, 96, UpgradeType.Defense));
-        Sprite iconAtkSprite = CreateAndLoadSprite("upgrade_icon_atk.png", GenerateStatEmblemTex(96, 96, UpgradeType.Attack));
+        Sprite levelCardSprite = CreateAndLoadSprite("upgrade_level_card.png", GenerateFrameCardTex(450, 96, 0.92f));
+        Sprite statCardSprite = CreateAndLoadSprite("upgrade_stat_summary_card.png", GenerateFrameCardTex(450, 195, 0.90f));
+        Sprite progTrackSprite = CreateAndLoadSprite("upgrade_prog_track.png", GenerateTrackTex(400, 12));
+        Sprite progFillSprite = CreateAndLoadSprite("upgrade_prog_fill.png", GenerateFillTex(400, 12));
+        Sprite btnActionSprite = CreateAndLoadSprite("upgrade_btn_action.png", GenerateUpgradeBtnTex(280, 78));
+
+        Sprite iconHpSprite = CreateAndLoadSprite("upgrade_icon_hp.png", GenerateStatEmblemTex(72, 72, UpgradeType.Health));
+        Sprite iconDefSprite = CreateAndLoadSprite("upgrade_icon_def.png", GenerateStatEmblemTex(72, 72, UpgradeType.Defense));
+        Sprite iconAtkSprite = CreateAndLoadSprite("upgrade_icon_atk.png", GenerateStatEmblemTex(72, 72, UpgradeType.Attack));
 
         TMP_FontAsset font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(FONT_PATH);
         if (font == null)
@@ -68,14 +71,14 @@ public static class LobbyUpgradeUIBuilder
         // 2. 確保場景中有 MetaProgressionManager 與 CharacterUpgradeManager
         EnsureMetaManagersInScene();
 
-        // 3. 移除舊的 CharacterUpgradePanel
+        // 3. 移除舊版 CharacterUpgradePanel
         Transform oldPanel = canvas.transform.Find("CharacterUpgradePanel");
         if (oldPanel != null)
         {
             Undo.DestroyObjectImmediate(oldPanel.gameObject);
         }
 
-        // 4. 建立 CharacterUpgradePanel 根物件 (與 LeftPanel 左右對稱)
+        // 4. 建立 CharacterUpgradePanel 根物件 (維持 500x650，與 LeftPanel 完全對稱)
         GameObject panelGO = new GameObject("CharacterUpgradePanel", typeof(RectTransform), typeof(CanvasGroup), typeof(CharacterUpgradeUIController));
         panelGO.layer = LayerMask.NameToLayer("UI");
         panelGO.transform.SetParent(canvas.transform, false);
@@ -100,7 +103,7 @@ public static class LobbyUpgradeUIBuilder
 
         CharacterUpgradeUIController upgradeCtrl = panelGO.GetComponent<CharacterUpgradeUIController>();
 
-        // 5. Panel_Background (與 LeftPanel 相同外框材質)
+        // 5. Panel_Background (與 LeftPanel 完全相同外框材質，保持對稱美感)
         GameObject bgGO = CreateImage("Panel_Background", panelGO.transform, panelBgSprite, Image.Type.Sliced, Vector2.zero, Vector2.zero, Color.white);
         RectTransform bgRT = bgGO.GetComponent<RectTransform>();
         bgRT.anchorMin = Vector2.zero;
@@ -161,68 +164,171 @@ public static class LobbyUpgradeUIBuilder
             4f
         );
 
-        // 8. 三大屬性升級插槽 (Slot_Health / Slot_Defense / Slot_Attack)
-        SlotRefs healthRefs = BuildUpgradeSlot(
-            panelGO.transform,
-            "Slot_Health",
-            new Vector2(0f, 86f),
-            slotCardSprite,
-            iconHpSprite,
-            levelBadgeSprite,
-            btnActionSprite,
+        // 8. 角色階級與視覺進度條卡片 (Level Card: 450 x 96)
+        GameObject levelCardGO = CreateImage("Card_Level", panelGO.transform, levelCardSprite, Image.Type.Simple, new Vector2(0f, 105f), new Vector2(450f, 96f), Color.white);
+        levelCardGO.GetComponent<Image>().raycastTarget = false;
+
+        CreateText(
+            "Level_Title",
+            levelCardGO.transform,
             font,
-            "生命強化",
-            "Lv.0 / 10",
-            "+0 HP → <color=#80FF80>+15</color>",
-            "50 靈魂"
+            "當前強化階級",
+            21f,
+            FontStyles.Bold,
+            new Color32(235, 228, 218, 255),
+            new Vector2(-95f, 16f),
+            new Vector2(210f, 36f),
+            TextAlignmentOptions.MidlineLeft,
+            4f
         );
 
-        SlotRefs defenseRefs = BuildUpgradeSlot(
-            panelGO.transform,
-            "Slot_Defense",
-            new Vector2(0f, -62f),
-            slotCardSprite,
-            iconDefSprite,
-            levelBadgeSprite,
-            btnActionSprite,
+        TMP_Text levelValueText = CreateText(
+            "Level_Value",
+            levelCardGO.transform,
             font,
-            "防禦強化",
             "Lv.0 / 10",
-            "+0 護甲 → <color=#80FF80>+3</color>",
-            "50 靈魂"
+            24f,
+            FontStyles.Bold,
+            new Color32(236, 198, 100, 255),
+            new Vector2(105f, 16f),
+            new Vector2(180f, 36f),
+            TextAlignmentOptions.MidlineRight,
+            2f
         );
 
-        SlotRefs attackRefs = BuildUpgradeSlot(
-            panelGO.transform,
-            "Slot_Attack",
-            new Vector2(0f, -210f),
-            slotCardSprite,
-            iconAtkSprite,
-            levelBadgeSprite,
-            btnActionSprite,
+        // 進度條底槽 (400 x 12)
+        GameObject trackGO = CreateImage("Level_Prog_Track", levelCardGO.transform, progTrackSprite, Image.Type.Simple, new Vector2(0f, -18f), new Vector2(400f, 12f), Color.white);
+        trackGO.GetComponent<Image>().raycastTarget = false;
+
+        // 進度條填充 (400 x 12, Filled)
+        GameObject fillGO = CreateImage("Level_Prog_Fill", trackGO.transform, progFillSprite, Image.Type.Filled, Vector2.zero, new Vector2(400f, 12f), Color.white);
+        Image fillImg = fillGO.GetComponent<Image>();
+        fillImg.type = Image.Type.Filled;
+        fillImg.fillMethod = Image.FillMethod.Horizontal;
+        fillImg.fillOrigin = (int)Image.OriginHorizontal.Left;
+        fillImg.fillAmount = 0f;
+        fillImg.raycastTarget = false;
+
+        RectTransform fillRT = fillGO.GetComponent<RectTransform>();
+        fillRT.anchorMin = Vector2.zero;
+        fillRT.anchorMax = Vector2.one;
+        fillRT.offsetMin = Vector2.zero;
+        fillRT.offsetMax = Vector2.zero;
+
+        // 9. 三圍同步加成清單卡片 (Stat Summary Card: 450 x 195)
+        GameObject statCardGO = CreateImage("Card_StatSummary", panelGO.transform, statCardSprite, Image.Type.Simple, new Vector2(0f, -50f), new Vector2(450f, 195f), Color.white);
+        statCardGO.GetComponent<Image>().raycastTarget = false;
+
+        CreateText(
+            "Summary_Hint",
+            statCardGO.transform,
             font,
-            "攻擊強化",
-            "Lv.0 / 10",
-            "+0 攻擊 → <color=#80FF80>+4</color>",
-            "60 靈魂"
+            "— 每次升級三圍屬性同步提升 —",
+            14f,
+            FontStyles.Normal,
+            new Color32(165, 155, 142, 255),
+            new Vector2(0f, 72f),
+            new Vector2(400f, 26f),
+            TextAlignmentOptions.Center,
+            2f
         );
 
-        // 9. 綁定按鈕 Persistent OnClick 事件
-        UnityEventTools.AddPersistentListener(healthRefs.button.onClick, upgradeCtrl.OnClickUpgradeHealth);
-        UnityEventTools.AddPersistentListener(defenseRefs.button.onClick, upgradeCtrl.OnClickUpgradeDefense);
-        UnityEventTools.AddPersistentListener(attackRefs.button.onClick, upgradeCtrl.OnClickUpgradeAttack);
+        // 生命列
+        GameObject hpIconGO = CreateImage("Icon_Hp", statCardGO.transform, iconHpSprite, Image.Type.Simple, new Vector2(-175f, 28f), new Vector2(36f, 36f), Color.white);
+        hpIconGO.GetComponent<Image>().raycastTarget = false;
+        CreateText("Label_Hp", statCardGO.transform, font, "生命上限", 20f, FontStyles.Bold, new Color32(238, 232, 222, 255), new Vector2(-80f, 28f), new Vector2(130f, 32f), TextAlignmentOptions.MidlineLeft, 3f);
+        TMP_Text hpBonusText = CreateText("Bonus_Hp", statCardGO.transform, font, "+0 HP  →  <color=#80FF80>+15</color>", 20f, FontStyles.Bold, new Color32(242, 206, 105, 255), new Vector2(75f, 28f), new Vector2(200f, 32f), TextAlignmentOptions.MidlineRight, 2f);
 
-        // 10. 使用 SerializedObject 綁定 CharacterUpgradeUIController 所有欄位
+        // 防禦列
+        GameObject defIconGO = CreateImage("Icon_Def", statCardGO.transform, iconDefSprite, Image.Type.Simple, new Vector2(-175f, -18f), new Vector2(36f, 36f), Color.white);
+        defIconGO.GetComponent<Image>().raycastTarget = false;
+        CreateText("Label_Def", statCardGO.transform, font, "防禦護甲", 20f, FontStyles.Bold, new Color32(238, 232, 222, 255), new Vector2(-80f, -18f), new Vector2(130f, 32f), TextAlignmentOptions.MidlineLeft, 3f);
+        TMP_Text defBonusText = CreateText("Bonus_Def", statCardGO.transform, font, "+0 護甲  →  <color=#80FF80>+3</color>", 20f, FontStyles.Bold, new Color32(242, 206, 105, 255), new Vector2(75f, -18f), new Vector2(200f, 32f), TextAlignmentOptions.MidlineRight, 2f);
+
+        // 攻擊列
+        GameObject atkIconGO = CreateImage("Icon_Atk", statCardGO.transform, iconAtkSprite, Image.Type.Simple, new Vector2(-175f, -64f), new Vector2(36f, 36f), Color.white);
+        atkIconGO.GetComponent<Image>().raycastTarget = false;
+        CreateText("Label_Atk", statCardGO.transform, font, "基礎攻擊", 20f, FontStyles.Bold, new Color32(238, 232, 222, 255), new Vector2(-80f, -64f), new Vector2(130f, 32f), TextAlignmentOptions.MidlineLeft, 3f);
+        TMP_Text atkBonusText = CreateText("Bonus_Atk", statCardGO.transform, font, "+0 攻擊  →  <color=#80FF80>+4</color>", 20f, FontStyles.Bold, new Color32(242, 206, 105, 255), new Vector2(75f, -64f), new Vector2(200f, 32f), TextAlignmentOptions.MidlineRight, 2f);
+
+        // 10. 一體化升級大按鈕 (280 x 78)
+        GameObject btnGO = CreateImage("Btn_UnifiedUpgrade", panelGO.transform, btnActionSprite, Image.Type.Simple, new Vector2(0f, -215f), new Vector2(280f, 78f), Color.white);
+        Button btn = btnGO.AddComponent<Button>();
+        btn.targetGraphic = btnGO.GetComponent<Image>();
+
+        ColorBlock cb = btn.colors;
+        cb.normalColor = Color.white;
+        cb.highlightedColor = new Color(1.15f, 1.15f, 1.15f, 1f);
+        cb.pressedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+        cb.selectedColor = Color.white;
+        cb.disabledColor = new Color(0.6f, 0.6f, 0.6f, 1f);
+        btn.colors = cb;
+
+        CanvasGroup btnCG = btnGO.AddComponent<CanvasGroup>();
+        btnGO.AddComponent<UIButtonTween>();
+
+        TMP_Text btnLabelText = CreateText(
+            "BtnLabel",
+            btnGO.transform,
+            font,
+            "強 化",
+            25f,
+            FontStyles.Bold,
+            new Color32(255, 248, 232, 255),
+            new Vector2(0f, 15f),
+            new Vector2(240f, 34f),
+            TextAlignmentOptions.Center,
+            8f
+        );
+
+        TMP_Text btnCostText = CreateText(
+            "CostText",
+            btnGO.transform,
+            font,
+            "50 靈魂",
+            19f,
+            FontStyles.Bold,
+            new Color32(255, 226, 138, 255),
+            new Vector2(0f, -16f),
+            new Vector2(240f, 28f),
+            TextAlignmentOptions.Center,
+            2f
+        );
+
+        // 底部說明小字
+        CreateText(
+            "Footer_Hint",
+            panelGO.transform,
+            font,
+            "強化數值將永久注入該英雄所有戰鬥",
+            13f,
+            FontStyles.Normal,
+            new Color32(138, 130, 118, 255),
+            new Vector2(0f, -272f),
+            new Vector2(400f, 24f),
+            TextAlignmentOptions.Center,
+            2f
+        );
+
+        // 11. 綁定按鈕 Persistent OnClick 事件
+        UnityEventTools.AddPersistentListener(btn.onClick, upgradeCtrl.OnClickUpgrade);
+
+        // 12. 使用 SerializedObject 綁定 CharacterUpgradeUIController 所有欄位
         SerializedObject soCtrl = new SerializedObject(upgradeCtrl);
         soCtrl.FindProperty("currentSoulsText").objectReferenceValue = currencyValueText;
-
-        BindSlotProperty(soCtrl.FindProperty("healthSlot"), UpgradeType.Health, healthRefs);
-        BindSlotProperty(soCtrl.FindProperty("defenseSlot"), UpgradeType.Defense, defenseRefs);
-        BindSlotProperty(soCtrl.FindProperty("attackSlot"), UpgradeType.Attack, attackRefs);
+        soCtrl.FindProperty("levelValueText").objectReferenceValue = levelValueText;
+        soCtrl.FindProperty("levelProgressBar").objectReferenceValue = fillImg;
+        soCtrl.FindProperty("hpBonusText").objectReferenceValue = hpBonusText;
+        soCtrl.FindProperty("defBonusText").objectReferenceValue = defBonusText;
+        soCtrl.FindProperty("atkBonusText").objectReferenceValue = atkBonusText;
+        soCtrl.FindProperty("upgradeButton").objectReferenceValue = btn;
+        soCtrl.FindProperty("buttonLabelText").objectReferenceValue = btnLabelText;
+        soCtrl.FindProperty("buttonCostText").objectReferenceValue = btnCostText;
+        soCtrl.FindProperty("buttonCanvasGroup").objectReferenceValue = btnCG;
         soCtrl.ApplyModifiedProperties();
         EditorUtility.SetDirty(upgradeCtrl);
 
-        // 11. 綁定至 LobbyManager.upgradeUIController
+        // 13. 綁定至 LobbyManager.upgradeUIController
         LobbyManager lobbyMgr = Object.FindFirstObjectByType<LobbyManager>();
         if (lobbyMgr != null)
         {
@@ -240,7 +346,7 @@ public static class LobbyUpgradeUIBuilder
         EditorSceneManager.SaveScene(panelGO.scene);
 
         Selection.activeGameObject = panelGO;
-        Debug.Log("✅ [LobbyUpgradeUIBuilder] 全新設計的暗黑金銅風格升級介面與雙層鑲嵌升級按鈕已搭建並完成綁定！");
+        Debug.Log("✅ [LobbyUpgradeUIBuilder] 500x650 全新對稱三圍一體化升級面板建置完成！");
     }
 
     private static void EnsureMetaManagersInScene()
@@ -269,152 +375,6 @@ public static class LobbyUpgradeUIBuilder
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(upgradeMgr);
         }
-    }
-
-    private struct SlotRefs
-    {
-        public TMP_Text statTitleText;
-        public TMP_Text levelText;
-        public TMP_Text bonusText;
-        public TMP_Text costText;
-        public Button button;
-        public CanvasGroup buttonCanvasGroup;
-    }
-
-    private static SlotRefs BuildUpgradeSlot(
-        Transform parent,
-        string slotName,
-        Vector2 anchoredPos,
-        Sprite slotBgSprite,
-        Sprite emblemSprite,
-        Sprite levelBadgeSprite,
-        Sprite btnSprite,
-        TMP_FontAsset font,
-        string defaultTitle,
-        string defaultLevel,
-        string defaultBonus,
-        string defaultCost)
-    {
-        // 插槽底卡 (450 x 136)
-        GameObject slotGO = CreateImage(slotName, parent, slotBgSprite, Image.Type.Simple, anchoredPos, new Vector2(450f, 136f), Color.white);
-
-        // 左上屬性徽章圖示 (48 x 48)
-        GameObject iconGO = CreateImage("StatIcon", slotGO.transform, emblemSprite, Image.Type.Simple, new Vector2(-180f, 24f), new Vector2(48f, 48f), Color.white);
-        iconGO.GetComponent<Image>().raycastTarget = false;
-
-        // 屬性名稱 ("生命強化")
-        TMP_Text statTitle = CreateText(
-            "StatName",
-            slotGO.transform,
-            font,
-            defaultTitle,
-            25f,
-            FontStyles.Bold,
-            new Color32(245, 239, 230, 255),
-            new Vector2(-90f, 24f),
-            new Vector2(118f, 40f),
-            TextAlignmentOptions.MidlineLeft,
-            4f
-        );
-
-        // 等級膠囊底座 + 等級文字 ("Lv.0 / 10")
-        GameObject lvlBadgeGO = CreateImage("Level_Badge", slotGO.transform, levelBadgeSprite, Image.Type.Simple, new Vector2(18f, 24f), new Vector2(104f, 28f), Color.white);
-        lvlBadgeGO.GetComponent<Image>().raycastTarget = false;
-
-        TMP_Text levelTxt = CreateText(
-            "Level",
-            slotGO.transform,
-            font,
-            defaultLevel,
-            18f,
-            FontStyles.Bold,
-            new Color32(236, 198, 118, 255),
-            new Vector2(18f, 24f),
-            new Vector2(100f, 28f),
-            TextAlignmentOptions.Center,
-            1f
-        );
-
-        // 左下加成預覽文字 ("+0 HP → +15")
-        TMP_Text bonusTxt = CreateText(
-            "Bonus",
-            slotGO.transform,
-            font,
-            defaultBonus,
-            21f,
-            FontStyles.Bold,
-            new Color32(218, 212, 202, 255),
-            new Vector2(-56f, -31f),
-            new Vector2(252f, 36f),
-            TextAlignmentOptions.MidlineLeft,
-            2f
-        );
-
-        // 右側雙層鑲嵌式強化按鈕 (124 x 98，上層琥珀金「強化」、下層黑曜石凹槽顯示消耗靈魂)
-        GameObject btnGO = CreateImage("Btn_Upgrade", slotGO.transform, btnSprite, Image.Type.Simple, new Vector2(148f, 0f), new Vector2(124f, 98f), Color.white);
-        Button btn = btnGO.AddComponent<Button>();
-        btn.targetGraphic = btnGO.GetComponent<Image>();
-
-        ColorBlock cb = btn.colors;
-        cb.normalColor = Color.white;
-        cb.highlightedColor = new Color(1.08f, 1.08f, 1.08f, 1f);
-        cb.pressedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
-        cb.selectedColor = Color.white;
-        cb.disabledColor = new Color(0.75f, 0.75f, 0.75f, 1f);
-        btn.colors = cb;
-
-        CanvasGroup btnCG = btnGO.AddComponent<CanvasGroup>();
-        btnGO.AddComponent<UIButtonTween>();
-
-        CreateText(
-            "BtnLabel",
-            btnGO.transform,
-            font,
-            "強 化",
-            23f,
-            FontStyles.Bold,
-            new Color32(255, 248, 232, 255),
-            new Vector2(0f, 19f),
-            new Vector2(114f, 36f),
-            TextAlignmentOptions.Center,
-            8f
-        );
-
-        TMP_Text costTxt = CreateText(
-            "CostText",
-            btnGO.transform,
-            font,
-            defaultCost,
-            18f,
-            FontStyles.Bold,
-            new Color32(255, 255, 255, 255),
-            new Vector2(0f, -24f),
-            new Vector2(116f, 30f),
-            TextAlignmentOptions.Center,
-            2f
-        );
-
-        return new SlotRefs
-        {
-            statTitleText = statTitle,
-            levelText = levelTxt,
-            bonusText = bonusTxt,
-            costText = costTxt,
-            button = btn,
-            buttonCanvasGroup = btnCG
-        };
-    }
-
-    private static void BindSlotProperty(SerializedProperty slotProp, UpgradeType type, SlotRefs refs)
-    {
-        if (slotProp == null) return;
-        slotProp.FindPropertyRelative("upgradeType").enumValueIndex = (int)type;
-        slotProp.FindPropertyRelative("statTitleText").objectReferenceValue = refs.statTitleText;
-        slotProp.FindPropertyRelative("levelText").objectReferenceValue = refs.levelText;
-        slotProp.FindPropertyRelative("bonusText").objectReferenceValue = refs.bonusText;
-        slotProp.FindPropertyRelative("costText").objectReferenceValue = refs.costText;
-        slotProp.FindPropertyRelative("upgradeButton").objectReferenceValue = refs.button;
-        slotProp.FindPropertyRelative("buttonCanvasGroup").objectReferenceValue = refs.buttonCanvasGroup;
     }
 
     private static GameObject CreateImage(string name, Transform parent, Sprite sprite, Image.Type imgType, Vector2 pos, Vector2 size, Color color)
@@ -476,7 +436,7 @@ public static class LobbyUpgradeUIBuilder
     }
 
     // =========================================================================
-    // 程序化高畫質 UI 材質繪製引擎
+    // 程序化高畫質 UI 材質繪製引擎 (SDF 平滑邊緣)
     // =========================================================================
     private static Sprite CreateAndLoadSprite(string fileName, Texture2D tex)
     {
@@ -506,6 +466,12 @@ public static class LobbyUpgradeUIBuilder
         return Mathf.Max(rectDist, cut);
     }
 
+    private static float SdfRoundedBox(Vector2 p, Vector2 b, float r)
+    {
+        Vector2 q = new Vector2(Mathf.Abs(p.x), Mathf.Abs(p.y)) - b + new Vector2(r, r);
+        return Vector2.Max(q, Vector2.zero).magnitude + Mathf.Min(Mathf.Max(q.x, q.y), 0f) - r;
+    }
+
     private static Texture2D GenerateSoulBarTex(int w, int h)
     {
         Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
@@ -526,26 +492,155 @@ public static class LobbyUpgradeUIBuilder
                 }
 
                 float a = Mathf.Clamp01(0.5f - dist);
-                // 深邃紫黑曜石漸層底
                 Color fillTop = new Color(0.11f, 0.09f, 0.14f, 0.94f);
                 Color fillBot = new Color(0.07f, 0.06f, 0.09f, 0.96f);
                 Color c = Color.Lerp(fillBot, fillTop, v);
 
-                // 左側紫晶微光暈
                 float leftGlow = Mathf.Clamp01(1f - Mathf.Abs(x - 36f) / 140f) * 0.15f;
                 c = Color.Lerp(c, new Color(0.68f, 0.42f, 0.95f, c.a), leftGlow);
 
-                // 金紫雙色細緻外框
                 if (dist > -2.0f)
                 {
                     Color borderCol = Color.Lerp(new Color(0.56f, 0.44f, 0.30f, 1f), new Color(0.84f, 0.70f, 0.48f, 1f), v);
                     c = borderCol;
                 }
-                else if (dist > -4.5f && dist < -3.0f)
+                c.a *= a;
+                tex.SetPixel(x, y, c);
+            }
+        }
+        tex.Apply();
+        return tex;
+    }
+
+    private static Texture2D GenerateFrameCardTex(int w, int h, float alpha)
+    {
+        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        Vector2 half = new Vector2(w * 0.5f, h * 0.5f);
+        Vector2 boxHalf = half - new Vector2(2f, 2f);
+
+        for (int y = 0; y < h; y++)
+        {
+            float v = (float)y / h;
+            for (int x = 0; x < w; x++)
+            {
+                Vector2 p = new Vector2(x + 0.5f, y + 0.5f) - half;
+                float dist = SdfChamferBox(p, boxHalf, 8f);
+                if (dist > 1f)
                 {
-                    c = Color.Lerp(c, new Color(0.58f, 0.42f, 0.76f, c.a), 0.4f);
+                    tex.SetPixel(x, y, Color.clear);
+                    continue;
                 }
 
+                float a = Mathf.Clamp01(0.5f - dist);
+                Color c = Color.Lerp(new Color(0.08f, 0.07f, 0.11f, alpha), new Color(0.12f, 0.11f, 0.16f, alpha), v);
+
+                if (dist > -1.8f)
+                {
+                    c = Color.Lerp(new Color(0.42f, 0.34f, 0.24f, 1f), new Color(0.68f, 0.55f, 0.38f, 1f), v);
+                }
+                c.a *= a;
+                tex.SetPixel(x, y, c);
+            }
+        }
+        tex.Apply();
+        return tex;
+    }
+
+    private static Texture2D GenerateTrackTex(int w, int h)
+    {
+        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        Vector2 half = new Vector2(w * 0.5f, h * 0.5f);
+        Vector2 boxHalf = half - new Vector2(1f, 1f);
+
+        for (int y = 0; y < h; y++)
+        {
+            float v = (float)y / h;
+            for (int x = 0; x < w; x++)
+            {
+                Vector2 p = new Vector2(x + 0.5f, y + 0.5f) - half;
+                float dist = SdfRoundedBox(p, boxHalf, 4f);
+                if (dist > 1f)
+                {
+                    tex.SetPixel(x, y, Color.clear);
+                    continue;
+                }
+
+                float a = Mathf.Clamp01(0.5f - dist);
+                Color c = Color.Lerp(new Color(0.04f, 0.03f, 0.05f, 0.95f), new Color(0.10f, 0.09f, 0.13f, 0.95f), v);
+                if (dist > -1.2f)
+                {
+                    c = new Color(0.30f, 0.24f, 0.18f, 0.85f);
+                }
+                c.a *= a;
+                tex.SetPixel(x, y, c);
+            }
+        }
+        tex.Apply();
+        return tex;
+    }
+
+    private static Texture2D GenerateFillTex(int w, int h)
+    {
+        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        Vector2 half = new Vector2(w * 0.5f, h * 0.5f);
+        Vector2 boxHalf = half - new Vector2(1f, 1f);
+
+        for (int y = 0; y < h; y++)
+        {
+            float v = (float)y / h;
+            for (int x = 0; x < w; x++)
+            {
+                Vector2 p = new Vector2(x + 0.5f, y + 0.5f) - half;
+                float dist = SdfRoundedBox(p, boxHalf, 4f);
+                if (dist > 1f)
+                {
+                    tex.SetPixel(x, y, Color.clear);
+                    continue;
+                }
+
+                float a = Mathf.Clamp01(0.5f - dist);
+                Color c = Color.Lerp(new Color(0.82f, 0.55f, 0.15f, 1f), new Color(0.98f, 0.85f, 0.45f, 1f), v);
+                if (y >= h - 3)
+                {
+                    c = Color.Lerp(c, Color.white, 0.4f);
+                }
+                c.a *= a;
+                tex.SetPixel(x, y, c);
+            }
+        }
+        tex.Apply();
+        return tex;
+    }
+
+    private static Texture2D GenerateUpgradeBtnTex(int w, int h)
+    {
+        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        Vector2 half = new Vector2(w * 0.5f, h * 0.5f);
+        Vector2 boxHalf = half - new Vector2(2f, 2f);
+
+        for (int y = 0; y < h; y++)
+        {
+            float v = (float)y / h;
+            for (int x = 0; x < w; x++)
+            {
+                Vector2 p = new Vector2(x + 0.5f, y + 0.5f) - half;
+                float dist = SdfRoundedBox(p, boxHalf, 8f);
+                if (dist > 1f)
+                {
+                    tex.SetPixel(x, y, Color.clear);
+                    continue;
+                }
+
+                float a = Mathf.Clamp01(0.5f - dist);
+                // 尊貴深邃古銅金按鈕
+                Color colBot = new Color(0.18f, 0.13f, 0.10f, 0.98f);
+                Color colTop = new Color(0.28f, 0.21f, 0.15f, 0.98f);
+                Color c = Color.Lerp(colBot, colTop, v);
+
+                if (dist > -2.2f)
+                {
+                    c = Color.Lerp(new Color(0.65f, 0.48f, 0.25f, 1f), new Color(0.95f, 0.80f, 0.48f, 1f), v);
+                }
                 c.a *= a;
                 tex.SetPixel(x, y, c);
             }
@@ -565,7 +660,6 @@ public static class LobbyUpgradeUIBuilder
             for (int x = 0; x < w; x++)
             {
                 Vector2 p = (new Vector2(x + 0.5f, y + 0.5f) - center) / scale;
-                // 菱形靈魂結晶 (上下略修長)
                 float diamond = (Mathf.Abs(p.x) * 1.25f + Mathf.Abs(p.y) * 0.92f) - 12.5f;
                 float glow = Mathf.Clamp01(1f - (p.magnitude / 17f));
 
@@ -594,279 +688,69 @@ public static class LobbyUpgradeUIBuilder
         return tex;
     }
 
-    private static Texture2D GenerateSlotCardTex(int w, int h)
-    {
-        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
-        Vector2 half = new Vector2(w * 0.5f, h * 0.5f);
-        Vector2 boxHalf = half - new Vector2(2f, 2f);
-
-        for (int y = 0; y < h; y++)
-        {
-            float v = (float)y / h;
-            for (int x = 0; x < w; x++)
-            {
-                Vector2 p = new Vector2(x + 0.5f, y + 0.5f) - half;
-                float dist = SdfChamferBox(p, boxHalf, 10f);
-                if (dist > 1f)
-                {
-                    tex.SetPixel(x, y, Color.clear);
-                    continue;
-                }
-
-                float a = Mathf.Clamp01(0.5f - dist);
-                // 暖黑石板底色 (上淺下深)
-                Color topCol = new Color(0.15f, 0.14f, 0.13f, 0.95f);
-                Color botCol = new Color(0.10f, 0.09f, 0.09f, 0.97f);
-                Color c = Color.Lerp(botCol, topCol, v);
-
-                // 左下預覽區微暗凹槽感 (y < 60, x < 296)
-                if (x >= 16 && x <= 294 && y >= 14 && y <= 56)
-                {
-                    c = Color.Lerp(c, new Color(0.06f, 0.06f, 0.06f, 0.97f), 0.45f);
-                }
-
-                // 外框金銅線
-                if (dist > -2.0f)
-                {
-                    float bevel = Mathf.Lerp(0.75f, 1.2f, v);
-                    c = new Color(0.58f * bevel, 0.47f * bevel, 0.30f * bevel, 1f);
-                }
-                else if (dist > -5.0f && dist < -3.5f)
-                {
-                    c = Color.Lerp(c, new Color(0.45f, 0.36f, 0.22f, c.a), 0.45f);
-                }
-
-                c.a *= a;
-                tex.SetPixel(x, y, c);
-            }
-        }
-
-        // 左區水平分隔細線 (y = 60, x = 20..294)
-        for (int x = 20; x <= 294; x++)
-        {
-            float norm = Mathf.Abs(x - 157f) / 137f;
-            float lineA = Mathf.Clamp01(1f - norm * norm) * 0.65f;
-            Color cur = tex.GetPixel(x, 60);
-            tex.SetPixel(x, 60, Color.Lerp(cur, new Color(0.84f, 0.68f, 0.42f, 1f), lineA));
-        }
-
-        // 左下預覽區小菱形標記 (cx = 28, cy = 36)
-        DrawDiamond(tex, 28, 36, 4, new Color32(224, 176, 92, 255));
-
-        // 左右分區垂直分隔線 (x = 302, y = 16..h-16)
-        for (int y = 16; y <= h - 16; y++)
-        {
-            float norm = Mathf.Abs(y - h * 0.5f) / (h * 0.5f - 16f);
-            float lineA = Mathf.Clamp01(1f - norm * norm) * 0.65f;
-            Color cur = tex.GetPixel(302, y);
-            tex.SetPixel(302, y, Color.Lerp(cur, new Color(0.82f, 0.66f, 0.40f, 1f), lineA));
-        }
-        DrawDiamond(tex, 302, h / 2, 4, new Color32(214, 172, 96, 220));
-
-        tex.Apply();
-        return tex;
-    }
-
-    private static Texture2D GenerateLevelBadgeTex(int w, int h)
-    {
-        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
-        Vector2 half = new Vector2(w * 0.5f, h * 0.5f);
-        Vector2 boxHalf = half - new Vector2(1.5f, 1.5f);
-
-        for (int y = 0; y < h; y++)
-        {
-            for (int x = 0; x < w; x++)
-            {
-                Vector2 p = new Vector2(x + 0.5f, y + 0.5f) - half;
-                float dist = SdfChamferBox(p, boxHalf, 6f);
-                if (dist > 1f)
-                {
-                    tex.SetPixel(x, y, Color.clear);
-                    continue;
-                }
-                float a = Mathf.Clamp01(0.5f - dist);
-                Color c = new Color(0.07f, 0.06f, 0.06f, 0.95f);
-                if (dist > -1.6f)
-                {
-                    c = new Color(0.68f, 0.54f, 0.32f, 0.95f);
-                }
-                c.a *= a;
-                tex.SetPixel(x, y, c);
-            }
-        }
-        tex.Apply();
-        return tex;
-    }
-
-    /// <summary>
-    /// 雙層鑲嵌式強化按鈕：
-    /// 上層 (y >= 42)：琥珀暗金立體斜角按鈕面 (顯示「強化」)
-    /// 下層 (y < 41)：黑曜石深色鑲嵌凹槽 (顯示「50 靈魂」或紅字「50 靈魂」，對比極高且絕不撞色)
-    /// </summary>
-    private static Texture2D GenerateSplitUpgradeBtnTex(int w, int h)
-    {
-        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
-        Vector2 half = new Vector2(w * 0.5f, h * 0.5f);
-        Vector2 boxHalf = half - new Vector2(2f, 2f);
-        int splitY = 42;
-
-        for (int y = 0; y < h; y++)
-        {
-            float v = (float)y / h;
-            for (int x = 0; x < w; x++)
-            {
-                Vector2 p = new Vector2(x + 0.5f, y + 0.5f) - half;
-                float dist = SdfChamferBox(p, boxHalf, 9f);
-                if (dist > 1f)
-                {
-                    tex.SetPixel(x, y, Color.clear);
-                    continue;
-                }
-
-                float a = Mathf.Clamp01(0.5f - dist);
-                Color c;
-
-                if (y >= splitY)
-                {
-                    // 上半部：皇家琥珀暗金立體漸層
-                    float topV = (float)(y - splitY) / (h - splitY);
-                    Color goldBot = new Color(0.36f, 0.21f, 0.07f, 1f);
-                    Color goldTop = new Color(0.64f, 0.40f, 0.14f, 1f);
-                    c = Color.Lerp(goldBot, goldTop, topV);
-
-                    // 頂部內側高光
-                    if (y >= h - 6 && dist <= -2.5f)
-                    {
-                        c = Color.Lerp(c, new Color(0.95f, 0.78f, 0.45f, 1f), 0.35f);
-                    }
-                }
-                else
-                {
-                    // 下半部：黑曜石深色鑲嵌凹槽 (讓白字與不足時的紅字都清晰銳利)
-                    float botV = (float)y / splitY;
-                    Color trayBot = new Color(0.07f, 0.06f, 0.06f, 0.98f);
-                    Color trayTop = new Color(0.11f, 0.10f, 0.09f, 0.98f);
-                    c = Color.Lerp(trayBot, trayTop, botV);
-                }
-
-                // 上下分界金線 (y == splitY or splitY - 1)
-                if ((y == splitY || y == splitY - 1) && dist <= -2f)
-                {
-                    c = (y == splitY) ? new Color(0.88f, 0.72f, 0.42f, 1f) : new Color(0.22f, 0.16f, 0.08f, 1f);
-                }
-
-                // 外框立體金邊
-                if (dist > -2.4f)
-                {
-                    float bevel = Mathf.Lerp(0.72f, 1.25f, v);
-                    c = new Color(0.76f * bevel, 0.60f * bevel, 0.34f * bevel, 1f);
-                }
-                else if (dist > -4.6f && dist < -3.2f && y >= splitY)
-                {
-                    c = Color.Lerp(c, new Color(0.96f, 0.82f, 0.50f, 1f), 0.30f);
-                }
-
-                c.a *= a;
-                tex.SetPixel(x, y, c);
-            }
-        }
-
-        // 分界線中央小金鑽裝飾
-        DrawDiamond(tex, w / 2, splitY, 3, new Color32(245, 208, 125, 255));
-
-        tex.Apply();
-        return tex;
-    }
-
     private static Texture2D GenerateStatEmblemTex(int w, int h, UpgradeType type)
     {
         Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
-        Vector2 half = new Vector2(w * 0.5f, h * 0.5f);
-        float scale = w / 48f;
-        Vector2 boxHalf = half - new Vector2(1.5f * scale, 1.5f * scale);
+        Vector2 center = new Vector2(w * 0.5f, h * 0.5f);
+        float radius = (w * 0.5f) - 2f;
 
-        Color glowTint = (type == UpgradeType.Health)
-            ? new Color(0.85f, 0.22f, 0.22f, 1f)
-            : (type == UpgradeType.Defense ? new Color(0.28f, 0.58f, 0.92f, 1f) : new Color(0.92f, 0.58f, 0.18f, 1f));
+        Color mainTheme = (type == UpgradeType.Health) ? new Color(0.85f, 0.22f, 0.24f, 1f) :
+                          (type == UpgradeType.Defense) ? new Color(0.24f, 0.52f, 0.90f, 1f) :
+                          new Color(0.92f, 0.55f, 0.18f, 1f);
 
         for (int y = 0; y < h; y++)
         {
-            float v = (float)y / h;
             for (int x = 0; x < w; x++)
             {
-                Vector2 pRaw = new Vector2(x + 0.5f, y + 0.5f) - half;
-                float dist = SdfChamferBox(pRaw, boxHalf, 8f * scale);
-                if (dist > 1f)
+                Vector2 p = new Vector2(x + 0.5f, y + 0.5f) - center;
+                float d = p.magnitude - radius;
+
+                if (d > 1f)
                 {
                     tex.SetPixel(x, y, Color.clear);
                     continue;
                 }
 
-                float a = Mathf.Clamp01(0.5f - dist);
-                Vector2 p = pRaw / scale;
-                float radial = Mathf.Clamp01(1f - pRaw.magnitude / (w * 0.48f));
-                Color c = Color.Lerp(new Color(0.08f, 0.07f, 0.07f, 0.98f), glowTint * 0.38f, radial * radial);
-                c.a = 0.98f;
+                float a = Mathf.Clamp01(0.5f - d);
+                Color c = Color.Lerp(new Color(0.08f, 0.07f, 0.10f, 0.95f), new Color(0.16f, 0.14f, 0.19f, 0.95f), (p.y / radius + 1f) * 0.5f);
 
-                if (dist > -2.0f * scale)
+                if (d > -2.0f)
                 {
-                    float bevel = Mathf.Lerp(0.75f, 1.2f, v);
-                    c = new Color(0.68f * bevel, 0.54f * bevel, 0.32f * bevel, 1f);
+                    c = Color.Lerp(new Color(0.55f, 0.40f, 0.25f, 1f), new Color(0.88f, 0.72f, 0.48f, 1f), (p.y / radius + 1f) * 0.5f);
+                }
+                else if (d > -4.0f)
+                {
+                    c = Color.Lerp(c, mainTheme, 0.45f);
                 }
 
-                // 繪製內部抗鋸齒幾何徽章圖騰
+                Vector2 np = p / radius;
+                bool isIcon = false;
                 if (type == UpgradeType.Health)
                 {
-                    float dV = Mathf.Max(Mathf.Abs(p.x) - 3.2f, Mathf.Abs(p.y) - 11.2f);
-                    float dH = Mathf.Max(Mathf.Abs(p.y) - 3.2f, Mathf.Abs(p.x) - 11.2f);
-                    float dDia = (Mathf.Abs(p.x) + Mathf.Abs(p.y)) * 0.7071f - 6.8f;
-                    float shapeDist = Mathf.Min(Mathf.Min(dV, dH), dDia) * scale;
-                    float shapeAlpha = Mathf.Clamp01(0.5f - shapeDist);
-                    if (shapeAlpha > 0f)
-                    {
-                        Color emblemCol = Color.Lerp(new Color(0.86f, 0.18f, 0.22f, 1f), new Color(1f, 0.65f, 0.65f, 1f), v);
-                        c = Color.Lerp(c, emblemCol, shapeAlpha);
-                    }
+                    float hx = np.x * 1.3f;
+                    float hy = np.y * 1.3f + 0.15f;
+                    float heart = Mathf.Pow(hx * hx + hy * hy - 0.28f, 3) - hx * hx * hy * hy * hy;
+                    if (heart < 0f) isIcon = true;
                 }
                 else if (type == UpgradeType.Defense)
                 {
-                    float sy = p.y;
-                    float maxW = (sy >= -1f) ? 10.2f : Mathf.Max(0f, 10.2f * (1f - (-1f - sy) / 12.2f));
-                    float dY = Mathf.Max(sy - 10.8f, -12.2f - sy);
-                    float dX = Mathf.Abs(p.x) - maxW;
-                    float shieldDist = Mathf.Max(dX, dY) * scale;
-                    float shieldAlpha = Mathf.Clamp01(0.5f - shieldDist);
-                    if (shieldAlpha > 0f)
+                    if (Mathf.Abs(np.x) < 0.48f && np.y < 0.45f && np.y > -0.6f + Mathf.Abs(np.x) * 0.8f)
                     {
-                        float innerEdge = Mathf.Max(Mathf.Abs(p.x) - (maxW - 2.2f), sy - 8.6f) * scale;
-                        float borderMix = Mathf.Clamp01(0.5f + innerEdge);
-                        Color innerCol = Color.Lerp(new Color(0.22f, 0.45f, 0.76f, 1f), new Color(0.55f, 0.80f, 0.98f, 1f), v);
-                        Color rimCol = new Color(0.92f, 0.80f, 0.52f, 1f);
-                        Color emblemCol = Color.Lerp(innerCol, rimCol, borderMix);
-                        c = Color.Lerp(c, emblemCol, shieldAlpha);
+                        isIcon = true;
                     }
                 }
                 else
                 {
-                    float rx = p.x * 0.7071f + p.y * 0.7071f;
-                    float ry = -p.x * 0.7071f + p.y * 0.7071f;
-                    float tipTaper = Mathf.Max(0f, (rx - 8f) * 0.55f);
-                    float dBlade = Mathf.Max(Mathf.Abs(ry) - Mathf.Max(0f, 2.3f - tipTaper), Mathf.Max(rx - 13.5f, -4.5f - rx)) * scale;
-                    float dGuard = Mathf.Max(Mathf.Abs(ry) - 7.2f, Mathf.Max(rx - (-4.2f), -7.2f - rx)) * scale;
-                    float dGrip = Mathf.Max(Mathf.Abs(ry) - 1.9f, Mathf.Max(rx - (-7.2f), -12.8f - rx)) * scale;
-
-                    float bladeA = Mathf.Clamp01(0.5f - dBlade);
-                    float hiltA = Mathf.Clamp01(0.5f - Mathf.Min(dGuard, dGrip));
-
-                    if (hiltA > 0f)
+                    if ((Mathf.Abs(np.x) < 0.12f && Mathf.Abs(np.y) < 0.65f) ||
+                        (Mathf.Abs(np.y - 0.18f) < 0.11f && Mathf.Abs(np.x) < 0.45f))
                     {
-                        c = Color.Lerp(c, new Color(0.85f, 0.58f, 0.22f, 1f), hiltA);
+                        isIcon = true;
                     }
-                    if (bladeA > 0f)
-                    {
-                        Color bladeCol = Color.Lerp(new Color(0.95f, 0.72f, 0.28f, 1f), new Color(1f, 0.96f, 0.84f, 1f), Mathf.Clamp01((rx + 5f) / 18f));
-                        c = Color.Lerp(c, bladeCol, bladeA);
-                    }
+                }
+
+                if (isIcon)
+                {
+                    c = Color.Lerp(c, Color.white, 0.85f);
                 }
 
                 c.a *= a;
@@ -875,22 +759,6 @@ public static class LobbyUpgradeUIBuilder
         }
         tex.Apply();
         return tex;
-    }
-
-    private static void DrawDiamond(Texture2D t, int cx, int cy, int r, Color32 col)
-    {
-        for (int dy = -r; dy <= r; dy++)
-        {
-            for (int dx = -r; dx <= r; dx++)
-            {
-                if (Mathf.Abs(dx) + Mathf.Abs(dy) <= r)
-                {
-                    int px = cx + dx, py = cy + dy;
-                    if (px >= 0 && px < t.width && py >= 0 && py < t.height)
-                        t.SetPixel(px, py, col);
-                }
-            }
-        }
     }
 }
 #endif

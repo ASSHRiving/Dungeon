@@ -1,38 +1,32 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 /// <summary>
-/// 選角大廳角色升級面板 UI 控制器
-/// 負責顯示生命、防禦、攻擊升級等級、數值加成、消耗靈魂，
-/// 並處理玩家點擊升級按鈕後的更新與回饋。
+/// 選角大廳角色升級面板 UI 控制器 (三圍同步強化架構)
+/// 負責顯示角色當前強化階級、視覺等級進度條、生命/防禦/攻擊三圍加成預覽，
+/// 以及單一整合式的升級按鈕與點擊反饋。
 /// </summary>
 public class CharacterUpgradeUIController : MonoBehaviour
 {
-    [System.Serializable]
-    public class UpgradeSlotUI
-    {
-        [Header("屬性類型")]
-        public UpgradeType upgradeType;
-
-        [Header("UI 文字元件")]
-        public TMP_Text statTitleText;    // 例如 "生命強化"
-        public TMP_Text levelText;        // 例如 "Lv. 3 / 10"
-        public TMP_Text bonusText;        // 例如 "+45 生命" (下一級 "+60")
-        public TMP_Text costText;         // 例如 "140 靈魂" (滿級顯示 "已滿級 MAX")
-
-        [Header("互動按鈕")]
-        public Button upgradeButton;
-        public CanvasGroup buttonCanvasGroup; // 用於滿級或貨幣不足時半透明提示
-    }
-
     [Header("持有貨幣顯示")]
-    [SerializeField] private TMP_Text currentSoulsText; // 顯示玩家目前持有的總靈魂
+    [SerializeField] private TMP_Text currentSoulsText; // 顯示玩家目前持有的總靈魂 (例如 "1,250 靈魂")
 
-    [Header("三大屬性升級插槽")]
-    [SerializeField] private UpgradeSlotUI healthSlot = new UpgradeSlotUI { upgradeType = UpgradeType.Health };
-    [SerializeField] private UpgradeSlotUI defenseSlot = new UpgradeSlotUI { upgradeType = UpgradeType.Defense };
-    [SerializeField] private UpgradeSlotUI attackSlot = new UpgradeSlotUI { upgradeType = UpgradeType.Attack };
+    [Header("角色等級與視覺進度條")]
+    [SerializeField] private TMP_Text levelValueText;   // 例如 "Lv. 3 / 10" 或 "Lv. 10 (MAX)"
+    [SerializeField] private Image levelProgressBar;    // 視覺進度條 (FillAmount 0~1)
+
+    [Header("三圍屬性加成文字")]
+    [SerializeField] private TMP_Text hpBonusText;      // 例如 "+45 HP → +60"
+    [SerializeField] private TMP_Text defBonusText;     // 例如 "+9 護甲 → +12"
+    [SerializeField] private TMP_Text atkBonusText;     // 例如 "+12 攻擊 → +16"
+
+    [Header("一體化升級行動按鈕")]
+    [SerializeField] private Button upgradeButton;
+    [SerializeField] private TMP_Text buttonLabelText;  // "強 化"
+    [SerializeField] private TMP_Text buttonCostText;   // "50 靈魂" 或 "已達上限"
+    [SerializeField] private CanvasGroup buttonCanvasGroup;
 
     private int activeCharacterID = 0;
 
@@ -60,67 +54,103 @@ public class CharacterUpgradeUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// 刷新所有升級按鈕、文字與持有貨幣
+    /// 刷新面板上所有階級、三圍數值、進度條與按鈕狀態
     /// </summary>
     public void RefreshAllUI()
     {
-        RefreshSlot(healthSlot);
-        RefreshSlot(defenseSlot);
-        RefreshSlot(attackSlot);
+        if (CharacterUpgradeManager.Instance == null) return;
+
+        CharacterUpgradeSnapshot snapshot = CharacterUpgradeManager.Instance.GetSnapshot(activeCharacterID);
+
+        // 1. 等級文字
+        if (levelValueText != null)
+        {
+            if (snapshot.isMaxLevel)
+            {
+                levelValueText.text = $"Lv.{snapshot.maxLevel} <color=#50E3C2>(MAX)</color>";
+            }
+            else
+            {
+                levelValueText.text = $"Lv.{snapshot.currentLevel} <color=#A0988A>/ {snapshot.maxLevel}</color>";
+            }
+        }
+
+        // 2. 視覺進度條
+        if (levelProgressBar != null)
+        {
+            float targetFill = (snapshot.maxLevel > 0) ? (float)snapshot.currentLevel / snapshot.maxLevel : 0f;
+            levelProgressBar.DOKill();
+            levelProgressBar.DOFillAmount(targetFill, 0.3f).SetEase(Ease.OutCubic);
+        }
+
+        // 3. 三圍屬性加成 (生命、防禦、攻擊)
+        if (hpBonusText != null)
+        {
+            if (snapshot.isMaxLevel)
+            {
+                hpBonusText.text = $"+{snapshot.currentHpBonus:0} HP <color=#50E3C2>(最大)</color>";
+            }
+            else
+            {
+                hpBonusText.text = $"+{snapshot.currentHpBonus:0} HP  →  <color=#80FF80>+{snapshot.nextHpBonus:0}</color>";
+            }
+        }
+
+        if (defBonusText != null)
+        {
+            if (snapshot.isMaxLevel)
+            {
+                defBonusText.text = $"+{snapshot.currentDefBonus:0} 護甲 <color=#50E3C2>(最大)</color>";
+            }
+            else
+            {
+                defBonusText.text = $"+{snapshot.currentDefBonus:0} 護甲  →  <color=#80FF80>+{snapshot.nextDefBonus:0}</color>";
+            }
+        }
+
+        if (atkBonusText != null)
+        {
+            if (snapshot.isMaxLevel)
+            {
+                atkBonusText.text = $"+{snapshot.currentAtkBonus:0} 攻擊 <color=#50E3C2>(最大)</color>";
+            }
+            else
+            {
+                atkBonusText.text = $"+{snapshot.currentAtkBonus:0} 攻擊  →  <color=#80FF80>+{snapshot.nextAtkBonus:0}</color>";
+            }
+        }
+
+        // 4. 一體化升級按鈕
+        if (buttonLabelText != null)
+        {
+            buttonLabelText.text = snapshot.isMaxLevel ? "已滿級" : "強 化";
+        }
+
+        if (buttonCostText != null)
+        {
+            if (snapshot.isMaxLevel)
+            {
+                buttonCostText.text = "<color=#8E8E93>MAX</color>";
+            }
+            else
+            {
+                string colHex = snapshot.canAfford ? "#FFE28A" : "#FF6666";
+                buttonCostText.text = $"<color={colHex}>{snapshot.nextCost} 靈魂</color>";
+            }
+        }
+
+        if (upgradeButton != null)
+        {
+            upgradeButton.interactable = snapshot.canAfford;
+        }
+
+        if (buttonCanvasGroup != null)
+        {
+            buttonCanvasGroup.alpha = snapshot.isMaxLevel ? 0.4f : (snapshot.canAfford ? 1f : 0.6f);
+        }
+
+        // 5. 持有貨幣顯示
         RefreshCurrencyDisplay();
-    }
-
-    private void RefreshSlot(UpgradeSlotUI slot)
-    {
-        if (slot == null || CharacterUpgradeManager.Instance == null) return;
-
-        UpgradeInfo info = CharacterUpgradeManager.Instance.GetUpgradeInfo(activeCharacterID, slot.upgradeType);
-
-        if (slot.statTitleText != null)
-        {
-            slot.statTitleText.text = info.displayName;
-        }
-
-        if (slot.levelText != null)
-        {
-            slot.levelText.text = info.isMaxLevel ? $"Lv.{info.maxLevel} (MAX)" : $"Lv.{info.currentLevel} / {info.maxLevel}";
-        }
-
-        if (slot.bonusText != null)
-        {
-            string unit = (slot.upgradeType == UpgradeType.Health) ? "HP" : (slot.upgradeType == UpgradeType.Defense ? "護甲" : "攻擊");
-            if (info.isMaxLevel)
-            {
-                slot.bonusText.text = $"+{info.currentBonus:0} {unit} (最大)";
-            }
-            else
-            {
-                slot.bonusText.text = $"+{info.currentBonus:0} {unit} → <color=#80FF80>+{info.nextBonus:0}</color>";
-            }
-        }
-
-        if (slot.costText != null)
-        {
-            if (info.isMaxLevel)
-            {
-                slot.costText.text = "已滿級";
-            }
-            else
-            {
-                string colorHex = info.canAfford ? "#FFFFFF" : "#FF6666";
-                slot.costText.text = $"<color={colorHex}>{info.nextCost} 靈魂</color>";
-            }
-        }
-
-        if (slot.upgradeButton != null)
-        {
-            slot.upgradeButton.interactable = info.canAfford;
-        }
-
-        if (slot.buttonCanvasGroup != null)
-        {
-            slot.buttonCanvasGroup.alpha = info.isMaxLevel ? 0.4f : (info.canAfford ? 1f : 0.6f);
-        }
     }
 
     private void RefreshCurrencyDisplay()
@@ -136,24 +166,38 @@ public class CharacterUpgradeUIController : MonoBehaviour
         RefreshAllUI();
     }
 
-    #region 按鈕點擊綁定事件
-    public void OnClickUpgradeHealth() => PerformUpgrade(UpgradeType.Health);
-    public void OnClickUpgradeDefense() => PerformUpgrade(UpgradeType.Defense);
-    public void OnClickUpgradeAttack() => PerformUpgrade(UpgradeType.Attack);
-
-    private void PerformUpgrade(UpgradeType type)
+    /// <summary>
+    /// 點擊升級按鈕觸發 (一次強化全三圍)
+    /// </summary>
+    public void OnClickUpgrade()
     {
         if (CharacterUpgradeManager.Instance == null) return;
 
-        bool success = CharacterUpgradeManager.Instance.TryUpgrade(activeCharacterID, type);
+        bool success = CharacterUpgradeManager.Instance.TryUpgrade(activeCharacterID);
         if (success)
         {
             if (GameAssets.Instance != null)
             {
                 GameAssets.Instance.PlayUIClickSound();
             }
+
+            // 按鈕微震動反饋
+            if (upgradeButton != null)
+            {
+                upgradeButton.transform.DOKill();
+                upgradeButton.transform.localScale = Vector3.one;
+                upgradeButton.transform.DOPunchScale(new Vector3(0.08f, 0.08f, 0f), 0.2f, 10, 1f);
+            }
+
+            // 等級文字微跳動
+            if (levelValueText != null)
+            {
+                levelValueText.transform.DOKill();
+                levelValueText.transform.localScale = Vector3.one;
+                levelValueText.transform.DOPunchScale(new Vector3(0.12f, 0.12f, 0f), 0.22f, 8, 1f);
+            }
+
             RefreshAllUI();
         }
     }
-    #endregion
 }

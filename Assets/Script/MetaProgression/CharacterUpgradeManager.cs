@@ -2,27 +2,32 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// 角色局外養成升級管理器
-/// 負責儲存與管理每個角色的生命、防禦、攻擊升級等級，
+/// 角色局外養成升級管理器 (三圍同步一體化升級架構)
+/// 負責儲存與管理每個角色的統一強化等級，一次升級同步提升生命、防禦與攻擊，
 /// 對接 MetaProgressionManager 扣除靈魂貨幣，並在進入戰鬥時將數值注入角色身上的 CharacterStats 大腦。
 /// </summary>
 public class CharacterUpgradeManager : SingletonBase<CharacterUpgradeManager>
 {
-    private const string PREFS_PREFIX = "MetaUpgrade_";
+    private const string PREFS_LEVEL_KEY = "MetaUpgrade_Char_{0}_Level";
 
     [Header("數值與消耗配置")]
     [SerializeField] private CharacterUpgradeConfigSO upgradeConfig;
 
     #region 事件廣播
     /// <summary>
-    /// 當特定角色的特定屬性升級時廣播 (characterID, upgradeType, newLevel)
+    /// 當特定角色的強化等級提升時廣播 (characterID, newLevel)
     /// </summary>
-    public static event Action<int, UpgradeType, int> OnCharacterUpgradeChanged;
+    public static event Action<int, int> OnCharacterLevelUpgraded;
 
     /// <summary>
     /// 任一升級發生時廣播 (供 UI 刷新全部按鈕狀態與數值)
     /// </summary>
     public static event Action OnAnyUpgradeChanged;
+
+    /// <summary>
+    /// 供外部或測試工具手動觸發全局養成刷新廣播
+    /// </summary>
+    public static void TriggerAnyUpgradeChanged() => OnAnyUpgradeChanged?.Invoke();
     #endregion
 
     public CharacterUpgradeConfigSO Config => upgradeConfig;
@@ -43,97 +48,142 @@ public class CharacterUpgradeManager : SingletonBase<CharacterUpgradeManager>
     }
 
     /// <summary>
-    /// 獲取指定角色指定屬性的當前升級等級
+    /// 獲取指定角色的當前統一強化等級 (自動相容舊版分開等級存檔)
     /// </summary>
-    public int GetUpgradeLevel(int characterID, UpgradeType type)
+    public int GetCharacterLevel(int characterID)
     {
-        string key = GetPrefsKey(characterID, type);
-        return PlayerPrefs.GetInt(key, 0);
+        string key = string.Format(PREFS_LEVEL_KEY, characterID);
+        if (PlayerPrefs.HasKey(key))
+        {
+            return PlayerPrefs.GetInt(key, 0);
+        }
+
+        // 舊存檔相容遷移：若有舊版 Health/Defense/Attack 等級，取最高值作為初始階級
+        int legacyHp = PlayerPrefs.GetInt($"MetaUpgrade_{characterID}_Health", 0);
+        int legacyDef = PlayerPrefs.GetInt($"MetaUpgrade_{characterID}_Defense", 0);
+        int legacyAtk = PlayerPrefs.GetInt($"MetaUpgrade_{characterID}_Attack", 0);
+        int legacyLevel = Mathf.Max(legacyHp, legacyDef, legacyAtk);
+
+        if (legacyLevel > 0)
+        {
+            PlayerPrefs.SetInt(key, legacyLevel);
+            PlayerPrefs.Save();
+            return legacyLevel;
+        }
+
+        return 0;
     }
 
     /// <summary>
-    /// 獲取指定角色指定屬性升至下一級所需的靈魂消耗 (若已達上限則傳回 0)
+    /// 獲取指定角色升至下一級所需的靈魂消耗 (若已達上限則傳回 0)
     /// </summary>
-    public int GetUpgradeCost(int characterID, UpgradeType type)
+    public int GetNextUpgradeCost(int characterID)
     {
-        int curLevel = GetUpgradeLevel(characterID, type);
-        var setting = upgradeConfig.GetSetting(type);
-        return setting.GetCostForLevel(curLevel);
+        if (upgradeConfig == null) return 0;
+        int curLevel = GetCharacterLevel(characterID);
+        return upgradeConfig.GetCostForLevel(curLevel);
     }
 
     /// <summary>
-    /// 獲取指定角色指定屬性目前的累積數值加成
+    /// 獲取指定角色指定屬性目前的累積數值加成 (由統一等級計算)
     /// </summary>
     public float GetStatBonus(int characterID, UpgradeType type)
     {
-        int curLevel = GetUpgradeLevel(characterID, type);
-        var setting = upgradeConfig.GetSetting(type);
-        return setting.GetTotalBonus(curLevel);
+        if (upgradeConfig == null) return 0f;
+        int curLevel = GetCharacterLevel(characterID);
+        return upgradeConfig.GetStatBonus(type, curLevel);
     }
 
     /// <summary>
-    /// 獲取指定屬性完整的即時資訊包 (供 UI 直接資料綁定)
+    /// 獲取指定角色完整的綜合升級快照 (供 UI 直接資料綁定)
     /// </summary>
-    public UpgradeInfo GetUpgradeInfo(int characterID, UpgradeType type)
+    public CharacterUpgradeSnapshot GetSnapshot(int characterID)
     {
-        var setting = upgradeConfig.GetSetting(type);
-        int curLevel = GetUpgradeLevel(characterID, type);
-        int cost = setting.GetCostForLevel(curLevel);
-        float curBonus = setting.GetTotalBonus(curLevel);
-        float nextBonus = setting.GetTotalBonus(curLevel + 1);
+        int curLevel = GetCharacterLevel(characterID);
+        int maxLvl = upgradeConfig != null ? upgradeConfig.maxLevel : 10;
+        int cost = upgradeConfig != null ? upgradeConfig.GetCostForLevel(curLevel) : 0;
         bool canAfford = MetaProgressionManager.Instance != null && MetaProgressionManager.Instance.HasCurrency(cost);
 
-        return new UpgradeInfo(
-            type,
-            setting.displayName,
+        float curHp = upgradeConfig != null ? upgradeConfig.GetStatBonus(UpgradeType.Health, curLevel) : 0f;
+        float nextHp = upgradeConfig != null ? upgradeConfig.GetStatBonus(UpgradeType.Health, curLevel + 1) : 0f;
+
+        float curDef = upgradeConfig != null ? upgradeConfig.GetStatBonus(UpgradeType.Defense, curLevel) : 0f;
+        float nextDef = upgradeConfig != null ? upgradeConfig.GetStatBonus(UpgradeType.Defense, curLevel + 1) : 0f;
+
+        float curAtk = upgradeConfig != null ? upgradeConfig.GetStatBonus(UpgradeType.Attack, curLevel) : 0f;
+        float nextAtk = upgradeConfig != null ? upgradeConfig.GetStatBonus(UpgradeType.Attack, curLevel + 1) : 0f;
+
+        return new CharacterUpgradeSnapshot(
+            characterID,
             curLevel,
-            setting.maxLevel,
+            maxLvl,
             cost,
-            curBonus,
-            nextBonus,
-            canAfford
+            canAfford,
+            curHp, nextHp,
+            curDef, nextDef,
+            curAtk, nextAtk
         );
     }
 
     /// <summary>
-    /// 檢查是否可進行升級 (等級未滿且靈魂足夠)
+    /// 檢查是否可進行角色升級 (等級未滿且靈魂足夠)
     /// </summary>
-    public bool CanUpgrade(int characterID, UpgradeType type)
+    public bool CanUpgrade(int characterID)
     {
-        var setting = upgradeConfig.GetSetting(type);
-        int curLevel = GetUpgradeLevel(characterID, type);
-        if (curLevel >= setting.maxLevel) return false;
+        if (upgradeConfig == null) return false;
+        int curLevel = GetCharacterLevel(characterID);
+        if (curLevel >= upgradeConfig.maxLevel) return false;
 
-        int cost = setting.GetCostForLevel(curLevel);
+        int cost = upgradeConfig.GetCostForLevel(curLevel);
         return MetaProgressionManager.Instance != null && MetaProgressionManager.Instance.HasCurrency(cost);
     }
 
     /// <summary>
-    /// 執行角色屬性升級：扣除靈魂貨幣、提升等級、儲存存檔並發送廣播
+    /// 執行角色升級：扣除靈魂貨幣、提升等級、同時強化三圍屬性並發送廣播
     /// </summary>
-    public bool TryUpgrade(int characterID, UpgradeType type)
+    public bool TryUpgrade(int characterID)
     {
-        if (!CanUpgrade(characterID, type))
+        if (!CanUpgrade(characterID))
         {
             return false;
         }
 
-        int cost = GetUpgradeCost(characterID, type);
-        bool spendSuccess = MetaProgressionManager.Instance.SpendCurrency(cost);
+        int cost = GetNextUpgradeCost(characterID);
+        bool spendSuccess = MetaProgressionManager.Instance != null && MetaProgressionManager.Instance.SpendCurrency(cost);
         if (!spendSuccess) return false;
 
-        int newLevel = GetUpgradeLevel(characterID, type) + 1;
-        string key = GetPrefsKey(characterID, type);
+        int newLevel = GetCharacterLevel(characterID) + 1;
+        string key = string.Format(PREFS_LEVEL_KEY, characterID);
         PlayerPrefs.SetInt(key, newLevel);
         PlayerPrefs.Save();
 
-        Debug.Log($"[CharacterUpgrade] 角色 [{characterID}] 的 {type} 升級至 Lv.{newLevel}！(消耗 {cost} 靈魂)");
+        Debug.Log($"[CharacterUpgrade] 角色 [{characterID}] 成功升級至 Lv.{newLevel}！(消耗 {cost} 靈魂，生命/防禦/攻擊同步提升)");
 
-        OnCharacterUpgradeChanged?.Invoke(characterID, type, newLevel);
+        OnCharacterLevelUpgraded?.Invoke(characterID, newLevel);
         OnAnyUpgradeChanged?.Invoke();
 
         return true;
     }
+
+    #region 舊版 API 相容轉發 (確保舊程式碼調用不報錯)
+    public int GetUpgradeLevel(int characterID, UpgradeType type) => GetCharacterLevel(characterID);
+    public int GetUpgradeCost(int characterID, UpgradeType type) => GetNextUpgradeCost(characterID);
+    public bool CanUpgrade(int characterID, UpgradeType type) => CanUpgrade(characterID);
+    public bool TryUpgrade(int characterID, UpgradeType type) => TryUpgrade(characterID);
+
+    public UpgradeInfo GetUpgradeInfo(int characterID, UpgradeType type)
+    {
+        int curLevel = GetCharacterLevel(characterID);
+        int maxLvl = upgradeConfig != null ? upgradeConfig.maxLevel : 10;
+        int cost = upgradeConfig != null ? upgradeConfig.GetCostForLevel(curLevel) : 0;
+        float curBonus = upgradeConfig != null ? upgradeConfig.GetStatBonus(type, curLevel) : 0f;
+        float nextBonus = upgradeConfig != null ? upgradeConfig.GetStatBonus(type, curLevel + 1) : 0f;
+        bool canAfford = MetaProgressionManager.Instance != null && MetaProgressionManager.Instance.HasCurrency(cost);
+        string name = (type == UpgradeType.Health) ? "生命上限" : (type == UpgradeType.Defense ? "防禦護甲" : "基礎攻擊");
+
+        return new UpgradeInfo(type, name, curLevel, maxLvl, cost, curBonus, nextBonus, canAfford);
+    }
+    #endregion
 
     /// <summary>
     /// 將該角色的局外屬性加成注入到遊戲內的 CharacterStats (供 StartRoom 或角色生成時呼叫)
@@ -168,7 +218,7 @@ public class CharacterUpgradeManager : SingletonBase<CharacterUpgradeManager>
             stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, atkBonus, "MetaUpgrade"));
         }
 
-        Debug.Log($"[CharacterUpgrade] 已套用局外養成屬性至角色 [ID:{characterID}] -> 生命+{hpBonus}, 防禦+{defBonus}, 攻擊+{atkBonus}");
+        Debug.Log($"[CharacterUpgrade] 已套用三圍局外養成加成至角色 [ID:{characterID}] -> 生命+{hpBonus}, 防禦+{defBonus}, 攻擊+{atkBonus}");
     }
 
     /// <summary>
@@ -176,21 +226,17 @@ public class CharacterUpgradeManager : SingletonBase<CharacterUpgradeManager>
     /// </summary>
     public void ResetCharacterUpgrades(int characterID)
     {
-        PlayerPrefs.DeleteKey(GetPrefsKey(characterID, UpgradeType.Health));
-        PlayerPrefs.DeleteKey(GetPrefsKey(characterID, UpgradeType.Defense));
-        PlayerPrefs.DeleteKey(GetPrefsKey(characterID, UpgradeType.Attack));
+        PlayerPrefs.DeleteKey(string.Format(PREFS_LEVEL_KEY, characterID));
+        PlayerPrefs.DeleteKey($"MetaUpgrade_{characterID}_Health");
+        PlayerPrefs.DeleteKey($"MetaUpgrade_{characterID}_Defense");
+        PlayerPrefs.DeleteKey($"MetaUpgrade_{characterID}_Attack");
         PlayerPrefs.Save();
 
         OnAnyUpgradeChanged?.Invoke();
         Debug.Log($"[CharacterUpgrade] 角色 [{characterID}] 的局外養成等級已重置為 0！");
     }
 
-    private string GetPrefsKey(int characterID, UpgradeType type)
-    {
-        return $"{PREFS_PREFIX}{characterID}_{type}";
-    }
-
-    #region 編輯器右鍵測試輔助
+    #region 編輯器測試輔助
     [ContextMenu("測試：重置角色 0 (戰士) 升級等級")]
     private void TestResetChar0() => ResetCharacterUpgrades(0);
 
@@ -199,9 +245,7 @@ public class CharacterUpgradeManager : SingletonBase<CharacterUpgradeManager>
     {
         for (int i = 0; i < 10; i++)
         {
-            PlayerPrefs.DeleteKey(GetPrefsKey(i, UpgradeType.Health));
-            PlayerPrefs.DeleteKey(GetPrefsKey(i, UpgradeType.Defense));
-            PlayerPrefs.DeleteKey(GetPrefsKey(i, UpgradeType.Attack));
+            ResetCharacterUpgrades(i);
         }
         PlayerPrefs.Save();
         OnAnyUpgradeChanged?.Invoke();
