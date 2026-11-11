@@ -126,8 +126,9 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
     #region 3. 萬用粒子特效物件池 (新增！任何武器/技能特效皆可直接傳入 Prefab 呼叫)
     /// <summary>
     /// 生成任何粒子特效 (如 VFX_HolyHitImpact)，播放完畢後會自動歸還至對應物件池
+    /// 可選傳入 autoReleaseDelay 指定定時回收秒數 (適用於持續/循環特效)
     /// </summary>
-    public GameObject SpawnVFX(GameObject vfxPrefab, Vector3 position, Quaternion rotation)
+    public GameObject SpawnVFX(GameObject vfxPrefab, Vector3 position, Quaternion rotation, float autoReleaseDelay = -1f)
     {
         if (vfxPrefab == null) return null;
 
@@ -149,8 +150,44 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
             ps.Clear(true);
             ps.Play(true);
         }
+        else
+        {
+            ParticleSystem[] childPSs = vfxInstance.GetComponentsInChildren<ParticleSystem>();
+            for (int i = 0; i < childPSs.Length; i++)
+            {
+                childPSs[i].Clear(true);
+                childPSs[i].Play(true);
+            }
+        }
+
+        if (autoReleaseDelay > 0f)
+        {
+            if (vfxInstance.TryGetComponent<PooledVFXAutoRelease>(out var autoRelease) ||
+                (autoRelease = vfxInstance.GetComponentInChildren<PooledVFXAutoRelease>()) != null)
+            {
+                autoRelease.SetAutoReleaseDelay(autoReleaseDelay);
+            }
+        }
 
         return vfxInstance;
+    }
+
+    /// <summary>
+    /// 手動回收粒子特效至物件池
+    /// </summary>
+    public void ReleaseVFX(GameObject vfxInstance)
+    {
+        if (vfxInstance == null) return;
+
+        if (vfxInstance.TryGetComponent<PooledVFXAutoRelease>(out var autoRelease) ||
+            (autoRelease = vfxInstance.GetComponentInChildren<PooledVFXAutoRelease>()) != null)
+        {
+            autoRelease.Release();
+        }
+        else
+        {
+            vfxInstance.SetActive(false);
+        }
     }
 
     private IObjectPool<GameObject> CreateNewVFXPool(GameObject prefab)
@@ -163,12 +200,16 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
                 GameObject obj = Instantiate(prefab, transform);
 
                 // 自動掛載「播完自動回收」組件，免去手動寫腳本
-                PooledVFXAutoRelease autoRelease = obj.GetComponent<PooledVFXAutoRelease>();
+                // 優先掛在包含 ParticleSystem 的物件上，若無則掛在根物件
+                ParticleSystem ps = obj.GetComponentInChildren<ParticleSystem>();
+                GameObject targetGo = ps != null ? ps.gameObject : obj;
+
+                PooledVFXAutoRelease autoRelease = targetGo.GetComponent<PooledVFXAutoRelease>();
                 if (autoRelease == null)
                 {
-                    autoRelease = obj.AddComponent<PooledVFXAutoRelease>();
+                    autoRelease = targetGo.AddComponent<PooledVFXAutoRelease>();
                 }
-                autoRelease.Initialize(newPool);
+                autoRelease.Initialize(newPool, obj);
 
                 return obj;
             },
@@ -268,16 +309,18 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
 
 
 /// <summary>
-/// 內部輔助組件：當 ParticleSystem 播放結束時，自動將特效歸還給 ObjectPool
+/// 內部輔助組件：當 ParticleSystem 播放結束或時間到時，自動將特效歸還給 ObjectPool
 /// </summary>
 public class PooledVFXAutoRelease : MonoBehaviour
 {
     private IObjectPool<GameObject> _pool;
+    private GameObject _rootObject;
     private bool _isReleased = false;
 
-    public void Initialize(IObjectPool<GameObject> pool)
+    public void Initialize(IObjectPool<GameObject> pool, GameObject rootObject = null)
     {
         _pool = pool;
+        _rootObject = rootObject != null ? rootObject : gameObject;
 
         // 強制將主粒子系統的 Stop Action 設為 Callback，以觸發 OnParticleSystemStopped
         if (TryGetComponent<ParticleSystem>(out ParticleSystem ps))
@@ -292,14 +335,34 @@ public class PooledVFXAutoRelease : MonoBehaviour
         _isReleased = false;
     }
 
-    // Unity 內建事件：當主粒子系統與子粒子皆播放完畢時自動呼叫
-    private void OnParticleSystemStopped()
+    public void SetAutoReleaseDelay(float delay)
+    {
+        CancelInvoke(nameof(Release));
+        if (delay > 0f)
+        {
+            Invoke(nameof(Release), delay);
+        }
+    }
+
+    public void Release()
     {
         if (!_isReleased && _pool != null)
         {
             _isReleased = true;
-            _pool.Release(gameObject);
+            CancelInvoke(nameof(Release));
+            _pool.Release(_rootObject != null ? _rootObject : gameObject);
         }
+    }
+
+    // Unity 內建事件：當主粒子系統與子粒子皆播放完畢時自動呼叫
+    private void OnParticleSystemStopped()
+    {
+        Release();
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke(nameof(Release));
     }
 }
 
