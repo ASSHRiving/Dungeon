@@ -148,6 +148,21 @@ public class EnemyHealthSystem : CharacterHealthBase
         OnDeath?.Invoke();
         isDead = true;
 
+        // 擊殺回血 (Life on Kill) 觸發
+        if (attacker != null)
+        {
+            var attackerStats = attacker.GetComponentInParent<CharacterStats>() ?? attacker.GetComponentInChildren<CharacterStats>();
+            if (attackerStats != null && attackerStats.LifeOnKill > 0)
+            {
+                var attackerHealth = attacker.GetComponentInParent<CharacterHealthBase>() ?? attacker.GetComponentInChildren<CharacterHealthBase>();
+                if (attackerHealth != null)
+                {
+                    attackerHealth.Recover(attackerStats.LifeOnKill);
+                    Debug.Log($"[擊殺回血] 觸發！{attacker.name} 回復 {attackerStats.LifeOnKill} 點生命");
+                }
+            }
+        }
+
         // 若為 Boss，廣播擊殺退場事件讓頂部大血條淡出
         if (isBoss)
         {

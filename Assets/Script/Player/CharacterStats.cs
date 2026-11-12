@@ -13,8 +13,11 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private CharacterStat statShield = new CharacterStat(10f);
     [SerializeField] private CharacterStat statDamage = new CharacterStat(15f);
     [SerializeField] private CharacterStat statCritRate = new CharacterStat(5f);
-    [SerializeField] private CharacterStat statMoveSpeed = new CharacterStat(5f);
+    [SerializeField] private CharacterStat statCritDamage = new CharacterStat(1.5f);
+    [SerializeField] private CharacterStat statMoveSpeed = new CharacterStat(7f);
     [SerializeField] private CharacterStat statPoise = new CharacterStat(100f);
+    [SerializeField] private CharacterStat statLifeOnKill = new CharacterStat(0f);
+    [SerializeField] private CharacterStat statHitStunReduction = new CharacterStat(0f);
 
     [Header("即時動態狀態")]
     [SerializeField] private float currentHealth;
@@ -32,8 +35,11 @@ public class CharacterStats : MonoBehaviour
     public float Shield => statShield.Value;
     public float AttackDamage => statDamage.Value;
     public float CritRate => statCritRate.Value;
+    public float CritDamage => statCritDamage.Value;
     public float MoveSpeed => statMoveSpeed.Value;
     public float Poise => statPoise.Value;
+    public float LifeOnKill => statLifeOnKill.Value;
+    public float HitStunReduction => statHitStunReduction.Value;
 
     // 向下相容舊代碼 (例如 GameManager / PlayerStatsController 原有的欄位存取)
     public float maxHealth => MaxHealth;
@@ -59,22 +65,25 @@ public class CharacterStats : MonoBehaviour
     }
 
     /// <summary>
-    /// 自動向後相容初始化：若未透過 SO 初始化，則從現有的 Health/Combat 提取基準值
+    /// 自動向後相容初始化：優先使用 CharacterStats 在 Inspector 設定的數值；
+    /// 若未設定 (<=0) 則從舊有的 Health/Combat 組件提取基準值作為 fallback 保底
     /// </summary>
     private void AutoFallbackInit()
     {
-        float hp = health != null ? health.maxHealth : 100f;
-        float def = health != null ? health.shield : 10f;
-        float atk = (combat != null && combat.damage > 0f) ? combat.damage : statDamage.BaseValue;
-        float crit = (combat != null && combat.critRate > 0f) ? combat.critRate : statCritRate.BaseValue;
+        float hp = statMaxHealth.BaseValue > 0f ? statMaxHealth.BaseValue : (health != null ? health.maxHealth : 100f);
+        float def = statShield.BaseValue > 0f ? statShield.BaseValue : (health != null ? health.shield : 10f);
+        float atk = statDamage.BaseValue > 0f ? statDamage.BaseValue : ((combat != null && combat.damage > 0f) ? combat.damage : 10f);
+        float crit = statCritRate.BaseValue > 0f ? statCritRate.BaseValue : ((combat != null && combat.critRate > 0f) ? combat.critRate : 5f);
+        float spd = statMoveSpeed.BaseValue > 0f ? statMoveSpeed.BaseValue : 7f;
+        float poise = statPoise.BaseValue > 0f ? statPoise.BaseValue : 100f;
 
-        InitBaseStats(hp, def, atk, crit);
+        InitBaseStats(hp, def, atk, crit, spd, poise);
     }
 
     /// <summary>
     /// 直接透過數值手動初始化
     /// </summary>
-    public void InitBaseStats(float hp, float def, float atk, float crit = 5f, float spd = 5f, float poise = 100f)
+    public void InitBaseStats(float hp, float def, float atk, float crit = 5f, float spd = 7f, float poise = 100f)
     {
         statMaxHealth.BaseValue = hp;
         statShield.BaseValue = def;
@@ -201,6 +210,9 @@ public class CharacterStats : MonoBehaviour
         statCritRate.RemoveAllModifiersFromSource(source);
         statMoveSpeed.RemoveAllModifiersFromSource(source);
         statPoise.RemoveAllModifiersFromSource(source);
+        statCritDamage.RemoveAllModifiersFromSource(source);
+        statLifeOnKill.RemoveAllModifiersFromSource(source);
+        statHitStunReduction.RemoveAllModifiersFromSource(source);
 
         if (hpAffected)
         {
@@ -221,6 +233,9 @@ public class CharacterStats : MonoBehaviour
             case StatType.CritRate: return statCritRate;
             case StatType.MoveSpeed: return statMoveSpeed;
             case StatType.Poise: return statPoise;
+            case StatType.CritDamage: return statCritDamage;
+            case StatType.LifeOnKill: return statLifeOnKill;
+            case StatType.HitStunReduction: return statHitStunReduction;
             default: return null;
         }
     }

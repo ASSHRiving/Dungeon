@@ -12,8 +12,11 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     protected CharacterStats stats; // 中央數值大腦
 
-    [SerializeField, Header("行走速度")] public float walkSpeed;
-    [SerializeField, Header("奔跑速度")] public float runSpeed;
+    public const float BASE_RUN_SPEED = 7f;
+    public const float BASE_WALK_SPEED = 3f;
+
+    [SerializeField, Header("行走速度")] public float walkSpeed = BASE_WALK_SPEED;
+    [SerializeField, Header("奔跑速度")] public float runSpeed = BASE_RUN_SPEED;
 
     protected override void Awake()
     {
@@ -35,6 +38,12 @@ public class PlayerMovementSystem : CharacterMovementBase
     {
         UpdateMotionAnimation();
         UpdateRollAnimation();
+        SyncAnimationSpeed();
+    }
+
+    private void OnDisable()
+    {
+        if (animator != null) animator.speed = 1f;
     }
 
     private bool CanMoveControl()
@@ -115,21 +124,16 @@ public class PlayerMovementSystem : CharacterMovementBase
         {
             float targetSpeed = _inputSystem.playerMovement.magnitude * (_inputSystem.playerRun ? 2f : 1f);
             animator.SetFloat(speedID, targetSpeed, 0.1f, Time.deltaTime);
-            
-            float baseMoveSpeed = _inputSystem.playerRun ? runSpeed : walkSpeed;
 
-            // 支援 CharacterStats 移速加成 (例如戰靴裝備、移速藥水、天賦)
-            float speedMultiplier = 1f;
-            if (stats != null)
-            {
-                var moveStat = stats.GetStatByType(StatType.MoveSpeed);
-                if (moveStat != null && moveStat.BaseValue > 0f)
-                {
-                    speedMultiplier = moveStat.Value / moveStat.BaseValue;
-                }
-            }
+            // 基礎奔跑速度直接由 CharacterStats.MoveSpeed 驅動 (基準為 7.0f，武器 Flat 差值與裝備百分比加成已全數整合)
+            float effectiveRunSpeed = (stats != null && stats.MoveSpeed > 0f) ? stats.MoveSpeed : BASE_RUN_SPEED;
+            // 行走速度按 3.0 / 7.0 比例精確等比聯動
+            float effectiveWalkSpeed = effectiveRunSpeed * (BASE_WALK_SPEED / BASE_RUN_SPEED);
 
-            characterCurrentMoveSpeed = baseMoveSpeed * speedMultiplier;
+            runSpeed = effectiveRunSpeed;
+            walkSpeed = effectiveWalkSpeed;
+
+            characterCurrentMoveSpeed = _inputSystem.playerRun ? effectiveRunSpeed : effectiveWalkSpeed;
         }
         else
         {
@@ -142,6 +146,31 @@ public class PlayerMovementSystem : CharacterMovementBase
         }
 
         animator.SetFloat(runID, _inputSystem.playerRun ? 1f : 0f);
+    }
+
+    /// <summary>
+    /// 動態同步動畫播放速度：實際移速變快時，雙腿邁步頻率隨速度等比縮放，徹底消除滑步！
+    /// </summary>
+    private void SyncAnimationSpeed()
+    {
+        if (animator == null) return;
+
+        // 當處於移動狀態且有實際位移時，等比縮放動畫播放速度
+        if (animator.CheckAnimationTag("Motion") && characterCurrentMoveSpeed > 0.01f)
+        {
+            float referenceSpeed = _inputSystem.playerRun ? BASE_RUN_SPEED : BASE_WALK_SPEED;
+            animator.speed = characterCurrentMoveSpeed / referenceSpeed;
+        }
+        else if (animator.CheckAnimationTag("Hit"))
+        {
+            float reduction = (stats != null) ? stats.HitStunReduction : 0f;
+            // 縮短受擊硬直：例如 reduction = 0.3 (30%)，受擊動畫加速播放為 1 / (1 - 0.3) = 1.43 倍速，縮短硬直僵直時間
+            animator.speed = 1f / Mathf.Max(0.1f, 1f - Mathf.Clamp(reduction, 0f, 0.9f));
+        }
+        else
+        {
+            animator.speed = 1f;
+        }
     }
 
     private void UpdateRollAnimation()

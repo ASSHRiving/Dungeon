@@ -38,6 +38,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
     public float EffectiveDamage => stats != null ? stats.AttackDamage : damage;
     public float EffectiveCritRate => stats != null ? stats.CritRate : critRate;
+    public float EffectiveCritDamage => stats != null ? stats.CritDamage : 1.5f;
 
     /// <summary>
     /// 總攻擊力：當 stats 存在時，武器傷害已作為 Flat 基質計入 stats.AttackDamage 中，並享受所有百分比 Buff 乘算！
@@ -91,19 +92,44 @@ public abstract class CharacterCombatBase : MonoBehaviour
         ClearWeaponModifier();
     }
 
+    public const float BASE_RUN_SPEED = 7f;
+
     /// <summary>
-    /// 將當前裝備的武器攻擊力，以 Flat 基質修正器形式註冊進中央數值大腦 (CharacterStats)
-    /// 使其成為角色的基礎攻擊組成部分，一同參與所有百分比加成 (Buff / 藥水 / 天賦) 乘算！
+    /// 將當前裝備的武器屬性加成 (AttackDamage, MoveSpeed, CritRate 等)
+    /// 以 StatModifier 形式註冊進中央數值大腦 (CharacterStats)
+    /// 優先由 WeaponDataSO 動態注入所有配置之 Modifiers；若無配置則回退相容舊版數值欄位。
     /// </summary>
     public void UpdateWeaponStatModifier()
     {
         if (stats == null) return;
 
-        stats.RemoveAllModifiersFromSource(WEAPON_STAT_SOURCE);
+        ClearWeaponModifier();
 
-        if (currentWeapon != null && currentWeapon.damage > 0f)
+        if (currentWeapon != null)
         {
-            stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, currentWeapon.damage, WEAPON_STAT_SOURCE));
+            // 優先由 WeaponDataSO 注入純淨的 StatModifier 清單
+            if (currentWeapon.WeaponData != null && currentWeapon.WeaponData.statBonuses != null && currentWeapon.WeaponData.statBonuses.Count > 0)
+            {
+                for (int i = 0; i < currentWeapon.WeaponData.statBonuses.Count; i++)
+                {
+                    var bonus = currentWeapon.WeaponData.statBonuses[i];
+                    stats.AddModifier(new StatModifier(bonus.statType, bonus.modType, bonus.value, WEAPON_STAT_SOURCE));
+                }
+            }
+            else
+            {
+                // Fallback: 舊版數值欄位相容處理
+                if (currentWeapon.damage > 0f)
+                {
+                    stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, currentWeapon.damage, WEAPON_STAT_SOURCE));
+                }
+
+                float moveSpeedDiff = currentWeapon.runSpeed - BASE_RUN_SPEED;
+                if (!Mathf.Approximately(moveSpeedDiff, 0f))
+                {
+                    stats.AddModifier(new StatModifier(StatType.MoveSpeed, StatModType.Flat, moveSpeedDiff, WEAPON_STAT_SOURCE));
+                }
+            }
         }
     }
 
@@ -221,7 +247,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
                     bool isCritical = Random.value < (EffectiveCritRate / 100f); // 判斷是否暴擊
                     float attackDamage = Mathf.Clamp(totalDamage, 0f, float.MaxValue);
                     float finalDamage = attackDamage * currentAttackData.damageMultiplier; // 解析attack data中的傷害倍率，計算最終傷害
-                    if(isCritical) finalDamage *= 1.5f; // 暴擊傷害加成
+                    if (isCritical) finalDamage *= EffectiveCritDamage; // 暴擊傷害加成 (基礎1.5倍，受裝備與Buff加成)
 
                     Debug.Log($"[命中新目標] {attackHits[i].name} | 傷害: {finalDamage}");
                     // 呼叫攻擊目標的 TakeDamage 方法，交由目標自己處理傷害邏輯

@@ -10,8 +10,7 @@ public class PlayerCombatSystem : CharacterCombatBase
     [Header("索敵設定")]
     [SerializeField] private Transform enemyDetectionCenter;
     [SerializeField] private float enemyDetectionRadius;
-    [SerializeField] private float attackLockRange = 1.5f;
-    [SerializeField] private LayerMask lockLayer;
+    [SerializeField] private float attackLockRange = .5f;
     [SerializeField] private LayerMask whatIsObs;
     private Collider[] detectedEnemies = new Collider[10];
 
@@ -95,7 +94,7 @@ public class PlayerCombatSystem : CharacterCombatBase
             else return;
         }
 
-        int count = Physics.OverlapSphereNonAlloc(enemyDetectionCenter.position, enemyDetectionRadius, detectedEnemies, lockLayer);
+        int count = Physics.OverlapSphereNonAlloc(enemyDetectionCenter.position, enemyDetectionRadius, detectedEnemies, whatIsEnemy);
         
         if (count > 0)
         {
@@ -215,13 +214,7 @@ public class PlayerCombatSystem : CharacterCombatBase
         DropsInteract dropsInteract = currentWeapon.GetComponent<DropsInteract>();
         if (dropsInteract != null) dropsInteract.enabled = false;
 
-        PlayerMovementSystem playerMovement = GetComponentInParent<PlayerMovementSystem>();
-        if (playerMovement != null)
-        {
-            playerMovement.runSpeed = currentWeapon.runSpeed;
-            playerMovement.walkSpeed = currentWeapon.walkSpeed;
-        }
-
+        // 武器移速差值已由 base.InitWeapon() -> UpdateWeaponStatModifier() 透過 CharacterStats 統一管理
     }
     public void ChangeWeapon(GameObject newWeapon)
     {

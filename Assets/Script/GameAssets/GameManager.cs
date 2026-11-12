@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : SingletonBase<GameManager>
 {
     [Header("遊戲進度")]
-    public int characterID = 0;
+    public CharacterDataSO selectedCharacterData;
+    public int characterID => selectedCharacterData != null ? selectedCharacterData.characterID : 0;
     public int currentMajorStage = 1;
     public int currentLevel = 1;
     public bool isWin = false;
@@ -161,7 +162,7 @@ public class GameManager : SingletonBase<GameManager>
             playTimeText = FormatTime(currentRunPlayTime),
             killCount = this.killCount,
             goldCount = this.currentGold,
-            characterName = (characterID == 0) ? "戰 士" : "冒險者",
+            characterName = (selectedCharacterData != null) ? selectedCharacterData.characterName : ((characterID == 0) ? "戰 士" : "冒險者"),
             earnedSoul = reward.totalReward,
             totalSoul = totalSouls,
             soulFromStage = reward.stageReward,
@@ -220,8 +221,7 @@ public class GameManager : SingletonBase<GameManager>
                     if (equippedGO != null)
                     {
                         Equipment eq = equippedGO.GetComponent<Equipment>();
-                        if (eq != null && eq.equipmentDataList != null && 
-                            eq.currentEquipmentIndex >= 0 && eq.currentEquipmentIndex < eq.equipmentDataList.Count)
+                        if (eq != null && eq.EquipmentData != null)
                         {
                             LastRunResult.armors[i].itemName = eq.equipmentName;
                             LastRunResult.armors[i].icon = eq.itemIcon;
