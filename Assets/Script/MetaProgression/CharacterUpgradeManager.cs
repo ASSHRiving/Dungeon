@@ -47,6 +47,25 @@ public class CharacterUpgradeManager : SingletonBase<CharacterUpgradeManager>
         }
     }
 
+    #region CharacterDataSO 專用介面 (推薦使用，無須在外部傳遞 ID)
+    public int GetCharacterLevel(CharacterDataSO characterData) => characterData != null ? GetCharacterLevel(characterData.characterID) : 0;
+    public int GetNextUpgradeCost(CharacterDataSO characterData) => characterData != null ? GetNextUpgradeCost(characterData.characterID) : 0;
+    public float GetStatBonus(CharacterDataSO characterData, UpgradeType type) => characterData != null ? GetStatBonus(characterData.characterID, type) : 0f;
+    public CharacterUpgradeSnapshot GetSnapshot(CharacterDataSO characterData) => characterData != null ? GetSnapshot(characterData.characterID) : default;
+    public bool CanUpgrade(CharacterDataSO characterData) => characterData != null && CanUpgrade(characterData.characterID);
+    public bool TryUpgrade(CharacterDataSO characterData) => characterData != null && TryUpgrade(characterData.characterID);
+    public void ApplyUpgradesToPlayer(GameObject playerGo, CharacterDataSO characterData)
+    {
+        if (playerGo == null || characterData == null) return;
+        ApplyUpgradesToPlayer(playerGo, characterData.characterID);
+    }
+    public void ResetCharacterUpgrades(CharacterDataSO characterData)
+    {
+        if (characterData == null) return;
+        ResetCharacterUpgrades(characterData.characterID);
+    }
+    #endregion
+
     /// <summary>
     /// 獲取指定角色的當前統一強化等級 (自動相容舊版分開等級存檔)
     /// </summary>

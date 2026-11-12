@@ -57,6 +57,7 @@ public class LobbyManager : MonoBehaviour
     private Sequence statSequence;
 
     public bool HasSelectedCharacter => currentCharacter != null;
+    public CharacterSelect CurrentCharacter => currentCharacter;
 
     private void Awake()
     {
@@ -126,6 +127,12 @@ public class LobbyManager : MonoBehaviour
     {
         if (character == null || currentCharacter == character) return;
 
+        // 若先前已選定其他角色，平滑重置先前角色的朝向
+        if (currentCharacter != null && currentCharacter != character)
+        {
+            currentCharacter.ResetRotation();
+        }
+
         if (GameAssets.Instance != null)
             GameAssets.Instance.PlayUIClickSound();
 
@@ -133,7 +140,9 @@ public class LobbyManager : MonoBehaviour
         currentCharacter = character;
 
         if (GameManager.Instance != null)
-            GameManager.Instance.characterID = character.id;
+        {
+            GameManager.Instance.selectedCharacterData = character.CharacterData;
+        }
 
         // 1. 更新頂部標題
         UIEvents.ChangeTitle(character.CharacterName);
@@ -156,7 +165,7 @@ public class LobbyManager : MonoBehaviour
         // 5. 更新升級介面
         if (upgradeUIController != null)
         {
-            upgradeUIController.SetActiveCharacter(character.id);
+            upgradeUIController.SetActiveCharacter(character.CharacterData);
         }
 
         // 6. 更新並播放生命、防禦、攻擊力與介紹動畫
@@ -167,6 +176,9 @@ public class LobbyManager : MonoBehaviour
     {
         if (GameAssets.Instance != null)
             GameAssets.Instance.PlayUIClickSound();
+
+        // 平滑重置所有角色模型的旋轉至初始朝向
+        ResetAllCharactersRotation(0.35f);
 
         currentCharacter = null;
 
@@ -218,6 +230,7 @@ public class LobbyManager : MonoBehaviour
 
     private void DeSelectImmediate()
     {
+        ResetAllCharactersRotation(0f);
         currentCharacter = null;
         UIEvents.ChangeTitle("選 擇 角 色");
         lobbyCamera.Priority = 10;
@@ -309,9 +322,9 @@ public class LobbyManager : MonoBehaviour
         statSequence = DOTween.Sequence();
 
         // 讀取當前角色的局外養成屬性加成
-        float bonusHp = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.id, UpgradeType.Health) : 0f;
-        float bonusDef = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.id, UpgradeType.Defense) : 0f;
-        float bonusAtk = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.id, UpgradeType.Attack) : 0f;
+        float bonusHp = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.CharacterData, UpgradeType.Health) : 0f;
+        float bonusDef = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.CharacterData, UpgradeType.Defense) : 0f;
+        float bonusAtk = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.CharacterData, UpgradeType.Attack) : 0f;
 
         AnimateSingleStat(hpFillImage, hpValueText, data.HP + bonusHp, maxHP);
         AnimateSingleStat(defFillImage, defValueText, data.DEF + bonusDef, maxDEF);
@@ -330,6 +343,22 @@ public class LobbyManager : MonoBehaviour
         if (valText != null)
         {
             statSequence.Join(DOVirtual.Int(0, (int)targetVal, statBarDuration, v => valText.text = v.ToString()).SetEase(Ease.OutCubic));
+        }
+    }
+
+    /// <summary>
+    /// 重置場景中所有選角角色的旋轉朝向至初始角度
+    /// </summary>
+    /// <param name="duration">回正動畫時間 (秒)</param>
+    public void ResetAllCharactersRotation(float duration = 0.35f)
+    {
+        CharacterSelect[] allCharacters = FindObjectsByType<CharacterSelect>(FindObjectsSortMode.None);
+        foreach (var c in allCharacters)
+        {
+            if (c != null)
+            {
+                c.ResetRotation(duration);
+            }
         }
     }
 }

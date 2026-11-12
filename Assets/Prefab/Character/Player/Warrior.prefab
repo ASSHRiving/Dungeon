@@ -531,7 +531,7 @@ GameObject:
   - component: {fileID: 5149939687461414662}
   - component: {fileID: 7280129513519287728}
   m_Layer: 7
-  m_Name: Fighter
+  m_Name: Warrior
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -838,6 +838,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842a343718763e649a91946fb63ec783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChatacterStats
+  statMaxHealth:
+    baseValue: 100
+  statShield:
+    baseValue: 10
+  statDamage:
+    baseValue: 15
+  statCritRate:
+    baseValue: 5
+  statMoveSpeed:
+    baseValue: 7
+  statPoise:
+    baseValue: 100
+  currentHealth: 0
   combat: {fileID: 5981003343659283260}
   health: {fileID: 3799769169699531540}
 --- !u!114 &5149939687461414662
@@ -1265,10 +1278,7 @@ MonoBehaviour:
   weaponHolder: {fileID: 7625551209400036020}
   enemyDetectionCenter: {fileID: 3815702584121428951}
   enemyDetectionRadius: 7
-  attackLockRange: 1.5
-  lockLayer:
-    serializedVersion: 2
-    m_Bits: 1024
+  attackLockRange: 0.3
   whatIsObs:
     serializedVersion: 2
     m_Bits: 2113

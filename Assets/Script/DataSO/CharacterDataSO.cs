@@ -16,10 +16,10 @@ public class CharacterDataSO : ScriptableObject
     public GameObject characterPrefab;
 
     [Header("基礎屬性 (Base Stats)")]
-    public float baseMaxHealth = 177f;
-    public float baseShield = 26.5f;
-    public float baseAttackDamage = 18f;
+    public float baseMaxHealth = 100f;
+    public float baseShield = 10f;
+    public float baseAttackDamage = 15f;
     public float baseCritRate = 5f;
-    public float baseMoveSpeed = 5f;
+    public float baseMoveSpeed = 7f;
     public float basePoise = 100f;
 }

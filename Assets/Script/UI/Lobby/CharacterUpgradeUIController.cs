@@ -28,7 +28,8 @@ public class CharacterUpgradeUIController : MonoBehaviour
     [SerializeField] private TMP_Text buttonCostText;   // "50 靈魂" 或 "已達上限"
     [SerializeField] private CanvasGroup buttonCanvasGroup;
 
-    private int activeCharacterID = 0;
+    private CharacterDataSO activeCharacterData;
+    private int fallbackCharacterID = 0;
 
     private void OnEnable()
     {
@@ -45,11 +46,21 @@ public class CharacterUpgradeUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// 設定目前所選的角色 ID (由 LobbyManager 在切換角色時呼叫)
+    /// 設定目前所選的角色數據 (由 LobbyManager 在切換角色時呼叫)
+    /// </summary>
+    public void SetActiveCharacter(CharacterDataSO characterData)
+    {
+        activeCharacterData = characterData;
+        fallbackCharacterID = characterData != null ? characterData.characterID : 0;
+        RefreshAllUI();
+    }
+
+    /// <summary>
+    /// 向下相容支援直接傳入 ID
     /// </summary>
     public void SetActiveCharacter(int characterID)
     {
-        activeCharacterID = characterID;
+        fallbackCharacterID = characterID;
         RefreshAllUI();
     }
 
@@ -60,7 +71,9 @@ public class CharacterUpgradeUIController : MonoBehaviour
     {
         if (CharacterUpgradeManager.Instance == null) return;
 
-        CharacterUpgradeSnapshot snapshot = CharacterUpgradeManager.Instance.GetSnapshot(activeCharacterID);
+        CharacterUpgradeSnapshot snapshot = activeCharacterData != null
+            ? CharacterUpgradeManager.Instance.GetSnapshot(activeCharacterData)
+            : CharacterUpgradeManager.Instance.GetSnapshot(fallbackCharacterID);
 
         // 1. 等級文字
         if (levelValueText != null)
@@ -173,7 +186,9 @@ public class CharacterUpgradeUIController : MonoBehaviour
     {
         if (CharacterUpgradeManager.Instance == null) return;
 
-        bool success = CharacterUpgradeManager.Instance.TryUpgrade(activeCharacterID);
+        bool success = activeCharacterData != null
+            ? CharacterUpgradeManager.Instance.TryUpgrade(activeCharacterData)
+            : CharacterUpgradeManager.Instance.TryUpgrade(fallbackCharacterID);
         if (success)
         {
             if (GameAssets.Instance != null)

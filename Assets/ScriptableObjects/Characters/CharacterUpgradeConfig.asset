@@ -12,21 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f22416c6f19bdfe4aaf9f6ef1601e559, type: 3}
   m_Name: CharacterUpgradeConfig
   m_EditorClassIdentifier: Assembly-CSharp::CharacterUpgradeConfigSO
-  healthUpgrade:
-    displayName: "\u751F\u547D\u4E0A\u9650"
-    maxLevel: 10
-    baseCost: 50
-    costIncrementPerLevel: 30
-    bonusPerLevel: 15
-  defenseUpgrade:
-    displayName: "\u9632\u79A6\u8B77\u7532"
-    maxLevel: 10
-    baseCost: 40
-    costIncrementPerLevel: 25
-    bonusPerLevel: 3
-  attackUpgrade:
-    displayName: "\u57FA\u790E\u653B\u64CA"
-    maxLevel: 10
-    baseCost: 60
-    costIncrementPerLevel: 40
-    bonusPerLevel: 4
+  maxLevel: 10
+  baseCost: 50
+  costIncrementPerLevel: 35
+  hpBonusPerLevel: 15
+  defBonusPerLevel: 3
+  atkBonusPerLevel: 2

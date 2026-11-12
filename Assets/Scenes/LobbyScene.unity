@@ -248,6 +248,7 @@ MonoBehaviour:
   id: 0
   characterName: Fighter
   cameraTarget: {fileID: 1085995956}
+  modelTransform: {fileID: 0}
   hp: 160
   def: 89
   atk: 100
@@ -682,12 +683,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 129e6fe5a7e21bb498f6c378249edbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSelect
-  id: 0
+  characterData: {fileID: 11400000, guid: 6097e8cc3a43ef94f88d6d165c693707, type: 3}
   characterName: "\u6230\u58EB"
   cameraTarget: {fileID: 1949938317}
-  hp: 177
-  def: 26.5
-  atk: 18
+  modelTransform: {fileID: 0}
+  hp: 100
+  def: 10
+  atk: 15
   description: "\u64C5\u9577\u8FD1\u8EAB\u640F\u6BBA\uFF0C\u64C1\u6709\u6975\u9AD8\u7684\u9632\u79A6\u529B\u8207\u751F\u5B58\u97CC\u6027\uFF0C\u662F\u5730\u7262\u63A2\u7D22\u4E2D\u6700\u7A69\u56FA\u7684\u524D\u6392\u8B77\u76FE\u3002"
 --- !u!136 &51464852
 CapsuleCollider:
@@ -7049,6 +7051,12 @@ MonoBehaviour:
   mainCamera: {fileID: 1573638651}
   pointAction: {fileID: -9162831170530827832, guid: e4c71c08a01ea6944aed90557440eb8a, type: 3}
   clickAction: {fileID: 3871406875888321803, guid: e4c71c08a01ea6944aed90557440eb8a, type: 3}
+  rotationSpeed: 0.4
+  invertRotation: 0
+  enableInertia: 1
+  inertiaDamping: 8
+  dragThreshold: 5
+  dragOnCharacterOnly: 0
 --- !u!1 &1399001423 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6243864562159482719, guid: 09b4bd2089e583f4a85b7b8eb8c4e41d, type: 3}
@@ -7069,6 +7077,7 @@ MonoBehaviour:
   id: 0
   characterName: Fighter
   cameraTarget: {fileID: 1415541739}
+  modelTransform: {fileID: 0}
   hp: 160
   def: 89
   atk: 100
