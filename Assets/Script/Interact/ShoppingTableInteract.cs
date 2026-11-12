@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 public class ShopTableInteract : MonoBehaviour, IInteractable
 {
-
-    [SerializeField] private List<GameObject> itemList;
+    [SerializeField] private ShopPoolSO shopPool;
     [SerializeField] private Transform itemPoint;
 
     [Header("音效")]
@@ -14,18 +13,25 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
     private GameObject itemGO;
     private ShopItem item;
 
+    public ShopPoolSO ShopPool => shopPool;
+
+    public void SetShopPool(ShopPoolSO pool)
+    {
+        shopPool = pool;
+    }
+
     public string interactableName
     {
         get
         {
-            if(itemGO == null) return "空的購物桌"; // 如果物品尚未生成，返回 "空的購物桌"
+            if (itemGO == null) return "空的購物桌";
             else
             {
                 if (item != null)
                 {
                     return $"購買 \n{item.itemName}";
                 }
-                return $"購買 \n{itemGO.name}"; // 如果物品沒有實現 IInteractable，則返回物品的名稱
+                return $"購買 \n{itemGO.name}";
             }
         }
     }
@@ -34,58 +40,60 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
     {
         init();
     }
+
     public void init()
     {
-        GameObject selectedPrefab = GetWeightedRandomItem();
-        if (selectedPrefab == null) return;
+        if (shopPool == null)
+        {
+            Debug.LogWarning($"[ShopTableInteract] '{gameObject.name}' 尚未指定 ShopPoolSO！");
+            return;
+        }
 
-        itemGO = Instantiate(selectedPrefab, itemPoint);
+        int currentLevel = GameManager.Instance != null ? GameManager.Instance.currentLevel : 1;
+        ShopItemEntry selectedEntry = shopPool.SelectRandomEntry(currentLevel);
+        if (selectedEntry == null || selectedEntry.itemPrefab == null)
+        {
+            Debug.LogWarning($"[ShopTableInteract] '{gameObject.name}' 在 Level {currentLevel} 未能從商品池中抽取到有效商品！");
+            return;
+        }
+
+        Transform spawnPoint = itemPoint != null ? itemPoint : transform;
+        itemGO = Instantiate(selectedEntry.itemPrefab, spawnPoint);
         itemGO.layer = LayerMask.NameToLayer("UnInteractable");
+
+        // 若為裝備，設定其階級（若條目有指定則用指定值，否則依該層階級權重隨機抽取）
+        if (itemGO.TryGetComponent<Equipment>(out var equipment))
+        {
+            int tierToSet = selectedEntry.targetTier >= 0
+                ? selectedEntry.targetTier
+                : shopPool.RollEquipmentTier(currentLevel);
+            equipment.SetIndex(tierToSet);
+        }
+
         item = itemGO.GetComponent<ShopItem>();
         if (item != null)
         {
             item.initItem();
+            if (selectedEntry.overridePrice >= 0)
+            {
+                item.price = selectedEntry.overridePrice;
+            }
         }
     }
 
-    private GameObject GetWeightedRandomItem()
+    /// <summary>
+    /// 清除目前商品並重新自商品池隨機生成
+    /// </summary>
+    public void RefreshShop()
     {
-        if (itemList == null || itemList.Count == 0) return null;
-
-        float totalWeight = 0f;
-        foreach (GameObject prefab in itemList)
+        if (itemGO != null)
         {
-            if (prefab == null) continue;
-            ShopItem shopItem = prefab.GetComponent<ShopItem>();
-            float w = (shopItem != null) ? shopItem.weight : 1f;
-            if (w > 0f)
-            {
-                totalWeight += w;
-            }
+            Destroy(itemGO);
+            itemGO = null;
+            item = null;
         }
 
-        if (totalWeight <= 0f)
-        {
-            Debug.LogWarning("商店所有商品的權重總和為 0，改用等機率隨機選擇！");
-            return itemList[Random.Range(0, itemList.Count)];
-        }
-
-        float randomValue = Random.Range(0f, totalWeight);
-        foreach (GameObject prefab in itemList)
-        {
-            if (prefab == null) continue;
-            ShopItem shopItem = prefab.GetComponent<ShopItem>();
-            float w = (shopItem != null) ? shopItem.weight : 1f;
-            if (w <= 0f) continue;
-
-            randomValue -= w;
-            if (randomValue <= 0f)
-            {
-                return prefab;
-            }
-        }
-
-        return itemList[itemList.Count - 1];
+        init();
     }
 
     public void Interact(Transform player)
@@ -96,31 +104,35 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
             PlayerBalanceSystem playerBalance = player.GetComponent<PlayerBalanceSystem>();
             if (playerBalance != null)
             {
-                int itemCost = item.price;
+                int itemCost = item != null ? item.price : 0;
                 if (playerBalance.GetCoin() >= itemCost)
                 {
-                    if(audioSource != null && clip != null)
+                    if (audioSource != null && clip != null)
                     {
                         audioSource.PlayOneShot(clip, 2f);
                     }
                     playerBalance.SpendCoin(itemCost);
                     Debug.Log($"購買成功！花費 {itemCost} 金幣。");
-                    // 在這裡可以添加購買成功後的邏輯，例如給玩家物品等
-                    
+
                     foreach (Transform child in transform)
                     {
                         child.gameObject.layer = LayerMask.NameToLayer("UnInteractable");
                     }
-                    itemGO.layer = LayerMask.NameToLayer("Interactable");
+                    if (itemGO != null)
+                    {
+                        itemGO.layer = LayerMask.NameToLayer("Interactable");
+                    }
                     gameObject.layer = LayerMask.NameToLayer("UnInteractable");
 
-                    //直接使用商品
-                    IInteractable itemInteract = itemGO.GetComponent<IInteractable>();
-                    if(itemInteract != null)
+                    // 直接使用商品
+                    if (itemGO != null)
                     {
-                        itemInteract.Interact(player);
+                        IInteractable itemInteract = itemGO.GetComponent<IInteractable>();
+                        if (itemInteract != null)
+                        {
+                            itemInteract.Interact(player);
+                        }
                     }
-
                 }
                 else
                 {
@@ -133,10 +145,10 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
 
     private void DropItem()
     {
-        if(itemGO == null || itemPoint == null) return;
+        if (itemGO == null || itemPoint == null) return;
         itemGO.layer = LayerMask.NameToLayer("Interactable");
         Rigidbody rb = itemGO.GetComponentInChildren<Rigidbody>();
-        if(rb != null)
+        if (rb != null)
         {
             rb.isKinematic = false;
             rb.useGravity = true;
@@ -148,5 +160,4 @@ public class ShopTableInteract : MonoBehaviour, IInteractable
             rb.AddTorque(new Vector3(randomTorque, randomTorque, randomTorque), ForceMode.Impulse);
         }
     }
-
 }

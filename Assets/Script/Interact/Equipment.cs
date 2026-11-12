@@ -1,89 +1,86 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Text;
-using System;
 
 public class Equipment : MonoBehaviour, IInteractable, IItem
 {
     public string interactableName => "裝備\n" + equipmentName;
     public enum EquipmentType { Head, Chest, Arm, Belt, Leg, Feet }
-    [System.Serializable]
-    public class EquipmentData
-    {
-        public string equipmentName;
-        public Mesh mesh;
-        public Mesh prefabMesh;
-        public int price;
-        public float damage;
-        public float shield;
-        public float health;
-        public float critRate;
-        public Sprite itemIcon; 
-    }
-    [SerializeField] public List<EquipmentData> equipmentDataList;
-    [SerializeField] public EquipmentType equipmentType;
-    [SerializeField] public int currentEquipmentIndex = 0;
+
+    [Header("裝備數據 (ScriptableObject)")]
+    [SerializeField] private EquipmentDataSO equipmentData;
+    [Tooltip("階級清單 (0: 初級, 1: 中級, 2: 高級)")]
+    [SerializeField] private List<EquipmentDataSO> tieredData = new List<EquipmentDataSO>();
+
     [SerializeField] public MeshFilter prefabRenderer;
     [Header("音效")]
     [SerializeField] private AudioClip audioClip;
 
-    public string equipmentName => equipmentDataList[currentEquipmentIndex].equipmentName;
-    public Mesh mesh => equipmentDataList[currentEquipmentIndex].mesh;
-    public Mesh prefabMesh => equipmentDataList[currentEquipmentIndex].prefabMesh;
-    public int price => equipmentDataList[currentEquipmentIndex].price;
-    public float damage => equipmentDataList[currentEquipmentIndex].damage;
-    public float shield => equipmentDataList[currentEquipmentIndex].shield;
-    public float health => equipmentDataList[currentEquipmentIndex].health;
-    public float critRate => equipmentDataList[currentEquipmentIndex].critRate;
-    public Sprite itemIcon => equipmentDataList[currentEquipmentIndex].itemIcon;
+    public EquipmentDataSO EquipmentData => equipmentData;
+    public List<EquipmentDataSO> TieredData => tieredData;
+
+    public string equipmentName => equipmentData != null ? equipmentData.equipmentName : "";
+    public Mesh mesh => equipmentData != null ? equipmentData.characterMesh : null;
+    public Mesh prefabMesh => equipmentData != null ? equipmentData.prefabMesh : null;
+    public int price => equipmentData != null ? equipmentData.price : 0;
+    public float damage => equipmentData != null ? equipmentData.damage : 0f;
+    public float shield => equipmentData != null ? equipmentData.shield : 0f;
+    public float health => equipmentData != null ? equipmentData.health : 0f;
+    public float critRate => equipmentData != null ? equipmentData.critRate : 0f;
+    public Sprite itemIcon => equipmentData != null ? equipmentData.itemIcon : null;
+    public EquipmentType equipmentType => equipmentData != null ? equipmentData.equipmentType : EquipmentType.Head;
 
     public string ItemName => equipmentName;
     public Sprite ItemIcon => itemIcon;
 
     public string GetTooltipStatsText()
     {
-        StringBuilder sb = new StringBuilder(64);
-        if (damage > 0) sb.AppendLine($"攻擊力: +{Mathf.RoundToInt(damage)}");
-        if (critRate > 0) sb.AppendLine($"暴擊率: +{Mathf.RoundToInt(critRate)}%");
-        if (health > 0) sb.AppendLine($"最大生命: +{Mathf.RoundToInt(health)}");
-        if (shield > 0) sb.AppendLine($"護甲: +{Mathf.RoundToInt(shield)}");
-        return sb.Length == 0 ? "無附加屬性" : sb.ToString().TrimEnd();
+        return equipmentData != null ? equipmentData.GetTooltipStatsText() : "無附加屬性";
     }
+
     private void Awake()
     {
-        //item = GetComponent<ShopItem>();
+        if (equipmentData == null && tieredData != null && tieredData.Count > 0)
+        {
+            SetEquipmentData(tieredData[0]);
+        }
     }
+
+    public void SetEquipmentData(EquipmentDataSO data)
+    {
+        equipmentData = data;
+        UpdateMesh();
+    }
+
+    public void SetIndex(int index)
+    {
+        if (tieredData != null && index >= 0 && index < tieredData.Count && tieredData[index] != null)
+        {
+            SetEquipmentData(tieredData[index]);
+        }
+    }
+
+    public void UpdateMesh()
+    {
+        if (prefabRenderer != null && prefabMesh != null)
+        {
+            prefabRenderer.sharedMesh = prefabMesh;
+        }
+    }
+
     public void Interact(Transform player)
     {
         CharacterEquipment characterEquipment = player.GetComponentInChildren<CharacterEquipment>();
         if (characterEquipment != null)
         {
             AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
-            //Debug.Log($"Equipping {item.equipmentName} to {equipmentType}");
-            if(audioSource != null && audioClip != null)
+            if (audioSource != null && audioClip != null)
             {
                 audioSource.PlayOneShot(audioClip, 10f);
             }
 
             characterEquipment.EquipItem(this.gameObject);
         }
-        else
-        {
-            //Debug.LogWarning("CharacterEquipment component not found on player.");
-        }
-        
     }
-    public void SetIndex(int index)
-    {
-        currentEquipmentIndex = index;
-        UpdateMesh();
-    }
-    private void UpdateMesh()
-    {
-        if(prefabRenderer != null)
-        {
-            prefabRenderer.mesh = prefabMesh;
-        }
-    }
+
     string IInteractable.interactableName => interactableName;
 }

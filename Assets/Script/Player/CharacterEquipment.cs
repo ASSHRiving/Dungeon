@@ -95,6 +95,19 @@ public class CharacterEquipment : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// 取得特定部位目前穿戴的裝備 SO 資料
+    /// </summary>
+    public EquipmentDataSO GetEquippedData(Equipment.EquipmentType type)
+    {
+        GameObject go = GetEquippedItem(type);
+        if (go != null && go.TryGetComponent<Equipment>(out var eq))
+        {
+            return eq.EquipmentData;
+        }
+        return null;
+    }
+
     private void EquipStatsUpdate(GameObject item)
     {
         Equipment equipment = item.GetComponent<Equipment>();
@@ -102,15 +115,29 @@ public class CharacterEquipment : MonoBehaviour
 
         if (stats != null)
         {
-            // 透過 CharacterStats 註冊屬性修正器，綁定來源為此裝備物件
-            if (equipment.health > 0)
-                stats.AddModifier(new StatModifier(StatType.MaxHealth, StatModType.Flat, equipment.health, item));
-            if (equipment.shield > 0)
-                stats.AddModifier(new StatModifier(StatType.Shield, StatModType.Flat, equipment.shield, item));
-            if (equipment.damage > 0)
-                stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, equipment.damage, item));
-            if (equipment.critRate > 0)
-                stats.AddModifier(new StatModifier(StatType.CritRate, StatModType.Flat, equipment.critRate, item));
+            // 若裝備資料有配置動態屬性清單，一口氣遍歷註冊！
+            if (equipment.EquipmentData != null && equipment.EquipmentData.statBonuses != null && equipment.EquipmentData.statBonuses.Count > 0)
+            {
+                foreach (var bonus in equipment.EquipmentData.statBonuses)
+                {
+                    if (!Mathf.Approximately(bonus.value, 0f))
+                    {
+                        stats.AddModifier(new StatModifier(bonus.statType, bonus.modType, bonus.value, item));
+                    }
+                }
+            }
+            else
+            {
+                // 回退保底：若尚未設定 statBonuses，則從舊有屬性註冊
+                if (equipment.health > 0)
+                    stats.AddModifier(new StatModifier(StatType.MaxHealth, StatModType.Flat, equipment.health, item));
+                if (equipment.shield > 0)
+                    stats.AddModifier(new StatModifier(StatType.Shield, StatModType.Flat, equipment.shield, item));
+                if (equipment.damage > 0)
+                    stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, equipment.damage, item));
+                if (equipment.critRate > 0)
+                    stats.AddModifier(new StatModifier(StatType.CritRate, StatModType.Flat, equipment.critRate, item));
+            }
         }
         else
         {

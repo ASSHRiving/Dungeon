@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccaf800a1db48ac939a37d09488c4d9, type: 3}
+  m_Name: Equip_KnightBelt_T1
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDataSO
+  equipmentName: "\u521D\u7D1A\u9A0E\u58EB\u8170\u5E36"
+  equipmentType: 3
+  itemIcon: {fileID: 21300000, guid: 9a37fcb18c4ccea46b23b6b015199a5e, type: 3}
+  price: 7
+  characterMesh: {fileID: 7898184859443825153, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+  prefabMesh: {fileID: 6059692019739570250, guid: 257fc5b0c2ed85842993ebcd02ce2181, type: 3}
+  statBonuses:
+  - statType: 5
+    modType: 100
+    value: 15
+  - statType: 7
+    modType: 100
+    value: 2
