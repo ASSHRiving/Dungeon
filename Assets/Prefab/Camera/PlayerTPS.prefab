@@ -66,7 +66,7 @@ MonoBehaviour:
     FieldOfView: 65.56693
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 60
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041050314575096760}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca7de3aefa901374ba29464584a3109a, type: 3}
   m_Name: 
@@ -216,8 +216,8 @@ MonoBehaviour:
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
-        AccelTime: 0.2
-        DecelTime: 0.2
+        AccelTime: 0.02
+        DecelTime: 0.02
     - Name: Look Orbit Y
       Owner: {fileID: 3426146304949186138}
       Enabled: 1
@@ -229,8 +229,8 @@ MonoBehaviour:
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
-        AccelTime: 0.2
-        DecelTime: 0.2
+        AccelTime: 0.02
+        DecelTime: 0.02
     - Name: Orbit Scale
       Owner: {fileID: 3426146304949186138}
       Enabled: 0
@@ -299,10 +299,10 @@ MonoBehaviour:
       Enabled: 1
       YOffset: 1
     Strategy: 0
-    MaximumEffort: 4
+    MaximumEffort: 2
     SmoothingTime: 0
-    Damping: 0.2
-    DampingWhenOccluded: 0.2
+    Damping: 0.1
+    DampingWhenOccluded: 0.1
   ShotQualityEvaluation:
     Enabled: 0
     OptimalDistance: 10
