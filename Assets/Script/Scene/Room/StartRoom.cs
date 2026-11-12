@@ -67,10 +67,9 @@ public class StartRoom : Room
             }
 
             // 套用局外養成屬性加成 (生命、防禦、攻擊)
-            int charId = activeData != null ? activeData.characterID : (GameManager.Instance != null ? GameManager.Instance.characterID : 0);
-            if (CharacterUpgradeManager.Instance != null)
+            if (CharacterUpgradeManager.Instance != null && activeData != null)
             {
-                CharacterUpgradeManager.Instance.ApplyUpgradesToPlayer(playerGo, charId);
+                CharacterUpgradeManager.Instance.ApplyUpgradesToPlayer(playerGo, activeData);
             }
         }
         DontDestroyOnLoad(playerGo);
