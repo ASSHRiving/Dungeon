@@ -23,11 +23,12 @@ public static class DefaultDataSOAssetGenerator
             warrior.characterName = "戰士";
             warrior.description = "擅長近身搏殺，擁有極高的防禦力與生存韌性，是地牢探索中最穩固的前排護盾。";
             warrior.baseMaxHealth = 100f;
-            warrior.baseShield = 0f;
-            warrior.baseAttackDamage = 0f;
+            warrior.baseShield = 10f;
+            warrior.baseAttackDamage = 15f;
             warrior.baseCritRate = 5f;
-            warrior.baseMoveSpeed = 5.5f;
+            warrior.baseMoveSpeed = 7f;
             warrior.basePoise = 100f;
+            warrior.characterPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefab/Character/Player/Warrior.prefab");
 
             AssetDatabase.CreateAsset(warrior, warriorPath);
             Debug.Log($"[DataSO] 建立預設戰士配置: {warriorPath}");
