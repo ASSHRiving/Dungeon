@@ -4,46 +4,12 @@ using System.Collections;
 
 public abstract class FightingRoom : Room
 {
-    #region wave configs
-    [System.Serializable]
-    public class LevelWaveGroups
-    {
-        public int level;
-
-        public List<EnemyWaveGroup> waveGroups = new List<EnemyWaveGroup>();
-    }
-    [System.Serializable]
-    public class EnemyWaveGroup
-    {
-        public string groupName = "Group 1";
-        public float weight = 1;
-        public List<EnemyWave> waves;
-    }
-    [System.Serializable]
-    public class EnemyWave
-    {
-        public string waveName = "Wave";
-        public List<SpawnConfig> spawnConfigs; 
-    }
-    [System.Serializable]
-    public class SpawnConfig
-    {
-        public GameObject enemyPrefab;        // 該位置要刷出的敵人 Prefab
-        public EnemyDataSO enemyData;         // (可選) 怪物數值配置資產，若為空則依 Prefab 原有基礎值動態成長
-        public bool canBeElite = true;        // 此位置是否可隨機生成菁英怪
-        public GameObject spawnEffectPrefab;   // 生成特效
-        public Transform spawnPoint;          // 生成點 Transform
-    }
-    #endregion
-    
-    [Header("波次設定")]
-    [Header("各關卡的敵人波次組合")]
-    [SerializeField] protected List<LevelWaveGroups> levelWaveGroups = new List<LevelWaveGroups>();
-    protected List<EnemyWave> waves;
-    [SerializeField] private float spawnDelay = 1.5f;          // 特效出現到敵人刷出的延遲時間 (秒)
+    [Header("波次設定 (ScriptableObject)")]
+    [SerializeField] protected RoomWaveConfigSO waveConfig;
+    [SerializeField] protected Transform[] spawnPoints;
     [SerializeField] protected float eliteSpawnChance = 0.15f; // 菁英怪生成機率 (預設 15%)
 
-
+    protected WaveGroupSO currentWaveGroup;
     protected int remainingEnemyCount = 0;
     protected int currentWaveIndex = 0;
     protected bool isBattleStarted = false;
@@ -60,23 +26,26 @@ public abstract class FightingRoom : Room
     {
         isSpawningWave = true;
 
-        if (waveIndex < waves.Count)
+        if (currentWaveGroup != null && currentWaveGroup.waves != null && waveIndex < currentWaveGroup.waves.Count)
         {
-            EnemyWave wave = waves[waveIndex];
+            WaveData wave = currentWaveGroup.waves[waveIndex];
             ClearActiveEffects();
 
             if (wave != null && wave.spawnConfigs != null)
             {
                 UIEvents.LevelChanged(wave.waveName);
+
                 // 1. 生成預警特效 (使用物件池)
                 foreach (var config in wave.spawnConfigs)
                 {
-                    if (config.spawnPoint == null) continue;
+                    Transform point = GetSpawnPoint(config.spawnPointIndex);
+                    if (point == null) continue;
+
                     if (config.spawnEffectPrefab != null)
                     {
                         GameObject vfx = ObjectPoolManager.Instance != null
-                            ? ObjectPoolManager.Instance.SpawnVFX(config.spawnEffectPrefab, config.spawnPoint.position, config.spawnPoint.rotation)
-                            : Instantiate(config.spawnEffectPrefab, config.spawnPoint.position, config.spawnPoint.rotation);
+                            ? ObjectPoolManager.Instance.SpawnVFX(config.spawnEffectPrefab, point.position, point.rotation)
+                            : Instantiate(config.spawnEffectPrefab, point.position, point.rotation);
 
                         if (vfx != null)
                         {
@@ -85,18 +54,19 @@ public abstract class FightingRoom : Room
                     }
                 }
 
-                yield return new WaitForSeconds(spawnDelay);
+                yield return new WaitForSeconds(wave.spawnDelay);
 
                 // 2. 清除 / 回收特效至物件池
                 ClearActiveEffects();
 
-                remainingEnemyCount = wave.spawnConfigs.Count; 
+                remainingEnemyCount = wave.spawnConfigs.Count;
                 int currentLevel = GameManager.Instance != null ? GameManager.Instance.currentLevel : 1;
 
                 // 3. 生成敵人並註冊死亡事件
                 foreach (var config in wave.spawnConfigs)
                 {
-                    if (config.enemyPrefab == null || config.spawnPoint == null) 
+                    Transform point = GetSpawnPoint(config.spawnPointIndex);
+                    if (config.enemyPrefab == null || point == null)
                     {
                         remainingEnemyCount--; // 如果有無效設定，直接扣掉避免卡關
                         continue;
@@ -109,8 +79,8 @@ public abstract class FightingRoom : Room
                     GameObject enemyGo = EnemyFactory.SpawnEnemy(
                         config.enemyPrefab,
                         config.enemyData,
-                        config.spawnPoint.position,
-                        config.spawnPoint.rotation,
+                        point.position,
+                        point.rotation,
                         currentLevel,
                         isElite
                     );
@@ -125,7 +95,7 @@ public abstract class FightingRoom : Room
                     EnemyHealthSystem health = enemyGo.GetComponentInChildren<EnemyHealthSystem>();
                     if (combat != null)
                     {
-                        combat.SetSpawnPoint(config.spawnPoint);
+                        combat.SetSpawnPoint(point);
                         if (playerTransform != null)
                         {
                             combat.SetCurrentTarget(playerTransform);
@@ -139,20 +109,23 @@ public abstract class FightingRoom : Room
             }
         }
 
-        isSpawningWave = false; // 生成完畢，恢復 Update 檢測
+        isSpawningWave = false; // 生成完畢，恢復檢測
     }
-    
+
     public void OnEnemyDeath()
     {
-        GameManager.Instance.AddKill();
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.AddKill();
+        }
         remainingEnemyCount--;
 
-        // 只有當數量歸零時，才進行波次切換邏輯！
+        // 只有當數量歸零時，才進行波次切換邏輯
         if (remainingEnemyCount <= 0 && !isClear)
         {
             currentWaveIndex++;
 
-            if (currentWaveIndex < waves.Count)
+            if (currentWaveGroup != null && currentWaveGroup.waves != null && currentWaveIndex < currentWaveGroup.waves.Count)
             {
                 StartCoroutine(SpawnWaveRoutine(currentWaveIndex));
             }
@@ -162,9 +135,11 @@ public abstract class FightingRoom : Room
             }
         }
     }
+
     public override void Init()
     {
         ClearActiveEffects();
+        AutoDetectSpawnPointsIfEmpty();
         SelectWaves();
         isBattleStarted = false;
         isSpawningWave = false;
@@ -196,66 +171,25 @@ public abstract class FightingRoom : Room
         }
         activeEffects.Clear();
     }
+
     protected virtual void SelectWaves()
     {
-        int currentLevel = GameManager.Instance.currentLevel;
-
-        LevelWaveGroups currentLevelGroups = null;
-
-        // 找到目前關卡的波次組合
-        foreach (LevelWaveGroups levelGroups in levelWaveGroups)
+        currentWaveGroup = null;
+        if (waveConfig == null)
         {
-            if (levelGroups.level == currentLevel)
-            {
-                currentLevelGroups = levelGroups;
-                break;
-            }
-        }
-
-        if (currentLevelGroups == null ||
-            currentLevelGroups.waveGroups.Count == 0)
-        {
-            Debug.LogWarning(
-                $"找不到 Level {currentLevel} 的敵人波次組合！"
-            );
-
+            Debug.LogWarning($"[{gameObject.name}] 尚未設定 RoomWaveConfigSO！");
             return;
         }
 
-        // 計算總權重
-        float totalWeight = 0f;
+        int currentLevel = GameManager.Instance != null ? GameManager.Instance.currentLevel : 1;
+        currentWaveGroup = waveConfig.SelectWaveGroup(currentLevel);
 
-        foreach (EnemyWaveGroup group in currentLevelGroups.waveGroups)
+        if (currentWaveGroup == null)
         {
-            if (group != null && group.waves.Count > 0)
-            {
-                totalWeight += group.weight;
-            }
-        }
-
-        if (totalWeight <= 0f)
-        {
-            Debug.LogWarning("所有波次組合的權重都是 0！");
-            return;
-        }
-
-        // 依照權重隨機選擇
-        float randomValue = Random.Range(0f, totalWeight);
-
-        foreach (EnemyWaveGroup group in currentLevelGroups.waveGroups)
-        {
-            if (group == null || group.waves.Count == 0)
-                continue;
-
-            randomValue -= group.weight;
-
-            if (randomValue <= 0f)
-            {
-                waves = group.waves;
-                return;
-            }
+            Debug.LogWarning($"[{gameObject.name}] 找不到 Level {currentLevel} 的有效波次組合！");
         }
     }
+
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
@@ -273,11 +207,76 @@ public abstract class FightingRoom : Room
             }
         }
     }
+
     protected virtual void OnRoomCleared()
     {
         isClear = true;
         OpenGate();
         isBattleStarted = false;
-        GameAssets.Instance.PlayInGameMusic();
+        if (GameAssets.Instance != null)
+        {
+            GameAssets.Instance.PlayInGameMusic();
+        }
+    }
+
+    /// <summary>
+    /// 依點位索引取得對應的 SpawnPoint Transform (包含越界防呆與自動環狀循環)
+    /// </summary>
+    public Transform GetSpawnPoint(int index)
+    {
+        if (spawnPoints == null || spawnPoints.Length == 0)
+        {
+            AutoDetectSpawnPointsIfEmpty();
+        }
+
+        if (spawnPoints == null || spawnPoints.Length == 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] 房間沒有任何 SpawnPoints，使用自身位置。");
+            return transform;
+        }
+
+        if (index >= 0 && index < spawnPoints.Length && spawnPoints[index] != null)
+        {
+            return spawnPoints[index];
+        }
+
+        int safeIndex = Mathf.Abs(index) % spawnPoints.Length;
+        return spawnPoints[safeIndex] != null ? spawnPoints[safeIndex] : transform;
+    }
+
+    /// <summary>
+    /// 若 Inspector 未手動指派 spawnPoints，自動搜尋子節點中名為 SpawnPoints 的群組或包含 SpawnPoint 字樣的節點
+    /// </summary>
+    private void AutoDetectSpawnPointsIfEmpty()
+    {
+        if (spawnPoints != null && spawnPoints.Length > 0 && spawnPoints[0] != null)
+            return;
+
+        Transform spParent = transform.Find("SpawnPoints");
+        if (spParent != null && spParent.childCount > 0)
+        {
+            spawnPoints = new Transform[spParent.childCount];
+            for (int i = 0; i < spParent.childCount; i++)
+            {
+                spawnPoints[i] = spParent.GetChild(i);
+            }
+            return;
+        }
+
+        // 搜尋子節點 (如 EliteRoom 的 EmenySpawnPoint)
+        List<Transform> list = new List<Transform>();
+        foreach (Transform t in GetComponentsInChildren<Transform>(true))
+        {
+            if (t != transform && (t.name.Contains("SpawnPoint") || t.name.Contains("EmenySpawnPoint")))
+            {
+                list.Add(t);
+            }
+        }
+
+        if (list.Count > 0)
+        {
+            list.Sort((a, b) => string.Compare(a.name, b.name, System.StringComparison.Ordinal));
+            spawnPoints = list.ToArray();
+        }
     }
 }

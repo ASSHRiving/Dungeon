@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b790e7b72be54ea6874265cc199c6f40, type: 3}
+  m_Name: RoomWaveConfig_EliteRoom
+  m_EditorClassIdentifier: Assembly-CSharp::RoomWaveConfigSO
+  levelWaveGroups:
+  - level: 1
+    waveGroups:
+    - {fileID: 11400000, guid: 622cbfaa24523bdfd725e6a59a9826a3, type: 2}
+  - level: 2
+    waveGroups:
+    - {fileID: 11400000, guid: ac0f993a7eaed73fa430bdf331ef5668, type: 2}
+    - {fileID: 11400000, guid: 9cc33d7bf2d2bf700060f7740b02049e, type: 2}
+  - level: 3
+    waveGroups:
+    - {fileID: 11400000, guid: 08b4c43ced0b69497ca85c7f75b36b64, type: 2}
+    - {fileID: 11400000, guid: cbb1f39c3b6fa80166e7dd55533bf4ec, type: 2}
+  - level: 4
+    waveGroups:
+    - {fileID: 11400000, guid: 5c3f417211f7ac17071b34473f17e8ca, type: 2}
+    - {fileID: 11400000, guid: 638c826a6516a2adab5c8009302c0a27, type: 2}

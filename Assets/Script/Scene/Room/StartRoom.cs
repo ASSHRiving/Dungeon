@@ -8,6 +8,7 @@ public class StartRoom : Room
 {
     [Header("玩家生成設定")]
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private CharacterDataSO defaultCharacterData;
     [SerializeField] private Transform playerSpawnPoint;
     public List<GameObject> initEquipment;
     public override void Init()
@@ -31,7 +32,28 @@ public class StartRoom : Room
         }
         else
         {
-            playerGo = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
+            // 優先取得大廳選定的角色配置，若無則 fallback 預設配置 (供直接在戰鬥場景測試時使用)
+            CharacterDataSO activeData = (GameManager.Instance != null && GameManager.Instance.selectedCharacterData != null)
+                ? GameManager.Instance.selectedCharacterData
+                : defaultCharacterData;
+
+            GameObject prefabToSpawn = (activeData != null && activeData.characterPrefab != null)
+                ? activeData.characterPrefab
+                : playerPrefab;
+
+            playerGo = Instantiate(prefabToSpawn, playerSpawnPoint.position, playerSpawnPoint.rotation);
+
+            // 關鍵：將 CharacterDataSO 注入中央數值大腦 (CharacterStats)！
+            if (activeData != null)
+            {
+                CharacterStats stats = playerGo.GetComponent<CharacterStats>();
+                if (stats != null)
+                {
+                    stats.InitFromData(activeData);
+                    Debug.Log($"[StartRoom] 成功從 CharacterDataSO ({activeData.characterName}) 初始化玩家數值大腦！");
+                }
+            }
+
             CharacterEquipment equipment = playerGo.GetComponent<CharacterEquipment>();
             if(initEquipment != null)
             {
@@ -45,7 +67,7 @@ public class StartRoom : Room
             }
 
             // 套用局外養成屬性加成 (生命、防禦、攻擊)
-            int charId = GameManager.Instance != null ? GameManager.Instance.characterID : 0;
+            int charId = activeData != null ? activeData.characterID : (GameManager.Instance != null ? GameManager.Instance.characterID : 0);
             if (CharacterUpgradeManager.Instance != null)
             {
                 CharacterUpgradeManager.Instance.ApplyUpgradesToPlayer(playerGo, charId);

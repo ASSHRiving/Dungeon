@@ -127,18 +127,10 @@ MonoBehaviour:
     anchor: {fileID: 2017960691291186883}
     door: {fileID: 5416271461074572638}
     wall: {fileID: 3561536108236235745}
-  levelWaveGroups:
-  - level: 1
-    waveGroups:
-    - groupName: Test
-      weight: 1
-      waves:
-      - waveName: wave1
-        spawnConfigs:
-        - enemyPrefab: {fileID: 8189983362293444178, guid: bd02e00326b35f349bbf6e000bef8949, type: 3}
-          spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
-          spawnPoint: {fileID: 3949069269230352584}
-  spawnDelay: 1.5
+  waveConfig: {fileID: 11400000, guid: 6cf92f931750c3eaaa400f791f8e297b, type: 2}
+  spawnPoints:
+  - {fileID: 3949069269230352584}
+  eliteSpawnChance: 0.15
 --- !u!1 &3695354559823909943
 GameObject:
   m_ObjectHideFlags: 0
