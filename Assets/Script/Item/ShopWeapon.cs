@@ -9,6 +9,10 @@ public class ShopWeapon : ShopItem
         if(weapon != null)
         {
             itemName = weapon.weaponName;
+            if (weapon.WeaponData != null && weapon.WeaponData.price > 0)
+            {
+                price = weapon.WeaponData.price;
+            }
         }
     }
 }

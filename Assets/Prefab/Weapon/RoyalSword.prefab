@@ -5559,6 +5559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969d645455862074c8087ba7d22a8c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword
+  weaponData: {fileID: 11400000, guid: 81a0000581a0000581a0000581a00005, type: 3}
   weaponName: "\u82F1\u96C4\u528D"
   itemIcon: {fileID: 21300000, guid: 68adc447894d7b54e8d48f71a8934f86, type: 3}
   damage: 30
@@ -10736,3 +10737,4 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -3996030600726377366, guid: cc8589bcb1b9dd8409e4b64c3242ba63, type: 3}
   m_PrefabInstance: {fileID: 3938022597585133638}
   m_PrefabAsset: {fileID: 0}
+

@@ -263,7 +263,7 @@ namespace Dungeon.EditorTools
             SerializedProperty comboResetProp = swordSO.FindProperty("comboResetTime");
             if (comboResetProp != null) comboResetProp.floatValue = 2.0f;
 
-            SerializedProperty hitStopProp = swordSO.FindProperty("hitStopDuration");
+            SerializedProperty hitStopProp = swordSO.FindProperty("_hitStopDuration") ?? swordSO.FindProperty("hitStopDuration");
             if (hitStopProp != null) hitStopProp.floatValue = 0.045f;
 
             swordSO.ApplyModifiedPropertiesWithoutUndo();
