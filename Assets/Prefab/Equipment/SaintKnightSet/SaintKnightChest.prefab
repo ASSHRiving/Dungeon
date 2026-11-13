@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3053672749117702036}
   - component: {fileID: 6551679269147384305}
   - component: {fileID: -4013097865099133887}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SaintKnightChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopEquipment
   itemName: 
   price: 0
+  weight: 1
 --- !u!114 &6551679269147384305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,8 +147,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 556338c96a8f6f420585b5a2e1c92131, type: 2}
   - {fileID: 11400000, guid: 587ba6d92e4f994fe7a1d6a2f0c20f45, type: 2}
   - {fileID: 11400000, guid: 03ed497dd3735aa4aa22d48f3b9163af, type: 2}
-  equipmentType: 1
-  prefabRenderer: {fileID: 0}
+  prefabRenderer: {fileID: 8293423001477565300}
   audioClip: {fileID: 8300000, guid: 572d13df883d41344a367c669e5ef834, type: 3}
 --- !u!54 &-4013097865099133887
 Rigidbody:

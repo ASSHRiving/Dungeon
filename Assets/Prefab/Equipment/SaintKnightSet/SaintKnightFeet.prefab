@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1933956992487744950}
   - component: {fileID: 8253695057152701690}
   - component: {fileID: 7046001291110419593}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SaintKnightFeet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopEquipment
   itemName: 
   price: 0
+  weight: 1
 --- !u!114 &8253695057152701690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,8 +147,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4c1f1ec7168ce01b8e60dfa5da4e7482, type: 2}
   - {fileID: 11400000, guid: f15797037e7d9333d402b506bf6040d2, type: 2}
   - {fileID: 11400000, guid: bd839196f37caf24172156b3b9e0bb86, type: 2}
-  equipmentType: 5
-  prefabRenderer: {fileID: 0}
+  prefabRenderer: {fileID: 437881400500919108}
   audioClip: {fileID: 8300000, guid: 572d13df883d41344a367c669e5ef834, type: 3}
 --- !u!54 &7046001291110419593
 Rigidbody:

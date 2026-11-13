@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4400405443662156386}
   - component: {fileID: -2524260156181965417}
   - component: {fileID: 3593345979808222288}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SaintKnightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,8 +132,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d9bcd5deda60ec61b414192a92aedf09, type: 2}
   - {fileID: 11400000, guid: a698627288056309e8b0fd0ebbd2fbcc, type: 2}
   - {fileID: 11400000, guid: ad7a5af9c9c303c83bc22196e14c9670, type: 2}
-  equipmentType: 2
-  prefabRenderer: {fileID: 0}
+  prefabRenderer: {fileID: 4922721938658864266}
   audioClip: {fileID: 8300000, guid: 572d13df883d41344a367c669e5ef834, type: 3}
 --- !u!54 &-2524260156181965417
 Rigidbody:
@@ -176,3 +175,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopEquipment
   itemName: 
   price: 0
+  weight: 1

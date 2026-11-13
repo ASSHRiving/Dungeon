@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4685379742997478567}
   - component: {fileID: 4727940240993099798}
   - component: {fileID: -5848329130876704757}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SaintKnightLegs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopEquipment
   itemName: 
   price: 0
+  weight: 1
 --- !u!114 &4727940240993099798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,8 +147,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: adcd4fc9125be38d164448b234aa557d, type: 2}
   - {fileID: 11400000, guid: d5765c73d2b27330029a1e38fec40e9d, type: 2}
   - {fileID: 11400000, guid: fd0cf5d6940c6880c585dd82bb41394b, type: 2}
-  equipmentType: 4
-  prefabRenderer: {fileID: 0}
+  prefabRenderer: {fileID: 3411989662787558013}
   audioClip: {fileID: 8300000, guid: 572d13df883d41344a367c669e5ef834, type: 3}
 --- !u!54 &-5848329130876704757
 Rigidbody:
