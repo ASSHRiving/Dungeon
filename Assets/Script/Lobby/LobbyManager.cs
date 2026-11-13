@@ -1,0 +1,364 @@
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using Unity.Cinemachine;
+using DG.Tweening;
+
+public class LobbyManager : MonoBehaviour
+{
+    public static LobbyManager Instance { get; private set; }
+
+    [Header("Cinemachine 相機")]
+    [SerializeField] private CinemachineCamera lobbyCamera;
+    [SerializeField] private CinemachineCamera characterCamera;
+
+    [Header("大廳按鈕")]
+    [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject backButton;
+    [SerializeField] private GameObject exitButton;
+
+    [Header("左側角色屬性單面板")]
+    [SerializeField] private CanvasGroup leftStatsPanel;    // 左側屬性面板 (需掛載 CanvasGroup)
+    [SerializeField] private Image hpFillImage;             // 生命進度條 (Image Type: Filled)
+    [SerializeField] private TMP_Text hpValueText;          // 生命數值文字
+    [SerializeField] private Image defFillImage;            // 防禦進度條 (Image Type: Filled)
+    [SerializeField] private TMP_Text defValueText;         // 防禦數值文字
+    [SerializeField] private Image atkFillImage;            // 攻擊力進度條 (Image Type: Filled)
+    [SerializeField] private TMP_Text atkValueText;         // 攻擊力數值文字
+    [SerializeField] private TMP_Text descriptionText;      // 職業介紹文字
+
+    [Header("局外升級介面 (可選)")]
+    [SerializeField] private CharacterUpgradeUIController upgradeUIController;
+
+    [Header("屬性滿格基準值 (決定進度條長度比例)")]
+    [SerializeField] private float maxHP = 200f;
+    [SerializeField] private float maxDEF = 150f;
+    [SerializeField] private float maxATK = 150f;
+
+    [Header("DOTween 動畫參數")]
+    [SerializeField] private float panelAnimDuration = 0.28f;
+    [SerializeField] private float panelSlideOffset = 40f;    // 左側面板從左滑入的距離
+    [SerializeField] private float startBtnSlideOffset = 35f; // 開始按鈕從下滑入的距離
+    [SerializeField] private float statBarDuration = 0.45f;   // 屬性條跑動時間
+
+    private CharacterSelect currentCharacter;
+    private RectTransform leftPanelRect;
+    private Vector2 leftPanelOriginPos;
+
+    private CanvasGroup startBtnCanvasGroup;
+    private RectTransform startBtnRect;
+    private Vector2 startBtnOriginPos;
+
+    private CanvasGroup upgradePanelCanvasGroup;
+    private RectTransform upgradePanelRect;
+    private Vector2 upgradePanelOriginPos;
+
+    private Sequence uiSequence;
+    private Sequence statSequence;
+
+    public bool HasSelectedCharacter => currentCharacter != null;
+    public CharacterSelect CurrentCharacter => currentCharacter;
+
+    private void Awake()
+    {
+        Instance = this;
+
+        if (leftStatsPanel != null)
+        {
+            leftPanelRect = leftStatsPanel.GetComponent<RectTransform>();
+            leftPanelOriginPos = leftPanelRect.anchoredPosition;
+        }
+
+        if (startButton != null)
+        {
+            startBtnCanvasGroup = startButton.GetComponent<CanvasGroup>();
+            if (startBtnCanvasGroup == null)
+                startBtnCanvasGroup = startButton.AddComponent<CanvasGroup>();
+
+            startBtnRect = startButton.GetComponent<RectTransform>();
+            startBtnOriginPos = startBtnRect.anchoredPosition;
+        }
+
+        if (upgradeUIController != null)
+        {
+            upgradePanelCanvasGroup = upgradeUIController.GetComponent<CanvasGroup>();
+            if (upgradePanelCanvasGroup == null)
+                upgradePanelCanvasGroup = upgradeUIController.gameObject.AddComponent<CanvasGroup>();
+
+            upgradePanelRect = upgradeUIController.GetComponent<RectTransform>();
+            if (upgradePanelRect != null)
+                upgradePanelOriginPos = upgradePanelRect.anchoredPosition;
+        }
+    }
+
+    private void OnEnable()
+    {
+        CharacterUpgradeManager.OnAnyUpgradeChanged += HandleUpgradeChanged;
+    }
+
+    private void OnDisable()
+    {
+        CharacterUpgradeManager.OnAnyUpgradeChanged -= HandleUpgradeChanged;
+    }
+
+    private void HandleUpgradeChanged()
+    {
+        if (currentCharacter != null)
+        {
+            UpdateCharacterStatsUI(currentCharacter);
+        }
+    }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        DeSelectImmediate();
+    }
+
+    private void OnDestroy()
+    {
+        uiSequence?.Kill();
+        statSequence?.Kill();
+    }
+
+    public void SelectCharacter(CharacterSelect character)
+    {
+        if (character == null || currentCharacter == character) return;
+
+        // 若先前已選定其他角色，平滑重置先前角色的朝向
+        if (currentCharacter != null && currentCharacter != character)
+        {
+            currentCharacter.ResetRotation();
+        }
+
+        if (GameAssets.Instance != null)
+            GameAssets.Instance.PlayUIClickSound();
+
+        bool wasInWideLobby = (currentCharacter == null);
+        currentCharacter = character;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.selectedCharacterData = character.CharacterData;
+        }
+
+        // 1. 更新頂部標題
+        UIEvents.ChangeTitle(character.CharacterName);
+
+        // 2. 切換 Cinemachine 相機焦點
+        characterCamera.Target.TrackingTarget = character.CameraTarget;
+        lobbyCamera.Priority = 0;
+        characterCamera.Priority = 10;
+
+        // 3. 切換左上角返回與退出按鈕
+        backButton.SetActive(true);
+        exitButton.SetActive(false);
+
+        // 4. 展開左側面板與底部「開始遊戲」按鈕滑入動畫
+        if (wasInWideLobby)
+        {
+            PlayShowCharacterUIAnim();
+        }
+
+        // 5. 更新升級介面
+        if (upgradeUIController != null)
+        {
+            upgradeUIController.SetActiveCharacter(character.CharacterData);
+        }
+
+        // 6. 更新並播放生命、防禦、攻擊力與介紹動畫
+        UpdateCharacterStatsUI(character);
+    }
+
+    public void DeSelect()
+    {
+        if (GameAssets.Instance != null)
+            GameAssets.Instance.PlayUIClickSound();
+
+        // 平滑重置所有角色模型的旋轉至初始朝向
+        ResetAllCharactersRotation(0.35f);
+
+        currentCharacter = null;
+
+        UIEvents.ChangeTitle("選 擇 角 色");
+        lobbyCamera.Priority = 10;
+        characterCamera.Priority = 0;
+
+        backButton.SetActive(false);
+        exitButton.SetActive(true);
+
+        uiSequence?.Kill();
+        statSequence?.Kill();
+        uiSequence = DOTween.Sequence();
+
+        // 左側面板向左滑出 + 淡出
+        if (leftStatsPanel != null)
+        {
+            leftStatsPanel.interactable = false;
+            leftStatsPanel.blocksRaycasts = false;
+            uiSequence.Join(leftStatsPanel.DOFade(0f, 0.2f).SetEase(Ease.InQuad));
+            uiSequence.Join(leftPanelRect.DOAnchorPos(leftPanelOriginPos - new Vector2(panelSlideOffset, 0f), 0.2f).SetEase(Ease.InCubic));
+        }
+
+        // 開始按鈕向下滑出 + 淡出
+        if (startBtnCanvasGroup != null && startBtnRect != null)
+        {
+            startBtnCanvasGroup.interactable = false;
+            startBtnCanvasGroup.blocksRaycasts = false;
+            uiSequence.Join(startBtnCanvasGroup.DOFade(0f, 0.18f).SetEase(Ease.InQuad));
+            uiSequence.Join(startBtnRect.DOAnchorPos(startBtnOriginPos - new Vector2(0f, startBtnSlideOffset), 0.18f).SetEase(Ease.InCubic));
+        }
+
+        // 右側升級面板向右滑出 + 淡出
+        if (upgradeUIController != null && upgradePanelCanvasGroup != null && upgradePanelRect != null)
+        {
+            upgradePanelCanvasGroup.interactable = false;
+            upgradePanelCanvasGroup.blocksRaycasts = false;
+            uiSequence.Join(upgradePanelCanvasGroup.DOFade(0f, 0.2f).SetEase(Ease.InQuad));
+            uiSequence.Join(upgradePanelRect.DOAnchorPos(upgradePanelOriginPos + new Vector2(panelSlideOffset, 0f), 0.2f).SetEase(Ease.InCubic));
+        }
+
+        uiSequence.OnComplete(() =>
+        {
+            if (leftStatsPanel != null) leftStatsPanel.gameObject.SetActive(false);
+            if (startButton != null) startButton.SetActive(false);
+            if (upgradeUIController != null) upgradeUIController.gameObject.SetActive(false);
+        });
+    }
+
+    private void DeSelectImmediate()
+    {
+        ResetAllCharactersRotation(0f);
+        currentCharacter = null;
+        UIEvents.ChangeTitle("選 擇 角 色");
+        lobbyCamera.Priority = 10;
+        characterCamera.Priority = 0;
+
+        if (startButton != null) startButton.SetActive(false);
+        if (backButton != null) backButton.SetActive(false);
+        if (exitButton != null) exitButton.SetActive(true);
+
+        if (leftStatsPanel != null)
+        {
+            leftStatsPanel.alpha = 0f;
+            leftStatsPanel.interactable = false;
+            leftStatsPanel.blocksRaycasts = false;
+            leftStatsPanel.gameObject.SetActive(false);
+        }
+
+        if (startBtnCanvasGroup != null)
+        {
+            startBtnCanvasGroup.alpha = 0f;
+            startBtnCanvasGroup.interactable = false;
+            startBtnCanvasGroup.blocksRaycasts = false;
+            if (startButton != null) startButton.SetActive(false);
+        }
+
+        if (upgradeUIController != null)
+        {
+            if (upgradePanelCanvasGroup != null)
+            {
+                upgradePanelCanvasGroup.alpha = 0f;
+                upgradePanelCanvasGroup.interactable = false;
+                upgradePanelCanvasGroup.blocksRaycasts = false;
+            }
+            upgradeUIController.gameObject.SetActive(false);
+        }
+    }
+
+    private void PlayShowCharacterUIAnim()
+    {
+        uiSequence?.Kill();
+        uiSequence = DOTween.Sequence();
+
+        // 1. 左側屬性面板從左側滑入 + 淡入
+        if (leftStatsPanel != null && leftPanelRect != null)
+        {
+            leftStatsPanel.gameObject.SetActive(true);
+            leftStatsPanel.interactable = true;
+            leftStatsPanel.blocksRaycasts = true;
+            leftStatsPanel.alpha = 0f;
+            leftPanelRect.anchoredPosition = leftPanelOriginPos - new Vector2(panelSlideOffset, 0f);
+
+            uiSequence.Join(leftStatsPanel.DOFade(1f, panelAnimDuration).SetEase(Ease.OutQuad));
+            uiSequence.Join(leftPanelRect.DOAnchorPos(leftPanelOriginPos, panelAnimDuration).SetEase(Ease.OutCubic));
+        }
+
+        // 2. 開始遊戲按鈕從下往上滑入 + 淡入
+        if (startButton != null && startBtnCanvasGroup != null && startBtnRect != null)
+        {
+            startButton.SetActive(true);
+            startBtnCanvasGroup.interactable = true;
+            startBtnCanvasGroup.blocksRaycasts = true;
+            startBtnCanvasGroup.alpha = 0f;
+            startBtnRect.anchoredPosition = startBtnOriginPos - new Vector2(0f, startBtnSlideOffset);
+
+            uiSequence.Join(startBtnCanvasGroup.DOFade(1f, panelAnimDuration).SetEase(Ease.OutQuad));
+            uiSequence.Join(startBtnRect.DOAnchorPos(startBtnOriginPos, panelAnimDuration).SetEase(Ease.OutCubic));
+        }
+
+        // 3. 右側升級面板從右側滑入 + 淡入
+        if (upgradeUIController != null && upgradePanelCanvasGroup != null && upgradePanelRect != null)
+        {
+            upgradeUIController.gameObject.SetActive(true);
+            upgradePanelCanvasGroup.interactable = true;
+            upgradePanelCanvasGroup.blocksRaycasts = true;
+            upgradePanelCanvasGroup.alpha = 0f;
+            upgradePanelRect.anchoredPosition = upgradePanelOriginPos + new Vector2(panelSlideOffset, 0f);
+
+            uiSequence.Join(upgradePanelCanvasGroup.DOFade(1f, panelAnimDuration).SetEase(Ease.OutQuad));
+            uiSequence.Join(upgradePanelRect.DOAnchorPos(upgradePanelOriginPos, panelAnimDuration).SetEase(Ease.OutCubic));
+        }
+    }
+
+    private void UpdateCharacterStatsUI(CharacterSelect data)
+    {
+        if (descriptionText != null)
+            descriptionText.text = data.Description;
+
+        statSequence?.Kill();
+        statSequence = DOTween.Sequence();
+
+        // 讀取當前角色的局外養成屬性加成
+        float bonusHp = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.CharacterData, UpgradeType.Health) : 0f;
+        float bonusDef = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.CharacterData, UpgradeType.Defense) : 0f;
+        float bonusAtk = (CharacterUpgradeManager.Instance != null) ? CharacterUpgradeManager.Instance.GetStatBonus(data.CharacterData, UpgradeType.Attack) : 0f;
+
+        AnimateSingleStat(hpFillImage, hpValueText, data.HP + bonusHp, maxHP);
+        AnimateSingleStat(defFillImage, defValueText, data.DEF + bonusDef, maxDEF);
+        AnimateSingleStat(atkFillImage, atkValueText, data.ATK + bonusAtk, maxATK);
+    }
+
+    private void AnimateSingleStat(Image fillImg, TMP_Text valText, float targetVal, float maxVal)
+    {
+        if (fillImg != null)
+        {
+            fillImg.fillAmount = 0f;
+            float targetRatio = Mathf.Clamp01(targetVal / maxVal);
+            statSequence.Join(fillImg.DOFillAmount(targetRatio, statBarDuration).SetEase(Ease.OutCubic));
+        }
+
+        if (valText != null)
+        {
+            statSequence.Join(DOVirtual.Int(0, (int)targetVal, statBarDuration, v => valText.text = v.ToString()).SetEase(Ease.OutCubic));
+        }
+    }
+
+    /// <summary>
+    /// 重置場景中所有選角角色的旋轉朝向至初始角度
+    /// </summary>
+    /// <param name="duration">回正動畫時間 (秒)</param>
+    public void ResetAllCharactersRotation(float duration = 0.35f)
+    {
+        CharacterSelect[] allCharacters = FindObjectsByType<CharacterSelect>(FindObjectsSortMode.None);
+        foreach (var c in allCharacters)
+        {
+            if (c != null)
+            {
+                c.ResetRotation(duration);
+            }
+        }
+    }
+}

@@ -31,8 +31,11 @@
 # Jetbrains Rider personal-layer settings
 *.DotSettings.user
 
-# Visual Studio cache directory
+# Visual Studio / VS Code / JetBrains / Fleet cache directories
 .vs/
+.vscode/
+.idea/
+.fleet/
 
 # Gradle cache directory
 .gradle/
@@ -43,6 +46,7 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -73,6 +77,13 @@ mono_crash.*
 *.unitypackage.meta
 *.app
 
+# Incomplete / temporary download files
+*.qkdownloading
+*.qkdownloading.meta
+*.crdownload
+*.part
+*.download
+
 # Crashlytics generated file
 crashlytics-build.properties
 
@@ -97,3 +108,16 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+[Tt]humbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# Temporary scratch scripts
+scratch/

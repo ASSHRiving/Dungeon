@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b790e7b72be54ea6874265cc199c6f40, type: 3}
+  m_Name: RoomWaveConfig_NormalRoom
+  m_EditorClassIdentifier: Assembly-CSharp::RoomWaveConfigSO
+  levelWaveGroups:
+  - level: 1
+    waveGroups:
+    - {fileID: 11400000, guid: 08425923557f73a40c05fda6bbe8f9ea, type: 2}
+  - level: 2
+    waveGroups:
+    - {fileID: 11400000, guid: 08425923557f73a40c05fda6bbe8f9ea, type: 2}
+    - {fileID: 11400000, guid: ba3fab4c942d67bc472e4fd93666e166, type: 2}
+  - level: 3
+    waveGroups:
+    - {fileID: 11400000, guid: 57fad5fe3efbb0c860b4f30671c29a6a, type: 2}
+    - {fileID: 11400000, guid: 7a94fd005484095d28c6342b72da4fdb, type: 2}
+    - {fileID: 11400000, guid: d051d83229cd5cf02d2b63d5b796bdd1, type: 2}
+    - {fileID: 11400000, guid: 7ff1a17166750304bdde970493032d85, type: 2}
+    - {fileID: 11400000, guid: 948a55a53b1c499108da8476ce9e5f0f, type: 2}
+  - level: 4
+    waveGroups:
+    - {fileID: 11400000, guid: 0f5e0f595a76d49db593d24f16c8065b, type: 2}
+    - {fileID: 11400000, guid: 7ff1a17166750304bdde970493032d85, type: 2}
+    - {fileID: 11400000, guid: d051d83229cd5cf02d2b63d5b796bdd1, type: 2}
+    - {fileID: 11400000, guid: 8c60cfa4e3eb95ed8acbdcf476604476, type: 2}
+    - {fileID: 11400000, guid: 1572cd71f6eed8c5377643dfb528c14c, type: 2}

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccaf800a1db48ac939a37d09488c4d9, type: 3}
+  m_Name: Equip_SaintKnightLegs_T2
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDataSO
+  equipmentName: "\u4E2D\u7D1A\u8056\u9A0E\u58EB\u8B77\u817F"
+  equipmentType: 4
+  itemIcon: {fileID: 0}
+  price: 35
+  characterMesh: {fileID: 2834847736197715925, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+  prefabMesh: {fileID: -3849592972002017713, guid: 21fda12d3fdb5fb4795c2e35201f6714, type: 3}
+  statBonuses:
+  - statType: 0
+    modType: 100
+    value: 40
+  - statType: 1
+    modType: 100
+    value: 10

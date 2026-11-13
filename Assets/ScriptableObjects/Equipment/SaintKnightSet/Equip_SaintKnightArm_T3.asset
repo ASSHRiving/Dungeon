@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccaf800a1db48ac939a37d09488c4d9, type: 3}
+  m_Name: Equip_SaintKnightArm_T3
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDataSO
+  equipmentName: "\u9AD8\u7D1A\u8056\u9A0E\u58EB\u8B77\u624B"
+  equipmentType: 2
+  itemIcon: {fileID: 0}
+  price: 35
+  characterMesh: {fileID: -8056588769129496622, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+  prefabMesh: {fileID: 8307703174970341373, guid: a50dee6b9ac419044963d6607c7121ad, type: 3}
+  statBonuses:
+  - statType: 2
+    modType: 100
+    value: 6
+  - statType: 3
+    modType: 100
+    value: 5
+  - statType: 6
+    modType: 100
+    value: 0.1

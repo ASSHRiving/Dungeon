@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccaf800a1db48ac939a37d09488c4d9, type: 3}
+  m_Name: Equip_KnightLeg_T2
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDataSO
+  equipmentName: "\u4E2D\u7D1A\u9A0E\u58EB\u8B77\u817F"
+  equipmentType: 4
+  itemIcon: {fileID: 21300000, guid: af2088732de9c6945b4ea8742934ae2a, type: 3}
+  price: 30
+  characterMesh: {fileID: 3046221711419639211, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+  prefabMesh: {fileID: -2672736116154677258, guid: 2b166bd69089c8242942d56a724b8523, type: 3}
+  statBonuses:
+  - statType: 0
+    modType: 100
+    value: 25
+  - statType: 1
+    modType: 100
+    value: 8

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccaf800a1db48ac939a37d09488c4d9, type: 3}
+  m_Name: Equip_SaintKnightBelt_T2
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDataSO
+  equipmentName: "\u4E2D\u7D1A\u8056\u9A0E\u58EB\u8170\u5E36"
+  equipmentType: 3
+  itemIcon: {fileID: 0}
+  price: 18
+  characterMesh: {fileID: 6087785277180772466, guid: ae7b8b29b783efa42802858321c5ca7b, type: 3}
+  prefabMesh: {fileID: -8574172166170188834, guid: 04287403a1bdf8344bca89a42d29ada0, type: 3}
+  statBonuses:
+  - statType: 5
+    modType: 100
+    value: 45
+  - statType: 7
+    modType: 100
+    value: 7

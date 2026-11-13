@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed3362e1f2a7bb4ca5d598ab3452347, type: 3}
+  m_Name: Enemy_SkeletonArcher
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDataSO
+  enemyID: Skeleton_Archer
+  enemyName: "\u9AB7\u9ACF\u5F13\u7BAD\u624B"
+  isBoss: 0
+  baseMaxHealth: 60
+  baseDamage: 14
+  baseShield: 0
+  baseMoveSpeed: 3
+  basePoise: 50
+  baseGold: 6
+  healthGrowthPerLevel: 0.12
+  damageGrowthPerLevel: 0.1
+  goldGrowthPerLevel: 0.1
+  eliteHealthMult: 1.8
+  eliteDamageMult: 1.4
+  eliteGoldMult: 3
+  eliteScale: 1.2

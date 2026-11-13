@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed3362e1f2a7bb4ca5d598ab3452347, type: 3}
+  m_Name: Enemy_StoneGiantBoss
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDataSO
+  enemyID: Boss_StoneGiant
+  enemyName: "\u6DF1\u6DF5\u77F3\u5DE8\u4EBA"
+  isBoss: 1
+  baseMaxHealth: 600
+  baseDamage: 28
+  baseShield: 15
+  baseMoveSpeed: 2.8
+  basePoise: 250
+  baseGold: 60
+  healthGrowthPerLevel: 0.25
+  damageGrowthPerLevel: 0.15
+  goldGrowthPerLevel: 0.2
+  eliteHealthMult: 2.2
+  eliteDamageMult: 1.35
+  eliteGoldMult: 3
+  eliteScale: 1.25

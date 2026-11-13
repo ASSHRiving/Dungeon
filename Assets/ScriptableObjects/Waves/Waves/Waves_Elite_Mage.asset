@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 975c2cbf73214683a70fe444c597dc85, type: 3}
+  m_Name: Waves_Elite_Mage
+  m_EditorClassIdentifier: Assembly-CSharp::WaveGroupSO
+  groupName: "菁英護衛與法師"
+  weight: 1
+  waves:
+  - waveName: "Warning!"
+    spawnDelay: 1.5
+    spawnConfigs:
+    - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+      enemyData: {fileID: 11400000, guid: d301660022fcb434eb4a6e5a56fe8077, type: 2}
+      spawnPointIndex: 0
+      canBeElite: 1
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+    - enemyPrefab: {fileID: 2666423795277257771, guid: d73db495c78fb6248b0e53bcfc630284, type: 3}
+      enemyData: {fileID: 11400000, guid: d301660022fcb434eb4a6e5a56fe8077, type: 2}
+      spawnPointIndex: 3
+      canBeElite: 1
+      spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+  - waveName: "Warning!"
+    spawnDelay: 1.5
+    spawnConfigs:
+    - enemyPrefab: {fileID: 8189983362293444178, guid: bd02e00326b35f349bbf6e000bef8949, type: 3}
+      enemyData: {fileID: 11400000, guid: d7638bb551c3e8a4e8a1db38c212a920, type: 2}
+      spawnPointIndex: 0
+      canBeElite: 1
+      spawnEffectPrefab: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
