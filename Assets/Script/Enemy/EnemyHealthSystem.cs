@@ -41,6 +41,18 @@ public class EnemyHealthSystem : CharacterHealthBase
     }
 
     /// <summary>
+    /// 依 EnemyDataSO 同步 Boss 身分與顯示名稱 (供 EnemyFactory 生成時覆寫，避免 Prefab 設定過時)
+    /// </summary>
+    public void ConfigureBoss(bool bossFlag, string displayName)
+    {
+        isBoss = bossFlag;
+        if (!string.IsNullOrEmpty(displayName))
+        {
+            bossName = displayName;
+        }
+    }
+
+    /// <summary>
     /// 動態設定怪物掉落金幣 (供 EnemyFactory 於生成時注入關卡難度加成或菁英怪加成)
     /// </summary>
     public void SetGoldDrop(int newGold)
@@ -69,7 +81,10 @@ public class EnemyHealthSystem : CharacterHealthBase
             {
                 ActivateBossBar();
             }
-            UIEvents.BossHealthChanged(currentHealth, maxHealth);
+            else
+            {
+                UIEvents.BossHealthChanged(currentHealth, maxHealth);
+            }
             return;
         }
 

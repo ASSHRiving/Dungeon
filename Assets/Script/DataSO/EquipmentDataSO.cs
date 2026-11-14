@@ -45,27 +45,6 @@ public class EquipmentDataSO : ScriptableObject, IItem
     [Tooltip("在此自由新增屬性加成項目，不需在代碼寫死任何變數")]
     public List<StatBonus> statBonuses = new List<StatBonus>();
 
-    #region 向下相容屬性 (方便現有 UI 與舊代碼讀取)
-    public float damage => GetStatBonusValue(StatType.AttackDamage);
-    public float shield => GetStatBonusValue(StatType.Shield);
-    public float health => GetStatBonusValue(StatType.MaxHealth);
-    public float critRate => GetStatBonusValue(StatType.CritRate);
-
-    public float GetStatBonusValue(StatType type)
-    {
-        if (statBonuses == null) return 0f;
-        float total = 0f;
-        for (int i = 0; i < statBonuses.Count; i++)
-        {
-            if (statBonuses[i].statType == type)
-            {
-                total += statBonuses[i].value;
-            }
-        }
-        return total;
-    }
-    #endregion
-
     // IItem 介面實作
     public string ItemName => equipmentName;
     public Sprite ItemIcon => itemIcon;

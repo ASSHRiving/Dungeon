@@ -15,16 +15,16 @@ MonoBehaviour:
   enemyID: Skeleton_Archer
   enemyName: "\u9AB7\u9ACF\u5F13\u7BAD\u624B"
   isBoss: 0
-  baseMaxHealth: 60
+  baseMaxHealth: 75
   baseDamage: 14
-  baseShield: 0
+  baseShield: 15
   baseMoveSpeed: 3
   basePoise: 50
-  baseGold: 6
-  healthGrowthPerLevel: 0.12
+  baseGold: 8
+  healthGrowthPerLevel: 0.6
   damageGrowthPerLevel: 0.1
-  goldGrowthPerLevel: 0.1
-  eliteHealthMult: 1.8
+  goldGrowthPerLevel: 0.15
+  eliteHealthMult: 2
   eliteDamageMult: 1.4
   eliteGoldMult: 3
   eliteScale: 1.2

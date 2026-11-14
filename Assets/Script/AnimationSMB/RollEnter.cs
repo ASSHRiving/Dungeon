@@ -12,7 +12,7 @@ public class RollEnter : StateMachineBehaviour
         }
         if(combat != null)
         {
-            combat.currentWeapon.combo = 0;
+            if (combat.currentWeapon != null) combat.currentWeapon.combo = 0;
             combat.canAttack = true;
             combat.inAttack = false;
         }

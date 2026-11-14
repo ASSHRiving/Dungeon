@@ -20,10 +20,10 @@ public class NecroEnergyCage3D : MonoBehaviour
     public Color cageWireColor = new Color(0.22f, 1.0f, 0.08f, 1f) * 2.5f; // 亮死靈綠 (HDR)
     public Color darkCoreColor = new Color(0.05f, 0.01f, 0.08f, 1f);       // 深淵暗紫黑
 
-    private Transform _cagePivot;
-    private Transform _darkCore;
-    private Material _wireMat;
-    private Material _coreMat;
+    private Transform cagePivot;
+    private Transform darkCore;
+    private Material wireMat;
+    private Material coreMat;
 
     private void OnEnable()
     {
@@ -58,33 +58,33 @@ public class NecroEnergyCage3D : MonoBehaviour
             else DestroyImmediate(col);
         }
 
-        _coreMat = new Material(unlitShader);
-        _coreMat.SetColor("_BaseColor", darkCoreColor);
-        _coreMat.color = darkCoreColor;
-        coreObj.GetComponent<MeshRenderer>().sharedMaterial = _coreMat;
-        _darkCore = coreObj.transform;
+        coreMat = new Material(unlitShader);
+        coreMat.SetColor("_BaseColor", darkCoreColor);
+        coreMat.color = darkCoreColor;
+        coreObj.GetComponent<MeshRenderer>().sharedMaterial = coreMat;
+        darkCore = coreObj.transform;
 
         // 2. 建立外層「3D 二十面體幾何線框籠 (Icosahedron Wireframe Cage)」
         GameObject cageObj = new GameObject("_Generated_3DCage");
         cageObj.transform.SetParent(transform, false);
-        _cagePivot = cageObj.transform;
+        cagePivot = cageObj.transform;
 
         MeshFilter mf = cageObj.AddComponent<MeshFilter>();
         MeshRenderer mr = cageObj.AddComponent<MeshRenderer>();
 
-        _wireMat = new Material(unlitShader);
-        _wireMat.SetColor("_BaseColor", cageWireColor);
-        _wireMat.color = cageWireColor;
-        mr.sharedMaterial = _wireMat;
+        wireMat = new Material(unlitShader);
+        wireMat.SetColor("_BaseColor", cageWireColor);
+        wireMat.color = cageWireColor;
+        mr.sharedMaterial = wireMat;
 
         mf.sharedMesh = BuildIcosahedronWireframeMesh(cageRadius, wireThickness);
     }
 
     private void Update()
     {
-        if (_cagePivot != null)
+        if (cagePivot != null)
         {
-            _cagePivot.Rotate(cageSpinSpeed * Time.deltaTime, Space.Self);
+            cagePivot.Rotate(cageSpinSpeed * Time.deltaTime, Space.Self);
         }
     }
 

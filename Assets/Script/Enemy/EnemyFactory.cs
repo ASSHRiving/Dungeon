@@ -25,9 +25,9 @@ public static class EnemyFactory
         int currentLevel = 1,
         bool isElite = false)
     {
-        if (enemyPrefab == null)
+        if (enemyPrefab == null || enemyData == null)
         {
-            Debug.LogWarning("[EnemyFactory] 嘗試生成空的怪物 Prefab！");
+            Debug.LogError("[EnemyFactory] enemyPrefab 或 enemyData 為空，無法生成怪物！");
             return null;
         }
 
@@ -41,61 +41,26 @@ public static class EnemyFactory
             stats = enemyGo.AddComponent<CharacterStats>();
         }
 
-        // 3. 獲取血量與戰鬥組件並重新綁定
+        // 3. 獲取血量與戰鬥組件並初始化 EnemyDataSO 數值
         EnemyHealthSystem health = enemyGo.GetComponentInChildren<EnemyHealthSystem>();
         EnemyCombatSystem combat = enemyGo.GetComponentInChildren<EnemyCombatSystem>();
 
+        // 精準從 EnemyDataSO 計算並套用關卡縮放 (HP, ATK, 防禦, 跑速等)
+        stats.InitFromData(enemyData, currentLevel, isElite);
+
+        if (health != null)
+        {
+            health.ConfigureBoss(enemyData.isBoss, enemyData.enemyName);
+            health.SetGoldDrop(enemyData.CalculateGold(currentLevel, isElite));
+        }
+
+        if (isElite)
+        {
+            enemyGo.transform.localScale *= enemyData.eliteScale;
+        }
+
         if (health != null) health.BindStats(stats);
         if (combat != null) combat.BindStats(stats);
-
-        // 4. 根據是否有指定 EnemyDataSO 進行屬性初始化與關卡成長計算
-        if (enemyData != null)
-        {
-            // 精準從 EnemyDataSO 計算並套用關卡縮放 (HP, ATK, 防禦, 跑速等)
-            stats.InitFromData(enemyData, currentLevel, isElite);
-
-            if (health != null)
-            {
-                health.SetGoldDrop(enemyData.CalculateGold(currentLevel, isElite));
-            }
-
-            if (isElite)
-            {
-                enemyGo.transform.localScale *= enemyData.eliteScale;
-            }
-        }
-        else
-        {
-            // 防呆 Fallback：若場景內舊有波次未指定 EnemyDataSO，自動依 Prefab 原有基礎值計算關卡成長
-            float levelHpScale = 1f + Mathf.Max(0, currentLevel - 1) * 0.15f;   // 每關 +15% HP
-            float levelDmgScale = 1f + Mathf.Max(0, currentLevel - 1) * 0.08f;  // 每關 +8% 傷害
-            float levelGoldScale = 1f + Mathf.Max(0, currentLevel - 1) * 0.10f; // 每關 +10% 金幣
-
-            float eliteHp = isElite ? 2.0f : 1.0f;
-            float eliteDmg = isElite ? 1.35f : 1.0f;
-            float eliteGold = isElite ? 3.0f : 1.0f;
-
-            float baseHp = health != null ? health.maxHealth : 80f;
-            float baseDef = health != null ? health.shield : 0f;
-            float baseDmg = 10f;
-            if (combat != null) baseDmg = combat.damage > 0 ? combat.damage : 10f;
-
-            float finalHp = Mathf.Round(baseHp * levelHpScale * eliteHp);
-            float finalDmg = Mathf.Round(baseDmg * levelDmgScale * eliteDmg);
-
-            stats.InitBaseStats(finalHp, baseDef, finalDmg, 0f);
-
-            if (health != null)
-            {
-                int currentGold = health.GetGoldDrop() > 0 ? health.GetGoldDrop() : 5;
-                health.SetGoldDrop(Mathf.Max(1, Mathf.RoundToInt(currentGold * levelGoldScale * eliteGold)));
-            }
-
-            if (isElite)
-            {
-                enemyGo.transform.localScale *= 1.25f;
-            }
-        }
 
         return enemyGo;
     }

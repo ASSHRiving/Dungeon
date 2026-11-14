@@ -48,7 +48,7 @@ public class PlayerMovementSystem : CharacterMovementBase
 
     private bool CanMoveControl()
     {
-        return isOnGround && (animator.CheckAnimationTag("Motion") || (animator.CheckAnimationTag("Attack") && _combat.canAttack));
+        return isOnGround && (animator.CheckAnimationTag("Motion") || (animator.CheckAnimationTag("Attack") && combat.canAttack));
     }
 
     private bool CanRunControl()
@@ -74,12 +74,12 @@ public class PlayerMovementSystem : CharacterMovementBase
             }
         }
         
-        if (isOnGround && _inputSystem.playerMovement == Vector2.zero)
+        if (isOnGround && inputSystem.playerMovement == Vector2.zero)
             movementDirection = Vector3.zero;
         
         if (CanMoveControl()) 
         {
-            if (_inputSystem.playerMovement != Vector2.zero)
+            if (inputSystem.playerMovement != Vector2.zero)
             {
                 // 1. 抓取相機在世界座標的正前方與正右方
                 Vector3 camForward = characterCamera.forward;
@@ -92,7 +92,7 @@ public class PlayerMovementSystem : CharacterMovementBase
                 camRight.Normalize();
 
                 // 3. 根據玩家的輸入直接計算出世界座標的移動方向
-                Vector3 targetDirection = camForward * _inputSystem.playerMovement.y + camRight * _inputSystem.playerMovement.x;
+                Vector3 targetDirection = camForward * inputSystem.playerMovement.y + camRight * inputSystem.playerMovement.x;
 
                 // 4. 計算出這個方向對應的 3D 角度（讓角色轉身用）
                 targetRotation = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
@@ -122,7 +122,7 @@ public class PlayerMovementSystem : CharacterMovementBase
     {
         if (CanRunControl())
         {
-            float targetSpeed = _inputSystem.playerMovement.magnitude * (_inputSystem.playerRun ? 2f : 1f);
+            float targetSpeed = inputSystem.playerMovement.magnitude * (inputSystem.playerRun ? 2f : 1f);
             animator.SetFloat(speedID, targetSpeed, 0.1f, Time.deltaTime);
 
             // 基礎奔跑速度直接由 CharacterStats.MoveSpeed 驅動 (基準為 7.0f，武器 Flat 差值與裝備百分比加成已全數整合)
@@ -133,7 +133,7 @@ public class PlayerMovementSystem : CharacterMovementBase
             runSpeed = effectiveRunSpeed;
             walkSpeed = effectiveWalkSpeed;
 
-            characterCurrentMoveSpeed = _inputSystem.playerRun ? effectiveRunSpeed : effectiveWalkSpeed;
+            characterCurrentMoveSpeed = inputSystem.playerRun ? effectiveRunSpeed : effectiveWalkSpeed;
         }
         else
         {
@@ -145,7 +145,7 @@ public class PlayerMovementSystem : CharacterMovementBase
             characterCurrentMoveSpeed = 0f;
         }
 
-        animator.SetFloat(runID, _inputSystem.playerRun ? 1f : 0f);
+        animator.SetFloat(runID, inputSystem.playerRun ? 1f : 0f);
     }
 
     /// <summary>
@@ -158,7 +158,7 @@ public class PlayerMovementSystem : CharacterMovementBase
         // 當處於移動狀態且有實際位移時，等比縮放動畫播放速度
         if (animator.CheckAnimationTag("Motion") && characterCurrentMoveSpeed > 0.01f)
         {
-            float referenceSpeed = _inputSystem.playerRun ? BASE_RUN_SPEED : BASE_WALK_SPEED;
+            float referenceSpeed = inputSystem.playerRun ? BASE_RUN_SPEED : BASE_WALK_SPEED;
             animator.speed = characterCurrentMoveSpeed / referenceSpeed;
         }
         else if (animator.CheckAnimationTag("Hit"))
@@ -176,10 +176,10 @@ public class PlayerMovementSystem : CharacterMovementBase
     private void UpdateRollAnimation()
     {
         // 按下翻滾鍵，且當前不在翻滾中
-        if (_inputSystem.playerRoll && !animator.CheckAnimationTag("Roll"))
+        if (inputSystem.playerRoll && !animator.CheckAnimationTag("Roll"))
         {
             // 1. 決定這次翻滾的精確方向與目標角度
-            if (_inputSystem.playerMovement != Vector2.zero)
+            if (inputSystem.playerMovement != Vector2.zero)
             {
                 Vector3 camForward = characterCamera.forward;
                 Vector3 camRight = characterCamera.right;
@@ -189,7 +189,7 @@ public class PlayerMovementSystem : CharacterMovementBase
                 camRight.Normalize();
 
                 // 根據玩家當前的搖桿輸入決定翻滾方向
-                rollDirection = (camForward * _inputSystem.playerMovement.y + camRight * _inputSystem.playerMovement.x).normalized;
+                rollDirection = (camForward * inputSystem.playerMovement.y + camRight * inputSystem.playerMovement.x).normalized;
                 targetRotation = Mathf.Atan2(rollDirection.x, rollDirection.z) * Mathf.Rad2Deg;
             }
             else

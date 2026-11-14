@@ -24,14 +24,14 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
     [SerializeField] private int defaultDebrisPoolSize = 5;
     [SerializeField] private int maxDebrisPoolSize = 15;
 
-    private IObjectPool<GameObject> _coinPool;
-    private IObjectPool<DamageText> _damageTextPool;
+    private IObjectPool<GameObject> coinPool;
+    private IObjectPool<DamageText> damageTextPool;
 
     // 動態字典池：Key 為 Prefab 的 InstanceID，Value 為該 Prefab 專屬的 ObjectPool
-    private readonly Dictionary<int, IObjectPool<GameObject>> _vfxPools = new Dictionary<int, IObjectPool<GameObject>>();
+    private readonly Dictionary<int, IObjectPool<GameObject>> vfxPools = new Dictionary<int, IObjectPool<GameObject>>();
 
     // 碎片動態字典池：Key 為碎片 Prefab 的 InstanceID
-    private readonly Dictionary<int, IObjectPool<GameObject>> _debrisPools = new Dictionary<int, IObjectPool<GameObject>>();
+    private readonly Dictionary<int, IObjectPool<GameObject>> debrisPools = new Dictionary<int, IObjectPool<GameObject>>();
 
     protected override void Awake()
     {
@@ -57,7 +57,7 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
             return;
         }
 
-        _coinPool = new ObjectPool<GameObject>(
+        coinPool = new ObjectPool<GameObject>(
             createFunc: () => Instantiate(coinPrefab),
             actionOnGet: (coin) => coin.SetActive(true),
             actionOnRelease: (coin) => coin.SetActive(false),
@@ -71,15 +71,15 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
     // 從池子拿一顆金幣出來
     public GameObject GetCoin(Vector3 spawnPosition, Quaternion spawnRotation)
     {
-        if (_coinPool == null) return null;
+        if (coinPool == null) return null;
 
-        GameObject coin = _coinPool.Get();
+        GameObject coin = coinPool.Get();
         coin.transform.position = spawnPosition;
         coin.transform.rotation = spawnRotation;
 
         if (coin.TryGetComponent<Coin>(out Coin coinScript))
         {
-            coinScript.SetPool(_coinPool);
+            coinScript.SetPool(coinPool);
         }
 
         return coin;
@@ -95,7 +95,7 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
             return;
         }
 
-        _damageTextPool = new ObjectPool<DamageText>(
+        damageTextPool = new ObjectPool<DamageText>(
             createFunc: () => Instantiate(damageTextPrefab, transform),
             actionOnGet: (dmgText) => dmgText.gameObject.SetActive(true),
             actionOnRelease: (dmgText) => dmgText.gameObject.SetActive(false),
@@ -111,13 +111,13 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
     /// </summary>
     public DamageText SpawnDamageText(Vector3 spawnPosition, float damageAmount, bool isCritical = false)
     {
-        if (_damageTextPool == null) return null;
+        if (damageTextPool == null) return null;
 
-        DamageText dmgText = _damageTextPool.Get();
+        DamageText dmgText = damageTextPool.Get();
         dmgText.transform.position = spawnPosition;
         
         // 將 Pool 傳遞給 DamageText，方便它動畫結束後自行 Release
-        dmgText.Setup(damageAmount, isCritical, _damageTextPool);
+        dmgText.Setup(damageAmount, isCritical, damageTextPool);
 
         return dmgText;
     }
@@ -135,10 +135,10 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
         int prefabKey = vfxPrefab.GetInstanceID();
 
         // 若該特效 Prefab 尚未建立過池子，自動為它建立一個專屬 ObjectPool
-        if (!_vfxPools.TryGetValue(prefabKey, out IObjectPool<GameObject> pool))
+        if (!vfxPools.TryGetValue(prefabKey, out IObjectPool<GameObject> pool))
         {
             pool = CreateNewVFXPool(vfxPrefab);
-            _vfxPools.Add(prefabKey, pool);
+            vfxPools.Add(prefabKey, pool);
         }
 
         GameObject vfxInstance = pool.Get();
@@ -242,10 +242,10 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
 
         int prefabKey = debrisPrefab.GetInstanceID();
 
-        if (!_debrisPools.TryGetValue(prefabKey, out IObjectPool<GameObject> pool))
+        if (!debrisPools.TryGetValue(prefabKey, out IObjectPool<GameObject> pool))
         {
             pool = CreateNewDebrisPool(debrisPrefab);
-            _debrisPools.Add(prefabKey, pool);
+            debrisPools.Add(prefabKey, pool);
         }
 
         GameObject debrisInstance = pool.Get();
@@ -292,14 +292,14 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 當場景切換時，重置所有物件池
-        _coinPool?.Clear();
-        _damageTextPool?.Clear();
+        coinPool?.Clear();
+        damageTextPool?.Clear();
 
-        foreach (var kvp in _vfxPools)
+        foreach (var kvp in vfxPools)
         {
             kvp.Value?.Clear();
         }
-        foreach (var kvp in _debrisPools)
+        foreach (var kvp in debrisPools)
         {
             kvp.Value?.Clear();
         }
@@ -313,14 +313,14 @@ public class ObjectPoolManager : SingletonBase<ObjectPoolManager>
 /// </summary>
 public class PooledVFXAutoRelease : MonoBehaviour
 {
-    private IObjectPool<GameObject> _pool;
-    private GameObject _rootObject;
-    private bool _isReleased = false;
+    private IObjectPool<GameObject> pool;
+    private GameObject rootObject;
+    private bool isReleased = false;
 
     public void Initialize(IObjectPool<GameObject> pool, GameObject rootObject = null)
     {
-        _pool = pool;
-        _rootObject = rootObject != null ? rootObject : gameObject;
+        this.pool = pool;
+        this.rootObject = rootObject != null ? rootObject : gameObject;
 
         // 強制將主粒子系統的 Stop Action 設為 Callback，以觸發 OnParticleSystemStopped
         if (TryGetComponent<ParticleSystem>(out ParticleSystem ps))
@@ -332,7 +332,7 @@ public class PooledVFXAutoRelease : MonoBehaviour
 
     private void OnEnable()
     {
-        _isReleased = false;
+        isReleased = false;
     }
 
     public void SetAutoReleaseDelay(float delay)
@@ -346,11 +346,11 @@ public class PooledVFXAutoRelease : MonoBehaviour
 
     public void Release()
     {
-        if (!_isReleased && _pool != null)
+        if (!isReleased && pool != null)
         {
-            _isReleased = true;
+            isReleased = true;
             CancelInvoke(nameof(Release));
-            _pool.Release(_rootObject != null ? _rootObject : gameObject);
+            pool.Release(rootObject != null ? rootObject : gameObject);
         }
     }
 

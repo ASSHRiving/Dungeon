@@ -32,26 +32,6 @@ public class WeaponDataSO : ScriptableObject, IItem
     [Tooltip("命中特效 Prefab (例如 HolyHitImpact)")]
     public GameObject hitImpactPrefab;
 
-    #region 向下相容屬性存取
-    public float damage => GetStatBonusValue(StatType.AttackDamage);
-    public float moveSpeedModifier => GetStatBonusValue(StatType.MoveSpeed);
-    public float critRate => GetStatBonusValue(StatType.CritRate);
-
-    public float GetStatBonusValue(StatType type)
-    {
-        if (statBonuses == null) return 0f;
-        float total = 0f;
-        for (int i = 0; i < statBonuses.Count; i++)
-        {
-            if (statBonuses[i].statType == type)
-            {
-                total += statBonuses[i].value;
-            }
-        }
-        return total;
-    }
-    #endregion
-
     // IItem 介面實作
     public string ItemName => weaponName;
     public Sprite ItemIcon => itemIcon;

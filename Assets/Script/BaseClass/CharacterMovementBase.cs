@@ -4,8 +4,8 @@ public abstract class CharacterMovementBase : MonoBehaviour
     //參考腳本
     protected Animator animator;
     protected CharacterController control;
-    protected CharacterInputSystem _inputSystem;
-    protected CharacterCombatBase _combat;
+    protected CharacterInputSystem inputSystem;
+    protected CharacterCombatBase combat;
     protected AnimationEventHelper animationEventHelper;
     //==========================================================================
 
@@ -51,8 +51,8 @@ public abstract class CharacterMovementBase : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         control = GetComponent<CharacterController>();
-        _inputSystem = GetComponent<CharacterInputSystem>();
-        _combat = GetComponentInChildren<CharacterCombatBase>();
+        inputSystem = GetComponent<CharacterInputSystem>();
+        combat = GetComponentInChildren<CharacterCombatBase>();
         animationEventHelper = GetComponentInChildren<AnimationEventHelper>();
         if(animationEventHelper != null)
         {

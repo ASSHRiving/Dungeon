@@ -15,15 +15,15 @@ MonoBehaviour:
   enemyID: Boss_StoneGiant
   enemyName: "\u6DF1\u6DF5\u77F3\u5DE8\u4EBA"
   isBoss: 1
-  baseMaxHealth: 600
+  baseMaxHealth: 700
   baseDamage: 28
-  baseShield: 15
+  baseShield: 60
   baseMoveSpeed: 2.8
   basePoise: 250
   baseGold: 60
-  healthGrowthPerLevel: 0.25
+  healthGrowthPerLevel: 0.45
   damageGrowthPerLevel: 0.15
-  goldGrowthPerLevel: 0.2
+  goldGrowthPerLevel: 0.15
   eliteHealthMult: 2.2
   eliteDamageMult: 1.35
   eliteGoldMult: 3

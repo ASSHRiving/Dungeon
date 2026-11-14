@@ -2533,17 +2533,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4523940521286639132, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
-      propertyPath: gold
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4523940521286639132, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
-      propertyPath: itemList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4523940521286639132, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
-      propertyPath: 'itemList.Array.data[0]'
+      propertyPath: chestPool
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: e57190aed17d46ad81941242c58e9269, type: 2}
     - target: {fileID: 7730201026826768803, guid: 33b77ed869a9e6045be815d902bf99b4, type: 3}
       propertyPath: m_Name
       value: Chest

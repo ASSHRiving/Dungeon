@@ -177,19 +177,27 @@ public class GameManager : SingletonBase<GameManager>
             CharacterStats stats = playerObj.GetComponent<CharacterStats>();
             if (stats != null)
             {
-                LastRunResult.hp = stats.maxHealth;
-                LastRunResult.def = stats.shield;
-                LastRunResult.atk = stats.damage;
+                LastRunResult.hp = stats.MaxHealth;
+                LastRunResult.def = stats.Shield;
+                LastRunResult.atk = stats.AttackDamage;
             }
             
             CharacterCombatBase combat = playerObj.GetComponentInChildren<CharacterCombatBase>();
             if (combat != null && combat.currentWeapon != null)
             {
+                WeaponDataSO wData = combat.currentWeapon.WeaponData;
+                string typeLabel = wData != null
+                    ? (wData.weaponType == 1 ? "太刀" : wData.weaponType == 2 ? "重武器" : "單手劍")
+                    : "武器";
+                string statsSummary = wData != null
+                    ? wData.GetTooltipStatsText().Replace("\r\n", " | ").Replace("\n", " | ")
+                    : "";
+
                 LastRunResult.mainWeapon = new EquipmentSlotData
                 {
                     slotCategory = "主武器",
                     itemName = combat.currentWeapon.weaponName,
-                    subInfo = $"單手劍 | 攻擊 +{combat.currentWeapon.damage}",
+                    subInfo = string.IsNullOrEmpty(statsSummary) ? typeLabel : $"{typeLabel} | {statsSummary}",
                     icon = combat.currentWeapon.itemIcon
                 };
             }

@@ -14,25 +14,25 @@ public class GolemImpactController : MonoBehaviour
     public float slamForce = 1.2f;           // 槌地 Impulse 力道倍率
     public float stompForce = 0.45f;         // 踩踏 Impulse 力道倍率
 
-    private ParticleSystem[] _systems;
-    private float _timer;
+    private ParticleSystem[] systems;
+    private float timer;
 
     private void Awake()
     {
-        _systems = GetComponentsInChildren<ParticleSystem>(true);
+        systems = GetComponentsInChildren<ParticleSystem>(true);
     }
 
     private void OnEnable()
     {
-        _timer = 0f;
+        timer = 0f;
 
         // 播所有粒子
-        if (_systems != null)
+        if (systems != null)
         {
-            for (int i = 0; i < _systems.Length; i++)
+            for (int i = 0; i < systems.Length; i++)
             {
-                _systems[i].Clear(true);
-                _systems[i].Play(true);
+                systems[i].Clear(true);
+                systems[i].Play(true);
             }
         }
 
@@ -46,10 +46,10 @@ public class GolemImpactController : MonoBehaviour
 
     private void Update()
     {
-        _timer += Time.deltaTime;
+        timer += Time.deltaTime;
 
         // 2秒後自然銷毀
-        if (_timer >= 2.0f)
+        if (timer >= 2.0f)
         {
             Destroy(gameObject);
         }

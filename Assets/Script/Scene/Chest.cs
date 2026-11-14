@@ -7,6 +7,11 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField] public string interactableName = "Chest";
     string IInteractable.interactableName => interactableName;
     [SerializeField] private Transform dropPoint;
+
+    [Header("獎勵池設定 (優先使用 ScriptableObject)")]
+    [SerializeField] private ChestRewardPoolSO chestPool;
+
+    [Header("舊版手動設定 (未指派 ChestPool 時作為備援)")]
     [SerializeField] private List<GameObject> itemList;
     [SerializeField] private int gold;
     private GameObject itemPrefab;
@@ -20,67 +25,108 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip openSound;
 
-    
     private void Awake()
     {
-        if(itemList != null)
+        if (itemList != null && itemList.Count > 0)
         {
             itemPrefab = itemList[Random.Range(0, itemList.Count)];
         }
         animator = GetComponentInChildren<Animator>();
         audioSource = GetComponent<AudioSource>();
     }
+
     public void Interact(Transform player)
     {
-        if (!isOpen)
+        if (isOpen) return;
+
+        isOpen = true;
+        if (animator != null)
         {
-            isOpen = true;
             animator.SetBool("IsOpen", true);
-            if(openSound != null)
-            {
-                audioSource.PlayOneShot(openSound, 3f);
-            }
-            StartCoroutine(Wait());
-            foreach (Transform child in transform)
-            {
-                child.gameObject.layer = LayerMask.NameToLayer("UnInteractable");
-            }
-            gameObject.layer = LayerMask.NameToLayer("UnInteractable");
         }
+        if (audioSource != null && openSound != null)
+        {
+            audioSource.PlayOneShot(openSound, 3f);
+        }
+        StartCoroutine(Wait());
+        foreach (Transform child in transform)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("UnInteractable");
+        }
+        gameObject.layer = LayerMask.NameToLayer("UnInteractable");
     }
+
     private void DropItem()
     {
-        for (int i = 0; i < gold; i++)
-        {
-            // 隨機噴散的位移
-            Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0.5f, Random.Range(-0.5f, 0.5f));
-            
-            // 🎯 直接跟你的 Singleton 拿金幣！
-            GameObject coin = ObjectPoolManager.Instance.GetCoin(dropPoint.position + randomOffset, Quaternion.identity);
+        Transform spawnOrigin = dropPoint != null ? dropPoint : transform;
 
-            // (可選) 給金幣一個微小的向外爆發力
+        if (chestPool != null)
+        {
+            int currentLevel = GameManager.Instance != null ? GameManager.Instance.currentLevel : 1;
+            SpawnCoins(chestPool.RollGold(currentLevel), spawnOrigin);
+
+            List<ChestRewardEntry> drops = chestPool.RollDrops(currentLevel);
+            for (int i = 0; i < drops.Count; i++)
+            {
+                ChestRewardEntry entry = drops[i];
+                if (entry == null || entry.itemPrefab == null) continue;
+
+                GameObject itemGO = Instantiate(entry.itemPrefab, spawnOrigin.position, spawnOrigin.rotation);
+                if (itemGO.TryGetComponent<Equipment>(out var equipment))
+                {
+                    int tierToSet = entry.targetTier >= 0
+                        ? entry.targetTier
+                        : chestPool.RollEquipmentTier(currentLevel);
+                    equipment.SetIndex(tierToSet);
+                }
+                LaunchItem(itemGO, spawnOrigin);
+            }
+            return;
+        }
+
+        SpawnCoins(gold, spawnOrigin);
+        if (itemPrefab != null)
+        {
+            GameObject itemGO = Instantiate(itemPrefab, spawnOrigin.position, spawnOrigin.rotation);
+            LaunchItem(itemGO, spawnOrigin);
+        }
+    }
+
+    private void SpawnCoins(int coinCount, Transform spawnOrigin)
+    {
+        for (int i = 0; i < coinCount; i++)
+        {
+            Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0.5f, Random.Range(-0.5f, 0.5f));
+            GameObject coin = ObjectPoolManager.Instance.GetCoin(spawnOrigin.position + randomOffset, Quaternion.identity);
+
             if (coin != null && coin.TryGetComponent<Rigidbody>(out Rigidbody coinRb))
             {
+                coinRb.linearVelocity = Vector3.zero;
+                coinRb.angularVelocity = Vector3.zero;
                 Vector3 force = new Vector3(Random.Range(-2f, 2f), 4f, Random.Range(-2f, 2f));
                 coinRb.AddForce(force, ForceMode.Impulse);
             }
         }
+    }
 
-        if (itemPrefab == null || dropPoint == null)return;
+    private void LaunchItem(GameObject itemGO, Transform spawnOrigin)
+    {
+        if (itemGO == null) return;
 
-        GameObject itemGO = Instantiate(itemPrefab, dropPoint.position, dropPoint.rotation);
         Rigidbody rb = itemGO.GetComponentInChildren<Rigidbody>();
-        if(rb != null)
+        if (rb != null)
         {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+
             float randomRightForce = Random.Range(-1.5f, 1.5f);
-            Vector3 dir = (dropPoint.up * upForce) + (dropPoint.forward * forwardForce) + (dropPoint.right * randomRightForce);
-            //Debug.Log($" 正在對 {itemGO.name} 施加力道: {dir}，此時 isKinematic = {rb.isKinematic}");
+            Vector3 dir = (spawnOrigin.up * upForce) + (spawnOrigin.forward * forwardForce) + (spawnOrigin.right * randomRightForce);
             rb.AddForce(dir, ForceMode.Impulse);
             float randomTorque = Random.Range(-0.05f, 0.05f);
             rb.AddTorque(new Vector3(randomTorque, randomTorque, randomTorque), ForceMode.Impulse);
-
         }
     }
+
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.2f);

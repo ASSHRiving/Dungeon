@@ -15,15 +15,15 @@ MonoBehaviour:
   enemyID: Skeleton_Warrior
   enemyName: "\u9AB7\u9ACF\u6230\u58EB"
   isBoss: 0
-  baseMaxHealth: 80
+  baseMaxHealth: 100
   baseDamage: 12
-  baseShield: 0
+  baseShield: 25
   baseMoveSpeed: 3.2
   basePoise: 80
-  baseGold: 5
-  healthGrowthPerLevel: 0.15
+  baseGold: 7
+  healthGrowthPerLevel: 0.65
   damageGrowthPerLevel: 0.08
-  goldGrowthPerLevel: 0.1
+  goldGrowthPerLevel: 0.15
   eliteHealthMult: 2
   eliteDamageMult: 1.3
   eliteGoldMult: 3

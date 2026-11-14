@@ -21,12 +21,12 @@ public class SkeletonMageProjectile3D : Projectile
     public Light spellPointLight;          // 動態 3D 點光源
     public GameObject impactVfx3DPrefab;   // 3D 命中爆發 Prefab
 
-    private Vector3 _startPos;
-    private Vector3 _controlPos;
-    private Vector3 _targetPos;
-    private float _flightDuration;
-    private float _elapsed;
-    private bool _hasImpacted;
+    private Vector3 startPos;
+    private Vector3 controlPos;
+    private Vector3 targetPos;
+    private float flightDuration;
+    private float elapsed;
+    private bool hasImpacted;
 
     public override void Setup(Transform _attacker, Transform _target, AttackData _attackData)
     {
@@ -39,16 +39,16 @@ public class SkeletonMageProjectile3D : Projectile
 
     private void InitTrajectory(Vector3 targetPosition)
     {
-        _startPos = transform.position;
-        _targetPos = targetPosition;
-        float dist = Vector3.Distance(_startPos, _targetPos);
-        _flightDuration = Mathf.Max(0.1f, dist / Mathf.Max(1f, speed));
+        startPos = transform.position;
+        targetPos = targetPosition;
+        float dist = Vector3.Distance(startPos, targetPos);
+        flightDuration = Mathf.Max(0.1f, dist / Mathf.Max(1f, speed));
 
         // 計算 3D 二階貝茲曲線控制點
-        Vector3 mid = (_startPos + _targetPos) * 0.5f;
-        Vector3 dir = (_targetPos - _startPos).normalized;
+        Vector3 mid = (startPos + targetPos) * 0.5f;
+        Vector3 dir = (targetPos - startPos).normalized;
         Vector3 right = Vector3.Cross(dir, Vector3.up).normalized;
-        _controlPos = mid + Vector3.up * arcHeight + right * sideCurveOffset;
+        controlPos = mid + Vector3.up * arcHeight + right * sideCurveOffset;
 
         if (trailHelixA != null)
         {
@@ -61,24 +61,24 @@ public class SkeletonMageProjectile3D : Projectile
             trailHelixB.Clear();
         }
 
-        _elapsed = 0f;
-        _hasImpacted = false;
+        elapsed = 0f;
+        hasImpacted = false;
     }
 
     protected override void UpdateProjectile()
     {
-        if (_hasImpacted) return;
+        if (hasImpacted) return;
 
         // 1. 飛行位移：支援拋物線弧線 (arcHeight > 0) 或傳統直線推進
         if (arcHeight > 0.01f || Mathf.Abs(sideCurveOffset) > 0.01f)
         {
-            _elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(_elapsed / _flightDuration);
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / flightDuration);
 
             float invT = 1f - t;
-            Vector3 nextPos = (invT * invT) * _startPos
-                            + (2f * invT * t) * _controlPos
-                            + (t * t) * _targetPos;
+            Vector3 nextPos = (invT * invT) * startPos
+                            + (2f * invT * t) * controlPos
+                            + (t * t) * targetPos;
 
             Vector3 velocityDir = nextPos - transform.position;
             if (velocityDir.sqrMagnitude > 0.00001f)
@@ -99,7 +99,7 @@ public class SkeletonMageProjectile3D : Projectile
             // 飛抵目標座標落地時自動引爆
             if (t >= 1f)
             {
-                OnProjectileHit(_targetPos, Vector3.up);
+                OnProjectileHit(targetPos, Vector3.up);
             }
             */
         }
@@ -118,8 +118,8 @@ public class SkeletonMageProjectile3D : Projectile
 
     protected override void OnProjectileHit(Vector3 hitPoint, Vector3 hitNormal)
     {
-        if (_hasImpacted) return;
-        _hasImpacted = true;
+        if (hasImpacted) return;
+        hasImpacted = true;
 
         // 1. 生成 3D 命中爆發特效
         if (impactVfx3DPrefab != null)

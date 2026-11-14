@@ -28,6 +28,7 @@ public static class MyTools
 
         Quaternion newRotation = Quaternion.LookRotation(targetDirection.normalized);
         
-        return  Quaternion.Lerp(self.rotation,newRotation,lerpTime * Time.deltaTime);
+        float t = 1f - Mathf.Exp(-Mathf.Max(0f, lerpTime) * Time.deltaTime);
+        return Quaternion.Slerp(self.rotation, newRotation, t);
     }
 }

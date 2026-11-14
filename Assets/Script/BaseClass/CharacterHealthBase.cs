@@ -78,6 +78,17 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     }
 
     /// <summary>
+    /// 僅同步靜態血條與文字顯示，不觸發扣血動畫或 Boss 事件（供初始化階段使用）
+    /// </summary>
+    protected void InitStaticHealthUI(float initialFill)
+    {
+        initialFill = Mathf.Clamp01(initialFill);
+        if (healthBar != null) healthBar.fillAmount = initialFill;
+        if (healthBarBuffer != null) healthBarBuffer.fillAmount = initialFill;
+        if (healthText != null) healthText.SetText("{0:0}/{1:0}", currentHealth, maxHealth);
+    }
+
+    /// <summary>
     /// 動態綁定/重新綁定中央數值大腦 (供 EnemyFactory 生成怪物時注入)
     /// </summary>
     public void BindStats(CharacterStats newStats)
@@ -93,9 +104,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
             maxHealth = stats.MaxHealth;
             currentHealth = stats.CurrentHealth;
             float initialFill = maxHealth > 0 ? currentHealth / maxHealth : 1f;
-            if (healthBar != null) healthBar.fillAmount = initialFill;
-            if (healthText != null) healthText.text = $"{currentHealth}/{maxHealth}";
-            UpdateHealthBar(initialFill);
+            InitStaticHealthUI(initialFill);
         }
     }
 
@@ -112,9 +121,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         }
 
         float initialFill = maxHealth > 0 ? currentHealth / maxHealth : 1f;
-        if (healthBar != null) healthBar.fillAmount = initialFill;
-        if (healthText != null) healthText.text = $"{Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
-        UpdateHealthBar(initialFill);
+        InitStaticHealthUI(initialFill);
     }
 
     protected virtual void OnDestroy()

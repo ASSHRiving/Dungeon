@@ -1006,9 +1006,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6537242325656075808, guid: 98b84760283dd92468f2bcff8920e4ef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6745933914434436675}
-    - targetCorrespondingSourceObject: {fileID: 6537242325656075808, guid: 98b84760283dd92468f2bcff8920e4ef, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2277951209324463589}
   m_SourcePrefab: {fileID: 100100000, guid: 98b84760283dd92468f2bcff8920e4ef, type: 3}
 --- !u!4 &3537463449150816918 stripped
 Transform:
@@ -1045,15 +1042,15 @@ MonoBehaviour:
   _audio: {fileID: 0}
   hitboxes:
   - hitboxName: "\u4E3B\u6B66\u5668"
-    center: {fileID: 0}
-    radius: 0
+    center: {fileID: 3491899481491788577}
+    radius: 0.6
   - hitboxName: "\u53F3\u8173"
     center: {fileID: 5765754901337987584}
     radius: 0.4
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
-  currentWeapon: {fileID: 2277951209324463589}
+  currentWeapon: {fileID: 0}
   damage: 0
   critRate: 0
   arrowPrefab: {fileID: 0}
@@ -1078,32 +1075,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5045c66f5b8114842801b4e2a0ae8903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationEventHelper
---- !u!114 &2277951209324463589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8789866944177982342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d38ab4e9184f41d418d1d1c035762aa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
-  weaponName: "\u534A\u7378\u4EBA\u91CD\u528D"
-  damage: 50
-  weaponType: 0
-  combo: 0
-  runSpeed: 7
-  walkSpeed: 3
-  attackPoint: {fileID: 3491899481491788577}
-  attackRadius: 0.6
-  weaponSoundType: 1
-  overrideController: {fileID: 0}
-  weaponTrails: []
-  weaponEffect: {fileID: 0}
-  hitImpactPrefab: {fileID: 0}
-  bladeStartRef: {fileID: 0}
-  bladeTipRef: {fileID: 0}
-  gemPointLight: {fileID: 0}
-  hitStopDuration: 0.045

@@ -758,7 +758,7 @@ MonoBehaviour:
   - {fileID: 3428748231820417666}
   lootPrefab: {fileID: 0}
   gold: 5
-  isBoss: 1
+  isBoss: 0
   bossName: "\u6DF1\u6DF5\u6CD5\u5E2B"
   showBossBarOnStart: 1
 --- !u!114 &1922482677057653861
@@ -1103,9 +1103,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a8d9674eb2fcd244ea544c2c80a68870, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6968146738144330041}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a8d9674eb2fcd244ea544c2c80a68870, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1960138576669695287}
   m_SourcePrefab: {fileID: 100100000, guid: a8d9674eb2fcd244ea544c2c80a68870, type: 3}
 --- !u!4 &2449546667138903031 stripped
 Transform:
@@ -1159,7 +1156,7 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
-  currentWeapon: {fileID: 1960138576669695287}
+  currentWeapon: {fileID: 0}
   damage: 0
   critRate: 0
   projectilePrefab: {fileID: 5500239429528231148, guid: aad1f044ede12604a85a43b29038e70c, type: 3}
@@ -1184,36 +1181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5045c66f5b8114842801b4e2a0ae8903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationEventHelper
---- !u!114 &1960138576669695287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3077463895850234189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d38ab4e9184f41d418d1d1c035762aa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
-  weaponName: "\u6CD5\u6756"
-  itemIcon: {fileID: 0}
-  damage: 10
-  weaponType: 0
-  combo: 0
-  runSpeed: 7
-  walkSpeed: 3
-  attackPoint: {fileID: 0}
-  attackRadius: 0
-  weaponSoundType: 10
-  overrideController: {fileID: 0}
-  weaponTrails: []
-  weaponEffect: {fileID: 0}
-  hitImpactPrefab: {fileID: 0}
-  bladeStartRef: {fileID: 0}
-  bladeTipRef: {fileID: 0}
-  gemPointLight: {fileID: 0}
-  hitStopDuration: 0.045
 --- !u!4 &7086730889023158365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4310770610479270847, guid: a8d9674eb2fcd244ea544c2c80a68870, type: 3}

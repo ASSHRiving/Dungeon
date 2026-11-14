@@ -10,39 +10,39 @@ public class TeleportSmokeVfxController : MonoBehaviour
     public float initialLightIntensity = 4.5f;
     public float lightDecaySpeed = 10.0f;
 
-    private ParticleSystem[] _systems;
-    private IObjectPool<TeleportSmokeVfxController> _pool;
-    private float _elapsed;
+    private ParticleSystem[] systems;
+    private IObjectPool<TeleportSmokeVfxController> pool;
+    private float elapsed;
 
     private void Awake()
     {
-        _systems = GetComponentsInChildren<ParticleSystem>(true);
+        systems = GetComponentsInChildren<ParticleSystem>(true);
     }
 
-    public void SetPool(IObjectPool<TeleportSmokeVfxController> pool) => _pool = pool;
+    public void SetPool(IObjectPool<TeleportSmokeVfxController> pool) => this.pool = pool;
 
     private void OnEnable()
     {
-        _elapsed = 0f;
+        elapsed = 0f;
         if (flashLight != null)
         {
             flashLight.intensity = initialLightIntensity;
             flashLight.enabled = true;
         }
 
-        if (_systems != null)
+        if (systems != null)
         {
-            for (int i = 0; i < _systems.Length; i++)
+            for (int i = 0; i < systems.Length; i++)
             {
-                _systems[i].Clear(true);
-                _systems[i].Play(true);
+                systems[i].Clear(true);
+                systems[i].Play(true);
             }
         }
     }
 
     private void Update()
     {
-        _elapsed += Time.deltaTime;
+        elapsed += Time.deltaTime;
 
         if (flashLight != null && flashLight.enabled)
         {
@@ -53,9 +53,9 @@ public class TeleportSmokeVfxController : MonoBehaviour
             }
         }
 
-        if (_pool != null && _elapsed >= 1.5f)
+        if (pool != null && elapsed >= 1.5f)
         {
-            _pool.Release(this);
+            pool.Release(this);
         }
     }
 }

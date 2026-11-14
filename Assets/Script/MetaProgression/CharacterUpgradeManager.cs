@@ -184,26 +184,6 @@ public class CharacterUpgradeManager : SingletonBase<CharacterUpgradeManager>
         return true;
     }
 
-    #region 舊版 API 相容轉發 (確保舊程式碼調用不報錯)
-    public int GetUpgradeLevel(int characterID, UpgradeType type) => GetCharacterLevel(characterID);
-    public int GetUpgradeCost(int characterID, UpgradeType type) => GetNextUpgradeCost(characterID);
-    public bool CanUpgrade(int characterID, UpgradeType type) => CanUpgrade(characterID);
-    public bool TryUpgrade(int characterID, UpgradeType type) => TryUpgrade(characterID);
-
-    public UpgradeInfo GetUpgradeInfo(int characterID, UpgradeType type)
-    {
-        int curLevel = GetCharacterLevel(characterID);
-        int maxLvl = upgradeConfig != null ? upgradeConfig.maxLevel : 10;
-        int cost = upgradeConfig != null ? upgradeConfig.GetCostForLevel(curLevel) : 0;
-        float curBonus = upgradeConfig != null ? upgradeConfig.GetStatBonus(type, curLevel) : 0f;
-        float nextBonus = upgradeConfig != null ? upgradeConfig.GetStatBonus(type, curLevel + 1) : 0f;
-        bool canAfford = MetaProgressionManager.Instance != null && MetaProgressionManager.Instance.HasCurrency(cost);
-        string name = (type == UpgradeType.Health) ? "生命上限" : (type == UpgradeType.Defense ? "防禦護甲" : "基礎攻擊");
-
-        return new UpgradeInfo(type, name, curLevel, maxLvl, cost, curBonus, nextBonus, canAfford);
-    }
-    #endregion
-
     /// <summary>
     /// 將該角色的局外屬性加成注入到遊戲內的 CharacterStats (供 StartRoom 或角色生成時呼叫)
     /// </summary>

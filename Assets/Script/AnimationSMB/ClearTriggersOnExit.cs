@@ -12,7 +12,7 @@ public class ClearTriggersOnExit : StateMachineBehaviour
         if(combat != null)
         {
             combat.canAttack = true;
-            combat.currentWeapon.combo = 0;
+            if (combat.currentWeapon != null) combat.currentWeapon.combo = 0;
         }
         foreach (string triggerName in triggerNamesToReset)
         {

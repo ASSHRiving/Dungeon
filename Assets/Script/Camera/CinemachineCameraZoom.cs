@@ -54,9 +54,9 @@ namespace Dungeon.CameraControl
         [Tooltip("當滑鼠游標位於 UI 元素上方時，忽略滾輪縮放")]
         [SerializeField] private bool ignoreWhenPointerOverUI = true;
 
-        private float _targetDistance;
-        private float _currentDistance;
-        private ZoomMode _activeMode;
+        private float targetDistance;
+        private float currentDistance;
+        private ZoomMode activeMode;
 
         private void Awake()
         {
@@ -82,24 +82,24 @@ namespace Dungeon.CameraControl
             if (follow == null) follow = GetComponent<CinemachineFollow>();
 
             // 決定運行時模式
-            _activeMode = zoomMode;
-            if (_activeMode == ZoomMode.AutoDetect)
+            activeMode = zoomMode;
+            if (activeMode == ZoomMode.AutoDetect)
             {
                 if (orbitalFollow != null)
                 {
-                    _activeMode = ZoomMode.OrbitalFollowRadius;
+                    activeMode = ZoomMode.OrbitalFollowRadius;
                 }
                 else if (thirdPersonFollow != null)
                 {
-                    _activeMode = ZoomMode.ThirdPersonDistance;
+                    activeMode = ZoomMode.ThirdPersonDistance;
                 }
                 else if (follow != null)
                 {
-                    _activeMode = ZoomMode.FollowOffset;
+                    activeMode = ZoomMode.FollowOffset;
                 }
                 else
                 {
-                    _activeMode = ZoomMode.FieldOfView;
+                    activeMode = ZoomMode.FieldOfView;
                 }
             }
 
@@ -108,37 +108,37 @@ namespace Dungeon.CameraControl
 
         private void SyncCurrentDistance()
         {
-            switch (_activeMode)
+            switch (activeMode)
             {
                 case ZoomMode.OrbitalFollowRadius:
                     if (orbitalFollow != null)
                     {
-                        _currentDistance = orbitalFollow.Radius;
-                        _targetDistance = _currentDistance;
+                        currentDistance = orbitalFollow.Radius;
+                        targetDistance = currentDistance;
                     }
                     break;
 
                 case ZoomMode.ThirdPersonDistance:
                     if (thirdPersonFollow != null)
                     {
-                        _currentDistance = thirdPersonFollow.CameraDistance;
-                        _targetDistance = _currentDistance;
+                        currentDistance = thirdPersonFollow.CameraDistance;
+                        targetDistance = currentDistance;
                     }
                     break;
 
                 case ZoomMode.FollowOffset:
                     if (follow != null)
                     {
-                        _currentDistance = follow.FollowOffset.magnitude;
-                        _targetDistance = _currentDistance;
+                        currentDistance = follow.FollowOffset.magnitude;
+                        targetDistance = currentDistance;
                     }
                     break;
 
                 case ZoomMode.FieldOfView:
                     if (cinemachineCamera != null)
                     {
-                        _currentDistance = cinemachineCamera.Lens.FieldOfView;
-                        _targetDistance = _currentDistance;
+                        currentDistance = cinemachineCamera.Lens.FieldOfView;
+                        targetDistance = currentDistance;
                     }
                     break;
             }
@@ -158,21 +158,21 @@ namespace Dungeon.CameraControl
             {
                 // 向上滾通常為正值 (拉近)，向下滾為負值 (拉遠)
                 float direction = invertScroll ? scrollDelta : -scrollDelta;
-                _targetDistance += direction * zoomStep;
-                _targetDistance = Mathf.Clamp(_targetDistance, minDistance, maxDistance);
+                targetDistance += direction * zoomStep;
+                targetDistance = Mathf.Clamp(targetDistance, minDistance, maxDistance);
             }
 
             // 平滑插值更新相機
-            if (Mathf.Abs(_currentDistance - _targetDistance) > 0.001f)
+            if (Mathf.Abs(currentDistance - targetDistance) > 0.001f)
             {
-                _currentDistance = Mathf.Lerp(_currentDistance, _targetDistance, smoothSpeed * Time.deltaTime);
-                ApplyDistance(_currentDistance);
+                currentDistance = Mathf.Lerp(currentDistance, targetDistance, smoothSpeed * Time.deltaTime);
+                ApplyDistance(currentDistance);
             }
         }
 
         private void ApplyDistance(float distance)
         {
-            switch (_activeMode)
+            switch (activeMode)
             {
                 case ZoomMode.OrbitalFollowRadius:
                     if (orbitalFollow != null)
@@ -240,7 +240,7 @@ namespace Dungeon.CameraControl
         /// </summary>
         public void SetTargetDistance(float distance)
         {
-            _targetDistance = Mathf.Clamp(distance, minDistance, maxDistance);
+            targetDistance = Mathf.Clamp(distance, minDistance, maxDistance);
         }
 
         /// <summary>
@@ -248,9 +248,9 @@ namespace Dungeon.CameraControl
         /// </summary>
         public void ResetToDefault(float distance)
         {
-            _targetDistance = Mathf.Clamp(distance, minDistance, maxDistance);
-            _currentDistance = _targetDistance;
-            ApplyDistance(_currentDistance);
+            targetDistance = Mathf.Clamp(distance, minDistance, maxDistance);
+            currentDistance = targetDistance;
+            ApplyDistance(currentDistance);
         }
     }
 }

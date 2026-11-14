@@ -6,8 +6,6 @@ using System;
 public class CharacterEquipment : MonoBehaviour
 {
     private Dictionary<Equipment.EquipmentType, GameObject> equippedItems = new Dictionary<Equipment.EquipmentType, GameObject>();
-    private CharacterCombatBase combat;
-    private CharacterHealthBase health;
     private CharacterStats stats;
 
     [SerializeField] private Transform equipmentHolder;
@@ -25,8 +23,6 @@ public class CharacterEquipment : MonoBehaviour
 
     private void Awake()
     {
-        combat = GetComponentInChildren<CharacterCombatBase>();
-        health = GetComponentInChildren<CharacterHealthBase>();
         stats = GetComponent<CharacterStats>() ?? GetComponentInParent<CharacterStats>() ?? GetComponentInChildren<CharacterStats>();
 
         // 初始化字典，確保每個裝備類型都有一個對應的值
@@ -110,71 +106,26 @@ public class CharacterEquipment : MonoBehaviour
 
     private void EquipStatsUpdate(GameObject item)
     {
-        Equipment equipment = item.GetComponent<Equipment>();
-        if (equipment == null) return;
+        if (stats == null) return;
 
-        if (stats != null)
+        Equipment equipment = item.GetComponent<Equipment>();
+        if (equipment == null || equipment.EquipmentData == null || equipment.EquipmentData.statBonuses == null) return;
+
+        foreach (var bonus in equipment.EquipmentData.statBonuses)
         {
-            // 若裝備資料有配置動態屬性清單，一口氣遍歷註冊！
-            if (equipment.EquipmentData != null && equipment.EquipmentData.statBonuses != null && equipment.EquipmentData.statBonuses.Count > 0)
+            if (!Mathf.Approximately(bonus.value, 0f))
             {
-                foreach (var bonus in equipment.EquipmentData.statBonuses)
-                {
-                    if (!Mathf.Approximately(bonus.value, 0f))
-                    {
-                        stats.AddModifier(new StatModifier(bonus.statType, bonus.modType, bonus.value, item));
-                    }
-                }
+                stats.AddModifier(new StatModifier(bonus.statType, bonus.modType, bonus.value, item));
             }
-            else
-            {
-                // 回退保底：若尚未設定 statBonuses，則從舊有屬性註冊
-                if (equipment.health > 0)
-                    stats.AddModifier(new StatModifier(StatType.MaxHealth, StatModType.Flat, equipment.health, item));
-                if (equipment.shield > 0)
-                    stats.AddModifier(new StatModifier(StatType.Shield, StatModType.Flat, equipment.shield, item));
-                if (equipment.damage > 0)
-                    stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, equipment.damage, item));
-                if (equipment.critRate > 0)
-                    stats.AddModifier(new StatModifier(StatType.CritRate, StatModType.Flat, equipment.critRate, item));
-            }
-        }
-        else
-        {
-            // 若無 stats 組件則安全 fallback
-            if (combat != null) combat.damage += equipment.damage;
-            if (health != null)
-            {
-                health.shield += equipment.shield;
-                health.ModifyMaxHealth(health.maxHealth + equipment.health);
-            }
-            if (combat != null) combat.critRate += equipment.critRate;
         }
     }
 
     private void UnequipStatsUpdate(GameObject item)
     {
-        if (item == null) return;
+        if (item == null || stats == null) return;
 
-        if (stats != null)
-        {
-            // 直接以該裝備實體為 source，一鍵清空其所有加成，徹底消除數值殘留或浮點數漂移！
-            stats.RemoveAllModifiersFromSource(item);
-        }
-        else
-        {
-            Equipment equipment = item.GetComponent<Equipment>();
-            if (equipment != null)
-            {
-                if (combat != null) combat.damage -= equipment.damage;
-                if (health != null)
-                {
-                    health.shield -= equipment.shield;
-                    health.ModifyMaxHealth(health.maxHealth - equipment.health);
-                }
-                if (combat != null) combat.critRate -= equipment.critRate;
-            }
-        }
+        // 直接以該裝備實體為 source，一鍵清空其所有加成，徹底消除數值殘留或浮點數漂移！
+        stats.RemoveAllModifiersFromSource(item);
     }
 
     private void UpdateRenderer(Equipment.EquipmentType type, Mesh newMesh)

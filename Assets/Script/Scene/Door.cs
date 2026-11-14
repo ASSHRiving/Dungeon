@@ -6,10 +6,10 @@ public class Door : MonoBehaviour, IInteractable
     string IInteractable.interactableName => interactableName;
     private bool openIn = false;
     private bool openOut = false;
-    private Animator _animator;
+    private Animator animator;
     void Start()
     {
-        _animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     public void Interact(Transform player)
@@ -22,21 +22,21 @@ public class Door : MonoBehaviour, IInteractable
             if(dot > 0)
             {
                 openIn = true;
-                _animator.SetBool("OpenIn", openIn);
+                animator.SetBool("OpenIn", openIn);
             }
             else
             {
                 openOut = true;
-                _animator.SetBool("OpenOut", openOut);
+                animator.SetBool("OpenOut", openOut);
             }
         }else if(openIn == true)
         {
             openIn = false;
-            _animator.SetBool("OpenIn", openIn);
+            animator.SetBool("OpenIn", openIn);
         }else if(openOut == true)
         {
             openOut = false;
-            _animator.SetBool("OpenOut", openOut);
+            animator.SetBool("OpenOut", openOut);
         }
     }
 }

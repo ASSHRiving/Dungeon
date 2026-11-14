@@ -44,19 +44,19 @@ public class RoyalSwordVFXController : MonoBehaviour
     [SerializeField] private float ScalePulseAmount = 0.15f;  // 尺寸呼吸縮放 (±15%)
 
     // 內部自動配對的材質球實例列表
-    private readonly List<Material> _gemMaterials = new List<Material>();
-    private readonly List<Material> _runeMaterials = new List<Material>();
+    private readonly List<Material> gemMaterials = new List<Material>();
+    private readonly List<Material> runeMaterials = new List<Material>();
 
     private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
     private static readonly int ColorId = Shader.PropertyToID("_Color");
     private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
 
-    private Vector3 _gemInitialLocalPos;
-    private Vector3 _gemInitialLocalScale;
-    private bool _gemInitialized = false;
+    private Vector3 gemInitialLocalPos;
+    private Vector3 gemInitialLocalScale;
+    private bool gemInitialized = false;
 
-    private float _currentOverdrive = 1.0f;
-    private float _targetOverdrive = 1.0f;
+    private float currentOverdrive = 1.0f;
+    private float targetOverdrive = 1.0f;
 
     private void Awake()
     {
@@ -81,17 +81,17 @@ public class RoyalSwordVFXController : MonoBehaviour
                 {
                     m.EnableKeyword("_EMISSION");
                     m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
-                    _gemMaterials.Add(m);
+                    gemMaterials.Add(m);
                 }
                 else if (matName.Contains("goldenrune") || matName.Contains("rune"))
                 {
                     m.EnableKeyword("_EMISSION");
                     m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
-                    _runeMaterials.Add(m);
+                    runeMaterials.Add(m);
                 }
             }
 
-            Debug.Log($"<color=#00E5FF>[RoyalSword VFX]</color> 成功綁定材質：找到 {_gemMaterials.Count} 個寶石材質、{_runeMaterials.Count} 個符文材質！");
+            Debug.Log($"<color=#00E5FF>[RoyalSword VFX]</color> 成功綁定材質：找到 {gemMaterials.Count} 個寶石材質、{runeMaterials.Count} 個符文材質！");
         }
         else
         {
@@ -104,8 +104,8 @@ public class RoyalSwordVFXController : MonoBehaviour
     private void Update()
     {
         // 平滑過渡揮砍時的聖光爆發倍率
-        _currentOverdrive = Mathf.Lerp(_currentOverdrive, _targetOverdrive, Time.deltaTime * 10f);
-        float overdrive01 = Mathf.InverseLerp(1.0f, slashOverdriveMultiplier, _currentOverdrive);
+        currentOverdrive = Mathf.Lerp(currentOverdrive, targetOverdrive, Time.deltaTime * 10f);
+        float overdrive01 = Mathf.InverseLerp(1.0f, slashOverdriveMultiplier, currentOverdrive);
 
         // 將正弦波 (-1 ~ +1) 轉換為 0.0 ~ 1.0 的呼吸比例
         float timePhase = Time.time * pulseFrequency;
@@ -114,12 +114,12 @@ public class RoyalSwordVFXController : MonoBehaviour
 
         // 1. 計算護手寶石顏色與發光強度 (在深海藍與青藍聖光之間平滑變色)
         Color currentGemBase = Color.Lerp(gemDimColor, gemBrightColor, gemWave01);
-        float currentGemEmission = Mathf.Lerp(gemMinEmission, gemMaxEmission, gemWave01) * _currentOverdrive;
+        float currentGemEmission = Mathf.Lerp(gemMinEmission, gemMaxEmission, gemWave01) * currentOverdrive;
         Color finalGemEmission = currentGemBase * currentGemEmission;
 
-        for (int i = 0; i < _gemMaterials.Count; i++)
+        for (int i = 0; i < gemMaterials.Count; i++)
         {
-            Material m = _gemMaterials[i];
+            Material m = gemMaterials[i];
             m.SetColor(BaseColorId, currentGemBase);
             m.SetColor(ColorId, currentGemBase);
             m.SetColor(EmissionColorId, finalGemEmission);
@@ -129,12 +129,12 @@ public class RoyalSwordVFXController : MonoBehaviour
         Color currentRuneBase = Color.Lerp(runeDimColor, runeBrightColor, runeWave01);
         currentRuneBase = Color.Lerp(currentRuneBase, runeSlashColor, overdrive01 * 0.6f);
 
-        float currentRuneEmission = Mathf.Lerp(runeMinEmission, runeMaxEmission, runeWave01) * _currentOverdrive;
+        float currentRuneEmission = Mathf.Lerp(runeMinEmission, runeMaxEmission, runeWave01) * currentOverdrive;
         Color finalRuneEmission = currentRuneBase * currentRuneEmission;
 
-        for (int i = 0; i < _runeMaterials.Count; i++)
+        for (int i = 0; i < runeMaterials.Count; i++)
         {
-            Material m = _runeMaterials[i];
+            Material m = runeMaterials[i];
             m.SetColor(BaseColorId, currentRuneBase);
             m.SetColor(ColorId, currentRuneBase);
             m.SetColor(EmissionColorId, finalRuneEmission);
@@ -150,18 +150,18 @@ public class RoyalSwordVFXController : MonoBehaviour
     {
         if (floatingGemBone == null) return;
 
-        if (!_gemInitialized)
+        if (!gemInitialized)
         {
-            _gemInitialLocalPos = floatingGemBone.localPosition;
-            _gemInitialLocalScale = floatingGemBone.localScale;
-            _gemInitialized = true;
+            gemInitialLocalPos = floatingGemBone.localPosition;
+            gemInitialLocalScale = floatingGemBone.localScale;
+            gemInitialized = true;
         }
 
         float t = Time.time * ExtraBobFrequency;
 
         // 1. 放大懸浮位移 (使用基準座標加上偏移，防止未開 Animator 時飛走)
         Vector3 bobOffset = new Vector3(0f, 0f, Mathf.Sin(t) * ExtraBobAmplitude);
-        floatingGemBone.localPosition = _gemInitialLocalPos + bobOffset;
+        floatingGemBone.localPosition = gemInitialLocalPos + bobOffset;
 
         // 2. 增加雙軸向星體傾斜翻滾 + 加速自轉
         Quaternion extraTilt = Quaternion.Euler(
@@ -173,19 +173,19 @@ public class RoyalSwordVFXController : MonoBehaviour
 
         // 3. 尺寸呼吸縮放
         float scaleMultiplier = 1.0f + Mathf.Sin(t * 1.5f) * ScalePulseAmount;
-        floatingGemBone.localScale = _gemInitialLocalScale * scaleMultiplier;
+        floatingGemBone.localScale = gemInitialLocalScale * scaleMultiplier;
     }
 
     public void EnableSlashVFX()
     {
-        _targetOverdrive = slashOverdriveMultiplier;
+        targetOverdrive = slashOverdriveMultiplier;
         ToggleSlashVFX(true);
         if (gemCoreParticles != null) gemCoreParticles.Emit(15);
     }
 
     public void DisableSlashVFX()
     {
-        _targetOverdrive = 1.0f;
+        targetOverdrive = 1.0f;
         ToggleSlashVFX(false);
     }
 

@@ -42,20 +42,20 @@ public class GameAutoUpdater : MonoBehaviour
     [SerializeField] private Button confirmUpdateButton;     // 更新按鈕
     [SerializeField] private Button skipUpdateButton;        // 略過按鈕
 
-    private string _latestVersion;
-    private string _downloadUrl;
-    private string _releaseNotes;
+    private string latestVersion;
+    private string downloadUrl;
+    private string releaseNotes;
 
-    private string _gameRootPath;
-    private string _tempUpdateFolder;
-    private string _zipFilePath;
+    private string gameRootPath;
+    private string tempUpdateFolder;
+    private string zipFilePath;
 
     private void Awake()
     {
         // 取得 Game.exe 所在的遊戲根目錄
-        _gameRootPath = Directory.GetParent(Application.dataPath).FullName;
-        _tempUpdateFolder = Path.Combine(_gameRootPath, "TempUpdate");
-        _zipFilePath = Path.Combine(_gameRootPath, "UpdatePackage.zip");
+        gameRootPath = Directory.GetParent(Application.dataPath).FullName;
+        tempUpdateFolder = Path.Combine(gameRootPath, "TempUpdate");
+        zipFilePath = Path.Combine(gameRootPath, "UpdatePackage.zip");
 
         if (updatePromptPanel) updatePromptPanel.SetActive(false);
         if (downloadingPanel) downloadingPanel.SetActive(false);
@@ -115,31 +115,31 @@ public class GameAutoUpdater : MonoBehaviour
             }
 
             // 清理 tag_name，如果標籤習慣寫成 "v1.0.2"，去除開頭的 'v'
-            _latestVersion = responseData.tag_name.TrimStart('v', 'V');
-            _releaseNotes = responseData.body;
+            latestVersion = responseData.tag_name.TrimStart('v', 'V');
+            releaseNotes = responseData.body;
 
             // 從附帶資產中尋找 .zip 檔案
-            _downloadUrl = null;
+            downloadUrl = null;
             if (responseData.assets != null)
             {
                 foreach (var asset in responseData.assets)
                 {
                     if (asset.name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
                     {
-                        _downloadUrl = asset.browser_download_url;
+                        downloadUrl = asset.browser_download_url;
                         break;
                     }
                 }
             }
 
-            if (string.IsNullOrEmpty(_downloadUrl))
+            if (string.IsNullOrEmpty(downloadUrl))
             {
                 Debug.LogWarning("[AutoUpdater] 最新 Release 中未找到 .zip 格式的安裝包。");
                 yield break;
             }
 
             // 比對版本號
-            if (IsNewerVersion(Application.version, _latestVersion))
+            if (IsNewerVersion(Application.version, latestVersion))
             {
                 ShowUpdatePrompt();
             }
@@ -165,8 +165,8 @@ public class GameAutoUpdater : MonoBehaviour
         if (updatePromptPanel) updatePromptPanel.SetActive(true);
         if (patchNotesText)
         {
-            patchNotesText.text = $"發現新版本 v{_latestVersion} (目前版本 v{Application.version})\n\n" +
-                                  $"【更新說明】\n{_releaseNotes}";
+            patchNotesText.text = $"發現新版本 v{latestVersion} (目前版本 v{Application.version})\n\n" +
+                                  $"【更新說明】\n{releaseNotes}";
         }
 
         confirmUpdateButton.onClick.RemoveAllListeners();
@@ -193,10 +193,10 @@ public class GameAutoUpdater : MonoBehaviour
 
         CleanupTempFiles();
 
-        using (UnityWebRequest request = new UnityWebRequest(_downloadUrl, UnityWebRequest.kHttpVerbGET))
+        using (UnityWebRequest request = new UnityWebRequest(downloadUrl, UnityWebRequest.kHttpVerbGET))
         {
             // 將檔案寫入硬碟避免吃 RAM
-            request.downloadHandler = new DownloadHandlerFile(_zipFilePath);
+            request.downloadHandler = new DownloadHandlerFile(zipFilePath);
             request.SendWebRequest();
 
             while (!request.isDone)
@@ -232,9 +232,9 @@ public class GameAutoUpdater : MonoBehaviour
     {
         try
         {
-            Directory.CreateDirectory(_tempUpdateFolder);
-            ZipFile.ExtractToDirectory(_zipFilePath, _tempUpdateFolder);
-            File.Delete(_zipFilePath);
+            Directory.CreateDirectory(tempUpdateFolder);
+            ZipFile.ExtractToDirectory(zipFilePath, tempUpdateFolder);
+            File.Delete(zipFilePath);
             return true;
         }
         catch (Exception e)
@@ -250,7 +250,7 @@ public class GameAutoUpdater : MonoBehaviour
     /// </summary>
     private void ExecuteBatchUpdater()
     {
-        string batchFilePath = Path.Combine(_gameRootPath, "updater.bat");
+        string batchFilePath = Path.Combine(gameRootPath, "updater.bat");
         string exeFileName = Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName);
 
         string batchScript = $@"@echo off
@@ -259,13 +259,13 @@ echo 正在等待遊戲關閉...
 timeout /t 3 /nobreak > NUL
 
 echo 正在覆蓋更新檔案...
-xcopy /s /e /y ""{_tempUpdateFolder}\*"" ""{_gameRootPath}\"" > NUL
+xcopy /s /e /y ""{tempUpdateFolder}\*"" ""{gameRootPath}\"" > NUL
 
 echo 正在清理暫存...
-rmdir /s /q ""{_tempUpdateFolder}""
+rmdir /s /q ""{tempUpdateFolder}""
 
 echo 正在重啟新版本...
-start """" ""{Path.Combine(_gameRootPath, exeFileName)}""
+start """" ""{Path.Combine(gameRootPath, exeFileName)}""
 
 del ""%~f0""
 ";
@@ -275,7 +275,7 @@ del ""%~f0""
         ProcessStartInfo startInfo = new ProcessStartInfo
         {
             FileName = batchFilePath,
-            WorkingDirectory = _gameRootPath,
+            WorkingDirectory = gameRootPath,
             UseShellExecute = true,
             WindowStyle = ProcessWindowStyle.Hidden
         };
@@ -286,7 +286,7 @@ del ""%~f0""
 
     private void CleanupTempFiles()
     {
-        if (File.Exists(_zipFilePath)) File.Delete(_zipFilePath);
-        if (Directory.Exists(_tempUpdateFolder)) Directory.Delete(_tempUpdateFolder, true);
+        if (File.Exists(zipFilePath)) File.Delete(zipFilePath);
+        if (Directory.Exists(tempUpdateFolder)) Directory.Delete(tempUpdateFolder, true);
     }
 }

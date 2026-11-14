@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
 {
-    private static T _instance;
+    private static T instance;
 
     public static T Instance
     {
         get
         {
-            if (_instance == null)
+            if (instance == null)
             {
-                _instance = Object.FindAnyObjectByType<T>();
+                instance = Object.FindAnyObjectByType<T>();
 
-                if (_instance == null)
+                if (instance == null)
                 {
                     // 1. 優先嘗試從 Resources 載入專屬 Prefab 或包含核心服務的 GameManager Prefab
                     GameObject prefab = Resources.Load<GameObject>(typeof(T).Name);
@@ -25,29 +25,29 @@ public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
                     {
                         GameObject spawned = Object.Instantiate(prefab);
                         spawned.name = prefab.name;
-                        _instance = spawned.GetComponentInChildren<T>();
+                        instance = spawned.GetComponentInChildren<T>();
                     }
 
                     // 2. 若仍未找到，則動態建立空物件掛載
-                    if (_instance == null)
+                    if (instance == null)
                     {
                         GameObject go = new GameObject(typeof(T).Name);
-                        _instance = go.AddComponent<T>();
+                        instance = go.AddComponent<T>();
                     }
                 }
             }
-            return _instance;
+            return instance;
         }
     }
 
     protected virtual void Awake()
     {
-        if (_instance == null)
+        if (instance == null)
         {
-            _instance = this as T;
+            instance = this as T;
             DontDestroyOnLoad(gameObject);
         }
-        else if (_instance != this)
+        else if (instance != this)
         {
             // 防呆：重複出現時刪除多餘的實例
             Destroy(gameObject);

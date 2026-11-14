@@ -12,207 +12,162 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205a8720e37a2ec83d2e4ab7caac4360, type: 3}
   m_Name: ShopPool_WeaponAndPotion
   m_EditorClassIdentifier: Assembly-CSharp::ShopPoolSO
-  poolName: 武器與藥水商品池
+  poolName: "\u6B66\u5668\u8207\u85E5\u6C34\u5546\u54C1\u6C60"
   defaultItems:
-  - itemName: 生命藥水
-    itemPrefab: {fileID: 3602646745173188844, guid: bac19b21ac43c6d4993e701eaa2aeeb9, type: 3}
-    weight: 12
+  - itemName: "\u9A0E\u58EB\u982D\u76D4"
+    itemPrefab: {fileID: 9169848288877405413, guid: 444ecf5f88552254298c6aac376eca0a, type: 3}
+    weight: 1
     targetTier: -1
     overridePrice: -1
-  - itemName: 碎岩巨劍
-    itemPrefab: {fileID: 4327998379376985708, guid: 76220fa509f02364b8b5362d94284329, type: 3}
+  - itemName: "\u9A0E\u58EB\u80F8\u7532"
+    itemPrefab: {fileID: 1098363305182194362, guid: d658977efae47d647af6d4f10024c641, type: 3}
     weight: 1
     targetTier: -1
-    overridePrice: 10
-  - itemName: 破曉之劍
-    itemPrefab: {fileID: 3410085851281049475, guid: e27df872da00321499b4d62f4a111dea, type: 3}
+    overridePrice: -1
+  - itemName: "\u9A0E\u58EB\u8B77\u81C2"
+    itemPrefab: {fileID: 1252458375104662717, guid: 544bec143d0cdec42b70e71498e61425, type: 3}
     weight: 1
     targetTier: -1
-    overridePrice: 10
-  - itemName: 武士刀
-    itemPrefab: {fileID: 4170710271409233420, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
+    overridePrice: -1
+  - itemName: "\u9A0E\u58EB\u8170\u5E36"
+    itemPrefab: {fileID: 2938169060934834032, guid: 7a2544879d056414d904d03a5f399390, type: 3}
     weight: 1
     targetTier: -1
-    overridePrice: 10
-  - itemName: 皇家寶劍
-    itemPrefab: {fileID: 5625288938293200706, guid: 73432f8086a7ab042a9a2a0da58d09a3, type: 3}
+    overridePrice: -1
+  - itemName: "\u9A0E\u58EB\u8B77\u817F"
+    itemPrefab: {fileID: 4688704435807930699, guid: f874c3d5f3d15e44db273ae6fff9999a, type: 3}
     weight: 1
     targetTier: -1
-    overridePrice: 10
-  - itemName: 噬星者
-    itemPrefab: {fileID: 540466111648545420, guid: 8aef6ef72a30c4d4a8b74b2ccf56f507, type: 3}
+    overridePrice: -1
+  - itemName: "\u9A0E\u58EB\u9577\u9774"
+    itemPrefab: {fileID: 5366917585494419560, guid: a24016a536351644487d77653f0cc95f, type: 3}
     weight: 1
     targetTier: -1
-    overridePrice: 10
-  - itemName: 泰坦之牙
-    itemPrefab: {fileID: 2491513048122870044, guid: c7a90dcadeb8a514f9481faedcdf351b, type: 3}
+    overridePrice: -1
+  - itemName: "\u8056\u9A0E\u58EB\u982D\u76D4"
+    itemPrefab: {fileID: 736988996410688008, guid: f565e2731e42e9d4b958c233a81c0283, type: 3}
     weight: 1
     targetTier: -1
-    overridePrice: 10
+    overridePrice: -1
+  - itemName: "\u8056\u9A0E\u58EB\u80F8\u7532"
+    itemPrefab: {fileID: 5360628023060164174, guid: 0273ff2c7935db74cb355b5c26ac4f86, type: 3}
+    weight: 1
+    targetTier: -1
+    overridePrice: -1
+  - itemName: "\u8056\u9A0E\u58EB\u8B77\u81C2"
+    itemPrefab: {fileID: 1810853907567685096, guid: 7cff6f5e3d608f84db649f9d8a9785c6, type: 3}
+    weight: 1
+    targetTier: -1
+    overridePrice: -1
+  - itemName: "\u8056\u9A0E\u58EB\u8170\u5E36"
+    itemPrefab: {fileID: 8908075272099365546, guid: 3c48c6f80a7614e40b1f1d7abbdc7d49, type: 3}
+    weight: 1
+    targetTier: -1
+    overridePrice: -1
+  - itemName: "\u8056\u9A0E\u58EB\u8B77\u817F"
+    itemPrefab: {fileID: 4833568240241158506, guid: c9e38c89e8054c644a93ab7249354d55, type: 3}
+    weight: 1
+    targetTier: -1
+    overridePrice: -1
+  - itemName: "\u8056\u9A0E\u58EB\u9577\u9774"
+    itemPrefab: {fileID: 1945345577184212411, guid: dc9e3677361e345468d7f410cc77bae8, type: 3}
+    weight: 1
+    targetTier: -1
+    overridePrice: -1
   defaultTierChances:
     t1Weight: 0
-    t2Weight: 50
-    t3Weight: 50
+    t2Weight: 80
+    t3Weight: 20
   levelPools:
-  - level: 1
-    items:
-    - itemName: 生命藥水
-      itemPrefab: {fileID: 3602646745173188844, guid: bac19b21ac43c6d4993e701eaa2aeeb9, type: 3}
-      weight: 12
-      targetTier: -1
-      overridePrice: -1
-    - itemName: 碎岩巨劍
-      itemPrefab: {fileID: 4327998379376985708, guid: 76220fa509f02364b8b5362d94284329, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 破曉之劍
-      itemPrefab: {fileID: 3410085851281049475, guid: e27df872da00321499b4d62f4a111dea, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 武士刀
-      itemPrefab: {fileID: 4170710271409233420, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 皇家寶劍
-      itemPrefab: {fileID: 5625288938293200706, guid: 73432f8086a7ab042a9a2a0da58d09a3, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 噬星者
-      itemPrefab: {fileID: 540466111648545420, guid: 8aef6ef72a30c4d4a8b74b2ccf56f507, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 泰坦之牙
-      itemPrefab: {fileID: 2491513048122870044, guid: c7a90dcadeb8a514f9481faedcdf351b, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    tierChances:
-      t1Weight: 0
-      t2Weight: 50
-      t3Weight: 50
   - level: 2
     items:
-    - itemName: 生命藥水
+    - itemName: "\u751F\u547D\u85E5\u6C34"
       itemPrefab: {fileID: 3602646745173188844, guid: bac19b21ac43c6d4993e701eaa2aeeb9, type: 3}
-      weight: 10
+      weight: 4
       targetTier: -1
-      overridePrice: -1
-    - itemName: 紅藥水
-      itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
-      weight: 5
-      targetTier: -1
-      overridePrice: -1
-    - itemName: 碎岩巨劍
-      itemPrefab: {fileID: 4327998379376985708, guid: 76220fa509f02364b8b5362d94284329, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 破曉之劍
+      overridePrice: 100
+    - itemName: "\u7834\u66C9"
       itemPrefab: {fileID: 3410085851281049475, guid: e27df872da00321499b4d62f4a111dea, type: 3}
       weight: 1
       targetTier: -1
-      overridePrice: 10
-    - itemName: 武士刀
-      itemPrefab: {fileID: 4170710271409233420, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 皇家寶劍
-      itemPrefab: {fileID: 5625288938293200706, guid: 73432f8086a7ab042a9a2a0da58d09a3, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 噬星者
+      overridePrice: 90
+    - itemName: "\u566C\u661F\u8005"
       itemPrefab: {fileID: 540466111648545420, guid: 8aef6ef72a30c4d4a8b74b2ccf56f507, type: 3}
       weight: 1
       targetTier: -1
-      overridePrice: 10
-    - itemName: 泰坦之牙
-      itemPrefab: {fileID: 2491513048122870044, guid: c7a90dcadeb8a514f9481faedcdf351b, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 戰斧
-      itemPrefab: {fileID: 4457791777380979166, guid: ca78894e280d43342a5d8619887261b2, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 大劍
+      overridePrice: 90
+    - itemName: "\u5DE8\u528D"
       itemPrefab: {fileID: 4027538631619825232, guid: ec06a0613e2188649885034059a44535, type: 3}
-      weight: 1
+      weight: 2
       targetTier: -1
-      overridePrice: 10
-    - itemName: 長劍
-      itemPrefab: {fileID: 2437377769245150018, guid: 8fdd5ce0a4dcfaa49a3f2be9f5cd54b6, type: 3}
-      weight: 1
-      targetTier: -1
-      overridePrice: 10
+      overridePrice: 75
     tierChances:
       t1Weight: 0
       t2Weight: 50
       t3Weight: 50
   - level: 3
     items:
-    - itemName: 生命藥水
+    - itemName: "\u751F\u547D\u85E5\u6C34"
       itemPrefab: {fileID: 3602646745173188844, guid: bac19b21ac43c6d4993e701eaa2aeeb9, type: 3}
-      weight: 8
+      weight: 6
       targetTier: -1
-      overridePrice: -1
-    - itemName: 紅藥水
-      itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
-      weight: 8
-      targetTier: -1
-      overridePrice: -1
-    - itemName: 碎岩巨劍
-      itemPrefab: {fileID: 4327998379376985708, guid: 76220fa509f02364b8b5362d94284329, type: 3}
-      weight: 2
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 破曉之劍
+      overridePrice: 125
+    - itemName: "\u7834\u66C9"
       itemPrefab: {fileID: 3410085851281049475, guid: e27df872da00321499b4d62f4a111dea, type: 3}
       weight: 2
       targetTier: -1
-      overridePrice: 10
-    - itemName: 武士刀
-      itemPrefab: {fileID: 4170710271409233420, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
-      weight: 2
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 皇家寶劍
-      itemPrefab: {fileID: 5625288938293200706, guid: 73432f8086a7ab042a9a2a0da58d09a3, type: 3}
-      weight: 2
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 噬星者
+      overridePrice: 110
+    - itemName: "\u566C\u661F\u8005"
       itemPrefab: {fileID: 540466111648545420, guid: 8aef6ef72a30c4d4a8b74b2ccf56f507, type: 3}
       weight: 2
       targetTier: -1
-      overridePrice: 10
-    - itemName: 泰坦之牙
-      itemPrefab: {fileID: 2491513048122870044, guid: c7a90dcadeb8a514f9481faedcdf351b, type: 3}
-      weight: 2
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 戰斧
-      itemPrefab: {fileID: 4457791777380979166, guid: ca78894e280d43342a5d8619887261b2, type: 3}
-      weight: 2
-      targetTier: -1
-      overridePrice: 10
-    - itemName: 大劍
+      overridePrice: 110
+    - itemName: "\u5DE8\u528D"
       itemPrefab: {fileID: 4027538631619825232, guid: ec06a0613e2188649885034059a44535, type: 3}
       weight: 2
       targetTier: -1
-      overridePrice: 10
-    - itemName: 長劍
-      itemPrefab: {fileID: 2437377769245150018, guid: 8fdd5ce0a4dcfaa49a3f2be9f5cd54b6, type: 3}
+      overridePrice: 95
+    - itemName: "\u6CF0\u5766\u4E4B\u7259"
+      itemPrefab: {fileID: 2491513048122870044, guid: c7a90dcadeb8a514f9481faedcdf351b, type: 3}
       weight: 2
       targetTier: -1
-      overridePrice: 10
+      overridePrice: 135
+    - itemName: "\u5CA9\u5CF0"
+      itemPrefab: {fileID: 4327998379376985708, guid: 76220fa509f02364b8b5362d94284329, type: 3}
+      weight: 1
+      targetTier: -1
+      overridePrice: 165
+    - itemName: "\u592A\u5200"
+      itemPrefab: {fileID: 4170710271409233420, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
+      weight: 2
+      targetTier: -1
+      overridePrice: 145
+    tierChances:
+      t1Weight: 0
+      t2Weight: 50
+      t3Weight: 50
+  - level: 4
+    items:
+    - itemName: "\u751F\u547D\u85E5\u6C34"
+      itemPrefab: {fileID: 3602646745173188844, guid: bac19b21ac43c6d4993e701eaa2aeeb9, type: 3}
+      weight: 4
+      targetTier: -1
+      overridePrice: 150
+    - itemName: "\u5CA9\u5CF0"
+      itemPrefab: {fileID: 4327998379376985708, guid: 76220fa509f02364b8b5362d94284329, type: 3}
+      weight: 2
+      targetTier: -1
+      overridePrice: 205
+    - itemName: "\u82F1\u96C4\u528D"
+      itemPrefab: {fileID: 5625288938293200706, guid: 73432f8086a7ab042a9a2a0da58d09a3, type: 3}
+      weight: 1
+      targetTier: -1
+      overridePrice: 250
+    - itemName: "\u592A\u5200"
+      itemPrefab: {fileID: 4170710271409233420, guid: a0b81a6411076f5458e094994eb6d2d0, type: 3}
+      weight: 2
+      targetTier: -1
+      overridePrice: 165
     tierChances:
       t1Weight: 0
       t2Weight: 50

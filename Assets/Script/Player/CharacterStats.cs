@@ -40,12 +40,6 @@ public class CharacterStats : MonoBehaviour
     public float Poise => statPoise.Value;
     public float LifeOnKill => statLifeOnKill.Value;
     public float HitStunReduction => statHitStunReduction.Value;
-
-    // 向下相容舊代碼 (例如 GameManager / PlayerStatsController 原有的欄位存取)
-    public float maxHealth => MaxHealth;
-    public float shield => Shield;
-    public float damage => AttackDamage;
-    public float critRate => CritRate;
     #endregion
 
     #region 事件廣播

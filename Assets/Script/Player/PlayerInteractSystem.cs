@@ -6,11 +6,11 @@ public class PlayerInteractSystem : MonoBehaviour
     [SerializeField] private Transform interactOrigin;
     [SerializeField] private float interactDistance;
     [SerializeField] private LayerMask interactMask;
-    private CharacterInputSystem _inputSystem;
+    private CharacterInputSystem inputSystem;
     private Collider[] colliders = new Collider[10];
     private void Awake()
     {
-        _inputSystem = GetComponent<CharacterInputSystem>();
+        inputSystem = GetComponent<CharacterInputSystem>();
     }
     private void Update()
     {
@@ -39,7 +39,7 @@ public class PlayerInteractSystem : MonoBehaviour
         if(closestInteractable != null)
         {
             UIEvents.InteractableDetected(closestInteractable.interactableName);
-            if (_inputSystem.playerInteract)
+            if (inputSystem.playerInteract)
             {
                 closestInteractable.Interact(transform);
                 Debug.Log($"正在與 {closestInteractable} 互動，距離為 {closestDistance}");

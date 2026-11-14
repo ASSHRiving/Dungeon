@@ -19,7 +19,7 @@ public class DamageText : MonoBehaviour
     [SerializeField] private TMP_ColorGradient critGradient;
 
     private Transform mainCam;
-    private IObjectPool<DamageText> _myPool;
+    private IObjectPool<DamageText> myPool;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class DamageText : MonoBehaviour
 
     public void Setup(float damage, bool isCrit, IObjectPool<DamageText> pool)
     {
-        _myPool = pool;
+        myPool = pool;
         textMesh.text = Mathf.RoundToInt(damage).ToString();
 
         // 1. 設置 ARPG 風格漸層與字型大小
@@ -105,7 +105,7 @@ public class DamageText : MonoBehaviour
 
         // 重置 Alpha 並回收
         textMesh.alpha = 1f;
-        if (_myPool != null) _myPool.Release(this);
+        if (myPool != null) myPool.Release(this);
         else gameObject.SetActive(false);
     }
 }

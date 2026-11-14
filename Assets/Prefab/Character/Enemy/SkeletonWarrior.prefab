@@ -938,9 +938,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7424775608911457230, guid: 8997ba3131fa115419c0b657fa74a6d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 815857884480404842}
-    - targetCorrespondingSourceObject: {fileID: 7424775608911457230, guid: 8997ba3131fa115419c0b657fa74a6d9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7847186333906132453}
   m_SourcePrefab: {fileID: 100100000, guid: 8997ba3131fa115419c0b657fa74a6d9, type: 3}
 --- !u!4 &1804578480243618632 stripped
 Transform:
@@ -972,7 +969,7 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
-  currentWeapon: {fileID: 7847186333906132453}
+  currentWeapon: {fileID: 0}
   damage: 0
   critRate: 0
   arrowPrefab: {fileID: 0}
@@ -997,35 +994,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5045c66f5b8114842801b4e2a0ae8903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationEventHelper
---- !u!114 &7847186333906132453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5901791084564019800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d38ab4e9184f41d418d1d1c035762aa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
-  weaponName: "\u6B66\u5668\u540D\u7A31"
-  damage: 30
-  weaponType: 0
-  combo: 0
-  runSpeed: 7
-  walkSpeed: 3
-  attackPoint: {fileID: 0}
-  attackRadius: 0
-  weaponSoundType: 1
-  overrideController: {fileID: 0}
-  weaponTrails: []
-  weaponEffect: {fileID: 0}
-  hitImpactPrefab: {fileID: 0}
-  bladeStartRef: {fileID: 0}
-  bladeTipRef: {fileID: 0}
-  gemPointLight: {fileID: 0}
-  hitStopDuration: 0.045
 --- !u!4 &6533754477427630306 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7800738923765215604, guid: 8997ba3131fa115419c0b657fa74a6d9, type: 3}

@@ -41,10 +41,9 @@ public abstract class CharacterCombatBase : MonoBehaviour
     public float EffectiveCritDamage => stats != null ? stats.CritDamage : 1.5f;
 
     /// <summary>
-    /// 總攻擊力：當 stats 存在時，武器傷害已作為 Flat 基質計入 stats.AttackDamage 中，並享受所有百分比 Buff 乘算！
-    /// 僅在 stats 為空時作為相容 fallback 手動加算
+    /// 總攻擊力：當 stats 存在時，武器傷害已作為 Flat 基質計入 stats.AttackDamage 中，並享受所有百分比 Buff 乘算
     /// </summary>
-    public float totalDamage => stats != null ? stats.AttackDamage : (damage + (currentWeapon != null ? currentWeapon.damage : 0f));
+    public float totalDamage => EffectiveDamage;
 
     protected SoundAssetsType weaponSoundType;
     protected TrailRenderer[] weaponTrails;
@@ -92,12 +91,9 @@ public abstract class CharacterCombatBase : MonoBehaviour
         ClearWeaponModifier();
     }
 
-    public const float BASE_RUN_SPEED = 7f;
-
     /// <summary>
     /// 將當前裝備的武器屬性加成 (AttackDamage, MoveSpeed, CritRate 等)
-    /// 以 StatModifier 形式註冊進中央數值大腦 (CharacterStats)
-    /// 優先由 WeaponDataSO 動態注入所有配置之 Modifiers；若無配置則回退相容舊版數值欄位。
+    /// 以 StatModifier 形式從 WeaponDataSO 註冊進中央數值大腦 (CharacterStats)
     /// </summary>
     public void UpdateWeaponStatModifier()
     {
@@ -105,31 +101,12 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
         ClearWeaponModifier();
 
-        if (currentWeapon != null)
-        {
-            // 優先由 WeaponDataSO 注入純淨的 StatModifier 清單
-            if (currentWeapon.WeaponData != null && currentWeapon.WeaponData.statBonuses != null && currentWeapon.WeaponData.statBonuses.Count > 0)
-            {
-                for (int i = 0; i < currentWeapon.WeaponData.statBonuses.Count; i++)
-                {
-                    var bonus = currentWeapon.WeaponData.statBonuses[i];
-                    stats.AddModifier(new StatModifier(bonus.statType, bonus.modType, bonus.value, WEAPON_STAT_SOURCE));
-                }
-            }
-            else
-            {
-                // Fallback: 舊版數值欄位相容處理
-                if (currentWeapon.damage > 0f)
-                {
-                    stats.AddModifier(new StatModifier(StatType.AttackDamage, StatModType.Flat, currentWeapon.damage, WEAPON_STAT_SOURCE));
-                }
+        if (currentWeapon == null || currentWeapon.WeaponData == null || currentWeapon.WeaponData.statBonuses == null) return;
 
-                float moveSpeedDiff = currentWeapon.runSpeed - BASE_RUN_SPEED;
-                if (!Mathf.Approximately(moveSpeedDiff, 0f))
-                {
-                    stats.AddModifier(new StatModifier(StatType.MoveSpeed, StatModType.Flat, moveSpeedDiff, WEAPON_STAT_SOURCE));
-                }
-            }
+        var bonuses = currentWeapon.WeaponData.statBonuses;
+        for (int i = 0; i < bonuses.Count; i++)
+        {
+            stats.AddModifier(new StatModifier(bonuses[i].statType, bonuses[i].modType, bonuses[i].value, WEAPON_STAT_SOURCE));
         }
     }
 

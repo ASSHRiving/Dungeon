@@ -11,36 +11,6 @@ public enum UpgradeType
 }
 
 /// <summary>
-/// 單項屬性升級的即時資訊包 (保留相容性)
-/// </summary>
-[System.Serializable]
-public struct UpgradeInfo
-{
-    public UpgradeType type;
-    public string displayName;
-    public int currentLevel;
-    public int maxLevel;
-    public bool isMaxLevel;
-    public int nextCost;
-    public float currentBonus;
-    public float nextBonus;
-    public bool canAfford;
-
-    public UpgradeInfo(UpgradeType type, string displayName, int currentLevel, int maxLevel, int nextCost, float currentBonus, float nextBonus, bool canAfford)
-    {
-        this.type = type;
-        this.displayName = displayName;
-        this.currentLevel = currentLevel;
-        this.maxLevel = maxLevel;
-        this.isMaxLevel = currentLevel >= maxLevel;
-        this.nextCost = nextCost;
-        this.currentBonus = currentBonus;
-        this.nextBonus = nextBonus;
-        this.canAfford = canAfford && !this.isMaxLevel;
-    }
-}
-
-/// <summary>
 /// 角色三圍同步升級的綜合即時快照資訊包 (供 UI 直接資料綁定)
 /// </summary>
 [System.Serializable]

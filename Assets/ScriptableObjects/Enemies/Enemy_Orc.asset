@@ -15,16 +15,16 @@ MonoBehaviour:
   enemyID: Orc
   enemyName: "\u7378\u4EBA\u883B\u5352"
   isBoss: 0
-  baseMaxHealth: 120
+  baseMaxHealth: 150
   baseDamage: 18
-  baseShield: 5
+  baseShield: 40
   baseMoveSpeed: 3
   basePoise: 120
-  baseGold: 8
-  healthGrowthPerLevel: 0.15
+  baseGold: 12
+  healthGrowthPerLevel: 0.65
   damageGrowthPerLevel: 0.1
-  goldGrowthPerLevel: 0.12
-  eliteHealthMult: 2.2
+  goldGrowthPerLevel: 0.15
+  eliteHealthMult: 2.3
   eliteDamageMult: 1.4
   eliteGoldMult: 3
   eliteScale: 1.3

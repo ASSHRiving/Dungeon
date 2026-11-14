@@ -190,10 +190,8 @@ namespace Dungeon.EditorTools
             shop.price = 10;
             shop.weight = 1;
 
-            // 9. Sword (Melee 通用近戰組件)
+            // 9. Sword (Melee 通用近戰組件) & 綁定 WeaponDataSO
             Sword sword = weaponRoot.AddComponent<Sword>();
-            sword.weaponName = drops.interactableName;
-            sword.damage = damage;
             sword.combo = 0;
             sword.attackPoint = attackPointGO.transform;
             sword.weaponTrails = new TrailRenderer[0];
@@ -205,7 +203,6 @@ namespace Dungeon.EditorTools
             int weaponType;
             float radius;
             float runSpd;
-            float walkSpd;
             SoundAssetsType soundType;
 
             switch (category)
@@ -217,7 +214,6 @@ namespace Dungeon.EditorTools
                     totalCombos = 5;
                     radius = 0.55f;
                     runSpd = 7f;
-                    walkSpd = 3f;
                     soundType = SoundAssetsType.Sword;
                     break;
                 case WeaponCategoryTemplate.Katana:
@@ -227,7 +223,6 @@ namespace Dungeon.EditorTools
                     totalCombos = 4;
                     radius = 0.6f;
                     runSpd = 10f;
-                    walkSpd = 4f;
                     soundType = SoundAssetsType.Sword;
                     break;
                 case WeaponCategoryTemplate.TwoHandHeavy:
@@ -238,33 +233,52 @@ namespace Dungeon.EditorTools
                     totalCombos = 3;
                     radius = 0.7f;
                     runSpd = 5f;
-                    walkSpd = 3f;
                     soundType = SoundAssetsType.GSword;
                     break;
             }
 
-            sword.weaponType = weaponType;
             sword.attackRadius = radius;
-            sword.runSpeed = runSpd;
-            sword.walkSpeed = walkSpd;
-            sword.weaponSoundType = soundType;
 
             AnimatorOverrideController aoc = AssetDatabase.LoadAssetAtPath<AnimatorOverrideController>(overridePath);
-            if (aoc != null) sword.overrideController = aoc;
-
             Sprite icon = AssetDatabase.LoadAssetAtPath<Sprite>(iconPath);
-            if (icon != null) sword.itemIcon = icon;
+
+            // 建立或載入對應的 WeaponDataSO 資產
+            const string dataFolder = "Assets/ScriptableObjects/Weapons";
+            if (!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
+            string soPath = Path.Combine(dataFolder, $"Weapon_{prefabName}.asset").Replace("\\", "/");
+
+            WeaponDataSO dataAsset = AssetDatabase.LoadAssetAtPath<WeaponDataSO>(soPath);
+            if (dataAsset == null)
+            {
+                dataAsset = ScriptableObject.CreateInstance<WeaponDataSO>();
+                dataAsset.weaponName = drops.interactableName;
+                dataAsset.itemIcon = icon;
+                dataAsset.weaponType = weaponType;
+                dataAsset.weaponSoundType = soundType;
+                dataAsset.overrideController = aoc;
+                dataAsset.hitStopDuration = 0.045f;
+                dataAsset.statBonuses = new List<StatBonus>
+                {
+                    new StatBonus(StatType.AttackDamage, damage, StatModType.Flat)
+                };
+                float moveDiff = runSpd - 7f;
+                if (!Mathf.Approximately(moveDiff, 0f))
+                {
+                    dataAsset.statBonuses.Add(new StatBonus(StatType.MoveSpeed, moveDiff, StatModType.Flat));
+                }
+                AssetDatabase.CreateAsset(dataAsset, soPath);
+            }
 
             // SerializedObject 設定 protected / private [SerializeField]
             SerializedObject swordSO = new SerializedObject(sword);
+            SerializedProperty weaponDataProp = swordSO.FindProperty("weaponData");
+            if (weaponDataProp != null) weaponDataProp.objectReferenceValue = dataAsset;
+
             SerializedProperty totalComboProp = swordSO.FindProperty("totalComboSteps");
             if (totalComboProp != null) totalComboProp.intValue = totalCombos;
 
             SerializedProperty comboResetProp = swordSO.FindProperty("comboResetTime");
             if (comboResetProp != null) comboResetProp.floatValue = 2.0f;
-
-            SerializedProperty hitStopProp = swordSO.FindProperty("_hitStopDuration") ?? swordSO.FindProperty("hitStopDuration");
-            if (hitStopProp != null) hitStopProp.floatValue = 0.045f;
 
             swordSO.ApplyModifiedPropertiesWithoutUndo();
 

@@ -1,0 +1,331 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656f734d25384c93a0f3a1309e5481c9, type: 3}
+  m_Name: ChestPool_EliteRoom
+  m_EditorClassIdentifier: Assembly-CSharp::ChestRewardPoolSO
+  poolName: "\u83C1\u82F1\u623F\u734E\u52F5\u6C60"
+  defaultMinGold: 45
+  defaultMaxGold: 45
+  defaultItemDropChance: 1
+  defaultRandomDropCount: 1
+  defaultAllowDuplicateDrops: 0
+  defaultGuaranteedItems: []
+  defaultItems:
+  - itemName: "\u9A0E\u58EB\u982D\u76D4"
+    itemPrefab: {fileID: 9169848288877405413, guid: 444ecf5f88552254298c6aac376eca0a, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u9A0E\u58EB\u80F8\u7532"
+    itemPrefab: {fileID: 1098363305182194362, guid: d658977efae47d647af6d4f10024c641, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u9A0E\u58EB\u8B77\u81C2"
+    itemPrefab: {fileID: 1252458375104662717, guid: 544bec143d0cdec42b70e71498e61425, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u9A0E\u58EB\u8170\u5E36"
+    itemPrefab: {fileID: 2938169060934834032, guid: 7a2544879d056414d904d03a5f399390, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u9A0E\u58EB\u8B77\u817F"
+    itemPrefab: {fileID: 4688704435807930699, guid: f874c3d5f3d15e44db273ae6fff9999a, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u9A0E\u58EB\u9577\u9774"
+    itemPrefab: {fileID: 5366917585494419560, guid: a24016a536351644487d77653f0cc95f, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u8056\u9A0E\u58EB\u982D\u76D4"
+    itemPrefab: {fileID: 736988996410688008, guid: f565e2731e42e9d4b958c233a81c0283, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u8056\u9A0E\u58EB\u80F8\u7532"
+    itemPrefab: {fileID: 5360628023060164174, guid: 0273ff2c7935db74cb355b5c26ac4f86, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u8056\u9A0E\u58EB\u8B77\u81C2"
+    itemPrefab: {fileID: 1810853907567685096, guid: 7cff6f5e3d608f84db649f9d8a9785c6, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u8056\u9A0E\u58EB\u8170\u5E36"
+    itemPrefab: {fileID: 8908075272099365546, guid: 3c48c6f80a7614e40b1f1d7abbdc7d49, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u8056\u9A0E\u58EB\u8B77\u817F"
+    itemPrefab: {fileID: 4833568240241158506, guid: c9e38c89e8054c644a93ab7249354d55, type: 3}
+    weight: 1
+    targetTier: -1
+  - itemName: "\u8056\u9A0E\u58EB\u9577\u9774"
+    itemPrefab: {fileID: 1945345577184212411, guid: dc9e3677361e345468d7f410cc77bae8, type: 3}
+    weight: 1
+    targetTier: -1
+  defaultTierChances:
+    t1Weight: 0
+    t2Weight: 80
+    t3Weight: 20
+  levelPools:
+  - level: 1
+    minGold: 45
+    maxGold: 45
+    itemDropChance: 1
+    randomDropCount: 1
+    allowDuplicateDrops: 0
+    guaranteedItems:
+    - itemName: "\u5C0F\u8840\u74F6"
+      itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
+      weight: 1
+      targetTier: -1
+    items:
+    - itemName: "\u9A0E\u58EB\u982D\u76D4"
+      itemPrefab: {fileID: 9169848288877405413, guid: 444ecf5f88552254298c6aac376eca0a, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u80F8\u7532"
+      itemPrefab: {fileID: 1098363305182194362, guid: d658977efae47d647af6d4f10024c641, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8B77\u81C2"
+      itemPrefab: {fileID: 1252458375104662717, guid: 544bec143d0cdec42b70e71498e61425, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8170\u5E36"
+      itemPrefab: {fileID: 2938169060934834032, guid: 7a2544879d056414d904d03a5f399390, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8B77\u817F"
+      itemPrefab: {fileID: 4688704435807930699, guid: f874c3d5f3d15e44db273ae6fff9999a, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u9577\u9774"
+      itemPrefab: {fileID: 5366917585494419560, guid: a24016a536351644487d77653f0cc95f, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u982D\u76D4"
+      itemPrefab: {fileID: 736988996410688008, guid: f565e2731e42e9d4b958c233a81c0283, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u80F8\u7532"
+      itemPrefab: {fileID: 5360628023060164174, guid: 0273ff2c7935db74cb355b5c26ac4f86, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8B77\u81C2"
+      itemPrefab: {fileID: 1810853907567685096, guid: 7cff6f5e3d608f84db649f9d8a9785c6, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8170\u5E36"
+      itemPrefab: {fileID: 8908075272099365546, guid: 3c48c6f80a7614e40b1f1d7abbdc7d49, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8B77\u817F"
+      itemPrefab: {fileID: 4833568240241158506, guid: c9e38c89e8054c644a93ab7249354d55, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u9577\u9774"
+      itemPrefab: {fileID: 1945345577184212411, guid: dc9e3677361e345468d7f410cc77bae8, type: 3}
+      weight: 1
+      targetTier: -1
+    tierChances:
+      t1Weight: 0
+      t2Weight: 80
+      t3Weight: 20
+  - level: 2
+    minGold: 75
+    maxGold: 75
+    itemDropChance: 1
+    randomDropCount: 1
+    allowDuplicateDrops: 0
+    guaranteedItems:
+    - itemName: "\u5C0F\u8840\u74F6"
+      itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
+      weight: 1
+      targetTier: -1
+    items:
+    - itemName: "\u9A0E\u58EB\u982D\u76D4"
+      itemPrefab: {fileID: 9169848288877405413, guid: 444ecf5f88552254298c6aac376eca0a, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u80F8\u7532"
+      itemPrefab: {fileID: 1098363305182194362, guid: d658977efae47d647af6d4f10024c641, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8B77\u81C2"
+      itemPrefab: {fileID: 1252458375104662717, guid: 544bec143d0cdec42b70e71498e61425, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8170\u5E36"
+      itemPrefab: {fileID: 2938169060934834032, guid: 7a2544879d056414d904d03a5f399390, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8B77\u817F"
+      itemPrefab: {fileID: 4688704435807930699, guid: f874c3d5f3d15e44db273ae6fff9999a, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u9577\u9774"
+      itemPrefab: {fileID: 5366917585494419560, guid: a24016a536351644487d77653f0cc95f, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u982D\u76D4"
+      itemPrefab: {fileID: 736988996410688008, guid: f565e2731e42e9d4b958c233a81c0283, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u80F8\u7532"
+      itemPrefab: {fileID: 5360628023060164174, guid: 0273ff2c7935db74cb355b5c26ac4f86, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8B77\u81C2"
+      itemPrefab: {fileID: 1810853907567685096, guid: 7cff6f5e3d608f84db649f9d8a9785c6, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8170\u5E36"
+      itemPrefab: {fileID: 8908075272099365546, guid: 3c48c6f80a7614e40b1f1d7abbdc7d49, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8B77\u817F"
+      itemPrefab: {fileID: 4833568240241158506, guid: c9e38c89e8054c644a93ab7249354d55, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u9577\u9774"
+      itemPrefab: {fileID: 1945345577184212411, guid: dc9e3677361e345468d7f410cc77bae8, type: 3}
+      weight: 1
+      targetTier: -1
+    tierChances:
+      t1Weight: 0
+      t2Weight: 50
+      t3Weight: 50
+  - level: 3
+    minGold: 110
+    maxGold: 110
+    itemDropChance: 1
+    randomDropCount: 1
+    allowDuplicateDrops: 0
+    guaranteedItems:
+    - itemName: "\u5C0F\u8840\u74F6"
+      itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
+      weight: 1
+      targetTier: -1
+    items:
+    - itemName: "\u9A0E\u58EB\u982D\u76D4"
+      itemPrefab: {fileID: 9169848288877405413, guid: 444ecf5f88552254298c6aac376eca0a, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u80F8\u7532"
+      itemPrefab: {fileID: 1098363305182194362, guid: d658977efae47d647af6d4f10024c641, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8B77\u81C2"
+      itemPrefab: {fileID: 1252458375104662717, guid: 544bec143d0cdec42b70e71498e61425, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8170\u5E36"
+      itemPrefab: {fileID: 2938169060934834032, guid: 7a2544879d056414d904d03a5f399390, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8B77\u817F"
+      itemPrefab: {fileID: 4688704435807930699, guid: f874c3d5f3d15e44db273ae6fff9999a, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u9577\u9774"
+      itemPrefab: {fileID: 5366917585494419560, guid: a24016a536351644487d77653f0cc95f, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u982D\u76D4"
+      itemPrefab: {fileID: 736988996410688008, guid: f565e2731e42e9d4b958c233a81c0283, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u80F8\u7532"
+      itemPrefab: {fileID: 5360628023060164174, guid: 0273ff2c7935db74cb355b5c26ac4f86, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8B77\u81C2"
+      itemPrefab: {fileID: 1810853907567685096, guid: 7cff6f5e3d608f84db649f9d8a9785c6, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8170\u5E36"
+      itemPrefab: {fileID: 8908075272099365546, guid: 3c48c6f80a7614e40b1f1d7abbdc7d49, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8B77\u817F"
+      itemPrefab: {fileID: 4833568240241158506, guid: c9e38c89e8054c644a93ab7249354d55, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u9577\u9774"
+      itemPrefab: {fileID: 1945345577184212411, guid: dc9e3677361e345468d7f410cc77bae8, type: 3}
+      weight: 1
+      targetTier: -1
+    tierChances:
+      t1Weight: 0
+      t2Weight: 20
+      t3Weight: 80
+  - level: 4
+    minGold: 150
+    maxGold: 150
+    itemDropChance: 1
+    randomDropCount: 1
+    allowDuplicateDrops: 0
+    guaranteedItems:
+    - itemName: "\u751F\u547D\u85E5\u6C34"
+      itemPrefab: {fileID: 3602646745173188844, guid: bac19b21ac43c6d4993e701eaa2aeeb9, type: 3}
+      weight: 1
+      targetTier: -1
+    items:
+    - itemName: "\u9A0E\u58EB\u982D\u76D4"
+      itemPrefab: {fileID: 9169848288877405413, guid: 444ecf5f88552254298c6aac376eca0a, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u80F8\u7532"
+      itemPrefab: {fileID: 1098363305182194362, guid: d658977efae47d647af6d4f10024c641, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8B77\u81C2"
+      itemPrefab: {fileID: 1252458375104662717, guid: 544bec143d0cdec42b70e71498e61425, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8170\u5E36"
+      itemPrefab: {fileID: 2938169060934834032, guid: 7a2544879d056414d904d03a5f399390, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u8B77\u817F"
+      itemPrefab: {fileID: 4688704435807930699, guid: f874c3d5f3d15e44db273ae6fff9999a, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u9A0E\u58EB\u9577\u9774"
+      itemPrefab: {fileID: 5366917585494419560, guid: a24016a536351644487d77653f0cc95f, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u982D\u76D4"
+      itemPrefab: {fileID: 736988996410688008, guid: f565e2731e42e9d4b958c233a81c0283, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u80F8\u7532"
+      itemPrefab: {fileID: 5360628023060164174, guid: 0273ff2c7935db74cb355b5c26ac4f86, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8B77\u81C2"
+      itemPrefab: {fileID: 1810853907567685096, guid: 7cff6f5e3d608f84db649f9d8a9785c6, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8170\u5E36"
+      itemPrefab: {fileID: 8908075272099365546, guid: 3c48c6f80a7614e40b1f1d7abbdc7d49, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u8B77\u817F"
+      itemPrefab: {fileID: 4833568240241158506, guid: c9e38c89e8054c644a93ab7249354d55, type: 3}
+      weight: 1
+      targetTier: -1
+    - itemName: "\u8056\u9A0E\u58EB\u9577\u9774"
+      itemPrefab: {fileID: 1945345577184212411, guid: dc9e3677361e345468d7f410cc77bae8, type: 3}
+      weight: 1
+      targetTier: -1
+    tierChances:
+      t1Weight: 0
+      t2Weight: 0
+      t3Weight: 100

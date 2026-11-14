@@ -8,67 +8,67 @@ public class Coin : MonoBehaviour
     [SerializeField, Header("飛行加速度")] private float accel = 15f;
     [SerializeField, Header("拾取音效")] private AudioClip clip;
 
-    private Transform _playerTransform;
-    private bool _isFlying = false;
-    private float _currentSpeed;
+    private Transform playerTransform;
+    private bool isFlying = false;
+    private float currentSpeed;
 
-    private float _spawnTime;
+    private float spawnTime;
     private float pickupDelay = 0.6f;
 
-    private Rigidbody _rb;
-    private Collider _col;
-    private IObjectPool<GameObject> _myPool;
+    private Rigidbody rb;
+    private Collider col;
+    private IObjectPool<GameObject> myPool;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
-        _col = GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
     }
 
     public void SetPool(IObjectPool<GameObject> pool)
     {
-        _myPool = pool;
+        myPool = pool;
     }
 
     private void OnEnable()
     {
-        _isFlying = false;
-        _currentSpeed = flySpeed;
-        _spawnTime = Time.time;
+        isFlying = false;
+        currentSpeed = flySpeed;
+        spawnTime = Time.time;
 
-        if (_rb != null) _rb.isKinematic = false;
-        if (_col != null) _col.isTrigger = false;
+        if (rb != null) rb.isKinematic = false;
+        if (col != null) col.isTrigger = false;
 
-        if (_playerTransform == null)
+        if (playerTransform == null)
         {
             GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
-            if (playerGO != null) _playerTransform = playerGO.transform;
+            if (playerGO != null) playerTransform = playerGO.transform;
         }
     }
 
     private void Update()
     {
-        if (_playerTransform == null) return;
-        if (Time.time < _spawnTime + pickupDelay) return;
+        if (playerTransform == null) return;
+        if (Time.time < spawnTime + pickupDelay) return;
 
-        float distance = Vector3.Distance(transform.position, _playerTransform.position);
+        float distance = Vector3.Distance(transform.position, playerTransform.position);
 
-        if (distance <= pickupRadius && !_isFlying)
+        if (distance <= pickupRadius && !isFlying)
         {
-            _isFlying = true;
-            if (_rb != null) _rb.isKinematic = true;
-            if (_col != null) _col.isTrigger = true;
+            isFlying = true;
+            if (rb != null) rb.isKinematic = true;
+            if (col != null) col.isTrigger = true;
         }
 
-        if (_isFlying)
+        if (isFlying)
         {
-            _currentSpeed += accel * Time.deltaTime;
-            Vector3 targetPosition = _playerTransform.position;
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, _currentSpeed * Time.deltaTime);
+            currentSpeed += accel * Time.deltaTime;
+            Vector3 targetPosition = playerTransform.position;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, targetPosition) < 0.3f)
             {
-                CollectCoin(_playerTransform.gameObject);
+                CollectCoin(playerTransform.gameObject);
             }
         }
     }
@@ -85,9 +85,9 @@ public class Coin : MonoBehaviour
             playerBalance.AddCoin(1);
         }
 
-        if (_myPool != null)
+        if (myPool != null)
         {
-            _myPool.Release(gameObject);
+            myPool.Release(gameObject);
         }
         else
         {

@@ -22,10 +22,6 @@ public class Equipment : MonoBehaviour, IInteractable, IItem
     public Mesh mesh => equipmentData != null ? equipmentData.characterMesh : null;
     public Mesh prefabMesh => equipmentData != null ? equipmentData.prefabMesh : null;
     public int price => equipmentData != null ? equipmentData.price : 0;
-    public float damage => equipmentData != null ? equipmentData.damage : 0f;
-    public float shield => equipmentData != null ? equipmentData.shield : 0f;
-    public float health => equipmentData != null ? equipmentData.health : 0f;
-    public float critRate => equipmentData != null ? equipmentData.critRate : 0f;
     public Sprite itemIcon => equipmentData != null ? equipmentData.itemIcon : null;
     public EquipmentType equipmentType => equipmentData != null ? equipmentData.equipmentType : EquipmentType.Head;
 

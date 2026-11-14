@@ -28,9 +28,6 @@ public class CharacterSelect : MonoBehaviour
     public float ATK => characterData != null ? characterData.baseAttackDamage : atk;
     public string Description => characterData != null ? characterData.description : description;
 
-    // 向下相容屬性 (若有外部舊程式碼引用)
-    public int id => characterData != null ? characterData.characterID : 0;
-
     private Quaternion initialRotation;
     private Tween resetRotationTween;
 

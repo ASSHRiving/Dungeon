@@ -15,16 +15,16 @@ MonoBehaviour:
   enemyID: Mage
   enemyName: "\u6B7B\u9748\u6CD5\u5E2B"
   isBoss: 0
-  baseMaxHealth: 90
+  baseMaxHealth: 110
   baseDamage: 16
-  baseShield: 2
+  baseShield: 20
   baseMoveSpeed: 3.2
   basePoise: 60
-  baseGold: 10
-  healthGrowthPerLevel: 0.14
+  baseGold: 15
+  healthGrowthPerLevel: 0.6
   damageGrowthPerLevel: 0.12
   goldGrowthPerLevel: 0.15
-  eliteHealthMult: 2
+  eliteHealthMult: 2.2
   eliteDamageMult: 1.35
   eliteGoldMult: 3
   eliteScale: 1.25

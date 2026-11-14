@@ -1,82 +1,31 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class Weapon : MonoBehaviour, IItem
 {
-    [Header("ScriptableObject 規格 (優先讀取)")]
+    [Header("ScriptableObject 規格")]
     [SerializeField] protected WeaponDataSO weaponData;
     public WeaponDataSO WeaponData => weaponData;
 
-    [Header("基礎設定 (舊版 Inspector 設定 / SO 為空時之 Fallback)")]
-    [FormerlySerializedAs("weaponName")]
-    [SerializeField] protected string _weaponName = "武器名稱";
-    [FormerlySerializedAs("itemIcon")]
-    [SerializeField] protected Sprite _itemIcon;
-    [FormerlySerializedAs("damage")]
-    [SerializeField] protected float _damage = 0f;
-    [FormerlySerializedAs("weaponType")]
-    [SerializeField] protected int _weaponType = 0;
     public int combo = 0;
 
-    public string weaponName
-    {
-        get => weaponData != null ? weaponData.weaponName : _weaponName;
-        set => _weaponName = value;
-    }
-
-    public Sprite itemIcon
-    {
-        get => weaponData != null ? weaponData.itemIcon : _itemIcon;
-        set => _itemIcon = value;
-    }
-
-    public float damage
-    {
-        get => weaponData != null ? weaponData.damage : _damage;
-        set => _damage = value;
-    }
-
-    public int weaponType
-    {
-        get => weaponData != null ? weaponData.weaponType : _weaponType;
-        set => _weaponType = value;
-    }
+    public string weaponName => weaponData != null ? weaponData.weaponName : gameObject.name;
+    public Sprite itemIcon => weaponData != null ? weaponData.itemIcon : null;
+    public int weaponType => weaponData != null ? weaponData.weaponType : 0;
 
     public string ItemName => weaponName;
     public Sprite ItemIcon => itemIcon;
 
     public virtual string GetTooltipStatsText()
     {
-        if (weaponData != null)
-        {
-            return weaponData.GetTooltipStatsText();
-        }
-        return damage > 0 ? $"攻擊力: +{Mathf.RoundToInt(damage)}" : "無附加屬性";
+        return weaponData != null ? weaponData.GetTooltipStatsText() : "無附加屬性";
     }
-
-    [Header("移動速度 (舊版相容 / SO 未配置時使用)")]
-    public float runSpeed = 7f;
-    public float walkSpeed = 3f;
 
     [Header("攻擊檢測")]
     public Transform attackPoint;
     public float attackRadius;
 
-    [FormerlySerializedAs("weaponSoundType")]
-    [SerializeField] protected SoundAssetsType _weaponSoundType = SoundAssetsType.Sword;
-    public SoundAssetsType weaponSoundType
-    {
-        get => weaponData != null ? weaponData.weaponSoundType : _weaponSoundType;
-        set => _weaponSoundType = value;
-    }
-
-    [FormerlySerializedAs("overrideController")]
-    [SerializeField] protected AnimatorOverrideController _overrideController;
-    public AnimatorOverrideController overrideController
-    {
-        get => weaponData != null ? weaponData.overrideController : _overrideController;
-        set => _overrideController = value;
-    }
+    public SoundAssetsType weaponSoundType => weaponData != null ? weaponData.weaponSoundType : SoundAssetsType.Sword;
+    public AnimatorOverrideController overrideController => weaponData != null ? weaponData.overrideController : null;
 
     public TrailRenderer[] weaponTrails;
     public ParticleSystem weaponEffect;
@@ -89,27 +38,15 @@ public abstract class Weapon : MonoBehaviour, IItem
     public abstract void Attack(Animator anim);
 
     [Header("=== 打擊反饋 (Hit Impact & Hit Stop) ===")]
-    [FormerlySerializedAs("hitImpactPrefab")]
-    [SerializeField] private GameObject _hitImpactPrefab;     // 拖入剛生成的 VFX_HolyHitImpact.prefab
-    public GameObject hitImpactPrefab
-    {
-        get => weaponData != null && weaponData.hitImpactPrefab != null ? weaponData.hitImpactPrefab : _hitImpactPrefab;
-        set => _hitImpactPrefab = value;
-    }
+    public GameObject hitImpactPrefab => weaponData != null ? weaponData.hitImpactPrefab : null;
 
     [SerializeField] private Transform bladeStartRef;        // 劍顎起點 (0.213m)
     [SerializeField] private Transform bladeTipRef;          // 劍尖頂點 (0.965m)
     [SerializeField] private Light gemPointLight;            // 選填：護手寶石下的 Point Light
 
-    [FormerlySerializedAs("hitStopDuration")]
-    [SerializeField] private float _hitStopDuration = 0.045f; // 命中頓幀時間 (約 3 幀，打擊感極佳)
-    public float hitStopDuration
-    {
-        get => weaponData != null ? weaponData.hitStopDuration : _hitStopDuration;
-        set => _hitStopDuration = value;
-    }
+    public float hitStopDuration => weaponData != null ? weaponData.hitStopDuration : 0.045f;
 
-    private Coroutine _hitStopCoroutine;
+    private Coroutine hitStopCoroutine;
 
     /// <summary>
     /// 當戰鬥判定 (Hitbox / OnTriggerEnter) 確認命中敵人 Collider 時呼叫此方法
@@ -145,8 +82,8 @@ public abstract class Weapon : MonoBehaviour, IItem
         }
 
         // 觸發微頓幀 (Hit Stop)
-        if (_hitStopCoroutine != null) StopCoroutine(_hitStopCoroutine);
-        _hitStopCoroutine = StartCoroutine(HitStopRoutine());
+        if (hitStopCoroutine != null) StopCoroutine(hitStopCoroutine);
+        hitStopCoroutine = StartCoroutine(HitStopRoutine());
     }
 
     private System.Collections.IEnumerator HitStopRoutine()
@@ -156,6 +93,6 @@ public abstract class Weapon : MonoBehaviour, IItem
         yield return new WaitForSecondsRealtime(hitStopDuration);
 
         if (gemPointLight != null) gemPointLight.intensity = 0.3f;
-        _hitStopCoroutine = null;
+        hitStopCoroutine = null;
     }
 }

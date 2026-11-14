@@ -15,16 +15,16 @@ MonoBehaviour:
   enemyID: Skeleton_Minion
   enemyName: "\u53EC\u559A\u5C0F\u9AB7\u9ACF"
   isBoss: 0
-  baseMaxHealth: 35
+  baseMaxHealth: 50
   baseDamage: 8
-  baseShield: 0
+  baseShield: 10
   baseMoveSpeed: 3.8
   basePoise: 30
-  baseGold: 2
-  healthGrowthPerLevel: 0.15
+  baseGold: 4
+  healthGrowthPerLevel: 0.55
   damageGrowthPerLevel: 0.08
-  goldGrowthPerLevel: 0.05
-  eliteHealthMult: 1.6
+  goldGrowthPerLevel: 0.15
+  eliteHealthMult: 1.8
   eliteDamageMult: 1.25
   eliteGoldMult: 2
   eliteScale: 1.2

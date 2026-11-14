@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656f734d25384c93a0f3a1309e5481c9, type: 3}
+  m_Name: ChestPool_ChestRoom
+  m_EditorClassIdentifier: Assembly-CSharp::ChestRewardPoolSO
+  poolName: "\u5BF6\u7BB1\u623F\u734E\u52F5\u6C60"
+  defaultMinGold: 35
+  defaultMaxGold: 35
+  defaultItemDropChance: 0.25
+  defaultRandomDropCount: 1
+  defaultAllowDuplicateDrops: 0
+  defaultGuaranteedItems: []
+  defaultItems:
+  - itemName: "\u5C0F\u8840\u74F6"
+    itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
+    weight: 1
+    targetTier: -1
+  defaultTierChances:
+    t1Weight: 0
+    t2Weight: 50
+    t3Weight: 50
+  levelPools:
+  - level: 1
+    minGold: 35
+    maxGold: 35
+    itemDropChance: 0.25
+    randomDropCount: 1
+    allowDuplicateDrops: 0
+    guaranteedItems: []
+    items:
+    - itemName: "\u5C0F\u8840\u74F6"
+      itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
+      weight: 1
+      targetTier: -1
+    tierChances:
+      t1Weight: 0
+      t2Weight: 50
+      t3Weight: 50
+  - level: 2
+    minGold: 55
+    maxGold: 55
+    itemDropChance: 0.25
+    randomDropCount: 1
+    allowDuplicateDrops: 0
+    guaranteedItems: []
+    items:
+    - itemName: "\u5C0F\u8840\u74F6"
+      itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
+      weight: 1
+      targetTier: -1
+    tierChances:
+      t1Weight: 0
+      t2Weight: 50
+      t3Weight: 50
+  - level: 3
+    minGold: 80
+    maxGold: 80
+    itemDropChance: 0.25
+    randomDropCount: 1
+    allowDuplicateDrops: 0
+    guaranteedItems: []
+    items:
+    - itemName: "\u5C0F\u8840\u74F6"
+      itemPrefab: {fileID: 3846892797333780839, guid: 84857e14530f64f448eec8164504f586, type: 3}
+      weight: 1
+      targetTier: -1
+    tierChances:
+      t1Weight: 0
+      t2Weight: 50
+      t3Weight: 50
+  - level: 4
+    minGold: 110
+    maxGold: 110
+    itemDropChance: 0.3
+    randomDropCount: 1
+    allowDuplicateDrops: 0
+    guaranteedItems: []
+    items:
+    - itemName: "\u751F\u547D\u85E5\u6C34"
+      itemPrefab: {fileID: 3602646745173188844, guid: bac19b21ac43c6d4993e701eaa2aeeb9, type: 3}
+      weight: 1
+      targetTier: -1
+    tierChances:
+      t1Weight: 0
+      t2Weight: 50
+      t3Weight: 50
