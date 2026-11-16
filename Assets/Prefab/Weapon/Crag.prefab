@@ -381,7 +381,7 @@ Transform:
   m_GameObject: {fileID: 4327998379376985708}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.674, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -482,27 +482,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword
   weaponData: {fileID: 11400000, guid: 81a0000981a0000981a0000981a00009, type: 2}
-  weaponName: "\u5CA9\u5CF0"
-  itemIcon: {fileID: 21300000, guid: acd7349727d2b9f42b021e6087369725, type: 3}
-  damage: 50
-  weaponType: 2
   combo: 0
-  runSpeed: 4
-  walkSpeed: 2
   attackPoint: {fileID: 3155614208965671647}
   attackRadius: 0.75
-  weaponSoundType: 2
-  overrideController: {fileID: 22100000, guid: 28f21ae37ff98ec45bd27857a3025c47, type: 2}
   weaponTrails:
   - {fileID: 4695655416254620844}
   - {fileID: 1860537891851380465}
   - {fileID: 3412801928143847858}
   weaponEffect: {fileID: 1954524054323491310}
-  hitImpactPrefab: {fileID: 0}
   bladeStartRef: {fileID: 0}
   bladeTipRef: {fileID: 0}
   gemPointLight: {fileID: 0}
-  hitStopDuration: 0.045
   totalComboSteps: 3
   comboResetTime: 2
 --- !u!1 &6030467097429688705
@@ -5643,4 +5633,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8061779490184244145, guid: b371347d76731a84da6434ba6933c966, type: 3}
   m_PrefabInstance: {fileID: 5943346967215799641}
   m_PrefabAsset: {fileID: 0}
-
