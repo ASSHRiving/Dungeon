@@ -18,11 +18,11 @@ public class CharacterUpgradeConfigSO : ScriptableObject
 
     [Header("每次升級三圍同步加成")]
     [Tooltip("每升一級增加的生命上限 (HP)")]
-    public float hpBonusPerLevel = 15f;
+    public float hpBonusPerLevel = 12f;
     [Tooltip("每升一級增加的護甲防禦 (DEF)")]
-    public float defBonusPerLevel = 3f;
+    public float defBonusPerLevel = 2f;
     [Tooltip("每升一級增加的基礎攻擊 (ATK)")]
-    public float atkBonusPerLevel = 4f;
+    public float atkBonusPerLevel = 2f;
 
     /// <summary>
     /// 計算給定等級升至下一級所需的靈魂花費 (滿級傳回 0)

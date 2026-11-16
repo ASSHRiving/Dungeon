@@ -19,6 +19,16 @@ public class Projectile : MonoBehaviour
         attacker = _attacker;
         target = _target;
         attackData = _attackData;
+
+        if (attacker != null)
+        {
+            CharacterStats attackerStats = attacker.GetComponent<CharacterStats>() ?? attacker.GetComponentInParent<CharacterStats>();
+            if (attackerStats != null)
+            {
+                float multiplier = attackData != null ? attackData.damageMultiplier : 1f;
+                damage = Mathf.Max(0f, attackerStats.AttackDamage * multiplier);
+            }
+        }
         if (audioSource != null && sound != null)
         {
             audioSource.PlayOneShot(sound, 2f);

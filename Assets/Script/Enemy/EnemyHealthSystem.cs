@@ -120,6 +120,7 @@ public class EnemyHealthSystem : CharacterHealthBase
         }
 
         SetAttacker(attacker);
+        ApplyAttackerLifeSteal(attacker, finaldamage);
 
         // 播放受擊音效、觸發攝影機震動、頓幀
         if (audioSource != null)
@@ -148,7 +149,7 @@ public class EnemyHealthSystem : CharacterHealthBase
                     if (combat.currentWeapon != null) combat.currentWeapon.combo = 0;
                 }
 
-                currentPoise = maxPoise;
+                currentPoise = EffectiveMaxPoise;
             }
         }
 
@@ -158,24 +159,44 @@ public class EnemyHealthSystem : CharacterHealthBase
         }
     }
 
+    private static bool TryGetAttackerStatsAndHealth(Transform attackerTransform, out CharacterStats attackerStats, out CharacterHealthBase attackerHealth)
+    {
+        attackerStats = null;
+        attackerHealth = null;
+        if (attackerTransform == null) return false;
+
+        attackerStats = attackerTransform.GetComponentInParent<CharacterStats>() ?? attackerTransform.GetComponentInChildren<CharacterStats>();
+        if (attackerStats == null) return false;
+
+        attackerHealth = attackerTransform.GetComponentInParent<CharacterHealthBase>() ?? attackerTransform.GetComponentInChildren<CharacterHealthBase>();
+        return attackerHealth != null && !attackerHealth.isDead;
+    }
+
+    private void ApplyAttackerLifeSteal(Transform attackerTransform, int damageDealt)
+    {
+        if (damageDealt <= 0) return;
+        if (!TryGetAttackerStatsAndHealth(attackerTransform, out var attackerStats, out var attackerHealth)) return;
+
+        float lifeStealRate = Mathf.Clamp01(attackerStats.LifeSteal);
+        if (lifeStealRate <= 0f) return;
+
+        float healAmount = damageDealt * lifeStealRate;
+        if (healAmount > 0f)
+        {
+            attackerHealth.Recover(healAmount);
+        }
+    }
+
     protected override void Die()
     {
         OnDeath?.Invoke();
         isDead = true;
 
         // 擊殺回血 (Life on Kill) 觸發
-        if (attacker != null)
+        if (TryGetAttackerStatsAndHealth(attacker, out var attackerStats, out var attackerHealth) && attackerStats.LifeOnKill > 0f)
         {
-            var attackerStats = attacker.GetComponentInParent<CharacterStats>() ?? attacker.GetComponentInChildren<CharacterStats>();
-            if (attackerStats != null && attackerStats.LifeOnKill > 0)
-            {
-                var attackerHealth = attacker.GetComponentInParent<CharacterHealthBase>() ?? attacker.GetComponentInChildren<CharacterHealthBase>();
-                if (attackerHealth != null)
-                {
-                    attackerHealth.Recover(attackerStats.LifeOnKill);
-                    Debug.Log($"[擊殺回血] 觸發！{attacker.name} 回復 {attackerStats.LifeOnKill} 點生命");
-                }
-            }
+            attackerHealth.Recover(attackerStats.LifeOnKill);
+            Debug.Log($"[擊殺回血] 觸發！{attacker.name} 回復 {attackerStats.LifeOnKill} 點生命");
         }
 
         // 若為 Boss，廣播擊殺退場事件讓頂部大血條淡出

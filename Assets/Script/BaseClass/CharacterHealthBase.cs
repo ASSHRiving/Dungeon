@@ -34,6 +34,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
     [SerializeField] protected MonoBehaviour[] scriptsToDisable;
 
     protected CharacterStats stats; // 中央數值大腦
+    protected float EffectiveMaxPoise => stats != null ? stats.Poise : maxPoise;
     protected Tweener healthBarTween;
     protected Tweener bufferBarTween;
 
@@ -66,6 +67,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         if (stats != null)
         {
             stats.OnHealthChanged += HandleStatsHealthChanged;
+            stats.OnStatsChanged += HandleStatsChanged;
         }
     }
 
@@ -74,6 +76,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         if (stats != null)
         {
             stats.OnHealthChanged -= HandleStatsHealthChanged;
+            stats.OnStatsChanged -= HandleStatsChanged;
         }
     }
 
@@ -96,13 +99,17 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         if (stats != null)
         {
             stats.OnHealthChanged -= HandleStatsHealthChanged;
+            stats.OnStatsChanged -= HandleStatsChanged;
         }
         stats = newStats;
         if (stats != null)
         {
             stats.OnHealthChanged += HandleStatsHealthChanged;
+            stats.OnStatsChanged += HandleStatsChanged;
             maxHealth = stats.MaxHealth;
             currentHealth = stats.CurrentHealth;
+            maxPoise = stats.Poise;
+            currentPoise = maxPoise;
             float initialFill = maxHealth > 0 ? currentHealth / maxHealth : 1f;
             InitStaticHealthUI(initialFill);
         }
@@ -114,6 +121,8 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         {
             maxHealth = stats.MaxHealth;
             currentHealth = stats.CurrentHealth;
+            maxPoise = stats.Poise;
+            currentPoise = maxPoise;
         }
         else
         {
@@ -148,6 +157,20 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
         currentHealth = current;
         maxHealth = max;
         UpdateHealthBar(max > 0 ? current / max : 0f);
+    }
+
+    private void HandleStatsChanged()
+    {
+        float newMaxPoise = EffectiveMaxPoise;
+        if (newMaxPoise > maxPoise)
+        {
+            currentPoise = Mathf.Min(newMaxPoise, currentPoise + (newMaxPoise - maxPoise));
+        }
+        else
+        {
+            currentPoise = Mathf.Min(newMaxPoise, currentPoise);
+        }
+        maxPoise = newMaxPoise;
     }
 
     private void HitAnimationMotion()
@@ -204,7 +227,8 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
 
     private void RecoverPoise()
     {
-        if (currentPoise < maxPoise)
+        float targetMaxPoise = EffectiveMaxPoise;
+        if (currentPoise < targetMaxPoise)
         {
             if (poiseRecoveryTimer > 0)
             {
@@ -212,7 +236,7 @@ public abstract class CharacterHealthBase : MonoBehaviour, IDamageable
             }
             else
             {
-                currentPoise = Mathf.Min(maxPoise, currentPoise + poiseRecoveryRate * Time.deltaTime);
+                currentPoise = Mathf.Min(targetMaxPoise, currentPoise + poiseRecoveryRate * Time.deltaTime);
             }
         }
     }

@@ -198,7 +198,8 @@ public static class DefaultDataSOAssetGenerator
         }
 
         // 8. 角色局外升級設定 (CharacterUpgradeConfig)
-        string upgradeConfigPath = $"{CHARACTER_DIR}/CharacterUpgradeConfig.asset";
+        EnsureDirectory("Assets/Resources");
+        string upgradeConfigPath = "Assets/Resources/CharacterUpgradeConfig.asset";
         if (AssetDatabase.LoadAssetAtPath<CharacterUpgradeConfigSO>(upgradeConfigPath) == null)
         {
             var config = ScriptableObject.CreateInstance<CharacterUpgradeConfigSO>();

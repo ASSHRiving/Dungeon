@@ -63,7 +63,7 @@ public class PlayerHealthSystem : CharacterHealthBase
             if (currentPoise <= 0)
             {
                 if (animator != null) animator.CrossFade(attackData.hitAnimationName, 0.1f);
-                currentPoise = maxPoise;
+                currentPoise = EffectiveMaxPoise;
             }     
         }
         

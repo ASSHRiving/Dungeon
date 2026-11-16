@@ -55,7 +55,7 @@ public class WeaponDataSO : ScriptableObject, IItem
             {
                 valStr = $"{bonus.value:0.#}%";
             }
-            else if (bonus.statType == StatType.CritDamage || bonus.statType == StatType.HitStunReduction)
+            else if (bonus.statType == StatType.CritDamage || bonus.statType == StatType.HitStunReduction || bonus.statType == StatType.LifeSteal)
             {
                 valStr = $"{bonus.value * 100f:0.#}%";
             }
@@ -90,6 +90,7 @@ public class WeaponDataSO : ScriptableObject, IItem
             case StatType.CritDamage: return "暴擊傷害";
             case StatType.LifeOnKill: return "擊殺回血";
             case StatType.HitStunReduction: return "縮短受擊硬直";
+            case StatType.LifeSteal: return "命中吸血";
             default: return type.ToString();
         }
     }

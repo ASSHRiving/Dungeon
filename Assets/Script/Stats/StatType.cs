@@ -8,7 +8,8 @@ public enum StatType
     Poise,              // 韌性值 (5)
     CritDamage,         // 暴擊傷害倍率 (預設 1.5x) (6)
     LifeOnKill,         // 擊殺回血 (7)
-    HitStunReduction    // 縮短受擊硬直 (%) (8)
+    HitStunReduction,   // 縮短受擊硬直 (%) (8)
+    LifeSteal           // 命中吸血 (%) (9)
 }
 
 public enum StatModType

@@ -18,6 +18,7 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private CharacterStat statPoise = new CharacterStat(100f);
     [SerializeField] private CharacterStat statLifeOnKill = new CharacterStat(0f);
     [SerializeField] private CharacterStat statHitStunReduction = new CharacterStat(0f);
+    [SerializeField] private CharacterStat statLifeSteal = new CharacterStat(0f);
 
     [Header("即時動態狀態")]
     [SerializeField] private float currentHealth;
@@ -40,6 +41,7 @@ public class CharacterStats : MonoBehaviour
     public float Poise => statPoise.Value;
     public float LifeOnKill => statLifeOnKill.Value;
     public float HitStunReduction => statHitStunReduction.Value;
+    public float LifeSteal => statLifeSteal.Value;
     #endregion
 
     #region 事件廣播
@@ -207,6 +209,7 @@ public class CharacterStats : MonoBehaviour
         statCritDamage.RemoveAllModifiersFromSource(source);
         statLifeOnKill.RemoveAllModifiersFromSource(source);
         statHitStunReduction.RemoveAllModifiersFromSource(source);
+        statLifeSteal.RemoveAllModifiersFromSource(source);
 
         if (hpAffected)
         {
@@ -230,6 +233,7 @@ public class CharacterStats : MonoBehaviour
             case StatType.CritDamage: return statCritDamage;
             case StatType.LifeOnKill: return statLifeOnKill;
             case StatType.HitStunReduction: return statHitStunReduction;
+            case StatType.LifeSteal: return statLifeSteal;
             default: return null;
         }
     }
