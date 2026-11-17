@@ -17927,10 +17927,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3561480935246018002, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4656679409939019409, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
       propertyPath: uiController
       value: 
       objectReference: {fileID: 1626766618}
+    - target: {fileID: 4656679409939019409, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
+      propertyPath: forceReplayOnStart
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757328431512192180, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4293324789
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757328431512192180, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456437026373421018, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 3350051005
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456437026373421018, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340344174251268288, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4289053654
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340344174251268288, guid: 8873b401351e0e14888962f2ba69ca85, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

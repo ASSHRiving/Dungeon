@@ -29,6 +29,9 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private UIController uiController;
     [SerializeField] private InputActionAsset fallbackInputActions;
 
+    [Header("獨立情境任務（各自用 stepId 存檔，不影響主線）")]
+    [SerializeField] private List<TutorialStepSO> independentSteps = new List<TutorialStepSO>();
+
     [Header("閃避子彈時間設定")]
     [SerializeField] private float dodgeTriggerDistance = 4.5f;
     [SerializeField] private float dodgeBulletTimeDelay = 0.1f;
@@ -59,6 +62,10 @@ public class TutorialManager : MonoBehaviour
     private int killsInCurrentFightingRoom = 0;
     private string currentDetectedInteractable = string.Empty;
     private bool lastSuppressedState = false;
+
+    // 獨立任務狀態
+    private TutorialStepSO activeIndependentStep;
+    private bool isPlayingIndependentComplete = false;
 
     // 戰鬥閃避子彈時間狀態
     private bool hasCompletedDodgeStep = false;
@@ -154,7 +161,9 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
-        if (state == TutorialState.Inactive || state == TutorialState.Completed)
+        bool hasMainWork = state != TutorialState.Inactive && state != TutorialState.Completed;
+        bool hasSideWork = activeIndependentStep != null;
+        if (!hasMainWork && !hasSideWork)
         {
             return;
         }
@@ -204,6 +213,7 @@ public class TutorialManager : MonoBehaviour
     {
         ExitDodgeBulletTime(restoreNormalTimeScale: true);
         ResetTutorialSavedState();
+        ResetIndependentStepsSavedState();
         ResetRuntimeTracking();
         TryBindExistingPlayer();
 
@@ -229,7 +239,9 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void SkipTutorial()
     {
-        if (state == TutorialState.Inactive || state == TutorialState.Completed) return;
+        bool hasMainWork = state != TutorialState.Inactive && state != TutorialState.Completed;
+        bool hasSideWork = activeIndependentStep != null;
+        if (!hasMainWork && !hasSideWork) return;
 
         ClearPendingAttacker();
         ExitDodgeBulletTime(restoreNormalTimeScale: true);
@@ -239,9 +251,21 @@ public class TutorialManager : MonoBehaviour
             GameAssets.Instance.PlayUIClickSound();
         }
 
-        MarkTutorialCompleted();
-        state = TutorialState.Inactive;
-        UpdateStartRoomDoorLock();
+        if (activeIndependentStep != null)
+        {
+            PlayerPrefs.SetInt(GetIndependentPrefKey(activeIndependentStep), 1);
+            PlayerPrefs.Save();
+            activeIndependentStep = null;
+            isPlayingIndependentComplete = false;
+        }
+
+        if (hasMainWork)
+        {
+            MarkTutorialCompleted();
+            state = TutorialState.Inactive;
+            UpdateStartRoomDoorLock();
+        }
+
         hudController?.PlayHide();
     }
 
@@ -267,6 +291,7 @@ public class TutorialManager : MonoBehaviour
         if (forceReplayOnStart)
         {
             ResetTutorialSavedState();
+            ResetIndependentStepsSavedState();
         }
 
         currentStepIndex = 0;
@@ -291,6 +316,8 @@ public class TutorialManager : MonoBehaviour
         lastSuppressedState = false;
         hasCompletedDodgeStep = false;
         resumeStepIndexAfterDodge = -1;
+        activeIndependentStep = null;
+        isPlayingIndependentComplete = false;
         ClearPendingAttacker();
         hudController?.SetSuppressed(false);
         hudController?.SetSkipHoldProgress(0f);
@@ -342,7 +369,9 @@ public class TutorialManager : MonoBehaviour
 
     private void UpdateSkipHoldInput()
     {
-        if (state != TutorialState.ActiveStep && state != TutorialState.WaitingForTrigger)
+        bool canSkipMain = state == TutorialState.ActiveStep || state == TutorialState.WaitingForTrigger;
+        bool canSkipSide = activeIndependentStep != null && !isPlayingIndependentComplete;
+        if (!canSkipMain && !canSkipSide)
         {
             ResetSkipHold();
             return;
@@ -588,6 +617,71 @@ public class TutorialManager : MonoBehaviour
         PlayerPrefs.SetInt(TutorialCompletedPrefKey, 1);
         PlayerPrefs.Save();
     }
+    private static string GetIndependentPrefKey(TutorialStepSO step)
+    {
+        string keyId = !string.IsNullOrEmpty(step.stepId) ? step.stepId : step.name;
+        return $"Tutorial_Side_{keyId}_Completed";
+    }
+
+    private void ResetIndependentStepsSavedState()
+    {
+        if (independentSteps == null) return;
+        for (int i = 0; i < independentSteps.Count; i++)
+        {
+            if (independentSteps[i] != null)
+            {
+                PlayerPrefs.DeleteKey(GetIndependentPrefKey(independentSteps[i]));
+            }
+        }
+        PlayerPrefs.Save();
+    }
+
+    private void TryTriggerIndependentStep(TutorialTriggerMode triggerMode)
+    {
+        // 若正在播主線步驟或已經有獨立任務在顯示中，先不搶畫面
+        if (activeIndependentStep != null) return;
+        if (state == TutorialState.ActiveStep || state == TutorialState.CompletingStep) return;
+        if (independentSteps == null) return;
+
+        for (int i = 0; i < independentSteps.Count; i++)
+        {
+            TutorialStepSO step = independentSteps[i];
+            if (step == null || step.triggerMode != triggerMode) continue;
+
+            // 已經完成過這項獨立任務就跳過
+            if (!forceReplayOnStart && PlayerPrefs.GetInt(GetIndependentPrefKey(step), 0) == 1)
+                continue;
+
+            activeIndependentStep = step;
+            isPlayingIndependentComplete = false;
+            currentProgress = 0f;
+
+            hudController?.ShowStep(step, FormatStepDescription(step), 1, 1, 0f);
+            return;
+        }
+    }
+
+    private void CompleteIndependentStep()
+    {
+        if (activeIndependentStep == null || isPlayingIndependentComplete) return;
+        isPlayingIndependentComplete = true;
+
+        TutorialStepSO finishedStep = activeIndependentStep;
+        PlayerPrefs.SetInt(GetIndependentPrefKey(finishedStep), 1);
+        PlayerPrefs.Save();
+
+        hudController?.PlayStepCompleted(finishedStep, () =>
+        {
+            activeIndependentStep = null;
+            isPlayingIndependentComplete = false;
+
+            // 如果主線原本正在待命，順便檢查是否接續
+            if (state == TutorialState.WaitingForTrigger)
+            {
+                TryActivateCurrentStepIfReady();
+            }
+        });
+    }
 
     private int FindInteractStepIndex()
     {
@@ -703,6 +797,8 @@ public class TutorialManager : MonoBehaviour
             resumeStepIndexAfterDodge = currentStepIndex;
         }
 
+        activeIndependentStep = null;
+        isPlayingIndependentComplete = false;
         EnterDodgeBulletTime();
         ActivateStep(dodgeIndex);
     }
@@ -770,6 +866,14 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleRoomEntered(Room room)
     {
+        // 離開商店並進入戰鬥房時，若獨立任務允許彈性推進且尚未完成，先收起避免擋住戰鬥教學
+        if (room is FightingRoom && activeIndependentStep != null && !isPlayingIndependentComplete && activeIndependentStep.allowElasticAdvance)
+        {
+            activeIndependentStep = null;
+            isPlayingIndependentComplete = false;
+            hudController?.PlayHide();
+        }
+
         if (room is FightingRoom fightingRoom)
         {
             hasEnteredFightingRoom = true;
@@ -794,6 +898,9 @@ public class TutorialManager : MonoBehaviour
                     TryActivateCurrentStepIfReady();
                 }
             }
+        }else if(room is ShopRoom)
+        {
+            TryTriggerIndependentStep(TutorialTriggerMode.OnEnterShopRoom);
         }
     }
 
@@ -809,6 +916,22 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleInteractCompleted(IInteractable interactable)
     {
+        // 先檢查是不是正在做獨立的商店任務
+        if (activeIndependentStep != null && !isPlayingIndependentComplete)
+        {
+            if (activeIndependentStep.conditionType == TutorialConditionType.ShopInteractCount
+                && interactable is ShopTableInteract)
+            {
+                currentProgress += 1f;
+                hudController?.UpdateProgress(activeIndependentStep, currentProgress);
+                if (currentProgress >= activeIndependentStep.targetProgress)
+                {
+                    CompleteIndependentStep();
+                }
+            }
+            return;
+        }
+
         if (state != TutorialState.ActiveStep || tutorialSequence == null) return;
 
         TutorialStepSO step = tutorialSequence.GetStep(currentStepIndex);
@@ -907,6 +1030,12 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleBindingsChanged()
     {
+        if (activeIndependentStep != null)
+        {
+            hudController?.RefreshDescription(FormatStepDescription(activeIndependentStep));
+            return;
+        }
+
         if (state != TutorialState.ActiveStep || tutorialSequence == null) return;
 
         TutorialStepSO step = tutorialSequence.GetStep(currentStepIndex);
@@ -1027,7 +1156,8 @@ public class TutorialManager : MonoBehaviour
     private void EditorResetTutorialSavedState()
     {
         ResetTutorialSavedState();
-        Debug.Log("[TutorialManager] 已清除 Tutorial_Completed 存檔。");
+        ResetIndependentStepsSavedState();
+        Debug.Log("[TutorialManager] 已清除主線與獨立教學存檔。");
     }
 
     [ContextMenu("立即強制重播教學")]

@@ -10,7 +10,8 @@ public enum TutorialTriggerMode
     Immediate,
     OnEnterFightingRoom,
     OnInteractableDetected,
-    OnEnemyAttackInCombat
+    OnEnemyAttackInCombat,
+    OnEnterShopRoom
 }
 
 /// <summary>
@@ -26,7 +27,8 @@ public enum TutorialConditionType
     InteractCount,
     CameraLookAmount,
     OpenCharacterPanel,
-    PerfectDodgeInBulletTime
+    PerfectDodgeInBulletTime,
+    ShopInteractCount,
 }
 
 /// <summary>
