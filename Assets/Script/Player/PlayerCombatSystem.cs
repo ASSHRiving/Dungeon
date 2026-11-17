@@ -60,6 +60,7 @@ public class PlayerCombatSystem : CharacterCombatBase
             AcquireAttackTarget();
             canAttack = false;
             currentWeapon.Attack(animator);
+            UIEvents.PlayerAttacked();
             inAttack = true;
         }
     }

@@ -15,6 +15,7 @@ public abstract class FightingRoom : Room
     protected bool isBattleStarted = false;
     protected bool isSpawningWave = false; // 防呆：避免預警期間重複觸發判斷
     protected bool isClear = false;
+    public bool IsClear => isClear;
     protected Transform playerTransform;
 
     private readonly List<GameObject> activeEffects = new List<GameObject>();
@@ -118,6 +119,7 @@ public abstract class FightingRoom : Room
         {
             GameManager.Instance.AddKill();
         }
+        UIEvents.EnemyKilled();
         remainingEnemyCount--;
 
         // 只有當數量歸零時，才進行波次切換邏輯

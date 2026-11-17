@@ -75,6 +75,7 @@ public abstract class AbilityBase : ScriptableObject
     {
         system.movement.StopMoving();
         OnCastSkill(system);
+        UIEvents.EnemyAttackStarted(system.transform);
 
         system.ResetSkillCooldown(this);
         system.currentSkill = null;

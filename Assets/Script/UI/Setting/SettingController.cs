@@ -53,6 +53,11 @@ public class SettingsController : UIPanelBase
     [SerializeField] private TMP_Text runText;
     [SerializeField] private TMP_Text interactText;
 
+    [Header("新手教學重置")]
+    [SerializeField] private Button resetTutorialButton;
+    [SerializeField] private TMP_Text resetTutorialButtonText;
+    [SerializeField] private string defaultResetTutorialLabel = "重置新手教學";
+
     [Header("其他控制器參照")]
     [SerializeField] private MinimapController minimapController;
     [SerializeField] private CinemachineInputAxisController cameraInput;
@@ -111,6 +116,14 @@ public class SettingsController : UIPanelBase
             GameAssets.Instance.PlayUIClickSound();
         }
         Close();
+    }
+
+    protected override void OnBeforeOpen()
+    {
+        if (resetTutorialButtonText != null)
+        {
+            resetTutorialButtonText.text = defaultResetTutorialLabel;
+        }
     }
 
     protected override void OnBeforeClose()
@@ -467,6 +480,7 @@ public class SettingsController : UIPanelBase
             {
                 FinishRebind(action, bindingIndex, keyText, operation);
                 SaveRebinds();
+                UIEvents.BindingsChanged();
             })
             .OnCancel(operation =>
             {
@@ -526,6 +540,37 @@ public class SettingsController : UIPanelBase
         UpdateKeyText(inputActions.FindAction(ActionRightAttack), 0, rAtkText);
         UpdateKeyText(inputActions.FindAction(ActionRun), 0, runText);
         UpdateKeyText(inputActions.FindAction(ActionInteract), 0, interactText);
+    }
+    #endregion
+
+    #region 新手教學重置
+    /// <summary>
+    /// 清除新手教學完成紀錄並於關閉設定後立即重啟互動教學。
+    /// </summary>
+    public void ResetTutorial()
+    {
+        if (GameAssets.Instance != null)
+        {
+            GameAssets.Instance.PlayUIClickSound();
+        }
+
+        TutorialManager.ResetTutorialSavedState();
+
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.RestartTutorial();
+        }
+
+        if (resetTutorialButtonText != null)
+        {
+            resetTutorialButtonText.text = "已重置教學";
+        }
+
+        if (resetTutorialButton != null)
+        {
+            resetTutorialButton.transform.localScale = Vector3.one;
+            resetTutorialButton.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0f), 0.2f, 6, 0.5f).SetUpdate(true);
+        }
     }
     #endregion
 }

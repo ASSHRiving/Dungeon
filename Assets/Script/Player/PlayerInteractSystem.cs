@@ -42,6 +42,7 @@ public class PlayerInteractSystem : MonoBehaviour
             if (inputSystem.playerInteract)
             {
                 closestInteractable.Interact(transform);
+                UIEvents.InteractCompleted(closestInteractable);
                 Debug.Log($"正在與 {closestInteractable} 互動，距離為 {closestDistance}");
             }
         }

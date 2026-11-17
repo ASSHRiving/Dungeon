@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// 舊版彈窗式新手教學（已由 TutorialManager + TutorialHUDController 互動式教學取代）。
+/// 保留類別以避免場景殘留參照報錯，但強制停用開局暫停與彈窗行為。
+/// </summary>
+[System.Obsolete("Replaced by TutorialManager and TutorialHUDController.")]
 public class TutorialController : UIPanelBase
 {
     [Header("UI 組件引用")]
@@ -12,21 +17,13 @@ public class TutorialController : UIPanelBase
     protected override CanvasGroup WindowCanvasGroup => windowCanvasGroup;
     protected override RectTransform WindowRect => windowRect;
     protected override CanvasGroup OverlayCanvasGroup => overlayCanvasGroup;
-    protected override bool HideOnAwake => false;
+    protected override bool HideOnAwake => true;
 
-    public override bool PauseGameWhenOpen => true;
+    public override bool PauseGameWhenOpen => false;
 
     private void Start()
     {
-        if (GameManager.Instance != null && GameManager.Instance.currentLevel == 1)
-        {
-            Debug.Log("Tutorial Open");
-            OpenTutorial();
-        }
-        else
-        {
-            HideImmediate();
-        }
+        HideImmediate();
     }
 
     public void Confirm()
@@ -37,8 +34,7 @@ public class TutorialController : UIPanelBase
 
     public void OpenTutorial()
     {
-        gameObject.SetActive(true);
-        Open();
+        HideImmediate();
     }
 }
 

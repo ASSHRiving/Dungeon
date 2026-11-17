@@ -163,6 +163,11 @@ public abstract class CharacterCombatBase : MonoBehaviour
     #region 動畫事件
     public void OnAttackHitboxStart(AttackData attackData)
     {
+        if (this is EnemyCombatSystem)
+        {
+            UIEvents.EnemyAttackStarted(transform.root);
+        }
+
         isHitboxActive = true; // 開啟hitbox，在Update()開始攻擊檢測
         currentAttackData = attackData; // 紀錄當前的attack data 在攻擊檢測中使用
         hitTargets.Clear(); // 每次開啟新招式時，清空歷史命中紀錄
