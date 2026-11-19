@@ -9,17 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c24dcee07003f994f9e2aa9db4767d80, type: 3}
+  m_Script: {fileID: 11500000, guid: 98b2f117de3ed234096c2c6351ff4847, type: 3}
   m_Name: Step_05_Kill
-  m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
+  m_EditorClassIdentifier: Assembly-CSharp::KillEnemyStepSO
   stepId: kill
-  phaseLabel: 
-  title: "\u64CA\u6557\u6575\u4EBA"
   descriptionTemplate: "\u64CA\u6557\u623F\u9593\u5167\u7684\u6575\u4EBA"
   actionBindings: []
-  triggerMode: 1
-  conditionType: 4
   targetProgress: 1
-  showProgressBar: 1
+  showProgressBar: 0
   isDurationCondition: 0
-  allowElasticAdvance: 0
+  canTriggerAnytime: 0

@@ -201,7 +201,7 @@ public class PlayerMovementSystem : CharacterMovementBase
 
             // 2. 觸發動畫與無敵幀
             animator.SetTrigger(rollId);
-            UIEvents.PlayerRolled();
+            GameEvent.PlayerRolled();
         }
 
         // 翻滾動畫播放期間

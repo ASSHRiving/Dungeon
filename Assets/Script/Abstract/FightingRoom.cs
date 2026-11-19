@@ -119,7 +119,7 @@ public abstract class FightingRoom : Room
         {
             GameManager.Instance.AddKill();
         }
-        UIEvents.EnemyKilled();
+        GameEvent.EnemyKilled();
         remainingEnemyCount--;
 
         // 只有當數量歸零時，才進行波次切換邏輯
@@ -215,6 +215,7 @@ public abstract class FightingRoom : Room
         isClear = true;
         OpenGate();
         isBattleStarted = false;
+        GameEvent.FightingRoomCleared();
         if (GameAssets.Instance != null)
         {
             GameAssets.Instance.PlayInGameMusic();

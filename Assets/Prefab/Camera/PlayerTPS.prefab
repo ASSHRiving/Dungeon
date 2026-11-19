@@ -260,15 +260,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
   ApplyAfter: 2
   ChannelMask: 1
-  Gain: 1
+  Gain: 0.5
   Use2DDistance: 0
   UseCameraSpace: 1
   SignalCombinationMode: 0
   ReactionSettings:
-    m_SecondaryNoise: {fileID: 0}
-    AmplitudeGain: 1
-    FrequencyGain: 1
-    Duration: 1
+    m_SecondaryNoise: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    AmplitudeGain: 4
+    FrequencyGain: 2
+    Duration: 0.35
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &4718252813466589969
 MonoBehaviour:

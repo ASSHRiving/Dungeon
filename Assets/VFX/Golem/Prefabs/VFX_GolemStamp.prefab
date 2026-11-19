@@ -5009,9 +5009,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ImpulseDuration: 0.2
-    ImpulseType: 0
-    DissipationRate: 0.25
+    ImpulseDuration: 0.25
+    ImpulseType: 1
+    DissipationRate: 0.35
     RawSignal: {fileID: 0}
     AmplitudeGain: 1
     FrequencyGain: 1
@@ -5038,9 +5038,9 @@ MonoBehaviour:
     ImpactRadius: 100
     DirectionMode: 0
     DissipationMode: 2
-    DissipationDistance: 100
+    DissipationDistance: 25
     PropagationSpeed: 343
-  DefaultVelocity: {x: 0, y: -1, z: 0}
+  DefaultVelocity: {x: 0, y: -0.3, z: 0}
 --- !u!1 &3036086475312445436
 GameObject:
   m_ObjectHideFlags: 0

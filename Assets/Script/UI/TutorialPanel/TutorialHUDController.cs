@@ -16,9 +16,6 @@ public class TutorialHUDController : MonoBehaviour
     [SerializeField] private RectTransform cardRect;
 
     [Header("文案與進度 UI")]
-    [SerializeField] private TMP_Text phaseText;
-    [SerializeField] private TMP_Text stepIndexText;
-    [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private GameObject progressRow;
     [SerializeField] private Image progressFillImage;
@@ -27,7 +24,6 @@ public class TutorialHUDController : MonoBehaviour
     [Header("完成狀態與裝飾")]
     [SerializeField] private RectTransform checkIconRect;
     [SerializeField] private Image checkIconImage;
-    [SerializeField] private Image cardFrameImage;
 
     [Header("略過按鈕")]
     [SerializeField] private Button skipButton;
@@ -117,14 +113,17 @@ public class TutorialHUDController : MonoBehaviour
     /// <summary>
     /// 顯示新的教學步驟卡片並播放左側滑入動畫。
     /// </summary>
-    public void ShowStep(TutorialStepSO step, string resolvedDescription, int stepNumber, int totalSteps, float currentProgress)
+    public void ShowStep(TutorialStepSO step, string resolvedDescription, float currentProgress)
     {
         if (step == null) return;
 
         cardSequence?.Kill();
         isCardVisible = true;
 
-        ApplyStepTexts(step, resolvedDescription, stepNumber, totalSteps);
+        if (descriptionText != null)
+        {
+            descriptionText.text = resolvedDescription;
+        }
         ResetVisualStateForActiveStep(step, currentProgress);
 
         if (cardRect != null)
@@ -214,11 +213,7 @@ public class TutorialHUDController : MonoBehaviour
         {
             progressFillImage.color = completedProgressColor;
         }
-        if (titleText != null)
-        {
-            titleText.color = completedTitleColor;
-        }
-        else if (descriptionText != null)
+        if (descriptionText != null)
         {
             descriptionText.color = completedTitleColor;
         }
@@ -329,32 +324,8 @@ public class TutorialHUDController : MonoBehaviour
             .SetUpdate(true);
     }
 
-    private void ApplyStepTexts(TutorialStepSO step, string resolvedDescription, int stepNumber, int totalSteps)
-    {
-        if (phaseText != null)
-        {
-            phaseText.text = step.phaseLabel;
-        }
-        if (stepIndexText != null)
-        {
-            stepIndexText.text = $"{stepNumber} / {totalSteps}";
-        }
-        if (titleText != null)
-        {
-            titleText.text = step.title;
-        }
-        if (descriptionText != null)
-        {
-            descriptionText.text = resolvedDescription;
-        }
-    }
-
     private void ResetVisualStateForActiveStep(TutorialStepSO step, float currentProgress)
     {
-        if (titleText != null)
-        {
-            titleText.color = normalTitleColor;
-        }
         if (descriptionText != null)
         {
             descriptionText.color = normalTitleColor;

@@ -17,7 +17,7 @@ public class PlayerHealthSystem : CharacterHealthBase
             {
                 audioSource.PlayOneShot(missSound, 3f);
             }
-            UIEvents.PlayerPerfectDodge();
+            GameEvent.PlayerPerfectDodge();
             return;
         }
         else if (isDead)

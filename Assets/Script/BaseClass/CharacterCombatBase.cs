@@ -131,7 +131,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
         UpdateWeaponStatModifier();
     }
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         if (animationEvent != null)
         {
@@ -139,7 +139,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
         }
     }
 
-    void OnDisable()
+    protected virtual void OnDisable()
     {
         if (animationEvent != null)
         {
@@ -165,7 +165,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
     {
         if (this is EnemyCombatSystem)
         {
-            UIEvents.EnemyAttackStarted(transform.root);
+            GameEvent.EnemyAttackStarted(transform.root);
         }
 
         isHitboxActive = true; // 開啟hitbox，在Update()開始攻擊檢測

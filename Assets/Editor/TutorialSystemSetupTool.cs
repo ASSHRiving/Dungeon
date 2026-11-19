@@ -221,109 +221,94 @@ public static class TutorialSystemSetupTool
 
         List<TutorialStepSO> steps = new List<TutorialStepSO>
         {
-            UpsertStepAsset("Step_01_Move.asset", s =>
+            UpsertStepAsset<MoveStepSO>("Step_01_Move.asset", s =>
             {
                 s.stepId = "move";
-                s.phaseLabel = string.Empty;
-                s.title = "基礎移動";
                 s.descriptionTemplate = "按 {Movement} 移動";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
                     new TutorialActionPlaceholder { placeholder = "{Movement}", actionPath = "Player/Movement", isCompositeGroup = true }
                 };
-                s.triggerMode = TutorialTriggerMode.Immediate;
-                s.conditionType = TutorialConditionType.MoveDuration;
                 s.targetProgress = 1.2f;
                 s.showProgressBar = true;
                 s.isDurationCondition = true;
-                s.allowElasticAdvance = true;
             }),
 
-            UpsertStepAsset("Step_02_Run.asset", s =>
+            UpsertStepAsset<RunStepSO>("Step_02_Run.asset", s =>
             {
                 s.stepId = "run";
-                s.phaseLabel = string.Empty;
-                s.title = "疾行奔跑";
                 s.descriptionTemplate = "移動時按住 {Run} 奔跑";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
                     new TutorialActionPlaceholder { placeholder = "{Run}", actionPath = "Player/Run", isCompositeGroup = false }
                 };
-                s.triggerMode = TutorialTriggerMode.Immediate;
-                s.conditionType = TutorialConditionType.RunDuration;
                 s.targetProgress = 0.8f;
                 s.showProgressBar = true;
                 s.isDurationCondition = true;
-                s.allowElasticAdvance = true;
             }),
 
-            UpsertStepAsset("Step_03_Attack.asset", s =>
+            UpsertStepAsset<AttackStepSO>("Step_03_Attack.asset", s =>
             {
                 s.stepId = "attack";
-                s.phaseLabel = string.Empty;
-                s.title = "普通攻擊";
                 s.descriptionTemplate = "按 {LAtk} 普通攻擊";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
                     new TutorialActionPlaceholder { placeholder = "{LAtk}", actionPath = "Player/LAtk", isCompositeGroup = false }
                 };
-                s.triggerMode = TutorialTriggerMode.Immediate;
-                s.conditionType = TutorialConditionType.AttackCount;
                 s.targetProgress = 2f;
                 s.showProgressBar = true;
                 s.isDurationCondition = false;
-                s.allowElasticAdvance = false;
             }),
 
-            UpsertStepAsset("Step_04_Interact.asset", s =>
+            UpsertStepAsset<InteractStepSO>("Step_04_Interact.asset", s =>
             {
                 s.stepId = "interact";
-                s.phaseLabel = string.Empty;
-                s.title = "物件互動";
                 s.descriptionTemplate = "靠近門或寶箱按 {Interact} 互動";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
                     new TutorialActionPlaceholder { placeholder = "{Interact}", actionPath = "Player/Interact", isCompositeGroup = false }
                 };
-                s.triggerMode = TutorialTriggerMode.OnInteractableDetected;
-                s.conditionType = TutorialConditionType.InteractCount;
                 s.targetProgress = 1f;
                 s.showProgressBar = true;
                 s.isDurationCondition = false;
-                s.allowElasticAdvance = true;
             }),
 
-            UpsertStepAsset("Step_05_Kill.asset", s =>
-            {
-                s.stepId = "kill";
-                s.phaseLabel = string.Empty;
-                s.title = "擊敗敵人";
-                s.descriptionTemplate = "擊敗房間內的敵人";
-                s.actionBindings = new List<TutorialActionPlaceholder>();
-                s.triggerMode = TutorialTriggerMode.OnEnterFightingRoom;
-                s.conditionType = TutorialConditionType.KillEnemyCount;
-                s.targetProgress = 1f;
-                s.showProgressBar = true;
-                s.isDurationCondition = false;
-                s.allowElasticAdvance = false;
-            }),
-
-            UpsertStepAsset("Step_06_Dodge.asset", s =>
+            UpsertStepAsset<PerfectDodgeStepSO>("Step_06_Dodge.asset", s =>
             {
                 s.stepId = "dodge";
-                s.phaseLabel = string.Empty;
-                s.title = "完美閃避";
                 s.descriptionTemplate = "敵人攻擊！按 {RAtk} 閃避";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
                     new TutorialActionPlaceholder { placeholder = "{RAtk}", actionPath = "Player/RAtk", isCompositeGroup = false }
                 };
-                s.triggerMode = TutorialTriggerMode.OnEnemyAttackInCombat;
-                s.conditionType = TutorialConditionType.PerfectDodgeInBulletTime;
                 s.targetProgress = 1f;
                 s.showProgressBar = true;
                 s.isDurationCondition = false;
-                s.allowElasticAdvance = false;
+            }),
+
+            UpsertStepAsset<KillEnemyStepSO>("Step_05_Kill.asset", s =>
+            {
+                s.stepId = "kill";
+                s.descriptionTemplate = "擊敗房間內的敵人";
+                s.actionBindings = new List<TutorialActionPlaceholder>();
+                s.targetProgress = 1f;
+                s.showProgressBar = true;
+                s.isDurationCondition = false;
+                s.canTriggerAnytime = false;
+            }),
+
+            UpsertStepAsset<ShopInteractStepSO>("Step_shop.asset", s =>
+            {
+                s.stepId = "shop";
+                s.descriptionTemplate = "使用 {Interact} 購買物品";
+                s.actionBindings = new List<TutorialActionPlaceholder>
+                {
+                    new TutorialActionPlaceholder { placeholder = "{Interact}", actionPath = "Player/Interact", isCompositeGroup = false }
+                };
+                s.targetProgress = 1f;
+                s.showProgressBar = true;
+                s.isDurationCondition = false;
+                s.canTriggerAnytime = true;
             })
         };
 
@@ -340,13 +325,13 @@ public static class TutorialSystemSetupTool
         return seq;
     }
 
-    private static TutorialStepSO UpsertStepAsset(string fileName, System.Action<TutorialStepSO> configure)
+    private static T UpsertStepAsset<T>(string fileName, System.Action<T> configure) where T : TutorialStepSO
     {
         string path = $"{SoDir}/{fileName}";
-        TutorialStepSO step = AssetDatabase.LoadAssetAtPath<TutorialStepSO>(path);
+        T step = AssetDatabase.LoadAssetAtPath<T>(path);
         if (step == null)
         {
-            step = ScriptableObject.CreateInstance<TutorialStepSO>();
+            step = ScriptableObject.CreateInstance<T>();
             AssetDatabase.CreateAsset(step, path);
         }
         configure(step);
@@ -523,16 +508,12 @@ public static class TutorialSystemSetupTool
         hudSO.FindProperty("rootCanvasGroup").objectReferenceValue = rootCG;
         hudSO.FindProperty("cardCanvasGroup").objectReferenceValue = cardCG;
         hudSO.FindProperty("cardRect").objectReferenceValue = cardRT;
-        hudSO.FindProperty("phaseText").objectReferenceValue = null;
-        hudSO.FindProperty("stepIndexText").objectReferenceValue = null;
-        hudSO.FindProperty("titleText").objectReferenceValue = null;
         hudSO.FindProperty("descriptionText").objectReferenceValue = descText;
         hudSO.FindProperty("progressRow").objectReferenceValue = progressRow;
         hudSO.FindProperty("progressFillImage").objectReferenceValue = fillImg;
         hudSO.FindProperty("progressValueText").objectReferenceValue = progressValText;
         hudSO.FindProperty("checkIconRect").objectReferenceValue = checkRT;
         hudSO.FindProperty("checkIconImage").objectReferenceValue = checkImg;
-        hudSO.FindProperty("cardFrameImage").objectReferenceValue = null;
         hudSO.FindProperty("skipButton").objectReferenceValue = skipBtn;
         hudSO.FindProperty("skipHoldFillImage").objectReferenceValue = skipFillImg;
         hudSO.FindProperty("shownPosX").floatValue = 28f;

@@ -51,42 +51,12 @@ public static class UIEvents
     }
 
     //***************************************
-    // 事件廣播：教學與系統通知
+    // 事件廣播：系統設定通知
     //***************************************
-    public static event Action OnEnemyKilled;
-    public static void EnemyKilled()
-    {
-        OnEnemyKilled?.Invoke();
-    }
-
     public static event Action OnBindingsChanged;
     public static void BindingsChanged()
     {
         OnBindingsChanged?.Invoke();
-    }
-
-    public static event Action OnPlayerAttacked;
-    public static void PlayerAttacked()
-    {
-        OnPlayerAttacked?.Invoke();
-    }
-
-    public static event Action OnPlayerRolled;
-    public static void PlayerRolled()
-    {
-        OnPlayerRolled?.Invoke();
-    }
-
-    public static event Action<Transform> OnEnemyAttackStarted;
-    public static void EnemyAttackStarted(Transform attacker)
-    {
-        OnEnemyAttackStarted?.Invoke(attacker);
-    }
-
-    public static event Action OnPlayerPerfectDodge;
-    public static void PlayerPerfectDodge()
-    {
-        OnPlayerPerfectDodge?.Invoke();
     }
     //***************************************
     // 事件廣播：確認對話框

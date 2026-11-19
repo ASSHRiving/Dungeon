@@ -17,22 +17,4 @@ public class TutorialSequenceSO : ScriptableObject
         if (steps == null || index < 0 || index >= steps.Count) return null;
         return steps[index];
     }
-
-    /// <summary>
-    /// 從指定索引之後尋找第一個符合目標觸發時機的步驟索引；找不到回傳 -1。
-    /// </summary>
-    public int FindNextStepIndexByTrigger(int afterIndex, TutorialTriggerMode triggerMode)
-    {
-        if (steps == null) return -1;
-
-        int start = Mathf.Max(0, afterIndex + 1);
-        for (int i = start; i < steps.Count; i++)
-        {
-            if (steps[i] != null && steps[i].triggerMode == triggerMode)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
 }

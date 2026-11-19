@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c24dcee07003f994f9e2aa9db4767d80, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d41bbe4d5d115841a1ad13cf114c1d5, type: 3}
   m_Name: Step_03_Attack
-  m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
+  m_EditorClassIdentifier: Assembly-CSharp::AttackStepSO
   stepId: attack
   phaseLabel: 
   title: "\u666E\u901A\u653B\u64CA"
@@ -20,9 +20,7 @@ MonoBehaviour:
   - placeholder: '{LAtk}'
     actionPath: Player/LAtk
     isCompositeGroup: 0
-  triggerMode: 0
-  conditionType: 3
   targetProgress: 2
   showProgressBar: 1
   isDurationCondition: 0
-  allowElasticAdvance: 0
+  canTriggerAnytime: 0

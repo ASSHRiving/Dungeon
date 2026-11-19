@@ -11,6 +11,43 @@ public class StartRoom : Room
     [SerializeField] private CharacterDataSO defaultCharacterData;
     [SerializeField] private Transform playerSpawnPoint;
     public List<GameObject> initEquipment;
+
+    private void OnEnable()
+    {
+        GameEvent.OnStartRoomDoorLockChanged += SetDoorsLocked;
+    }
+
+    private void OnDisable()
+    {
+        GameEvent.OnStartRoomDoorLockChanged -= SetDoorsLocked;
+    }
+
+    private void SetDoorsLocked(bool locked)
+    {
+        int interactableLayer = LayerMask.NameToLayer("Interactable");
+        int unInteractableLayer = LayerMask.NameToLayer("UnInteractable");
+        if (interactableLayer < 0 || unInteractableLayer < 0)
+        {
+            return;
+        }
+
+        int fromLayer = locked ? interactableLayer : unInteractableLayer;
+        int toLayer = locked ? unInteractableLayer : interactableLayer;
+
+        foreach (Door door in GetComponentsInChildren<Door>(true))
+        {
+            if (door == null) continue;
+
+            foreach (Collider col in door.GetComponentsInChildren<Collider>(true))
+            {
+                if (col != null && col.gameObject.layer == fromLayer)
+                {
+                    col.gameObject.layer = toLayer;
+                }
+            }
+        }
+    }
+
     public override void Init()
     {
         //場上唯一Player

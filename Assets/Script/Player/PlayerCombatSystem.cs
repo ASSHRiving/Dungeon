@@ -40,6 +40,25 @@ public class PlayerCombatSystem : CharacterCombatBase
     private readonly List<TargetCandidate> candidateBuffer = new List<TargetCandidate>(32);
     private readonly HashSet<Transform> visitedEntities = new HashSet<Transform>();
     private CharacterHealthBase currentTargetHealth;
+    private bool isAttackLockedByTutorial;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        GameEvent.OnPlayerAttackLockChanged += HandleTutorialAttackLockChanged;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        GameEvent.OnPlayerAttackLockChanged -= HandleTutorialAttackLockChanged;
+        isAttackLockedByTutorial = false;
+    }
+
+    private void HandleTutorialAttackLockChanged(bool locked)
+    {
+        isAttackLockedByTutorial = locked;
+    }
 
     override protected void Update()
     {
@@ -53,6 +72,8 @@ public class PlayerCombatSystem : CharacterCombatBase
 
     private void PlayerAttackAction()   //執行攻擊
     {
+        if (isAttackLockedByTutorial) return;
+
         if (inputSystem.playerLAtk && canAttack && !animator.CheckAnimationTag("Hit"))
         {
             if (currentWeapon == null) return;
@@ -60,7 +81,7 @@ public class PlayerCombatSystem : CharacterCombatBase
             AcquireAttackTarget();
             canAttack = false;
             currentWeapon.Attack(animator);
-            UIEvents.PlayerAttacked();
+            GameEvent.PlayerAttacked();
             inAttack = true;
         }
     }
