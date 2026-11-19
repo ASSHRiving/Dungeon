@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 975c2cbf73214683a70fe444c597dc85, type: 3}
-  m_Name: Waves_Test_Mage
+  m_Name: Waves_Test
   m_EditorClassIdentifier: Assembly-CSharp::WaveGroupSO
-  groupName: "測試用單體法師"
+  groupName: "\u6E2C\u8A66\u7528\u55AE\u9AD4\u6CD5\u5E2B"
   weight: 1
   waves:
-  - waveName: "wave1"
+  - waveName: test
     spawnDelay: 1.5
     spawnConfigs:
-    - enemyPrefab: {fileID: 8189983362293444178, guid: bd02e00326b35f349bbf6e000bef8949, type: 3}
-      enemyData: {fileID: 11400000, guid: d7638bb551c3e8a4e8a1db38c212a920, type: 2}
+    - enemyPrefab: {fileID: 2666423795277257771, guid: bdf311e8cfc8a0a489a0b8972d3a41bf, type: 3}
+      enemyData: {fileID: 11400000, guid: 4a07f242bd16d3448adc3f851f2ced26, type: 2}
       spawnPointIndex: 0
-      canBeElite: 1
+      canBeElite: 0
       spawnEffectPrefab: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}

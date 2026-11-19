@@ -11,16 +11,12 @@ public class Room01 : FightingRoom
     private float focusTime = 2.5f;
 
     private int level;
-    protected override void OnTriggerEnter(Collider other)
+    protected override void OnBattleStarted()
     {
-        base.OnTriggerEnter(other);
-
-        if (other.CompareTag("Player"))
+        base.OnBattleStarted();
+        if (GameAssets.Instance != null)
         {
-            if (!isClear)
-            {
-                GameAssets.Instance.PlayeliteFightMusic();
-            }
+            GameAssets.Instance.PlayeliteFightMusic();
         }
     }
     public override void Init()

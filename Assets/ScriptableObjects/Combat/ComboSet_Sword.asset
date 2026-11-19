@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd78d5ac32708e046b85e174445199f2, type: 3}
+  m_Name: ComboSet_Sword
+  m_EditorClassIdentifier: Assembly-CSharp::ComboSetSO
+  steps:
+  - animatorStatePath: Sword.Attack1
+    crossFadeDuration: 0.08
+    moveCancelCrossFadeDuration: 0.25
+    rollCancelTime: 0.3
+    comboCancelTime: 0.31
+    moveCancelTime: 0.4
+    endNormalizedTime: 0.88
+    comboHoldDuration: 0.65
+  - animatorStatePath: Sword.Attack2
+    crossFadeDuration: 0.08
+    moveCancelCrossFadeDuration: 0.25
+    rollCancelTime: 0.42
+    comboCancelTime: 0.43
+    moveCancelTime: 0.46
+    endNormalizedTime: 0.9
+    comboHoldDuration: 0.65
+  - animatorStatePath: Sword.Attack3
+    crossFadeDuration: 0.08
+    moveCancelCrossFadeDuration: 0.25
+    rollCancelTime: 0.42
+    comboCancelTime: 0.43
+    moveCancelTime: 0.46
+    endNormalizedTime: 0.87
+    comboHoldDuration: 0.65
+  - animatorStatePath: Sword.Attack4
+    crossFadeDuration: 0.08
+    moveCancelCrossFadeDuration: 0.25
+    rollCancelTime: 0.44
+    comboCancelTime: 0.45
+    moveCancelTime: 0.48
+    endNormalizedTime: 0.91
+    comboHoldDuration: 0.65
+  - animatorStatePath: Sword.Attack5
+    crossFadeDuration: 0.08
+    moveCancelCrossFadeDuration: 0.25
+    rollCancelTime: 0.51
+    comboCancelTime: 0.52
+    moveCancelTime: 0.55
+    endNormalizedTime: 0.87
+    comboHoldDuration: 0.65

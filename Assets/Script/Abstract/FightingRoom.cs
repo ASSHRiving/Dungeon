@@ -204,10 +204,15 @@ public abstract class FightingRoom : Room
                 playerTransform = other.transform;
 
                 CloseGate();
+                OnBattleStarted();
                 // 啟動第一波生成協程
                 StartCoroutine(SpawnWaveRoutine(currentWaveIndex));
             }
         }
+    }
+
+    protected virtual void OnBattleStarted()
+    {
     }
 
     protected virtual void OnRoomCleared()

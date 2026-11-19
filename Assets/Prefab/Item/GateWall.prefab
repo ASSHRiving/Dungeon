@@ -247,6 +247,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8644115839786080152, guid: 52efe19563af4684cae73e223335acc1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1471532862470412285}
+    - targetCorrespondingSourceObject: {fileID: 8644115839786080152, guid: 52efe19563af4684cae73e223335acc1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 166346563855434475}
   m_SourcePrefab: {fileID: 100100000, guid: 52efe19563af4684cae73e223335acc1, type: 3}
 --- !u!4 &593312897400430891 stripped
 Transform:
@@ -270,6 +273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ff7601b58b39e49b593abdad9a6e1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gate
+  instantBlockCollider: {fileID: 166346563855434475}
+  blockColliderThickness: 0.2
   audioSource: {fileID: 1471532862470412285}
   audioClip: {fileID: 8300000, guid: 583a989649ce4ab46a19fb5b7fc026e0, type: 3}
 --- !u!82 &1471532862470412285
@@ -369,6 +374,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &166346563855434475
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613572061211404488}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 4.9064894, y: 4.6547894, z: 0.2}
+  m_Center: {x: -0.026769042, y: 2.3100684, z: -0.0000009834766}
 --- !u!1001 &8950129420016699905
 PrefabInstance:
   m_ObjectHideFlags: 0

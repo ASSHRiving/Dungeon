@@ -22,10 +22,21 @@ public abstract class CharacterCombatBase : MonoBehaviour
     [Header("攻擊設定")]
     [SerializeField] protected HitboxData[] hitboxes;
     [SerializeField] protected LayerMask whatIsEnemy;
+    private float hitboxRadiusScale = 1f;
     private Collider[] attackHits = new Collider[10];
     private bool isHitboxActive = false;
     private AttackData currentAttackData;
     private HashSet<IDamageable> hitTargets = new HashSet<IDamageable>(); // 用來記錄「當前這一招已經命中過哪些敵人」，防止重複造成傷害
+
+    public float HitboxRadiusScale => hitboxRadiusScale;
+
+    /// <summary>
+    /// 設定攻擊 Hitbox 半徑縮放倍率（供菁英怪等體型縮放時同步適配判定球半徑）
+    /// </summary>
+    public void SetHitboxScale(float scale)
+    {
+        hitboxRadiusScale = Mathf.Max(0.01f, scale);
+    }
 
     //===================================================================
 
@@ -213,10 +224,13 @@ public abstract class CharacterCombatBase : MonoBehaviour
 
         foreach(int index in currentAttackData.hitboxes) // attack data裡面有指定要開啟的hitbox
         {
-            if(index > hitboxes.Length - 1) continue;
+            if (hitboxes == null || index < 0 || index >= hitboxes.Length) continue;
+            HitboxData hitbox = hitboxes[index];
+            if (hitbox == null || hitbox.center == null) continue;
 
-            // 使用 OverlapSphereNonAlloc 來檢測指定 hitbox 的範圍內的敵人
-            int count = Physics.OverlapSphereNonAlloc(hitboxes[index].center.position, hitboxes[index].radius, attackHits, whatIsEnemy);
+            // 使用 OverlapSphereNonAlloc 來檢測指定 hitbox 的範圍內的敵人（套用體型縮放倍率）
+            float scaledRadius = hitbox.radius * hitboxRadiusScale;
+            int count = Physics.OverlapSphereNonAlloc(hitbox.center.position, scaledRadius, attackHits, whatIsEnemy);
             for (int i = 0; i < count; i++)
             {
                 IDamageable damageable = attackHits[i].GetComponentInParent<IDamageable>();
@@ -343,7 +357,7 @@ public abstract class CharacterCombatBase : MonoBehaviour
         {
             if (hb != null && hb.center != null)
             {
-                Gizmos.DrawSphere(hb.center.position, hb.radius);
+                Gizmos.DrawSphere(hb.center.position, hb.radius * hitboxRadiusScale);
             }
         }
     }

@@ -30,6 +30,9 @@ public abstract class TutorialStepSO : ScriptableObject
     [Header("步驟識別與顯示文案")]
     public string stepId;
 
+    [Tooltip("顯示於教學卡片頂部的步驟標題（留空則隱藏標題列）")]
+    public string title = "";
+
     [TextArea(2, 4)]
     [Tooltip("支援 {Placeholder} 動態替換為當前按鍵名稱")]
     public string descriptionTemplate = "按 {Movement} 移動";

@@ -11,6 +11,10 @@ public class PlayerMovementSystem : CharacterMovementBase
     private Vector3 rollDirection;
 
     protected CharacterStats stats; // 中央數值大腦
+    protected CharacterHealthBase health;
+    private PlayerStateController stateController;
+    private PlayerCombatSystem playerCombat;
+    private Coroutine rollImmuneCoroutine;
 
     public const float BASE_RUN_SPEED = 7f;
     public const float BASE_WALK_SPEED = 3f;
@@ -18,10 +22,17 @@ public class PlayerMovementSystem : CharacterMovementBase
     [SerializeField, Header("行走速度")] public float walkSpeed = BASE_WALK_SPEED;
     [SerializeField, Header("奔跑速度")] public float runSpeed = BASE_RUN_SPEED;
 
+    [Header("翻滾緩衝與取消設定")]
+    [SerializeField, Range(0f, 1f)] private float hitRollCancelNormalizedTime = 0.30f;
+    [SerializeField, Min(0f)] private float rollCrossFadeDuration = 0.08f;
+
     protected override void Awake()
     {
         base.Awake();
         stats = GetComponent<CharacterStats>() ?? GetComponentInParent<CharacterStats>();
+        health = GetComponent<CharacterHealthBase>() ?? GetComponentInParent<CharacterHealthBase>();
+        stateController = PlayerStateController.GetOrAdd(this);
+        playerCombat = combat as PlayerCombatSystem ?? GetComponentInChildren<PlayerCombatSystem>();
         if (Camera.main != null)
         {
             characterCamera = Camera.main.transform;
@@ -31,24 +42,42 @@ public class PlayerMovementSystem : CharacterMovementBase
     protected override void Update()
     {
         base.Update();
+        if (stateController == null) stateController = PlayerStateController.GetOrAdd(this);
+
+        CheckFallingState();
+        HandleRollInput();
         PlayerMoveDirection();    
     }
 
     private void LateUpdate()
     {
         UpdateMotionAnimation();
-        UpdateRollAnimation();
+        ApplyRollMotion();
         SyncAnimationSpeed();
     }
 
     private void OnDisable()
     {
         if (animator != null) animator.speed = 1f;
+        rollImmuneCoroutine = null;
+        immune = false;
+    }
+
+    private void CheckFallingState()
+    {
+        if (stateController == null || animator == null) return;
+        if (stateController.CurrentState == PlayerState.Dead) return;
+
+        // CharacterGravity 經過土狼時間後會將 IsGround 設為 false，此時統一進入 Falling 狀態自動收尾攻擊/翻滾
+        if (!animator.GetBool(isGroundID) && stateController.CurrentState != PlayerState.Falling)
+        {
+            stateController.EnterFalling();
+        }
     }
 
     private bool CanMoveControl()
     {
-        return isOnGround && (animator.CheckAnimationTag("Motion") || (animator.CheckAnimationTag("Attack") && combat.canAttack));
+        return isOnGround && stateController != null && stateController.CurrentState == PlayerState.Locomotion;
     }
 
     private bool CanRunControl()
@@ -110,7 +139,7 @@ public class PlayerMovementSystem : CharacterMovementBase
             movementDirection = Vector3.zero;
         }
 
-        if (!animator.CheckAnimationTag("Roll"))
+        if (stateController == null || stateController.CurrentState != PlayerState.Rolling)
         {  
             control.Move((characterCurrentMoveSpeed * Time.deltaTime)
                 * movementDirection.normalized + Time.deltaTime
@@ -156,12 +185,12 @@ public class PlayerMovementSystem : CharacterMovementBase
         if (animator == null) return;
 
         // 當處於移動狀態且有實際位移時，等比縮放動畫播放速度
-        if (animator.CheckAnimationTag("Motion") && characterCurrentMoveSpeed > 0.01f)
+        if (stateController != null && stateController.CurrentState == PlayerState.Locomotion && characterCurrentMoveSpeed > 0.01f)
         {
             float referenceSpeed = inputSystem.playerRun ? BASE_RUN_SPEED : BASE_WALK_SPEED;
             animator.speed = characterCurrentMoveSpeed / referenceSpeed;
         }
-        else if (animator.CheckAnimationTag("Hit"))
+        else if (stateController != null && stateController.CurrentState == PlayerState.HitStun)
         {
             float reduction = (stats != null) ? stats.HitStunReduction : 0f;
             // 縮短受擊硬直：例如 reduction = 0.3 (30%)，受擊動畫加速播放為 1 / (1 - 0.3) = 1.43 倍速，縮短硬直僵直時間
@@ -173,41 +202,95 @@ public class PlayerMovementSystem : CharacterMovementBase
         }
     }
 
-    private void UpdateRollAnimation()
+    private void HandleRollInput()
     {
-        // 按下翻滾鍵，且當前不在翻滾中
-        if (inputSystem.playerRoll && !animator.CheckAnimationTag("Roll"))
+        if (inputSystem == null || stateController == null) return;
+        if (!inputSystem.HasBuffered(BufferedAction.Roll)) return;
+        if (!CanRollNow()) return;
+        if (!inputSystem.TryConsumeBuffer(BufferedAction.Roll)) return;
+
+        // 透過單一入口進入 Rolling（自動幫舊狀態收尾、計算最新方向、播翻滾動畫與開無敵幀）
+        stateController.EnterRoll(rollCrossFadeDuration);
+    }
+
+    private bool CanRollNow()
+    {
+        if (animator == null || !isOnGround) return false;
+        if (health != null && health.isDead) return false;
+
+        switch (stateController.CurrentState)
         {
-            // 1. 決定這次翻滾的精確方向與目標角度
-            if (inputSystem.playerMovement != Vector2.zero)
-            {
-                Vector3 camForward = characterCamera.forward;
-                Vector3 camRight = characterCamera.right;
-                camForward.y = 0f;
-                camRight.y = 0f;
-                camForward.Normalize();
-                camRight.Normalize();
+            case PlayerState.Locomotion:
+                return true;
 
-                // 根據玩家當前的搖桿輸入決定翻滾方向
-                rollDirection = (camForward * inputSystem.playerMovement.y + camRight * inputSystem.playerMovement.x).normalized;
-                targetRotation = Mathf.Atan2(rollDirection.x, rollDirection.z) * Mathf.Rad2Deg;
-            }
-            else
-            {
-                // 沒推搖桿時，朝角色當前正前方翻滾
-                rollDirection = transform.forward;
-                targetRotation = transform.eulerAngles.y;
-            }
+            case PlayerState.Attacking:
+                // 攻擊前搖與揮砍判定中不可打斷；超過該招的 rollCancelTime 後允許翻滾取消
+                return playerCombat != null && playerCombat.CanRollCancelCurrentAttack();
 
-            // 2. 觸發動畫與無敵幀
-            animator.SetTrigger(rollId);
-            GameEvent.PlayerRolled();
+            case PlayerState.HitStun:
+                // 受擊硬直避開前段，進度超過門檻後允許翻滾脫困
+                return stateController.GetHitStunNormalizedTime() >= hitRollCancelNormalizedTime;
+
+            default:
+                return false;
         }
+    }
 
-        // 翻滾動畫播放期間
-        if (animator.CheckAnimationTag("Roll"))
+    /// <summary>
+    /// 由 PlayerStateController.EnterRoll 統一呼叫：設定當下翻滾方向、發送事件與開啟無敵幀
+    /// </summary>
+    public void OnEnterRollState()
+    {
+        UpdateRollDirection();
+        GameEvent.PlayerRolled();
+        StartRollInvulnerability();
+    }
+
+    /// <summary>
+    /// 由 PlayerStateController.OnExitState 統一呼叫：離開翻滾狀態時的清理
+    /// </summary>
+    public void OnExitRollState()
+    {
+        if (animator != null)
         {
             animator.ResetTrigger(rollId);
+        }
+    }
+
+    private void UpdateRollDirection()
+    {
+        if (characterCamera == null && Camera.main != null)
+        {
+            characterCamera = Camera.main.transform;
+        }
+
+        if (inputSystem.playerMovement != Vector2.zero && characterCamera != null)
+        {
+            Vector3 camForward = characterCamera.forward;
+            Vector3 camRight = characterCamera.right;
+            camForward.y = 0f;
+            camRight.y = 0f;
+            camForward.Normalize();
+            camRight.Normalize();
+
+            // 根據玩家當前的輸入決定翻滾方向
+            rollDirection = (camForward * inputSystem.playerMovement.y + camRight * inputSystem.playerMovement.x).normalized;
+            targetRotation = Mathf.Atan2(rollDirection.x, rollDirection.z) * Mathf.Rad2Deg;
+        }
+        else
+        {
+            // 沒推方向時，朝角色當前正前方翻滾
+            rollDirection = transform.forward;
+            targetRotation = transform.eulerAngles.y;
+        }
+    }
+
+    private void ApplyRollMotion()
+    {
+        // 翻滾動畫播放期間
+        if (stateController != null && stateController.CurrentState == PlayerState.Rolling)
+        {
+            if (animator != null) animator.ResetTrigger(rollId);
 
             // 強制轉向
             transform.eulerAngles = targetRotation * Vector3.up;
@@ -218,11 +301,24 @@ public class PlayerMovementSystem : CharacterMovementBase
     }
 
     /// <summary>
-    /// 當動畫正式進入翻滾（Roll）狀態時由 StateMachineBehaviour 調用
+    /// 保留向下相容：舊 RollEnter StateMachineBehaviour 仍會呼叫此方法。
+    /// 當由 PlayerStateController 統一驅動時，避免重複觸發無敵幀與事件。
     /// </summary>
     public void OnRollEnter()
     {
-        StartCoroutine(RollRoutine());
+        if (stateController != null) return;
+
+        GameEvent.PlayerRolled();
+        StartRollInvulnerability();
+    }
+
+    private void StartRollInvulnerability()
+    {
+        if (rollImmuneCoroutine != null)
+        {
+            StopCoroutine(rollImmuneCoroutine);
+        }
+        rollImmuneCoroutine = StartCoroutine(RollRoutine());
     }
 
     private IEnumerator RollRoutine()
@@ -230,5 +326,6 @@ public class PlayerMovementSystem : CharacterMovementBase
         immune = true;
         yield return new WaitForSeconds(immuneTime);
         immune = false;
+        rollImmuneCoroutine = null;
     }
 }

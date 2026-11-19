@@ -530,6 +530,7 @@ GameObject:
   - component: {fileID: -2220831738612882128}
   - component: {fileID: 5149939687461414662}
   - component: {fileID: 7280129513519287728}
+  - component: {fileID: 5983550883126124690}
   m_Layer: 7
   m_Name: Warrior
   m_TagString: Player
@@ -750,6 +751,8 @@ MonoBehaviour:
   audioSource: {fileID: 5910682669041207671}
   walkSpeed: 3
   runSpeed: 10
+  hitRollCancelNormalizedTime: 0.3
+  rollCrossFadeDuration: 0.08
 --- !u!114 &2166173460953718933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,6 +765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 658dd63bff2946545b78f1abe3074793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterInputSystem
+  attackBufferTime: 0.3
+  rollBufferTime: 0.28
 --- !u!114 &3799769169699531540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,10 +851,18 @@ MonoBehaviour:
     baseValue: 15
   statCritRate:
     baseValue: 5
+  statCritDamage:
+    baseValue: 1.5
   statMoveSpeed:
     baseValue: 7
   statPoise:
     baseValue: 100
+  statLifeOnKill:
+    baseValue: 0
+  statHitStunReduction:
+    baseValue: 0
+  statLifeSteal:
+    baseValue: 0
   currentHealth: 0
   combat: {fileID: 5981003343659283260}
   health: {fileID: 3799769169699531540}
@@ -927,6 +940,23 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -0.3, z: 0}
+--- !u!114 &5983550883126124690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296161146044912019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69280c508e1e904cbf19aa3beedb5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStateController
+  rollRecoveryExitTransitionProgress: 0.5
+  maxRollStateDuration: 1.5
+  maxHitStunDuration: 1.5
+  maxLandingRecoveryDuration: 0.65
+  maxInteractingDuration: 1.8
 --- !u!1 &6389828291940511037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1278,11 +1308,13 @@ MonoBehaviour:
   weaponHolder: {fileID: 7625551209400036020}
   enemyDetectionCenter: {fileID: 3815702584121428951}
   enemyDetectionRadius: 7
-  attackLockRange: 0.3
+  attackLockRange: 2.5
+  attackTurnSpeed: 25
   whatIsObs:
     serializedVersion: 2
     m_Bits: 2113
   mainCameraTransform: {fileID: 0}
+  maxAttackFallbackDuration: 2.5
 --- !u!114 &1316406470294941551
 MonoBehaviour:
   m_ObjectHideFlags: 0

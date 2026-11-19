@@ -57,6 +57,10 @@ public static class EnemyFactory
         if (isElite)
         {
             enemyGo.transform.localScale *= enemyData.eliteScale;
+            if (combat != null)
+            {
+                combat.SetHitboxScale(enemyData.eliteScale);
+            }
         }
 
         if (health != null) health.BindStats(stats);

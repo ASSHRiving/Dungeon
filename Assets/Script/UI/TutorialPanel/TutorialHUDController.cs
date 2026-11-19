@@ -16,6 +16,7 @@ public class TutorialHUDController : MonoBehaviour
     [SerializeField] private RectTransform cardRect;
 
     [Header("文案與進度 UI")]
+    [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private GameObject progressRow;
     [SerializeField] private Image progressFillImage;
@@ -42,6 +43,7 @@ public class TutorialHUDController : MonoBehaviour
     [SerializeField] private Color completedProgressColor = new Color(0.369f, 0.918f, 0.831f, 1f); // #5EEAD4 完成青金
     [SerializeField] private Color normalTitleColor = new Color(0.961f, 0.937f, 0.902f, 1f);       // #F5EFE6 羊皮紙暖白
     [SerializeField] private Color completedTitleColor = new Color(0.988f, 0.925f, 0.651f, 1f);    // #FCECA6 亮金
+    [SerializeField] private Color normalDescriptionColor = new Color(0.875f, 0.839f, 0.780f, 1f); // #DFD6C7 柔和羊皮紙
 
     private Sequence cardSequence;
     private Tweener suppressTween;
@@ -119,6 +121,13 @@ public class TutorialHUDController : MonoBehaviour
 
         cardSequence?.Kill();
         isCardVisible = true;
+
+        if (titleText != null)
+        {
+            bool hasTitle = !string.IsNullOrWhiteSpace(step.title);
+            titleText.gameObject.SetActive(hasTitle);
+            titleText.text = hasTitle ? step.title : string.Empty;
+        }
 
         if (descriptionText != null)
         {
@@ -213,7 +222,11 @@ public class TutorialHUDController : MonoBehaviour
         {
             progressFillImage.color = completedProgressColor;
         }
-        if (descriptionText != null)
+        if (titleText != null && titleText.gameObject.activeSelf)
+        {
+            titleText.color = completedTitleColor;
+        }
+        else if (descriptionText != null)
         {
             descriptionText.color = completedTitleColor;
         }
@@ -326,9 +339,13 @@ public class TutorialHUDController : MonoBehaviour
 
     private void ResetVisualStateForActiveStep(TutorialStepSO step, float currentProgress)
     {
+        if (titleText != null)
+        {
+            titleText.color = normalTitleColor;
+        }
         if (descriptionText != null)
         {
-            descriptionText.color = normalTitleColor;
+            descriptionText.color = normalDescriptionColor;
         }
         if (progressFillImage != null)
         {

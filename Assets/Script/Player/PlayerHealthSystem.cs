@@ -6,6 +6,15 @@ public class PlayerHealthSystem : CharacterHealthBase
 {
     [SerializeField] private AudioClip missSound;
     [SerializeField] private AudioClip deathSound;
+    private CharacterInputSystem inputSystem;
+    private PlayerStateController stateController;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        inputSystem = GetComponent<CharacterInputSystem>() ?? GetComponentInParent<CharacterInputSystem>();
+        stateController = PlayerStateController.GetOrAdd(this);
+    }
 
     public override void TakeDamage(Transform attacker, float damageAmount, AttackData attackData, bool isCritical = false)
     {
@@ -63,7 +72,16 @@ public class PlayerHealthSystem : CharacterHealthBase
             poiseRecoveryTimer = poiseRecoveryDelay; // 刷新恢復延遲時間
             if (currentPoise <= 0)
             {
-                if (animator != null) animator.CrossFade(attackData.hitAnimationName, 0.1f);
+                if (stateController == null) stateController = PlayerStateController.GetOrAdd(this);
+                if (stateController != null)
+                {
+                    stateController.EnterHitStun(attackData.hitAnimationName, 0.1f);
+                }
+                else
+                {
+                    inputSystem?.ClearBuffer();
+                    if (animator != null) animator.CrossFade(attackData.hitAnimationName, 0.1f);
+                }
                 currentPoise = EffectiveMaxPoise;
             }     
         }
@@ -89,9 +107,18 @@ public class PlayerHealthSystem : CharacterHealthBase
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-        if (animator != null)
+        if (stateController == null) stateController = PlayerStateController.GetOrAdd(this);
+        if (stateController != null)
         {
-            animator.Play("Die", 0, 0f);
+            stateController.EnterDead();
+        }
+        else
+        {
+            inputSystem?.ClearBuffer();
+            if (animator != null)
+            {
+                animator.Play("Die", 0, 0f);
+            }
         }
         foreach (var script in scriptsToDisable)
         {

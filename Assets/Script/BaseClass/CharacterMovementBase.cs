@@ -25,6 +25,7 @@ public abstract class CharacterMovementBase : MonoBehaviour
     
     [SerializeField, Header("障礙物檢測")] protected LayerMask whatIsObs;
     [SerializeField] protected bool isOnGround;
+    public bool IsGrounded => isOnGround;
 
     //AnimationID
     protected int animationMoveID = Animator.StringToHash("AnimationMove");

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Step_03_Attack
   m_EditorClassIdentifier: Assembly-CSharp::AttackStepSO
   stepId: attack
-  phaseLabel: 
-  title: "\u666E\u901A\u653B\u64CA"
+  title: "\u89D2\u8272\u653B\u64CA"
   descriptionTemplate: "\u6309 {LAtk} \u666E\u901A\u653B\u64CA"
   actionBindings:
   - placeholder: '{LAtk}'

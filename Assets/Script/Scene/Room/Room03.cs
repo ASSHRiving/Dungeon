@@ -5,16 +5,12 @@ using System.Collections.Generic;
 public class Room03 : FightingRoom
 { 
     [SerializeField] private GameObject reward;
-    protected override void OnTriggerEnter(Collider other)
+    protected override void OnBattleStarted()
     {
-        base.OnTriggerEnter(other);
-
-        if (other.CompareTag("Player"))
+        base.OnBattleStarted();
+        if (GameAssets.Instance != null)
         {
-            if (!isClear)
-            {
-                GameAssets.Instance.PlayBossMusic();
-            }
+            GameAssets.Instance.PlayBossMusic();
         }
     }
     public override void Init()

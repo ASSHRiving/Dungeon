@@ -215,7 +215,6 @@ public static class TutorialSystemSetupTool
     {
         DeleteAssetIfExists($"{SoDir}/Step_04_Attack.asset");
         DeleteAssetIfExists($"{SoDir}/Step_05_Interact.asset");
-        DeleteAssetIfExists($"{SoDir}/Step_05_Kill.asset");
         DeleteAssetIfExists($"{SoDir}/Step_06_Interact.asset");
         DeleteAssetIfExists($"{SoDir}/Step_06_Kill.asset");
 
@@ -224,6 +223,7 @@ public static class TutorialSystemSetupTool
             UpsertStepAsset<MoveStepSO>("Step_01_Move.asset", s =>
             {
                 s.stepId = "move";
+                s.title = "基礎移動";
                 s.descriptionTemplate = "按 {Movement} 移動";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
@@ -237,6 +237,7 @@ public static class TutorialSystemSetupTool
             UpsertStepAsset<RunStepSO>("Step_02_Run.asset", s =>
             {
                 s.stepId = "run";
+                s.title = "疾行奔跑";
                 s.descriptionTemplate = "移動時按住 {Run} 奔跑";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
@@ -250,6 +251,7 @@ public static class TutorialSystemSetupTool
             UpsertStepAsset<AttackStepSO>("Step_03_Attack.asset", s =>
             {
                 s.stepId = "attack";
+                s.title = "普通攻擊";
                 s.descriptionTemplate = "按 {LAtk} 普通攻擊";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
@@ -263,6 +265,7 @@ public static class TutorialSystemSetupTool
             UpsertStepAsset<InteractStepSO>("Step_04_Interact.asset", s =>
             {
                 s.stepId = "interact";
+                s.title = "物件互動";
                 s.descriptionTemplate = "靠近門或寶箱按 {Interact} 互動";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
@@ -276,6 +279,7 @@ public static class TutorialSystemSetupTool
             UpsertStepAsset<PerfectDodgeStepSO>("Step_06_Dodge.asset", s =>
             {
                 s.stepId = "dodge";
+                s.title = "完美閃避";
                 s.descriptionTemplate = "敵人攻擊！按 {RAtk} 閃避";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
@@ -289,6 +293,7 @@ public static class TutorialSystemSetupTool
             UpsertStepAsset<KillEnemyStepSO>("Step_05_Kill.asset", s =>
             {
                 s.stepId = "kill";
+                s.title = "擊敗敵人";
                 s.descriptionTemplate = "擊敗房間內的敵人";
                 s.actionBindings = new List<TutorialActionPlaceholder>();
                 s.targetProgress = 1f;
@@ -300,6 +305,7 @@ public static class TutorialSystemSetupTool
             UpsertStepAsset<ShopInteractStepSO>("Step_shop.asset", s =>
             {
                 s.stepId = "shop";
+                s.title = "地牢商店";
                 s.descriptionTemplate = "使用 {Interact} 購買物品";
                 s.actionBindings = new List<TutorialActionPlaceholder>
                 {
@@ -398,21 +404,21 @@ public static class TutorialSystemSetupTool
         rootCG.interactable = false;
         rootCG.blocksRaycasts = false;
 
-        // 極簡浮動容器：無背景底板、無階段標題、左側約七成高度 (anchor y=0.7)
+        // 極簡浮動容器：無背景底板、左側約七成高度 (anchor y=0.7)
         GameObject card = CreateUIObject("TutorialCard", root.transform);
         RectTransform cardRT = card.GetComponent<RectTransform>();
         cardRT.anchorMin = new Vector2(0f, 0.7f);
         cardRT.anchorMax = new Vector2(0f, 0.7f);
         cardRT.pivot = new Vector2(0f, 0.5f);
         cardRT.anchoredPosition = new Vector2(-420f, 0f);
-        cardRT.sizeDelta = new Vector2(380f, 76f);
+        cardRT.sizeDelta = new Vector2(380f, 100f);
 
         CanvasGroup cardCG = card.AddComponent<CanvasGroup>();
         cardCG.alpha = 0f;
 
-        // 勾選狀態小框（左側 24x24）
+        // 勾選狀態小框（左側 24x24，對齊標題列）
         GameObject badgeObj = CreateUIObject("StatusBadge", card.transform);
-        SetRect(badgeObj.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, -4f), new Vector2(24f, 24f));
+        SetRect(badgeObj.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, -3f), new Vector2(24f, 24f));
         Image badgeImg = badgeObj.AddComponent<Image>();
         badgeImg.sprite = checkBadgeSprite;
         badgeImg.color = new Color(1f, 1f, 1f, 0.85f);
@@ -431,15 +437,21 @@ public static class TutorialSystemSetupTool
         checkImg.color = new Color(0.369f, 0.918f, 0.831f, 1f);
         checkImg.raycastTarget = false;
 
-        // 直接操作指令文字（單行清爽、無重複標題、無底框，靠外框陰影清晰辨識）
-        TMP_Text descText = CreateText("DescriptionText", card.transform, font, "按 <color=#FCECA6>[WASD]</color> 移動", 21, new Color(0.961f, 0.937f, 0.902f, 1f), TextAlignmentOptions.Left, shadowMat);
-        descText.fontStyle = FontStyles.Bold;
+        // 步驟標題文字（頂部粗體羊皮紙暖白）
+        TMP_Text titleText = CreateText("TitleText", card.transform, font, "基礎移動", 20, new Color(0.961f, 0.937f, 0.902f, 1f), TextAlignmentOptions.Left, shadowMat);
+        titleText.fontStyle = FontStyles.Bold;
+        titleText.textWrappingMode = TextWrappingModes.NoWrap;
+        SetRect(titleText.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(34f, 0f), new Vector2(346f, 28f));
+
+        // 操作說明文字（標題下方，柔和羊皮紙搭配亮金按鍵高亮）
+        TMP_Text descText = CreateText("DescriptionText", card.transform, font, "按 <color=#FCECA6>[WASD]</color> 移動", 16, new Color(0.875f, 0.839f, 0.780f, 1f), TextAlignmentOptions.Left, shadowMat);
+        descText.fontStyle = FontStyles.Normal;
         descText.textWrappingMode = TextWrappingModes.NoWrap;
-        SetRect(descText.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(34f, -1f), new Vector2(346f, 30f));
+        SetRect(descText.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(34f, -30f), new Vector2(346f, 24f));
 
         // 細進度條列（緊貼指令下方）
         GameObject progressRow = CreateUIObject("ProgressRow", card.transform);
-        SetRect(progressRow.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(34f, -35f), new Vector2(240f, 16f));
+        SetRect(progressRow.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(34f, -58f), new Vector2(240f, 16f));
 
         GameObject trackObj = CreateUIObject("ProgressTrack", progressRow.transform);
         SetRect(trackObj.GetComponent<RectTransform>(), new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(0f, 0f), new Vector2(174f, 6f));
@@ -470,7 +482,7 @@ public static class TutorialSystemSetupTool
         // 輕量純文字略過提示（無按鈕邊框）
         GameObject skipObj = CreateUIObject("SkipButton", card.transform);
         RectTransform skipRT = skipObj.GetComponent<RectTransform>();
-        SetRect(skipRT, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(34f, -55f), new Vector2(92f, 20f));
+        SetRect(skipRT, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(34f, -78f), new Vector2(92f, 20f));
 
         // 使用全透明 Image 僅保留極小點擊區，無任何邊框底色
         Image skipHitImg = skipObj.AddComponent<Image>();
@@ -508,6 +520,7 @@ public static class TutorialSystemSetupTool
         hudSO.FindProperty("rootCanvasGroup").objectReferenceValue = rootCG;
         hudSO.FindProperty("cardCanvasGroup").objectReferenceValue = cardCG;
         hudSO.FindProperty("cardRect").objectReferenceValue = cardRT;
+        hudSO.FindProperty("titleText").objectReferenceValue = titleText;
         hudSO.FindProperty("descriptionText").objectReferenceValue = descText;
         hudSO.FindProperty("progressRow").objectReferenceValue = progressRow;
         hudSO.FindProperty("progressFillImage").objectReferenceValue = fillImg;

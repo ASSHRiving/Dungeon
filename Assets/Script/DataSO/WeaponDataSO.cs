@@ -24,7 +24,9 @@ public class WeaponDataSO : ScriptableObject, IItem
     [Header("戰鬥手感與動畫規格")]
     [Tooltip("對應的動作覆蓋控制器 (例如 OneHandOverride / TwoHandOverride)")]
     public AnimatorOverrideController overrideController;
-    [Tooltip("武器種類編號 (0: 單手劍, 1: 雙手大劍, 2: 太刀等)")]
+    [Tooltip("連段動作組（若未指定，會依 weaponType 自動套用內建預設連段）")]
+    public ComboSetSO comboSet;
+    [Tooltip("武器種類編號 (0: 單手劍, 1: 太刀, 2: 雙手大劍/重武)")]
     public int weaponType = 0;
     public SoundAssetsType weaponSoundType = SoundAssetsType.Sword;
     [Tooltip("命中敵人的微頓幀時間 (秒)")]
