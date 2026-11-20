@@ -20,12 +20,11 @@ public abstract class CharacterMovementBase : MonoBehaviour
     [SerializeField] private GameSoundSO soundAssets;
 
     [SerializeField, Header("地面檢測")] protected LayerMask whatIsGround;
-    [SerializeField] protected float groundDetectionOffset = 0.1f;
-    [SerializeField] protected float groundDetectionRang = 0.2f;
+    [SerializeField] protected float groundedStickSpeed = -5f;
     
-    [SerializeField, Header("障礙物檢測")] protected LayerMask whatIsObs;
     [SerializeField] protected bool isOnGround;
     public bool IsGrounded => isOnGround;
+    private bool hitGroundThisFrame;
 
     //AnimationID
     protected int animationMoveID = Animator.StringToHash("AnimationMove");
@@ -66,23 +65,31 @@ public abstract class CharacterMovementBase : MonoBehaviour
     }
     protected virtual void Update()
     {
-        CheckOnGround();
-        CharacterGravity();
-    }
-
-    protected bool CanAnimationMotion(Vector3 dir)
-    {
-        return Physics.Raycast(transform.position + transform.up * .5f, dir.normalized * animator.GetFloat(animationMoveID), out var hit, 1f,whatIsObs);
+        bool groundedThisFrame = ConsumeGroundContact();
+        CharacterGravity(groundedThisFrame);
     }
 
     /// <summary>
-    /// 地面檢測
+    /// 結算上一幀 CharacterController 碰撞累積的落地結果，並重置給本幀使用
     /// </summary>
-    private void CheckOnGround()
+    private bool ConsumeGroundContact()
     {
-        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundDetectionOffset, transform.position.z);
-        isOnGround = Physics.CheckSphere(spherePosition, groundDetectionRang, whatIsGround, QueryTriggerInteraction.Ignore);
-        //animator.SetBool(isGroundID, isOnGround);
+        bool grounded = hitGroundThisFrame;
+        hitGroundThisFrame = false;
+        return grounded;
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (control == null || !control.enabled) return;
+        if (((1 << hit.gameObject.layer) & whatIsGround.value) == 0) return;
+
+        float maxSlopeAngle = Mathf.Clamp(control.slopeLimit + 0.5f, 0f, 89f);
+        float minGroundNormalY = Mathf.Cos(maxSlopeAngle * Mathf.Deg2Rad);
+        if (hit.normal.y >= minGroundNormalY)
+        {
+            hitGroundThisFrame = true;
+        }
     }
     private void PlayFootstepSound()
     {
@@ -101,29 +108,41 @@ public abstract class CharacterMovementBase : MonoBehaviour
         }
     }
 
-    private void CharacterGravity()
+    private void CharacterGravity(bool groundedThisFrame)
     {
-        if (isOnGround)
+        if (groundedThisFrame)
         {
-            
             characterFallOutDeltaTime = characterFallTime;
+            isOnGround = true;
 
             if (verticalSpeed < 0.0f)
             {
-                verticalSpeed = -2f;
+                verticalSpeed = groundedStickSpeed;
             }
-            animator.SetBool(isGroundID, true);
+
+            if (animator != null)
+            {
+                animator.SetBool(isGroundID, true);
+            }
         }
         else
         {
             if (characterFallOutDeltaTime > 0.0f)  //土狼時間
             {
-                characterFallOutDeltaTime -= Time.deltaTime;
-                characterFallOutDeltaTime = Mathf.Clamp(characterFallOutDeltaTime, 0, characterFallTime);
+                characterFallOutDeltaTime = Mathf.Max(0.0f, characterFallOutDeltaTime - Time.deltaTime);
+                isOnGround = characterFallOutDeltaTime > 0.0f;
+                if (!isOnGround && animator != null)
+                {
+                    animator.SetBool(isGroundID, false);
+                }
             }
             else
             {
-                animator.SetBool(isGroundID, false);
+                isOnGround = false;
+                if (animator != null)
+                {
+                    animator.SetBool(isGroundID, false);
+                }
             }
         }
 
@@ -152,41 +171,22 @@ public abstract class CharacterMovementBase : MonoBehaviour
     public virtual void CharacterMoveInterface(Vector3 moveDirection, float moveSpeed, bool useGravity)
     {
         if (control == null || !control.enabled) return;
-        if (!CanAnimationMotion(moveDirection))
-        {
-            movementDirection = moveDirection.normalized;
-    
-            //movementDirection = ResetMoveDirectionOnSlop(movementDirection);
 
-            if (useGravity)
-            {
-                verticalDirection.Set(0.0f, verticalSpeed, 0.0f);
-            }
-            else
-            {
-                verticalDirection = Vector3.zero;
-            }
-        
-            control.Move((moveSpeed * Time.deltaTime)
-                * movementDirection.normalized + Time.deltaTime
-                * verticalDirection);
+        movementDirection = moveDirection.normalized;
+
+        //movementDirection = ResetMoveDirectionOnSlop(movementDirection);
+
+        if (useGravity)
+        {
+            verticalDirection.Set(0.0f, verticalSpeed, 0.0f);
         }
+        else
+        {
+            verticalDirection = Vector3.zero;
+        }
+
+        control.Move((moveSpeed * Time.deltaTime)
+            * movementDirection + Time.deltaTime
+            * verticalDirection);
     }
-
-    private void OnDrawGizmosSelected()
-        {
-            
-            if (isOnGround) 
-                Gizmos.color = Color.green;
-            else 
-                Gizmos.color = Color.red;
-
-            Vector3 position = Vector3.zero;
-            
-            position.Set(transform.position.x, transform.position.y - groundDetectionOffset,
-                transform.position.z);
-
-            Gizmos.DrawWireSphere(position, groundDetectionRang);
-            
-        }
 }

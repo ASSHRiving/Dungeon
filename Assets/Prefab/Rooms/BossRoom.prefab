@@ -996,8 +996,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 33.484974, y: 10.071069, z: 33.60621}
-  m_Center: {x: 0.10404396, y: 4.8388534, z: 0.02720642}
+  m_Size: {x: 32.89077, y: 10.071069, z: 32.989243}
+  m_Center: {x: 0.0011558533, y: 4.8388534, z: -0.020851135}
 --- !u!114 &8665814519091781908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1010,7 +1010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc3fd1b82bc7af84394c3be171b60b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room03
-  Bounds: {fileID: 6185594441356968070}
   RoomImage: {fileID: 21300000, guid: 2716fda7944ef1b44914fbe1f4662143, type: 3}
   isVisited: 0
   exitSets:

@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4218066459796155105}
   - component: {fileID: 6081673018451714596}
-  m_Layer: 0
+  - component: {fileID: 920917665379305804}
+  m_Layer: 9
   m_Name: Tunnel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,6 +78,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Tunnel
   entry: {fileID: 1164714192523418431}
   exit: {fileID: 946988266306082334}
+--- !u!65 &920917665379305804
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029260646705554994}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.8342857, y: 5.1912603, z: 28.29879}
+  m_Center: {x: 0.627686, y: -1.1054468, z: -0.2856331}
 --- !u!1 &5058669690099126664
 GameObject:
   m_ObjectHideFlags: 0

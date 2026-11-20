@@ -415,7 +415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8310b2ca425044cb5dd802d83fa66b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room02
-  Bounds: {fileID: 5153165272057918296}
   RoomImage: {fileID: 21300000, guid: ab31874541285314593360d75ba960fc, type: 3}
   isVisited: 0
   exitSets:
@@ -462,8 +461,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 13.981775, y: 5.1324053, z: 13.871095}
-  m_Center: {x: -0.05128956, y: 2.7117634, z: 0.091673374}
+  m_Size: {x: 13.443583, y: 5.1324053, z: 13.232256}
+  m_Center: {x: -0.055623055, y: 2.7117634, z: 0.036327362}
 --- !u!1 &7322339717326288718
 GameObject:
   m_ObjectHideFlags: 0

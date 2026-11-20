@@ -14,7 +14,6 @@ public abstract class Room : MonoBehaviour
         public GameObject wall;
     }
 
-    [SerializeField] private Transform Bounds;
     public Sprite RoomImage;
     public bool isVisited = false;
     [SerializeField] protected List<ExitSet> exitSets;
@@ -85,11 +84,6 @@ public abstract class Room : MonoBehaviour
                 if (gate != null) gate.OpenGate();
             }
         }
-    }
-    public Transform GetBounds()
-    {
-        if(Bounds != null) return Bounds;
-        return null;
     }
     protected virtual void OnTriggerEnter(Collider other)
     {

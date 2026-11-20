@@ -8,6 +8,7 @@ public static class UIEvents
     //***************************************
     public static event Action<Room, Room, Room.Direction> OnRoomSpawned;
     public static event Action<Room> OnRoomEntered;
+    public static event Action OnMapCleared;
     public static void RoomSpawned(Room room, Room parentRoom, Room.Direction dir)
     {
         OnRoomSpawned?.Invoke(room, parentRoom, dir);
@@ -15,6 +16,10 @@ public static class UIEvents
     public static void RoomEntered(Room room)
     {
         OnRoomEntered?.Invoke(room);
+    }
+    public static void MapCleared()
+    {
+        OnMapCleared?.Invoke();
     }
 
     //***************************************

@@ -56,12 +56,14 @@ public class MinimapController : MonoBehaviour
     {
         UIEvents.OnRoomSpawned += HandleRoomSpawned;
         UIEvents.OnRoomEntered += HandlePlayerEnteredRoom;
+        UIEvents.OnMapCleared += ClearMinimap;
     }
 
     private void OnDisable()
     {
         UIEvents.OnRoomSpawned -= HandleRoomSpawned;
         UIEvents.OnRoomEntered -= HandlePlayerEnteredRoom;
+        UIEvents.OnMapCleared -= ClearMinimap;
     }
 
     private void Start()
